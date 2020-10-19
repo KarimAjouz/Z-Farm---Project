@@ -5,6 +5,8 @@
 #include "GameState.h"
 #include "Game.h"
 #include "Button.h"
+#include "Menu_Scale.h"
+
 
 class GameState_MainMenu : public ZEngine::GameState
 {
@@ -25,6 +27,8 @@ private:
 
 	ZEngine::Button _playButton;
 	ZEngine::Button _quitButton;
+
+	ZEngine::Menu_Scale _testScale;
 
 	
 };

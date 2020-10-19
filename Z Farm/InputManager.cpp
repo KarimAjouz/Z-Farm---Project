@@ -17,7 +17,7 @@ namespace ZEngine
 	{
 		sf::IntRect rect(object.getPosition().x - object.getGlobalBounds().width / 2, object.getPosition().y - object.getGlobalBounds().height / 2, object.getGlobalBounds().width, object.getGlobalBounds().height);
 
-		if (rect.contains(sf::Mouse::getPosition(window)))
+		if (rect.contains(sf::Mouse::getPosition(window)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
 			return true;
 		}
@@ -29,7 +29,7 @@ namespace ZEngine
 	{
 		sf::IntRect rect(object.getPosition().x - object.getGlobalBounds().width / 2, object.getPosition().y - object.getGlobalBounds().height / 2, object.getGlobalBounds().width, object.getGlobalBounds().height);
 
-		if (rect.contains(sf::Mouse::getPosition(window)))
+		if (rect.contains(sf::Mouse::getPosition(window)) && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
 			return true;
 		}

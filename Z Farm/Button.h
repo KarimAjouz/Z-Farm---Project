@@ -10,9 +10,8 @@ namespace ZEngine
 	class Button
 	{
 	public:
-		enum Type { loadScene, quit };
 
-		Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, Type t);
+		Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, std::string filePath, std::string fileName);
 		~Button();
 
 
@@ -24,6 +23,7 @@ namespace ZEngine
 		void Draw(float dT);
 
 		bool Engaged;
+		bool Active;
 
 		void Activate();
 
@@ -33,7 +33,7 @@ namespace ZEngine
 		sf::Text _text;
 		sf::Color _textColour;
 
-		Type _type;
+		std::string _fileName;
 
 		void SetDefault();
 		void SetHovered();

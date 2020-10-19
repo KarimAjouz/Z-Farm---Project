@@ -29,8 +29,9 @@ private:
 	std::vector<Bullet*>* _bullets;
 	std::vector<Zombie*>* _zombies;
 
-
 	ZEngine::Timer _zombieSpawner;
+
+	bool _paused;
 
 	void UpdateBullets(float dT);
 	void DrawBullets(float dT);
@@ -41,5 +42,7 @@ private:
 	void DrawZombies(float dT);
 
 	void SpawnZombies();
+
+	void Exit();
 };
 

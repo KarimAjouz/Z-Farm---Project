@@ -11,7 +11,8 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_player(PLAYER_FILEPATH, sf::Vector2f(300.0f, 300.0f), data),
 	_bullets(new std::vector<Bullet*>()),
 	_zombies(new std::vector<Zombie*>()),
-	_zombieSpawner(3.0f, true)
+	_zombieSpawner(3.0f, true),
+	_paused(false)
 {
 	_zombieSpawner.Start();
 }
@@ -37,22 +38,22 @@ void GameState_Gameplay::PollEvents()
 			switch (e.key.code)
 			{
 			case sf::Keyboard::Escape:
-				_data->window.close();
-				delete _bullets;
-				delete _zombies;
+				Exit();
+				break;
+			case sf::Keyboard::P:
+				if (_paused)
+					Resume();
+				else
+					Pause();
 				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
-			if (e.mouseButton.button == sf::Mouse::Left)
-			{
+			if (e.mouseButton.button == sf::Mouse::Left && !_paused)
 				_player.gun.Shoot(_bullets, _data, _player.GetPosition());
-			}
 			break;
 		case sf::Event::Closed:
-			_data->window.close();
-			delete _bullets;
-			delete _zombies;
+			Exit();
 			break;
 		}
 	}
@@ -60,14 +61,14 @@ void GameState_Gameplay::PollEvents()
 
 void GameState_Gameplay::Update(float dT)
 {
-	_player.Update(dT);
-
-	SpawnZombies();
-
-	UpdateZombies(dT);
-	UpdateBullets(dT);
-	
-	CollideBullets();
+	if (!_paused)
+	{
+		_player.Update(dT);
+		SpawnZombies();
+		UpdateZombies(dT);
+		UpdateBullets(dT);
+		CollideBullets();
+	}
 }
 
 void GameState_Gameplay::Draw(float dT)
@@ -84,12 +85,12 @@ void GameState_Gameplay::Draw(float dT)
 
 void GameState_Gameplay::Pause()
 {
-
+	_paused = true;
 }
 
 void GameState_Gameplay::Resume()
 {
-
+	_paused = false;
 }
 
 void GameState_Gameplay::UpdateBullets(float dT)
@@ -159,7 +160,12 @@ void GameState_Gameplay::UpdateZombies(float dT)
 void GameState_Gameplay::DrawZombies(float dT)
 {
 	for (int i = 0; i < _zombies->size(); i++)
-	{
 		_zombies->at(i)->Draw(dT);
-	}
+}
+
+void GameState_Gameplay::Exit()
+{
+	_data->window.close();
+	delete _bullets;
+	delete _zombies;
 }
