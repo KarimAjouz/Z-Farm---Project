@@ -7,8 +7,11 @@
 
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
-#define MENU_BUTTON_FOLDER_FILEPATH "Media/Buttons/Menu/Menu"
-#define SCALE_BUTTON_FOLDER_FILEPATH "Media/Buttons/Scale/Scale"
+#define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
+
+
+#define MENU_BUTTON_FOLDER_FILEPATH "Media/Buttons/Menu/"
+#define SCALE_BUTTON_FOLDER_FILEPATH "Media/Buttons/Scale/"
 
 
 #define PLAYER_FILEPATH "Media/Gameplay/Player.png"

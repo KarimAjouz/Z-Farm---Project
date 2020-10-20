@@ -21,6 +21,8 @@ public:
 	void Pause();
 	void Resume();
 
+	int zombits;
+
 private:
 	Player _player;
 
@@ -30,6 +32,8 @@ private:
 	std::vector<Zombie*>* _zombies;
 
 	ZEngine::Timer _zombieSpawner;
+
+	sf::Text _zombitsText;
 
 	bool _paused;
 

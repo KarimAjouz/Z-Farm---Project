@@ -14,14 +14,13 @@ namespace ZEngine
 		void Update(float dT);
 		void Draw(float dT);
 
+		int GetValue();
+
 	private:
 		Button _lArrow;
 		Button _rArrow;
 
 		sf::Text _scaleText;
-
-		void StepRight();
-		void StepLeft();
 
 		std::string _name;
 		int _min;

@@ -14,10 +14,10 @@ namespace ZEngine
 		Active(false),
 		_fileName(fileName)
 	{
-		_data->assetManager.LoadTexture(_fileName + " Default", filePath + "_Button_Default.png");
-		_data->assetManager.LoadTexture(_fileName + " Hovered", filePath + "_Button_Hovered.png");
-		_data->assetManager.LoadTexture(_fileName + " Clicked", filePath + "_Button_Clicked.png");
-		_data->assetManager.LoadFont(	_fileName + " Font",	   filePath + "_Button_Font.ttf");
+		_data->assetManager.LoadTexture(_fileName + " Default", filePath + "Default.png");
+		_data->assetManager.LoadTexture(_fileName + " Hovered", filePath + "Hovered.png");
+		_data->assetManager.LoadTexture(_fileName + " Clicked", filePath + "Clicked.png");
+		_data->assetManager.LoadFont(	_fileName + " Font",	   filePath + "Font.ttf");
 
 		sprite.setPosition(pos);
 		_text.setString(text);

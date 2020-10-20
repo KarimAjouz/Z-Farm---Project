@@ -28,8 +28,6 @@ private:
 	ZEngine::Button _playButton;
 	ZEngine::Button _quitButton;
 
-	ZEngine::Menu_Scale _testScale;
-
 	
 };
 

@@ -2,19 +2,29 @@
 #include "Definitions.h"
 #include "Utilities.h"
 
+#include "GameState_Shop.h"
+
 #include <iostream>
 
 
 
 GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_data(data),
-	_player(PLAYER_FILEPATH, sf::Vector2f(300.0f, 300.0f), data),
+	_player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
 	_bullets(new std::vector<Bullet*>()),
 	_zombies(new std::vector<Zombie*>()),
 	_zombieSpawner(3.0f, true),
-	_paused(false)
+	_paused(false),
+	zombits(0)
 {
+	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
+	_zombitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
+	_zombitsText.setString("Zb: " + std::to_string(zombits));
+	_zombitsText.setFillColor(sf::Color::White);
+
 	_zombieSpawner.Start();
+	_player.Init();
+
 }
 
 
@@ -24,7 +34,6 @@ GameState_Gameplay::~GameState_Gameplay()
 
 void GameState_Gameplay::Init()
 {
-	_player.Init();
 }
 
 void GameState_Gameplay::PollEvents()
@@ -45,6 +54,9 @@ void GameState_Gameplay::PollEvents()
 					Resume();
 				else
 					Pause();
+				break;
+			case sf::Keyboard::I:
+				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, &_player.gun)), false);
 				break;
 			}
 			break;
@@ -76,6 +88,8 @@ void GameState_Gameplay::Draw(float dT)
 	_data->window.clear();
 
 	_player.Draw(dT);
+
+	_data->window.draw(_zombitsText);
 
 	DrawZombies(dT);
 	DrawBullets(dT);
@@ -149,6 +163,9 @@ void GameState_Gameplay::UpdateZombies(float dT)
 
 		if (_zombies->at(i)->IsMarked())
 		{
+			zombits += 5;
+			_zombitsText.setString("Zb: " + std::to_string(zombits));
+
 			Zombie* zed = _zombies->at(i);
 			_zombies->erase(_zombies->begin() + i);
 			delete zed;

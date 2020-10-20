@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="Button.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Scale.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceBar.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState_Gameplay.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState_MainMenu.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState_Shop.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState_Splash.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Agent.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Definitions.h" />
+    <ClInclude Include="Gun.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Zombie.h" />
+    <ClInclude Include="AssetManager.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu_Scale.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceBar.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState_Gameplay.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState_MainMenu.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState_Shop.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState_Splash.h">
+      <Filter>States</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ZEngine">
+      <UniqueIdentifier>{b985a754-78a7-43c6-9e89-d5b424c7902f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{784db363-901d-4f10-91f7-9db0e8b80286}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

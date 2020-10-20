@@ -17,7 +17,7 @@ namespace ZEngine
 		_steps((max - min) / interval)
 	{
 		std::string fPath = SCALE_BUTTON_FOLDER_FILEPATH;
-		_data->assetManager.LoadFont("Scale Font", fPath + "_Button_Font.ttf");
+		_data->assetManager.LoadFont("Scale Font", fPath + "Font.ttf");
 
 		_scaleText.setFont(_data->assetManager.GetFont("Scale Font"));
 		_scaleText.setPosition(sf::Vector2f(_pos.x + 100.0f, _pos.y));
@@ -43,8 +43,6 @@ namespace ZEngine
 
 		_scaleText.setString(_name + ": " + std::to_string(_currentVal));
 		_scaleText.setOrigin(_scaleText.getLocalBounds().width / 2, _scaleText.getLocalBounds().height / 2);
-
-
 	}
 
 	void Menu_Scale::Draw(float dT)
@@ -54,16 +52,9 @@ namespace ZEngine
 
 		_data->window.draw(_scaleText);
 	}
-
-
-	void Menu_Scale::StepLeft()
+	
+	int Menu_Scale::GetValue()
 	{
-
+		return _currentVal;
 	}
-
-	void Menu_Scale::StepRight()
-	{
-
-	}
-
 }
