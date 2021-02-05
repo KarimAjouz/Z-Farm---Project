@@ -2,8 +2,11 @@
 
 #include "Utilities.h"
 
-
-
+/// <summary>
+/// Constructs the player object, setting its texture.
+/// </summary>
+/// <param name="texPath"> The filepath for the player texture. </param>
+/// <param name="pos"> The position to spwan the player in. </param>
 Player::Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data) :
 	_data(data),
 	gun(data)
@@ -39,6 +42,9 @@ void Player::Draw(float dT)
 	gun.Draw(dT);
 }
 
+/// <summary>
+/// Handles player movement, also normalises the speed so that diagonal movement isn't faster than omni-directional movement.
+/// </summary>
 void Player::Move(float dT)
 {
 	sf::Vector2f movementDir = sf::Vector2f(0.f, 0.f);

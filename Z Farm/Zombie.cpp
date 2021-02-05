@@ -3,7 +3,12 @@
 #include "Utilities.h"
 
 
-
+/// <summary>
+/// Constructs a zombie.
+/// </summary>
+/// <param name="texPath"> Filepath for the zombie texture. </param>
+/// <param name="pos"> Position to spawn the zombie at. </param>
+/// <param name="playerRef"> Pointer to the player object. </param>
 Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, Player* playerRef) :
 	_data(data),
 	_health(100.0f),
@@ -35,6 +40,9 @@ void Zombie::Draw(float dT)
 	_data->window.draw(sprite);
 }
 
+/// <summary>
+/// Moves the zombie towards the player, also handles any knockback movement.
+/// </summary>
 void Zombie::Move(float dT)
 {
 	sf::Vector2f movement = _playerRef->GetPosition() - sprite.getPosition();
@@ -51,6 +59,10 @@ void Zombie::Move(float dT)
 		_knockbackAmt *= 0.6f;
 }
 
+/// <summary>
+/// Damages the zombie.
+/// </summary>
+/// <param name="dam"></param>
 void Zombie::DamageZombie(float dam)
 {
 	_health -= dam;
@@ -71,6 +83,10 @@ bool Zombie::IsMarked()
 	return _kill;
 }
 
+/// <summary>
+/// Adds knockback force to the zombie.
+/// </summary>
+/// <param name="amt"></param>
 void Zombie::AugmentKnockback(float amt)
 {
 	sf::Vector2f temp = sprite.getPosition() - _playerRef->GetPosition();

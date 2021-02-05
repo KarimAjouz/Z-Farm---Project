@@ -7,7 +7,10 @@
 #include <iostream>
 
 
-
+/// <summary>
+/// Creates the Gameplay Gamestate.
+/// </summary>
+/// <param name="data"></param>
 GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_data(data),
 	_player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
@@ -36,6 +39,9 @@ void GameState_Gameplay::Init()
 {
 }
 
+/// <summary>
+/// Handles Input Events.
+/// </summary>
 void GameState_Gameplay::PollEvents()
 {
 	sf::Event e;
@@ -71,6 +77,11 @@ void GameState_Gameplay::PollEvents()
 	}
 }
 
+
+/// <summary>
+/// Updates all of the Gameplay entities.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
@@ -83,6 +94,10 @@ void GameState_Gameplay::Update(float dT)
 	}
 }
 
+/// <summary>
+/// Draws all of the Gameplay entities.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::Draw(float dT)
 {
 	_data->window.clear();
@@ -107,6 +122,10 @@ void GameState_Gameplay::Resume()
 	_paused = false;
 }
 
+/// <summary>
+/// Updates all bullets.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::UpdateBullets(float dT)
 {
 	for (int i = 0; i < _bullets->size(); i++)
@@ -122,6 +141,10 @@ void GameState_Gameplay::UpdateBullets(float dT)
 	}
 }
 
+/// <summary>
+/// Draws all bullets.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::DrawBullets(float dT)
 {
 	for (int i = 0; i < _bullets->size(); i++)
@@ -130,7 +153,9 @@ void GameState_Gameplay::DrawBullets(float dT)
 	}
 }
 
-
+/// <summary>
+/// Tests for collisions on all bullets.
+/// </summary>
 void GameState_Gameplay::CollideBullets()
 {
 	for (int b = 0; b < _bullets->size(); b++)
@@ -140,21 +165,47 @@ void GameState_Gameplay::CollideBullets()
 			if (ZEngine::Utilities::CircleCollider(_bullets->at(b)->sprite, _zombies->at(z)->sprite))
 			{
 				_zombies->at(z)->DamageZombie(_bullets->at(b)->damage);
-				_bullets->at(b)->MarkForDeath(true);
+				_bullets->at(b)->MarkForDeath();
 			}
 		}
 	}
 }
 
+/// <summary>
+/// Spawns zombies based on a timer.
+/// </summary>
 void GameState_Gameplay::SpawnZombies()
 {
 	if (_zombieSpawner.Complete())
 	{
-		sf::Vector2f spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), ZEngine::Utilities::Random(0.0f, SCREEN_HEIGHT));
+		sf::Vector2f spawnPos = sf::Vector2f(0.0f, 0.0f);
+
+		// 50/50 chance of spawning either NS/EW
+		if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
+		{
+			// Spawns North/South
+			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
+				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), SCREEN_HEIGHT + 32.0f);
+			else
+				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), 0 - 32.0f);
+		}
+		else
+		{
+			// Spawns East/West
+			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
+				spawnPos = sf::Vector2f(SCREEN_WIDTH + 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
+			else
+				spawnPos = sf::Vector2f(0 - 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
+		}
+
 		_zombies->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, &_player));
 	}
 }
 
+/// <summary>
+/// Updates all of the zombies in the game.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::UpdateZombies(float dT)
 {
 	for (int i = 0; i < _zombies->size(); i++)
@@ -173,16 +224,22 @@ void GameState_Gameplay::UpdateZombies(float dT)
 	}
 }
 
-
+/// <summary>
+/// Draws all of the zombies in the game.
+/// </summary>
+/// <param name="dT"></param>
 void GameState_Gameplay::DrawZombies(float dT)
 {
 	for (int i = 0; i < _zombies->size(); i++)
 		_zombies->at(i)->Draw(dT);
 }
 
+/// <summary>
+/// Exits the game, clearing loaded memory.
+/// </summary>
 void GameState_Gameplay::Exit()
 {
-	_data->window.close();
 	delete _bullets;
 	delete _zombies;
+	_data->window.close();
 }

@@ -5,7 +5,7 @@
 class Bullet
 {
 public:
-	Bullet(ZEngine::GameDataRef data, sf::Vector2f pos, sf::Vector2f target, float speed, float dam);
+	Bullet(ZEngine::GameDataRef data, sf::Vector2f pos, sf::Vector2f target, int speed, int dam);
 	~Bullet();
 
 	void Update(float dT);
@@ -16,7 +16,7 @@ public:
 
 	float damage;
 
-	void MarkForDeath(bool mark);
+	void MarkForDeath();
 	bool IsMarked();
 	
 private:
