@@ -13,7 +13,7 @@ public:
 
 	void Init();
 	void Update(float dT);
-	void Draw(float dT);
+	void Draw();
 
 	sf::Vector2f GetPosition();
 

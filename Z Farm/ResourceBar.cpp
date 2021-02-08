@@ -29,7 +29,7 @@ namespace ZEngine
 
 	}
 
-	void ResourceBar::Draw(float dT)
+	void ResourceBar::Draw()
 	{
 		_data->window.draw(_background);
 		_data->window.draw(_foreground);

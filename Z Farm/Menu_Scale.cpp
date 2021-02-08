@@ -45,10 +45,10 @@ namespace ZEngine
 		_scaleText.setOrigin(_scaleText.getLocalBounds().width / 2, _scaleText.getLocalBounds().height / 2);
 	}
 
-	void Menu_Scale::Draw(float dT)
+	void Menu_Scale::Draw()
 	{
-		_lArrow.Draw(dT);
-		_rArrow.Draw(dT);
+		_lArrow.Draw();
+		_rArrow.Draw();
 
 		_data->window.draw(_scaleText);
 	}

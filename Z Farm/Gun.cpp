@@ -29,6 +29,11 @@ Gun::~Gun()
 {
 }
 
+
+/// <summary>
+/// Update loop for the gun.
+/// </summary>
+/// <param name="dT"></param>
 void Gun::Update(float dT)
 {
 	if (_reloading)
@@ -50,12 +55,12 @@ void Gun::Update(float dT)
 	}
 }
 
-void Gun::Draw(float dT)
+void Gun::Draw()
 {
 	DrawAmmoCount();
 
 	if (_reloading)
-		DrawReloadBar(dT);
+		DrawReloadBar();
 }
 
 /// <summary>
@@ -120,7 +125,7 @@ void Gun::DrawAmmoCount()
 /// <summary>
 /// Draws the reload bar.
 /// </summary>
-void Gun::DrawReloadBar(float dT)
+void Gun::DrawReloadBar()
 {
-	_reloadBar.Draw(dT);
+	_reloadBar.Draw();
 }

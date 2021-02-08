@@ -17,7 +17,12 @@ namespace ZEngine
 		static float Random(float max);
 		static float Random(float min, float max);
 
+		static float DistSq(sf::Sprite a, sf::Sprite b);
+		static float MinDist(sf::Sprite a, sf::Sprite b);
+
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
+
+
 
 	};
 

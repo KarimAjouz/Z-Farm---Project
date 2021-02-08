@@ -54,7 +54,7 @@ namespace ZEngine
 			}
 
 			interp = accumulator / this->_dt;
-			this->_data->stateMachine.GetActiveState()->Draw(this->_dt);
+			this->_data->stateMachine.GetActiveState()->Draw();
 		}
 	}
 

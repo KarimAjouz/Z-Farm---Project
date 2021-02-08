@@ -54,14 +54,14 @@ void GameState_MainMenu::Update(float dT)
 	_quitButton.Update(dT);
 }
 
-void GameState_MainMenu::Draw(float dT)
+void GameState_MainMenu::Draw()
 {
 	_data->window.clear();
 
 	_data->window.draw(_bgSprite);
 
-	_playButton.Draw(dT);
-	_quitButton.Draw(dT);
+	_playButton.Draw();
+	_quitButton.Draw();
 	
 	_data->window.display();
 }

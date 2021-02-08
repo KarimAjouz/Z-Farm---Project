@@ -17,7 +17,7 @@ public:
 
 	void Update(float dT);
 
-	void Draw(float dT);
+	void Draw();
 
 private:
 

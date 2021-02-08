@@ -12,7 +12,7 @@ namespace ZEngine
 		~Menu_Scale();
 
 		void Update(float dT);
-		void Draw(float dT);
+		void Draw();
 
 		int GetValue();
 

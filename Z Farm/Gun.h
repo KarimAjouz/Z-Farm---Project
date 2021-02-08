@@ -26,10 +26,10 @@ public:
 	void Reload();
 
 	void Update(float dT);
-	void Draw(float dT);
+	void Draw();
 	
 	void DrawAmmoCount();
-	void DrawReloadBar(float dT);
+	void DrawReloadBar();
 
 private:
 	sf::Vector2f _pos;

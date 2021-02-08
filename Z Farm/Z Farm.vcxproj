@@ -149,6 +149,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu_Scale.cpp" />
+    <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBar.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Menu_Scale.h" />
+    <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBar.h" />
     <ClInclude Include="StateMachine.h" />

@@ -83,7 +83,7 @@ namespace ZEngine
 		Engaged = false;
 	}
 
-	void Button::Draw(float dT)
+	void Button::Draw()
 	{
 		_data->window.draw(sprite);
 		_data->window.draw(_text);

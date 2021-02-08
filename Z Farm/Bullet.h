@@ -9,7 +9,7 @@ public:
 	~Bullet();
 
 	void Update(float dT);
-	void Draw(float dT);
+	void Draw();
 
 
 	sf::Sprite sprite;

@@ -17,5 +17,7 @@
 #define PLAYER_FILEPATH "Media/Gameplay/Player.png"
 #define ZOMBIE_FILEPATH "Media/Gameplay/Zombie.png"
 #define BULLET_FILEPATH "Media/Gameplay/Bullet.png"
+#define PICKUP_FILEPATH "Media/Gameplay/Pickup.png"
+
 
 #define UI_RELOADBAR "Media/UI/ReloadBar"

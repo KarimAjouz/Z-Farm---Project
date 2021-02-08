@@ -46,7 +46,7 @@ void Bullet::Update(float dT)
 /// Calls this function after the main update loop. Handles rendering the bullet.
 /// </summary>
 /// <param name="dT"> The time between the previous frame and this one. </param>
-void Bullet::Draw(float dT)
+void Bullet::Draw()
 {
 	_data->window.draw(sprite);
 }

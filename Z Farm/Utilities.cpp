@@ -53,11 +53,22 @@ namespace ZEngine
 		return r;
 	}
 
+	float Utilities::DistSq(sf::Sprite a, sf::Sprite b)
+	{
+		return ((a.getPosition().x - b.getPosition().x) * (a.getPosition().x - b.getPosition().x)) + ((a.getPosition().y - b.getPosition().y) * (a.getPosition().y - b.getPosition().y));
+	}
+
+	float Utilities::MinDist(sf::Sprite a, sf::Sprite b)
+	{
+		return (a.getLocalBounds().width / 2) + (b.getLocalBounds().width / 2);
+	}
+
 	bool Utilities::CircleCollider(sf::Sprite a, sf::Sprite b)
 	{
-		float distSq = ((a.getPosition().x - b.getPosition().x) * (a.getPosition().x - b.getPosition().x)) + ((a.getPosition().y - b.getPosition().y) * (a.getPosition().y - b.getPosition().y));
+		float distSq = DistSq(a, b);
 
-		float minDistSq = (a.getLocalBounds().width / 2) + (b.getLocalBounds().width / 2);
+		float minDistSq = MinDist(a, b);
+
 		minDistSq = minDistSq * minDistSq;
 
 		if (distSq < minDistSq)

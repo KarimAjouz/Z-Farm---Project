@@ -20,7 +20,7 @@ namespace ZEngine
 		virtual void Update(float dT) = 0;
 
 		// Draws to the display. 
-		virtual void Draw(float dT) = 0;
+		virtual void Draw() = 0;
 
 
 		// Pauses/Resumes the state we're in.

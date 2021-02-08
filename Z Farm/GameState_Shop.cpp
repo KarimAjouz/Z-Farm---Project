@@ -68,19 +68,19 @@ void GameState_Shop::Update(float dT)
 	_quitShopButton.Update(dT);
 }
 
-void GameState_Shop::Draw(float dT)
+void GameState_Shop::Draw()
 {
 	_data->window.clear();
 
 	_data->window.draw(_bgSprite);
 
-	_damageScale.Draw(dT);
-	_speedScale.Draw(dT);
-	_numPerShotScale.Draw(dT);
-	_spreadScale.Draw(dT);
-	_ammoCountScale.Draw(dT);
+	_damageScale.Draw();
+	_speedScale.Draw();
+	_numPerShotScale.Draw();
+	_spreadScale.Draw();
+	_ammoCountScale.Draw();
 
-	_quitShopButton.Draw(dT);
+	_quitShopButton.Draw();
 
 	_data->window.display();
 }

@@ -20,7 +20,7 @@ namespace ZEngine
 		
 		void Init();
 		void Update(float dT);
-		void Draw(float dT);
+		void Draw();
 
 		bool Engaged;
 		bool Active;

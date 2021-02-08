@@ -48,7 +48,7 @@ void GameState_Splash::Update(float dT)
 	}
 }
 
-void GameState_Splash::Draw(float dT)
+void GameState_Splash::Draw()
 {
 	_data->window.clear();
 	_data->window.draw(_bgSprite);

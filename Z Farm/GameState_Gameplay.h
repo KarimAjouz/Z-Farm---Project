@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Timer.h"
 #include "Zombie.h"
+#include "Pickup.h"
 
 class GameState_Gameplay : public ZEngine::GameState
 {
@@ -16,7 +17,7 @@ public:
 
 	void PollEvents();
 	void Update(float dT);
-	void Draw(float dT);
+	void Draw();
 
 	void Pause();
 	void Resume();
@@ -30,6 +31,7 @@ private:
 
 	std::vector<Bullet*>* _bullets;
 	std::vector<Zombie*>* _zombies;
+	std::vector<Pickup*>* _pickups;
 
 	ZEngine::Timer _zombieSpawner;
 
@@ -38,12 +40,17 @@ private:
 	bool _paused;
 
 	void UpdateBullets(float dT);
-	void DrawBullets(float dT);
+	void DrawBullets();
 	void CollideBullets();
 
 
 	void UpdateZombies(float dT);
-	void DrawZombies(float dT);
+	void DrawZombies();
+	void CollideZombies();
+
+	void UpdatePickups(float dT);
+	void DrawPickups();
+	void CollidePickups();
 
 	void SpawnZombies();
 

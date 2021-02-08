@@ -35,11 +35,11 @@ void Player::Update(float dT)
 
 }
 
-void Player::Draw(float dT)
+void Player::Draw()
 {
 	_data->window.draw(sprite);
 
-	gun.Draw(dT);
+	gun.Draw();
 }
 
 /// <summary>

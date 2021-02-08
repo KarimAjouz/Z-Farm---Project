@@ -35,7 +35,7 @@ void Zombie::Update(float dT)
 	Move(dT);
 }
 
-void Zombie::Draw(float dT)
+void Zombie::Draw()
 {
 	_data->window.draw(sprite);
 }
@@ -57,6 +57,16 @@ void Zombie::Move(float dT)
 		_knockbackAmt = sf::Vector2f(0.0f, 0.0f);
 	else
 		_knockbackAmt *= 0.6f;
+}
+
+/// <summary>
+/// Nudges the zombie so that it doesn't collide with other entities.
+/// </summary>
+/// <param name="colMovement"></param>
+void Zombie::CollideWithEntity(sf::Vector2f colMovement)
+{
+	sf::Vector2f nPos = sprite.getPosition() + colMovement;
+	sprite.setPosition(nPos);
 }
 
 /// <summary>

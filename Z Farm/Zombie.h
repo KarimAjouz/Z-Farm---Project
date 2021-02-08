@@ -15,20 +15,22 @@ public:
 
 	void Init();
 	void Update(float dT);
-	void Draw(float dT);
+	void Draw();
 
 	void DamageZombie(float dam);
 
-
 	sf::Sprite sprite;
-
 
 	void MarkForDeath(bool mark);
 	bool IsMarked();
 
+	void CollideWithEntity(sf::Vector2f colMovement);
+
+
 private:
 	void Move(float dT);
 	void AugmentKnockback(float amt);
+
 
 	ZEngine::GameDataRef _data;
 

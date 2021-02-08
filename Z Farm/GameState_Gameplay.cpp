@@ -1,6 +1,7 @@
 #include "GameState_Gameplay.h"
 #include "Definitions.h"
 #include "Utilities.h"
+#include "math.h"
 
 #include "GameState_Shop.h"
 
@@ -16,6 +17,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
 	_bullets(new std::vector<Bullet*>()),
 	_zombies(new std::vector<Zombie*>()),
+	_pickups(new std::vector<Pickup*>()),
 	_zombieSpawner(3.0f, true),
 	_paused(false),
 	zombits(0)
@@ -88,7 +90,13 @@ void GameState_Gameplay::Update(float dT)
 	{
 		_player.Update(dT);
 		SpawnZombies();
+
+		UpdatePickups(dT);
+		CollidePickups();
+
 		UpdateZombies(dT);
+		CollideZombies();
+
 		UpdateBullets(dT);
 		CollideBullets();
 	}
@@ -98,16 +106,17 @@ void GameState_Gameplay::Update(float dT)
 /// Draws all of the Gameplay entities.
 /// </summary>
 /// <param name="dT"></param>
-void GameState_Gameplay::Draw(float dT)
+void GameState_Gameplay::Draw()
 {
 	_data->window.clear();
 
-	_player.Draw(dT);
+	_player.Draw();
 
 	_data->window.draw(_zombitsText);
 
-	DrawZombies(dT);
-	DrawBullets(dT);
+	DrawZombies();
+	DrawBullets();
+	DrawPickups();
 
 	_data->window.display();
 }
@@ -145,11 +154,11 @@ void GameState_Gameplay::UpdateBullets(float dT)
 /// Draws all bullets.
 /// </summary>
 /// <param name="dT"></param>
-void GameState_Gameplay::DrawBullets(float dT)
+void GameState_Gameplay::DrawBullets()
 {
 	for (int i = 0; i < _bullets->size(); i++)
 	{
-		_bullets->at(i)->Draw(dT);
+		_bullets->at(i)->Draw();
 	}
 }
 
@@ -166,6 +175,39 @@ void GameState_Gameplay::CollideBullets()
 			{
 				_zombies->at(z)->DamageZombie(_bullets->at(b)->damage);
 				_bullets->at(b)->MarkForDeath();
+			}
+		}
+	}
+}
+
+/// <summary>
+/// Tests for collisions on zombies
+/// </summary>
+void GameState_Gameplay::CollideZombies()
+{
+	// For every zombie...
+	for (int z1 = 0; z1 < _zombies->size(); z1++)
+	{ 
+		Zombie* zomA = _zombies->at(z1);
+
+		// Test against every other zombie, ignoring tests that have already been conducted.
+		for (int z2 = z1 + 1; z2 < _zombies->size(); z2++)
+		{
+			Zombie* zomB = _zombies->at(z2);
+
+			// If they collide...
+			if (ZEngine::Utilities::CircleCollider(zomA->sprite, zomB->sprite))
+			{
+				// Calculate overlapping distance.
+				float overlap = ZEngine::Utilities::MinDist(zomA->sprite, zomB->sprite) - sqrt(ZEngine::Utilities::DistSq(zomA->sprite, zomB->sprite));
+
+				// Calculate direction to move them.
+				sf::Vector2f abVec = ZEngine::Utilities::NormaliseVector(zomB->sprite.getPosition() - zomA->sprite.getPosition());
+
+				// Push them away from each other.
+				zomA->CollideWithEntity(-abVec * (overlap / 2.0f));
+				zomB->CollideWithEntity(abVec * (overlap / 2.0f));
+
 			}
 		}
 	}
@@ -214,8 +256,8 @@ void GameState_Gameplay::UpdateZombies(float dT)
 
 		if (_zombies->at(i)->IsMarked())
 		{
-			zombits += 5;
-			_zombitsText.setString("Zb: " + std::to_string(zombits));
+			_pickups->push_back(new Pickup(1, PICKUP_FILEPATH, _zombies->at(i)->sprite.getPosition(), _data, _zombies->at(i)->sprite.getPosition() - _player.sprite.getPosition()));
+
 
 			Zombie* zed = _zombies->at(i);
 			_zombies->erase(_zombies->begin() + i);
@@ -228,11 +270,58 @@ void GameState_Gameplay::UpdateZombies(float dT)
 /// Draws all of the zombies in the game.
 /// </summary>
 /// <param name="dT"></param>
-void GameState_Gameplay::DrawZombies(float dT)
+void GameState_Gameplay::DrawZombies()
 {
 	for (int i = 0; i < _zombies->size(); i++)
-		_zombies->at(i)->Draw(dT);
+		_zombies->at(i)->Draw();
 }
+
+
+/// <summary>
+/// Updates the Pickups.
+/// </summary>
+/// <param name="dT"></param>
+void GameState_Gameplay::UpdatePickups(float dT)
+{
+	for (int i = 0; i < _pickups->size(); i++)
+	{
+		_pickups->at(i)->Update(dT);
+
+		if (_pickups->at(i)->IsMarked())
+		{
+			Pickup* pic = _pickups->at(i);
+			_pickups->erase(_pickups->begin() + i);
+			delete pic;
+		}
+	}
+}
+
+/// <summary>
+/// Handles collision between the player and the pickups.
+/// </summary>
+void GameState_Gameplay::CollidePickups()
+{
+	for (int i = 0; i < _pickups->size(); i++)
+	{
+		if (ZEngine::Utilities::CircleCollider(_player.sprite, _pickups->at(i)->sprite))
+		{
+			zombits += _pickups->at(i)->Destroy(true);
+
+			_zombitsText.setString("Zb: " + std::to_string(zombits));
+		}
+	}
+}
+
+/// <summary>
+/// Draws Pickups
+/// </summary>
+void GameState_Gameplay::DrawPickups()
+{
+	for (int i = 0; i < _pickups->size(); i++)
+		_pickups->at(i)->Draw();
+}
+
+
 
 /// <summary>
 /// Exits the game, clearing loaded memory.

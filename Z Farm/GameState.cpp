@@ -30,7 +30,7 @@ namespace ZEngine
 	}
 
 
-	void GameState::Draw(float dT)
+	void GameState::Draw()
 	{
 
 	}
