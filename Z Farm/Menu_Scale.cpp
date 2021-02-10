@@ -4,6 +4,10 @@
 
 namespace ZEngine
 {
+	Menu_Scale::Menu_Scale()
+	{
+	}
+
 	Menu_Scale::Menu_Scale(std::string name, int min, int max, int interval, int currentVal, sf::Vector2f pos, GameDataRef data) :
 		_name(name),
 		_min(min),
@@ -32,11 +36,11 @@ namespace ZEngine
 
 	void Menu_Scale::Update(float dT) 
 	{
-		if (_lArrow.Active && _currentVal > _min)
-			_currentVal -= _interval;
+		if (TestLeft())
+			LeftAction();
 
-		if (_rArrow.Active && _currentVal < _max)
-			_currentVal += _interval;
+		if (TestRight())
+			RightAction();
 
 		_lArrow.Update(dT);
 		_rArrow.Update(dT);
@@ -56,5 +60,33 @@ namespace ZEngine
 	int Menu_Scale::GetValue()
 	{
 		return _currentVal;
+	}
+
+	bool Menu_Scale::TestLeft()
+	{
+		if (_lArrow.Active)
+			return true;
+
+		return false;
+	}
+
+	bool Menu_Scale::TestRight()
+	{
+		if (_rArrow.Active)
+			return true;
+
+		return false;
+	}
+
+	void Menu_Scale::LeftAction()
+	{
+		if(_currentVal > _min)
+			_currentVal -= _interval;
+	}
+
+	void Menu_Scale::RightAction()
+	{
+		if (_currentVal < _max)
+			_currentVal += _interval;
 	}
 }

@@ -4,12 +4,13 @@
 #include "Gun.h"
 
 #include "Menu_Scale.h"
+#include "ShopGunScale.h"
 
 class GameState_Shop : public ZEngine::GameState
 {
 
 public:
-	GameState_Shop(ZEngine::GameDataRef _data, Gun* g);
+	GameState_Shop(ZEngine::GameDataRef _data, Gun* g, int* zombits);
 	~GameState_Shop();
 
 	void Init();
@@ -23,14 +24,15 @@ private:
 	ZEngine::StateRef _gameplayState;
 
 	Gun* _gun;
+	int* _zombits;
 
 	sf::Sprite _bgSprite;
 
-	ZEngine::Menu_Scale _damageScale;
-	ZEngine::Menu_Scale _speedScale;
-	ZEngine::Menu_Scale _numPerShotScale;
-	ZEngine::Menu_Scale _spreadScale;
-	ZEngine::Menu_Scale _ammoCountScale;
+	ShopGunScale _damageScale;
+	ShopGunScale _speedScale;
+	ShopGunScale _numPerShotScale;
+	ShopGunScale _spreadScale;
+	ShopGunScale _ammoCountScale;
 
 	ZEngine::Button _quitShopButton;
 

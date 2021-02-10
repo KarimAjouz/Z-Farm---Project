@@ -7,6 +7,13 @@
 
 namespace ZEngine
 {
+	Button::Button() :
+		Engaged(false),
+		Active(false)
+	{
+
+	}
+
 	Button::Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, std::string filePath, std::string fileName) :
 		_data(data),
 		_textColour(textColour),

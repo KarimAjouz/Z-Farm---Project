@@ -4,14 +4,15 @@
 
 #include "Definitions.h"
 
-GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, Gun* g) :
+GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, Gun* g, int* zombits) :
 	_data(data),
 	_gun(g),
-	_damageScale("Damage", 1, 30, 1, _gun->bulletDamage, sf::Vector2f(400.0f, 50.0f), _data),
-	_speedScale("Speed", 1, 30, 1, _gun->bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data),
-	_numPerShotScale("Rounds Per Shot", 1, 10, 1, _gun->bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data),
-	_spreadScale("Spread", 1, 30, 1, _gun->bulletSpread, sf::Vector2f(400.0f, 200.0f), _data),
-	_ammoCountScale("Ammo Count", 1, 30, 1, _gun->ammoCount, sf::Vector2f(400.0f, 250.0f), _data),
+	_zombits(zombits),
+	_damageScale("Damage", 1, 50, 1, _gun->bulletDamage, sf::Vector2f(400.0f, 50.0f), _data, 1, 1, _zombits),
+	_speedScale("Speed", 1, 30, 1, _gun->bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data, 1, 1, _zombits),
+	_numPerShotScale("Rounds Per Shot", 1, 10, 1, _gun->bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data, 1, 1, _zombits),
+	_spreadScale("Spread", 1, 30, 1, _gun->bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, _zombits),
+	_ammoCountScale("Ammo Count", 1, 30, 1, _gun->ammoCount, sf::Vector2f(400.0f, 250.0f), _data, 1, 1, _zombits),
 	_quitShopButton("Exit Shop", _data, sf::Vector2f(600.0f, 500.0f), sf::Color::Black, MENU_BUTTON_FOLDER_FILEPATH, "Menu Button")
 {
 	_data->assetManager.LoadTexture("Shop BG", SHOP_SCREEN_BACKGROUND_FILEPATH);

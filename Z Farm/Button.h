@@ -11,6 +11,7 @@ namespace ZEngine
 	{
 	public:
 
+		Button();
 		Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, std::string filePath, std::string fileName);
 		~Button();
 

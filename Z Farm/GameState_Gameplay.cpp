@@ -20,7 +20,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_pickups(new std::vector<Pickup*>()),
 	_zombieSpawner(3.0f, true),
 	_paused(false),
-	zombits(0)
+	zombits(10)
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
 	_zombitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
@@ -64,7 +64,7 @@ void GameState_Gameplay::PollEvents()
 					Pause();
 				break;
 			case sf::Keyboard::I:
-				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, &_player.gun)), false);
+				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, &_player.gun, &zombits)), false);
 				break;
 			}
 			break;

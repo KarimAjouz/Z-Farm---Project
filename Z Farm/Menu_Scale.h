@@ -8,6 +8,7 @@ namespace ZEngine
 	class Menu_Scale
 	{
 	public:
+		Menu_Scale();
 		Menu_Scale(std::string name, int min, int max, int interval, int currentVal, sf::Vector2f pos, GameDataRef data);
 		~Menu_Scale();
 
@@ -16,9 +17,8 @@ namespace ZEngine
 
 		int GetValue();
 
-	private:
-		Button _lArrow;
-		Button _rArrow;
+
+	protected:
 
 		sf::Text _scaleText;
 
@@ -32,8 +32,16 @@ namespace ZEngine
 
 		sf::Vector2f _pos;
 
+		bool TestRight();
+		bool TestLeft();
+
+		Button _lArrow;
+		Button _rArrow;
 
 		int _steps;
+
+		void LeftAction();
+		void RightAction();
 
 
 	};

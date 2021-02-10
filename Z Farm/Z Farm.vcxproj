@@ -152,6 +152,7 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBar.cpp" />
+    <ClCompile Include="ShopGunScale.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBar.h" />
+    <ClInclude Include="ShopGunScale.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Utilities.h" />
