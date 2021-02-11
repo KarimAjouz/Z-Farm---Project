@@ -63,8 +63,8 @@ void ShopGunScale::LeftAction()
 {
 	if (_currentVal > _min)
 	{
-		*_zombits += _cost;
 		_cost -= _costIncrease;
+		*_zombits += _cost;
 
 		_currentVal -= _interval;
 
@@ -79,7 +79,7 @@ void ShopGunScale::LeftAction()
 
 void ShopGunScale::RightAction()
 {
-	if(*_zombits > _cost && _currentVal < _max)
+	if(*_zombits >= _cost && _currentVal < _max)
 	{
 		*_zombits -= _cost;
 		_cost += _costIncrease;

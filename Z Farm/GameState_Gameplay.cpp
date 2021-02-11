@@ -14,10 +14,11 @@
 /// <param name="data"></param>
 GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_data(data),
-	_player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
+	player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
 	_bullets(new std::vector<Bullet*>()),
 	_zombies(new std::vector<Zombie*>()),
 	_pickups(new std::vector<Pickup*>()),
+	_shopScales(new std::vector<ShopGunScale*>()),
 	_zombieSpawner(3.0f, true),
 	_paused(false),
 	zombits(10)
@@ -27,9 +28,10 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_zombitsText.setString("Zb: " + std::to_string(zombits));
 	_zombitsText.setFillColor(sf::Color::White);
 
-	_zombieSpawner.Start();
-	_player.Init();
+	InitShopScales();
 
+	_zombieSpawner.Start();
+	player.Init();
 }
 
 
@@ -64,13 +66,13 @@ void GameState_Gameplay::PollEvents()
 					Pause();
 				break;
 			case sf::Keyboard::I:
-				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, &_player.gun, &zombits)), false);
+					_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, this, _shopScales)), false);
 				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
 			if (e.mouseButton.button == sf::Mouse::Left && !_paused)
-				_player.gun.Shoot(_bullets, _data, _player.GetPosition());
+				player.gun.Shoot(_bullets, _data, player.GetPosition());
 			break;
 		case sf::Event::Closed:
 			Exit();
@@ -88,7 +90,7 @@ void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
 	{
-		_player.Update(dT);
+		player.Update(dT);
 		SpawnZombies();
 
 		UpdatePickups(dT);
@@ -110,7 +112,7 @@ void GameState_Gameplay::Draw()
 {
 	_data->window.clear();
 
-	_player.Draw();
+	player.Draw();
 
 	_data->window.draw(_zombitsText);
 
@@ -128,6 +130,7 @@ void GameState_Gameplay::Pause()
 
 void GameState_Gameplay::Resume()
 {
+	_zombitsText.setString("Zb: " + std::to_string(zombits));
 	_paused = false;
 }
 
@@ -240,7 +243,7 @@ void GameState_Gameplay::SpawnZombies()
 				spawnPos = sf::Vector2f(0 - 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
 		}
 
-		_zombies->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, &_player));
+		_zombies->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, &player));
 	}
 }
 
@@ -256,7 +259,7 @@ void GameState_Gameplay::UpdateZombies(float dT)
 
 		if (_zombies->at(i)->IsMarked())
 		{
-			_pickups->push_back(new Pickup(1, PICKUP_FILEPATH, _zombies->at(i)->sprite.getPosition(), _data, _zombies->at(i)->sprite.getPosition() - _player.sprite.getPosition()));
+			_pickups->push_back(new Pickup(1, PICKUP_FILEPATH, _zombies->at(i)->sprite.getPosition(), _data, _zombies->at(i)->sprite.getPosition() - player.sprite.getPosition()));
 
 
 			Zombie* zed = _zombies->at(i);
@@ -303,7 +306,7 @@ void GameState_Gameplay::CollidePickups()
 {
 	for (int i = 0; i < _pickups->size(); i++)
 	{
-		if (ZEngine::Utilities::CircleCollider(_player.sprite, _pickups->at(i)->sprite))
+		if (ZEngine::Utilities::CircleCollider(player.sprite, _pickups->at(i)->sprite))
 		{
 			zombits += _pickups->at(i)->Destroy(true);
 
@@ -322,6 +325,15 @@ void GameState_Gameplay::DrawPickups()
 }
 
 
+void GameState_Gameplay::InitShopScales()
+{
+	_shopScales->push_back(new ShopGunScale("Damage", 1, 50, 1, player.gun.bulletDamage, sf::Vector2f(400.0f, 50.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Speed", 1, 30, 1, player.gun.bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", 1, 10, 1, player.gun.bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Spread", 1, 30, 1, player.gun.bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Ammo Count", 1, 30, 1, player.gun.ammoCount, sf::Vector2f(400.0f, 250.0f), _data, 1, 1, &zombits));
+}
+
 
 /// <summary>
 /// Exits the game, clearing loaded memory.
@@ -330,5 +342,8 @@ void GameState_Gameplay::Exit()
 {
 	delete _bullets;
 	delete _zombies;
+	delete _pickups;
+	delete _shopScales;
+
 	_data->window.close();
 }

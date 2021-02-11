@@ -102,7 +102,7 @@ void Zombie::AugmentKnockback(float amt)
 	sf::Vector2f temp = sprite.getPosition() - _playerRef->GetPosition();
 	temp = ZEngine::Utilities::NormaliseVector(temp);
 
-	temp = temp * amt * 3.0f;
+	temp = temp * 10.0f;
 
 	_knockbackAmt += temp;
 }

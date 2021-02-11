@@ -1,5 +1,5 @@
 #pragma once
-#include "GameState.h"
+#include "GameState_Gameplay.h"
 #include "Game.h"
 #include "Gun.h"
 
@@ -10,7 +10,7 @@ class GameState_Shop : public ZEngine::GameState
 {
 
 public:
-	GameState_Shop(ZEngine::GameDataRef _data, Gun* g, int* zombits);
+	GameState_Shop(ZEngine::GameDataRef _data, GameState_Gameplay* gameplayStateRef, std::vector<ShopGunScale*>* scales);
 	~GameState_Shop();
 
 	void Init();
@@ -26,25 +26,13 @@ private:
 	Gun* _gun;
 	int* _zombits;
 
-	sf::Sprite _bgSprite;
+	std::vector<ShopGunScale*>* _scales;
 
-	ShopGunScale _damageScale;
-	ShopGunScale _speedScale;
-	ShopGunScale _numPerShotScale;
-	ShopGunScale _spreadScale;
-	ShopGunScale _ammoCountScale;
+	sf::Sprite _bgSprite;
+	sf::Text _zbitsText;
 
 	ZEngine::Button _quitShopButton;
 
 	void QuitShop();
 
-	/*
-	int bulletDamage;
-	int bulletSpeed;
-	int bulletsPerShot;
-	int bulletSpread;
-	int ammoCount;
-	*/
-
 };
-

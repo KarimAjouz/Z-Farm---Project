@@ -1,22 +1,22 @@
 #include "GameState_Shop.h"
 
-#include "GameState_Gameplay.h"
-
 #include "Definitions.h"
 
-GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, Gun* g, int* zombits) :
+GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, GameState_Gameplay* gameplayState, std::vector<ShopGunScale*>* scales) :
 	_data(data),
-	_gun(g),
-	_zombits(zombits),
-	_damageScale("Damage", 1, 50, 1, _gun->bulletDamage, sf::Vector2f(400.0f, 50.0f), _data, 1, 1, _zombits),
-	_speedScale("Speed", 1, 30, 1, _gun->bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data, 1, 1, _zombits),
-	_numPerShotScale("Rounds Per Shot", 1, 10, 1, _gun->bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data, 1, 1, _zombits),
-	_spreadScale("Spread", 1, 30, 1, _gun->bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, _zombits),
-	_ammoCountScale("Ammo Count", 1, 30, 1, _gun->ammoCount, sf::Vector2f(400.0f, 250.0f), _data, 1, 1, _zombits),
+	_gun(&gameplayState->player.gun),
+	_zombits(&gameplayState->zombits),
+	_scales(scales),
 	_quitShopButton("Exit Shop", _data, sf::Vector2f(600.0f, 500.0f), sf::Color::Black, MENU_BUTTON_FOLDER_FILEPATH, "Menu Button")
 {
 	_data->assetManager.LoadTexture("Shop BG", SHOP_SCREEN_BACKGROUND_FILEPATH);
 	_bgSprite.setTexture(_data->assetManager.GetTexture("Shop BG"));
+
+	_zbitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
+	_zbitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
+	_zbitsText.setString("Zb: " + std::to_string(*_zombits));
+	_zbitsText.setFillColor(sf::Color::Red);
+
 }
 
 GameState_Shop::~GameState_Shop()
@@ -60,11 +60,13 @@ void GameState_Shop::Update(float dT)
 	if (_quitShopButton.Active)
 		QuitShop();
 
-	_damageScale.Update(dT);
-	_speedScale.Update(dT);
-	_numPerShotScale.Update(dT);
-	_spreadScale.Update(dT);
-	_ammoCountScale.Update(dT);
+	for (int i = 0; i < _scales->size(); i++)
+	{
+		_scales->at(i)->Update(dT);
+	}
+
+	_zbitsText.setString("Zb: " + std::to_string(*_zombits));
+
 
 	_quitShopButton.Update(dT);
 }
@@ -75,25 +77,24 @@ void GameState_Shop::Draw()
 
 	_data->window.draw(_bgSprite);
 
-	_damageScale.Draw();
-	_speedScale.Draw();
-	_numPerShotScale.Draw();
-	_spreadScale.Draw();
-	_ammoCountScale.Draw();
+	for (int i = 0; i < _scales->size(); i++)
+	{
+		_scales->at(i)->Draw();
+	}
 
 	_quitShopButton.Draw();
+	_data->window.draw(_zbitsText);
 
 	_data->window.display();
 }
 
 void GameState_Shop::QuitShop()
 {
-	_gun->bulletDamage = _damageScale.GetValue();
-	_gun->bulletSpeed = _speedScale.GetValue();
-	_gun->bulletsPerShot = _numPerShotScale.GetValue();
-	_gun->bulletSpread = _spreadScale.GetValue();
-	_gun->ammoCount = _ammoCountScale.GetValue();
-
+	_gun->bulletDamage = _scales->at(0)->GetValue();
+	_gun->bulletSpeed = _scales->at(1)->GetValue();
+	_gun->bulletsPerShot = _scales->at(2)->GetValue();
+	_gun->bulletSpread = _scales->at(3)->GetValue();
+	_gun->ammoCount = _scales->at(4)->GetValue();
 
 	_data->stateMachine.RemoveState();
 }

@@ -7,6 +7,8 @@
 #include "Zombie.h"
 #include "Pickup.h"
 
+#include "ShopGunScale.h"
+
 class GameState_Gameplay : public ZEngine::GameState
 {
 public:
@@ -23,15 +25,16 @@ public:
 	void Resume();
 
 	int zombits;
+	Player player;
 
 private:
-	Player _player;
 
 	ZEngine::GameDataRef _data;
 
 	std::vector<Bullet*>* _bullets;
 	std::vector<Zombie*>* _zombies;
 	std::vector<Pickup*>* _pickups;
+	std::vector<ShopGunScale*>* _shopScales;
 
 	ZEngine::Timer _zombieSpawner;
 
@@ -53,6 +56,8 @@ private:
 	void CollidePickups();
 
 	void SpawnZombies();
+
+	void InitShopScales();
 
 	void Exit();
 };
