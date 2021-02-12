@@ -25,6 +25,7 @@ Bullet::Bullet(ZEngine::GameDataRef data, sf::Vector2f pos, sf::Vector2f target,
 
 	//Sets the center of the bullet to be the origin, then sets the position.
 	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+	sprite.setScale(0.5f, 0.5f);
 	sprite.setPosition(pos);
 }
 

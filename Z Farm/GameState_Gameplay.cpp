@@ -330,7 +330,7 @@ void GameState_Gameplay::InitShopScales()
 	_shopScales->push_back(new ShopGunScale("Damage", 1, 50, 1, player.gun.bulletDamage, sf::Vector2f(400.0f, 50.0f), _data, 1, 1, &zombits));
 	_shopScales->push_back(new ShopGunScale("Speed", 1, 30, 1, player.gun.bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data, 1, 1, &zombits));
 	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", 1, 10, 1, player.gun.bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data, 1, 1, &zombits));
-	_shopScales->push_back(new ShopGunScale("Spread", 1, 30, 1, player.gun.bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Accuracy", 1, 30, 1, player.gun.bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, &zombits));
 	_shopScales->push_back(new ShopGunScale("Ammo Count", 1, 30, 1, player.gun.ammoCount, sf::Vector2f(400.0f, 250.0f), _data, 1, 1, &zombits));
 }
 

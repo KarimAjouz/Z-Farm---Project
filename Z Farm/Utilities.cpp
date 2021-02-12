@@ -60,7 +60,7 @@ namespace ZEngine
 
 	float Utilities::MinDist(sf::Sprite a, sf::Sprite b)
 	{
-		return (a.getLocalBounds().width / 2) + (b.getLocalBounds().width / 2);
+		return (a.getLocalBounds().width * a.getScale().x / 2) + (b.getLocalBounds().width * b.getScale().x / 2);
 	}
 
 	bool Utilities::CircleCollider(sf::Sprite a, sf::Sprite b)

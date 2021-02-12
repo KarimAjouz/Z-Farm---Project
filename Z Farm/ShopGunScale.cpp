@@ -24,6 +24,7 @@ ShopGunScale::ShopGunScale(std::string name, int min, int max, int interval, int
 	_scaleText.setPosition(sf::Vector2f(_pos.x + 100.0f, _pos.y));
 	_scaleText.setFillColor(sf::Color::Black);
 	_scaleText.setString(_name + ": " + std::to_string(_currentVal));
+	_scaleText.setScale(0.6f, 0.6f);
 	_scaleText.setOrigin(_scaleText.getLocalBounds().width / 2, _scaleText.getLocalBounds().height / 2);
 
 	_costText.setFont(_data->assetManager.GetFont("Scale Font"));

@@ -10,12 +10,12 @@
 /// </summary>
 /// <param name="data"> A reference to the game data. </param>
 Gun::Gun(ZEngine::GameDataRef data) :
-	_reloadTimer(3.0f, false),
+	_reloadTimer(5.0f, false),
 	bulletSpeed(500),
-	bulletSpread(15),
-	bulletDamage(20),
-	bulletsPerShot(3),
-	ammoCount(30),
+	bulletSpread(1),
+	bulletDamage(1),
+	bulletsPerShot(1),
+	ammoCount(5),
 	_reloadBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH - 124.0f, 48)),
 	_reloading(false),
 	_data(data)
@@ -75,7 +75,10 @@ void Gun::Shoot(std::vector<Bullet*>* _bullets, ZEngine::GameDataRef data, sf::V
 	{
 		sf::Vector2f target = static_cast<sf::Vector2f>(sf::Mouse::getPosition(data->window));
 
-		int spreadRad = bulletSpread * 10 / 2;
+		float spreadRad = (20 - bulletSpread) * 10 / 4;
+		float distanceMult = sqrt((target.x - pos.x) * (target.x - pos.x) + (target.y - pos.y) * (target.y - pos.y)) / 200.0f;
+
+		spreadRad *= distanceMult;
 
 		for (int i = 0; i < bulletsPerShot; i++)
 		{

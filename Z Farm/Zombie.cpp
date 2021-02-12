@@ -11,12 +11,19 @@
 /// <param name="playerRef"> Pointer to the player object. </param>
 Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, Player* playerRef) :
 	_data(data),
-	_health(100.0f),
-	_playerRef(playerRef)
+	_health(10.0f),
+	_maxHealth(_health),
+	_playerRef(playerRef),
+	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f))
 {
+	_healthBar.ReScaleWidth(0.5f);
+	_healthBar.ResizeForeground(_health / _maxHealth);
+	_healthBar.Centralise();
+
 	_data->assetManager.LoadTexture("Zombie", texPath);
 	sprite.setTexture(_data->assetManager.GetTexture("Zombie"));
 	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+	sprite.setScale(0.5f, 0.5f);
 	sprite.setPosition(pos);
 }
 
@@ -38,6 +45,8 @@ void Zombie::Update(float dT)
 void Zombie::Draw()
 {
 	_data->window.draw(sprite);
+
+	_healthBar.Draw();
 }
 
 /// <summary>
@@ -57,6 +66,8 @@ void Zombie::Move(float dT)
 		_knockbackAmt = sf::Vector2f(0.0f, 0.0f);
 	else
 		_knockbackAmt *= 0.6f;
+
+	_healthBar.Move(sf::Vector2f(movement.x, movement.y - (sprite.getLocalBounds().height / 2) - 10.0f));
 }
 
 /// <summary>
@@ -81,6 +92,9 @@ void Zombie::DamageZombie(float dam)
 
 	if (_health <= 0.0f)
 		MarkForDeath(true);
+
+	_healthBar.ResizeForeground(_health / _maxHealth);
+
 }
 
 void Zombie::MarkForDeath(bool mark)

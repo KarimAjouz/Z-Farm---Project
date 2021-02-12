@@ -18,15 +18,23 @@ namespace ZEngine
 
 		void ResizeForeground(float per);
 
+		void Move(sf::Vector2f pos);
+
+		void Centralise();
+
+		void ReScaleWidth(float sf);
+
 	private:
 		GameDataRef _data;
+
+		float _scaleFactor;
 
 		sf::Sprite _background;
 		sf::Sprite _foreground;
 
 		std::string _texName;
 
-		void Move(sf::Vector2f pos);
+		bool _centralised;
 
 	};
 

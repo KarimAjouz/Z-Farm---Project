@@ -3,6 +3,7 @@
 #include "Agent.h"
 #include "Game.h"
 #include "Player.h"
+#include "ResourceBar.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -37,7 +38,10 @@ private:
 	Player* _playerRef;
 
 	float _health;
+	float _maxHealth;
 	bool _kill = false;
+
+	ZEngine::ResourceBar _healthBar;
 
 	float _speed = 30.0f;
 
