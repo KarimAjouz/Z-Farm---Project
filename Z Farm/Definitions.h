@@ -9,6 +9,9 @@
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
 
+#define UNPURCHASED_TIER_FILEPATH "Media/Shop/Tier_Unpurchased.png"
+#define PURCHASED_TIER_FILEPATH "Media/Shop/Tier_Purchased.png"
+
 
 #define MENU_BUTTON_FOLDER_FILEPATH "Media/Buttons/Menu/"
 #define SCALE_BUTTON_FOLDER_FILEPATH "Media/Buttons/Scale/"

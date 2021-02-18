@@ -1,5 +1,6 @@
 #include "GameState_Gameplay.h"
 #include "Definitions.h"
+#include "BalanceSheet.h"
 #include "Utilities.h"
 #include "math.h"
 
@@ -21,7 +22,8 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_shopScales(new std::vector<ShopGunScale*>()),
 	_zombieSpawner(3.0f, true),
 	_paused(false),
-	zombits(10)
+	zombits(100),
+	balanceSheet()
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
 	_zombitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
@@ -327,11 +329,11 @@ void GameState_Gameplay::DrawPickups()
 
 void GameState_Gameplay::InitShopScales()
 {
-	_shopScales->push_back(new ShopGunScale("Damage", 1, 50, 1, player.gun.bulletDamage, sf::Vector2f(400.0f, 50.0f), _data, 1, 1, &zombits));
-	_shopScales->push_back(new ShopGunScale("Speed", 1, 30, 1, player.gun.bulletSpeed, sf::Vector2f(400.0f, 100.0f), _data, 1, 1, &zombits));
-	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", 1, 10, 1, player.gun.bulletsPerShot, sf::Vector2f(400.0f, 150.0f), _data, 1, 1, &zombits));
-	_shopScales->push_back(new ShopGunScale("Accuracy", 1, 30, 1, player.gun.bulletSpread, sf::Vector2f(400.0f, 200.0f), _data, 1, 1, &zombits));
-	_shopScales->push_back(new ShopGunScale("Ammo Count", 1, 30, 1, player.gun.ammoCount, sf::Vector2f(400.0f, 250.0f), _data, 1, 1, &zombits));
+	_shopScales->push_back(new ShopGunScale("Damage", &balanceSheet.damage, _data, sf::Vector2f(400.0f, 50.0f), &zombits));
+	_shopScales->push_back(new ShopGunScale("Speed", &balanceSheet.speed, _data, sf::Vector2f(400.0f, 100.0f), &zombits));
+	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", &balanceSheet.roundsPerShot, _data, sf::Vector2f(400.0f, 150.0f), &zombits));
+	_shopScales->push_back(new ShopGunScale("Accuracy", &balanceSheet.spread, _data, sf::Vector2f(400.0f, 200.0f), &zombits));
+	_shopScales->push_back(new ShopGunScale("Ammo Count", &balanceSheet.AmmoCount, _data, sf::Vector2f(400.0f, 250.0f), &zombits));
 }
 
 
@@ -340,6 +342,11 @@ void GameState_Gameplay::InitShopScales()
 /// </summary>
 void GameState_Gameplay::Exit()
 {
+	_bullets->clear();
+	_zombies->clear();
+	_pickups->clear();
+	_shopScales->clear();
+
 	delete _bullets;
 	delete _zombies;
 	delete _pickups;

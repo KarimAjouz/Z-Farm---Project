@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="BalanceSheet.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Game.h" />

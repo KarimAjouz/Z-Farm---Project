@@ -45,7 +45,7 @@ void GameState_Shop::PollEvents()
 			switch (e.key.code)
 			{
 			case sf::Keyboard::Key::Escape:
-				_data->window.close();
+				QuitShop();
 				break;
 			case sf::Keyboard::Key::I:
 				QuitShop();

@@ -27,6 +27,8 @@ public:
 	int zombits;
 	Player player;
 
+	BalanceSheet balanceSheet;
+
 private:
 
 	ZEngine::GameDataRef _data;

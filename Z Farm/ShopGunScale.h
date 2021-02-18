@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Menu_Scale.h"
+#include "BalanceSheet.h"
 
 class ShopGunScale : public ZEngine::Menu_Scale
 {
 public:
 
-	ShopGunScale(std::string name, int min, int max, int interval, int currentVal, sf::Vector2f pos, ZEngine::GameDataRef data, int starterCost, int costIncreaseFactor, int* zombits);
+	ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatProduct>* scaleData, ZEngine::GameDataRef data, sf::Vector2f pos, int* zombits);
+	//ShopGunScale(std::string name, int min, int max, int interval, int currentVal, sf::Vector2f pos, ZEngine::GameDataRef data, int starterCost, int costIncreaseFactor, int* zombits);
 	~ShopGunScale();
 
 	void Update(float dT);
@@ -17,25 +19,22 @@ public:
 
 protected:
 	ZEngine::GameDataRef _data;
+	std::string _name;
 
 	int* _zombits;
-
-	int   _cost;
-	float _costIncrease;
 
 	sf::Text _scaleText;
 	sf::Text _costText;
 
-	std::string _name;
-	int _min;
-	int _max;
-	int _interval;
-	int _currentVal;
-
 	sf::Vector2f _pos;
 
 
-	int _steps;
+	std::vector<BalanceSheet::gunStatProduct>* _scaleData;
+	int _index;
+
+
+
+
 
 	bool TestRight();
 	bool TestLeft();
@@ -44,6 +43,8 @@ protected:
 
 	ZEngine::Button _lArrow;
 	ZEngine::Button _rArrow;
+
+	std::vector<sf::Sprite> _tierSprites;
 
 };
 
