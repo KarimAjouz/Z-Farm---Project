@@ -6,6 +6,10 @@
 #include "Timer.h"
 #include "Zombie.h"
 #include "Pickup.h"
+#include "Spawner.h"
+
+#include <vector>
+
 
 #include "ShopGunScale.h"
 
@@ -25,6 +29,7 @@ public:
 	void Resume();
 
 	int zombits;
+	int gameTier;
 	Player player;
 
 	BalanceSheet balanceSheet;
@@ -38,7 +43,7 @@ private:
 	std::vector<Pickup*>* _pickups;
 	std::vector<ShopGunScale*>* _shopScales;
 
-	ZEngine::Timer _zombieSpawner;
+	Spawner _zombieSpawner;
 
 	sf::Text _zombitsText;
 
@@ -56,8 +61,6 @@ private:
 	void UpdatePickups(float dT);
 	void DrawPickups();
 	void CollidePickups();
-
-	void SpawnZombies();
 
 	void InitShopScales();
 

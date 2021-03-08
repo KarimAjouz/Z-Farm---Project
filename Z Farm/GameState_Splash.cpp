@@ -10,7 +10,7 @@
 GameState_Splash::GameState_Splash(ZEngine::GameDataRef data) :
 	_data(data)
 {
-
+	std::cout << "Splash" << std::endl;
 }
 
 

@@ -52,6 +52,7 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="ShopGunScale.cpp" />
     <ClCompile Include="BalanceSheet.cpp" />
+    <ClCompile Include="Spawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="ShopGunScale.h" />
     <ClInclude Include="BalanceSheet.h" />
+    <ClInclude Include="Spawner.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

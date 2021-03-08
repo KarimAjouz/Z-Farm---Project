@@ -25,6 +25,7 @@ private:
 
 	Gun* _gun;
 	int* _zombits;
+	int* _gameTier;
 
 	std::vector<ShopGunScale*>* _scales;
 

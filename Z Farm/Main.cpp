@@ -5,6 +5,6 @@
 
 int main()
 {
-	ZEngine::Game(SCREEN_WIDTH, SCREEN_HEIGHT, "TEST");
+	ZEngine::Game game(SCREEN_WIDTH, SCREEN_HEIGHT, "TEST");
 	return EXIT_SUCCESS;
 }

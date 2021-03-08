@@ -2,7 +2,7 @@
 #include "Definitions.h"
 #include "BalanceSheet.h"
 #include "Utilities.h"
-#include "math.h"
+#include <cmath>
 
 #include "GameState_Shop.h"
 
@@ -20,9 +20,10 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_zombies(new std::vector<Zombie*>()),
 	_pickups(new std::vector<Pickup*>()),
 	_shopScales(new std::vector<ShopGunScale*>()),
-	_zombieSpawner(3.0f, true),
+	_zombieSpawner(10.0f, _data, &player, _zombies),
 	_paused(false),
 	zombits(100),
+	gameTier(1),
 	balanceSheet()
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
@@ -32,7 +33,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 
 	InitShopScales();
 
-	_zombieSpawner.Start();
 	player.Init();
 }
 
@@ -93,7 +93,7 @@ void GameState_Gameplay::Update(float dT)
 	if (!_paused)
 	{
 		player.Update(dT);
-		SpawnZombies();
+		_zombieSpawner.Update(dT);
 
 		UpdatePickups(dT);
 		CollidePickups();
@@ -215,37 +215,6 @@ void GameState_Gameplay::CollideZombies()
 
 			}
 		}
-	}
-}
-
-/// <summary>
-/// Spawns zombies based on a timer.
-/// </summary>
-void GameState_Gameplay::SpawnZombies()
-{
-	if (_zombieSpawner.Complete())
-	{
-		sf::Vector2f spawnPos = sf::Vector2f(0.0f, 0.0f);
-
-		// 50/50 chance of spawning either NS/EW
-		if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-		{
-			// Spawns North/South
-			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), SCREEN_HEIGHT + 32.0f);
-			else
-				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), 0 - 32.0f);
-		}
-		else
-		{
-			// Spawns East/West
-			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-				spawnPos = sf::Vector2f(SCREEN_WIDTH + 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
-			else
-				spawnPos = sf::Vector2f(0 - 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
-		}
-
-		_zombies->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, &player));
 	}
 }
 

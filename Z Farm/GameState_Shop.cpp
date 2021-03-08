@@ -88,6 +88,10 @@ void GameState_Shop::Draw()
 	_data->window.display();
 }
 
+
+/// <summary>
+/// Pushes shop values to the game.
+/// </summary>
 void GameState_Shop::QuitShop()
 {
 	_gun->bulletDamage = _scales->at(0)->GetValue();
