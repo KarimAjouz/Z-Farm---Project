@@ -47,12 +47,13 @@ private:
 
 	sf::Text _zombitsText;
 
+	ZEngine::ResourceBar healthBar;
+
 	bool _paused;
 
 	void UpdateBullets(float dT);
 	void DrawBullets();
 	void CollideBullets();
-
 
 	void UpdateZombies(float dT);
 	void DrawZombies();
@@ -61,6 +62,8 @@ private:
 	void UpdatePickups(float dT);
 	void DrawPickups();
 	void CollidePickups();
+
+	void CollidePlayerZombies();
 
 	void InitShopScales();
 

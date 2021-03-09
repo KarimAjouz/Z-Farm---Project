@@ -1,4 +1,5 @@
 #include "Timer.h"
+#include <iostream>
 
 namespace ZEngine
 {
@@ -24,11 +25,10 @@ namespace ZEngine
 
 	bool Timer::Complete()
 	{
-		if (_clock.getElapsedTime().asSeconds() > _length && _running)
+		float temp = _clock.getElapsedTime().asSeconds();
+		if (temp > _length && _running)
 		{
-			if (!_autoRestart)
-				_running = false;
-			else
+			if (_autoRestart)
 				_clock.restart();
 
 			return true;

@@ -13,6 +13,13 @@ public:
 		int refund;
 	};
 
+	struct zombieStat
+	{
+		int health;
+		int speed;
+		int damage;
+	};
+
 	std::vector<gunStatProduct> damage = 
 	{ 
 		{ 1,    0,   0},

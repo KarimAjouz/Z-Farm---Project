@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Agent.h"
-#include "Game.h"
 #include "Player.h"
+#include "Game.h"
 #include "ResourceBar.h"
 
 #include <SFML/Graphics.hpp>
@@ -27,15 +27,15 @@ public:
 
 	void CollideWithEntity(sf::Vector2f colMovement);
 
+	float damage;
+
 
 private:
 	void Move(float dT);
 	void AugmentKnockback(float amt);
 
-
-	ZEngine::GameDataRef _data;
-
 	Player* _playerRef;
+	ZEngine::GameDataRef _data;
 
 	float _health;
 	float _maxHealth;

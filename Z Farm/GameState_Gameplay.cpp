@@ -24,16 +24,20 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_paused(false),
 	zombits(100),
 	gameTier(1),
-	balanceSheet()
+	balanceSheet(),
+	healthBar(_data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50.0f))
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
 	_zombitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
 	_zombitsText.setString("Zb: " + std::to_string(zombits));
 	_zombitsText.setFillColor(sf::Color::White);
 
-	InitShopScales();
+	healthBar.Centralise();
+	healthBar.ReScaleWidth(5.0f);
+	healthBar.Move(sf::Vector2f(SCREEN_WIDTH / 2, 50.0f));
+	healthBar.ResizeForeground(1.0f);
 
-	player.Init();
+	InitShopScales();
 }
 
 
@@ -103,6 +107,8 @@ void GameState_Gameplay::Update(float dT)
 
 		UpdateBullets(dT);
 		CollideBullets();
+
+		CollidePlayerZombies();
 	}
 }
 
@@ -117,6 +123,8 @@ void GameState_Gameplay::Draw()
 	player.Draw();
 
 	_data->window.draw(_zombitsText);
+
+	healthBar.Draw();
 
 	DrawZombies();
 	DrawBullets();
@@ -282,6 +290,23 @@ void GameState_Gameplay::CollidePickups()
 			zombits += _pickups->at(i)->Destroy(true);
 
 			_zombitsText.setString("Zb: " + std::to_string(zombits));
+		}
+	}
+}
+
+/// <summary>
+/// Handles collision between the player and the zombies.
+/// </summary>
+void GameState_Gameplay::CollidePlayerZombies()
+{
+	for (int i = 0; i < _zombies->size(); i++)
+	{
+		if (ZEngine::Utilities::CircleCollider(player.sprite, _zombies->at(i)->sprite))
+		{
+			if (player.TakeDamage(_zombies->at(i)->damage, _zombies->at(i)->sprite.getPosition()))
+			{
+				healthBar.ResizeForeground(player.health / 100.0f);
+			}
 		}
 	}
 }

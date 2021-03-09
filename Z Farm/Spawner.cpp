@@ -10,6 +10,7 @@ Spawner::Spawner(float spawnTime, ZEngine::GameDataRef data, Player* playerRef, 
 	_zombieList(zombies)
 {
 	_timer.Start();
+	Spawn();
 }
 
 Spawner::~Spawner()
@@ -18,33 +19,31 @@ Spawner::~Spawner()
 
 void Spawner::Update(float dT)
 {
-	Spawn();
+	if(_timer.Complete())
+		Spawn();
 }
 
 void Spawner::Spawn()
 {
-	if (_timer.Complete())
+	sf::Vector2f spawnPos = sf::Vector2f(0.0f, 0.0f);
+
+	// 50/50 chance of spawning either NS/EW
+	if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
 	{
-		sf::Vector2f spawnPos = sf::Vector2f(0.0f, 0.0f);
-
-		// 50/50 chance of spawning either NS/EW
+		// Spawns North/South
 		if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-		{
-			// Spawns North/South
-			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), SCREEN_HEIGHT + 32.0f);
-			else
-				spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), 0 - 32.0f);
-		}
+			spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), SCREEN_HEIGHT + 32.0f);
 		else
-		{
-			// Spawns East/West
-			if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
-				spawnPos = sf::Vector2f(SCREEN_WIDTH + 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
-			else
-				spawnPos = sf::Vector2f(0 - 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
-		}
-
-		_zombieList->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, _playerRef));
+			spawnPos = sf::Vector2f(ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH), 0 - 32.0f);
 	}
+	else
+	{
+		// Spawns East/West
+		if (ZEngine::Utilities::Random(0.0f, 1.0f) > 0.5f)
+			spawnPos = sf::Vector2f(SCREEN_WIDTH + 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
+		else
+			spawnPos = sf::Vector2f(0 - 32.0f, ZEngine::Utilities::Random(0.0f, SCREEN_WIDTH));
+	}
+
+	_zombieList->push_back(new Zombie(ZOMBIE_FILEPATH, spawnPos, _data, _playerRef));
 }
