@@ -153,6 +153,7 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBar.cpp" />
+    <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="ShopGunScale.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBar.h" />
+    <ClInclude Include="SaveDataManager.h" />
     <ClInclude Include="ShopGunScale.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StateMachine.h" />

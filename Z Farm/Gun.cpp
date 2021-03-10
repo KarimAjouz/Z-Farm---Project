@@ -9,13 +9,13 @@
 /// The constructor for the players gun.
 /// </summary>
 /// <param name="data"> A reference to the game data. </param>
-Gun::Gun(ZEngine::GameDataRef data) :
+Gun::Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b) :
 	_reloadTimer(5.0f, false),
-	bulletSpeed(500),
-	bulletSpread(1),
-	bulletDamage(1),
-	bulletsPerShot(1),
-	ammoCount(5),
+	bulletSpeed(b->speed.at(saveData.speedIndex).value),
+	bulletSpread(b->spread.at(saveData.spreadIndex).value),
+	bulletDamage(b->damage.at(saveData.damIndex).value),
+	bulletsPerShot(b->roundsPerShot.at(saveData.bulletsPerShotIndex).value),
+	ammoCount(b->ammoCount.at(saveData.ammoCountIndex).value),
 	_reloadBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH - 124.0f, 48)),
 	_reloading(false),
 	_data(data)

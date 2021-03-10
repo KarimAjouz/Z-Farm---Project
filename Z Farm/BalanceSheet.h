@@ -6,6 +6,10 @@ class BalanceSheet
 {
 public:
 
+	BalanceSheet();
+	~BalanceSheet();
+
+
 	struct gunStatProduct
 	{
 		int value;
@@ -66,7 +70,7 @@ public:
 		{ 5,   50,  40}
 	};
 
-	std::vector<gunStatProduct> AmmoCount =
+	std::vector<gunStatProduct> ammoCount =
 	{
 		{ 6,    0,   0},
 		{ 7,    3,   2},

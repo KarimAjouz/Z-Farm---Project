@@ -7,11 +7,10 @@
 #include "Zombie.h"
 #include "Pickup.h"
 #include "Spawner.h"
+#include "ShopGunScale.h"
+#include "SaveDataManager.h"
 
 #include <vector>
-
-
-#include "ShopGunScale.h"
 
 class GameState_Gameplay : public ZEngine::GameState
 {
@@ -28,13 +27,17 @@ public:
 	void Pause();
 	void Resume();
 
+	BalanceSheet balanceSheet;
+	SaveDataManager::SaveData _saveData;
 	int zombits;
 	int gameTier;
 	Player player;
 
-	BalanceSheet balanceSheet;
 
 private:
+
+	SaveDataManager _saveManager;
+
 
 	ZEngine::GameDataRef _data;
 
@@ -66,6 +69,8 @@ private:
 	void CollidePlayerZombies();
 
 	void InitShopScales();
+
+	void RespawnPlayer();
 
 	void Exit();
 };

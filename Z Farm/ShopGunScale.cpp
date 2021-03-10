@@ -2,13 +2,13 @@
 
 #include "Definitions.h"
 
-ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatProduct>* scaleData, ZEngine::GameDataRef data, sf::Vector2f pos, int* zombits) :
+ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatProduct>* scaleData, ZEngine::GameDataRef data, sf::Vector2f pos, int* zombits, int start) :
 	_name(name),
 	_scaleData(scaleData),
 	_data(data),
 	_pos(pos),
 	_zombits(zombits),
-	_index(0),
+	_index(start),
 	_tierSprites(),
 	_lArrow("<", data, pos, sf::Color::Black, SCALE_BUTTON_FOLDER_FILEPATH, "Scale Button"),
 	_rArrow(">", data, sf::Vector2f(pos.x + 200.0f, pos.y), sf::Color::Black, SCALE_BUTTON_FOLDER_FILEPATH, "Scale Button")
@@ -26,7 +26,12 @@ ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatPr
 	_costText.setFont(_data->assetManager.GetFont("Scale Font"));
 	_costText.setPosition(sf::Vector2f(_pos.x + 300.0f, _pos.y));
 	_costText.setFillColor(sf::Color::Black);
-	_costText.setString("Cost: " + std::to_string(_scaleData->at(_index + 1).cost));
+
+	if (_index + 1 == _scaleData->size())
+		_costText.setString("Cost: Maxed Out");
+	else
+		_costText.setString("Cost: " + std::to_string(_scaleData->at(_index + 1).cost));
+
 	_costText.setOrigin(_costText.getLocalBounds().width / 2, _costText.getLocalBounds().height / 2);
 
 	_data->assetManager.LoadTexture("Unpurchased Tier", UNPURCHASED_TIER_FILEPATH);
@@ -37,7 +42,7 @@ ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatPr
 		sf::Sprite s;
 		s.setPosition(pos.x + 50 + (10 * i), pos.y - 20.0f);
 
-		if(i > 0)
+		if(i >= start)
 			s.setTexture(_data->assetManager.GetTexture("Unpurchased Tier"));
 		else
 			s.setTexture(_data->assetManager.GetTexture("Purchased Tier"));
@@ -134,4 +139,9 @@ bool ShopGunScale::TestRight()
 int ShopGunScale::GetValue()
 {
 	return _scaleData->at(_index).value;
+}
+
+int ShopGunScale::GetIndex()
+{
+	return _index;
 }

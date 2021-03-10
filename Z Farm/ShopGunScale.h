@@ -7,14 +7,17 @@ class ShopGunScale : public ZEngine::Menu_Scale
 {
 public:
 
-	ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatProduct>* scaleData, ZEngine::GameDataRef data, sf::Vector2f pos, int* zombits);
-	//ShopGunScale(std::string name, int min, int max, int interval, int currentVal, sf::Vector2f pos, ZEngine::GameDataRef data, int starterCost, int costIncreaseFactor, int* zombits);
+	ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatProduct>* scaleData, ZEngine::GameDataRef data, sf::Vector2f pos, int* zombits, int start);
+
+
 	~ShopGunScale();
 
 	void Update(float dT);
 	void Draw();
 
 	int GetValue();
+
+	int GetIndex();
 
 
 protected:

@@ -2,6 +2,7 @@
 #include "Agent.h"
 #include "Game.h"
 #include "Gun.h"
+#include "SaveDataManager.h"
 #include "Timer.h"
 
 #include <SFML/Graphics.hpp>
@@ -9,13 +10,14 @@
 class Player : public Agent
 {
 public:
-	Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data);
+	Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b);
 	~Player();
 
 	void Update(float dT);
 	void Draw();
 
 	bool TakeDamage(float dam, sf::Vector2f zombiePosition);
+	void Respawn();
 
 	sf::Vector2f GetPosition();
 
@@ -23,6 +25,7 @@ public:
 
 	sf::Sprite sprite;
 	float health;
+	bool dead;
 
 private:
 	void Move(float dT);

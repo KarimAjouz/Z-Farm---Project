@@ -15,7 +15,7 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_maxHealth(_health),
 	_playerRef(playerRef),
 	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f)),
-	damage(5.0f)
+	damage(100.0f)
 {
 	_healthBar.ReScaleWidth(0.5f);
 	_healthBar.ResizeForeground(_health / _maxHealth);
@@ -117,7 +117,7 @@ void Zombie::AugmentKnockback(float amt)
 	sf::Vector2f temp = sprite.getPosition() - _playerRef->GetPosition();
 	temp = ZEngine::Utilities::NormaliseVector(temp);
 
-	temp = temp * 10.0f;
+	temp = temp * amt;
 
 	_knockbackAmt += temp;
 }

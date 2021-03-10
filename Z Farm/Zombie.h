@@ -29,10 +29,10 @@ public:
 
 	float damage;
 
+	void AugmentKnockback(float amt);
 
 private:
 	void Move(float dT);
-	void AugmentKnockback(float amt);
 
 	Player* _playerRef;
 	ZEngine::GameDataRef _data;

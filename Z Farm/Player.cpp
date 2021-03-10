@@ -7,12 +7,13 @@
 /// </summary>
 /// <param name="texPath"> The filepath for the player texture. </param>
 /// <param name="pos"> The position to spwan the player in. </param>
-Player::Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data) :
+Player::Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b) :
 	_data(data),
-	gun(data),
+	gun(data, saveData, b),
 	damageTimer(3.0f, false),
 	health(100.0f),
-	_knockbackAmt(sf::Vector2f(0.0f, 0.0f))
+	_knockbackAmt(sf::Vector2f(0.0f, 0.0f)),
+	dead(saveData.isDead)
 {
 	_data->assetManager.LoadTexture("Player", texPath);
 	sprite.setTexture(_data->assetManager.GetTexture("Player"));
@@ -69,7 +70,8 @@ void Player::Move(float dT)
 	movement += _knockbackAmt;
 	newPos += movement * _speed * dT;
 
-	sprite.setPosition(newPos);
+	if(!dead)
+		sprite.setPosition(newPos);
 
 
 	if (ZEngine::Utilities::GetVectorMagnitude(_knockbackAmt) < 1.0f)
@@ -94,7 +96,7 @@ sf::Vector2f Player::GetPosition()
 /// <returns> Returns true if the player received damage, false if not. </returns>
 bool Player::TakeDamage(float dam, sf::Vector2f zombiePosition)
 {
-	if (damageTimer.Complete())
+	if (damageTimer.Complete() && !dead)
 	{
 		health -= dam;
 
@@ -121,4 +123,11 @@ void Player::AugmentKnockback(sf::Vector2f zombiePosition)
 	temp = temp * 10.0f;
 
 	_knockbackAmt += temp;
+}
+
+void Player::Respawn()
+{
+	sprite.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	health = 100.0f;
+	dead = false;
 }

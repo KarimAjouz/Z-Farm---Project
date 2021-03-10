@@ -3,6 +3,8 @@
 #include "Timer.h"
 #include "ResourceBar.h"
 #include "Definitions.h"
+#include "BalanceSheet.h"
+#include "SaveDataManager.h"
 
 #include <vector>
 #include <cmath>
@@ -11,7 +13,7 @@
 class Gun
 {
 public:
-	Gun(ZEngine::GameDataRef data);
+	Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b);
 	~Gun();
 
 	void Shoot(std::vector<Bullet*>* bullets, ZEngine::GameDataRef data, sf::Vector2f pos);

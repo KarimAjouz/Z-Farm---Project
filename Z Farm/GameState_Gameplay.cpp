@@ -15,16 +15,18 @@
 /// <param name="data"></param>
 GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_data(data),
-	player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data),
+	balanceSheet(BalanceSheet()),
+	_saveManager(SaveDataManager()),
+	_saveData(_saveManager.LoadGame(1)),
+	player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data, _saveData, &balanceSheet),
 	_bullets(new std::vector<Bullet*>()),
 	_zombies(new std::vector<Zombie*>()),
 	_pickups(new std::vector<Pickup*>()),
 	_shopScales(new std::vector<ShopGunScale*>()),
 	_zombieSpawner(10.0f, _data, &player, _zombies),
 	_paused(false),
-	zombits(100),
-	gameTier(1),
-	balanceSheet(),
+	zombits(_saveData.zBits),
+	gameTier(_saveData.gameTier),
 	healthBar(_data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50.0f))
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
@@ -38,6 +40,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	healthBar.ResizeForeground(1.0f);
 
 	InitShopScales();
+
 }
 
 
@@ -72,12 +75,16 @@ void GameState_Gameplay::PollEvents()
 					Pause();
 				break;
 			case sf::Keyboard::I:
-					_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, this, _shopScales)), false);
+				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, this, _shopScales)), false);
+				break;
+			case sf::Keyboard::R:
+				if (player.dead)
+					RespawnPlayer();
 				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
-			if (e.mouseButton.button == sf::Mouse::Left && !_paused)
+			if (e.mouseButton.button == sf::Mouse::Left && !_paused && !player.dead)
 				player.gun.Shoot(_bullets, _data, player.GetPosition());
 			break;
 		case sf::Event::Closed:
@@ -306,6 +313,11 @@ void GameState_Gameplay::CollidePlayerZombies()
 			if (player.TakeDamage(_zombies->at(i)->damage, _zombies->at(i)->sprite.getPosition()))
 			{
 				healthBar.ResizeForeground(player.health / 100.0f);
+
+				if (player.health <= 0.0f)
+				{
+					player.dead = true;
+				}
 			}
 		}
 	}
@@ -320,26 +332,63 @@ void GameState_Gameplay::DrawPickups()
 		_pickups->at(i)->Draw();
 }
 
-
+/// <summary>
+/// Initialises the shop scales, they exist here for now. May change this in the future wrt save data, unsure.
+/// 
+/// TODO: Move shop scales to a new class along with the other shop items/player upgrades.
+/// 
+/// </summary>
 void GameState_Gameplay::InitShopScales()
 {
-	_shopScales->push_back(new ShopGunScale("Damage", &balanceSheet.damage, _data, sf::Vector2f(400.0f, 50.0f), &zombits));
-	_shopScales->push_back(new ShopGunScale("Speed", &balanceSheet.speed, _data, sf::Vector2f(400.0f, 100.0f), &zombits));
-	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", &balanceSheet.roundsPerShot, _data, sf::Vector2f(400.0f, 150.0f), &zombits));
-	_shopScales->push_back(new ShopGunScale("Accuracy", &balanceSheet.spread, _data, sf::Vector2f(400.0f, 200.0f), &zombits));
-	_shopScales->push_back(new ShopGunScale("Ammo Count", &balanceSheet.AmmoCount, _data, sf::Vector2f(400.0f, 250.0f), &zombits));
+	_shopScales->push_back(new ShopGunScale("Damage", &balanceSheet.damage, _data, sf::Vector2f(400.0f, 50.0f), &zombits, _saveData.damIndex));
+	_shopScales->push_back(new ShopGunScale("Speed", &balanceSheet.speed, _data, sf::Vector2f(400.0f, 100.0f), &zombits, _saveData.speedIndex));
+	_shopScales->push_back(new ShopGunScale("Rounds Per Shot", &balanceSheet.roundsPerShot, _data, sf::Vector2f(400.0f, 150.0f), &zombits, _saveData.bulletsPerShotIndex));
+	_shopScales->push_back(new ShopGunScale("Accuracy", &balanceSheet.spread, _data, sf::Vector2f(400.0f, 200.0f), &zombits, _saveData.spreadIndex));
+	_shopScales->push_back(new ShopGunScale("Ammo Count", &balanceSheet.ammoCount, _data, sf::Vector2f(400.0f, 250.0f), &zombits, _saveData.ammoCountIndex));
 }
 
+/// <summary>
+/// Respawns the player and knocks all zombies away from the spawn location.
+/// </summary>
+void GameState_Gameplay::RespawnPlayer()
+{
+	// Respawn the player.
+	player.Respawn();
+
+	// Knock all the zombies back
+	for (int i = 0; i < _zombies->size(); i++)
+		_zombies->at(i)->AugmentKnockback(50.0f);
+
+	// Subtract the respawn cost from the number of zombits left.
+	zombits *= 0.9f;
+	_zombitsText.setString("Zb: " + std::to_string(zombits));
+
+	// Reset the healthbar back to maximum.
+	healthBar.ResizeForeground(1.0f);
+}
 
 /// <summary>
 /// Exits the game, clearing loaded memory.
 /// </summary>
 void GameState_Gameplay::Exit()
 {
+	_saveData.damIndex = _shopScales->at(0)->GetIndex();
+	_saveData.speedIndex = _shopScales->at(1)->GetIndex();
+	_saveData.bulletsPerShotIndex = _shopScales->at(2)->GetIndex();
+	_saveData.spreadIndex = _shopScales->at(3)->GetIndex();
+	_saveData.ammoCountIndex = _shopScales->at(4)->GetIndex();
+
+	_saveData.zBits = zombits;
+	_saveData.isDead = player.dead;
+	_saveData.gameTier = gameTier;
+
+	_saveManager.SaveGame(1, _saveData);
+
 	_bullets->clear();
 	_zombies->clear();
 	_pickups->clear();
 	_shopScales->clear();
+
 
 	delete _bullets;
 	delete _zombies;
