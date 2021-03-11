@@ -15,7 +15,7 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_maxHealth(_health),
 	_playerRef(playerRef),
 	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f)),
-	damage(100.0f)
+	damage(5.0f)
 {
 	_healthBar.ReScaleWidth(0.5f);
 	_healthBar.ResizeForeground(_health / _maxHealth);
