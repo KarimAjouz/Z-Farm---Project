@@ -22,6 +22,8 @@ namespace ZEngine
 
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
 
+		static void SeedRandom();
+
 
 
 	};

@@ -27,7 +27,7 @@ ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatPr
 	_costText.setPosition(sf::Vector2f(_pos.x + 300.0f, _pos.y));
 	_costText.setFillColor(sf::Color::Black);
 
-	if (_index + 1 == _scaleData->size())
+	if (_index == _scaleData->size() - 1)
 		_costText.setString("Cost: Maxed Out");
 	else
 		_costText.setString("Cost: " + std::to_string(_scaleData->at(_index + 1).cost));
@@ -43,9 +43,9 @@ ShopGunScale::ShopGunScale(std::string name, std::vector<BalanceSheet::gunStatPr
 		s.setPosition(pos.x + 50 + (10 * i), pos.y - 20.0f);
 
 		if(i >= start)
-			s.setTexture(_data->assetManager.GetTexture("Unpurchased Tier"));
-		else
 			s.setTexture(_data->assetManager.GetTexture("Purchased Tier"));
+		else
+			s.setTexture(_data->assetManager.GetTexture("Unpurchased Tier"));
 
 		_tierSprites.push_back(s);
 	}

@@ -34,6 +34,8 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_zombitsText.setString("Zb: " + std::to_string(zombits));
 	_zombitsText.setFillColor(sf::Color::White);
 
+	ZEngine::Utilities::SeedRandom();
+
 	healthBar.Centralise();
 	healthBar.ReScaleWidth(5.0f);
 	healthBar.Move(sf::Vector2f(SCREEN_WIDTH / 2, 50.0f));

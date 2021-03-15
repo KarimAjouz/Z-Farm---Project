@@ -9,8 +9,7 @@ namespace ZEngine
 {
 	Utilities::Utilities()
 	{
-	std::srand((unsigned)std::time(0));
-
+		std::srand((unsigned)std::time(0));
 	}
 
 	Utilities::~Utilities()
@@ -74,5 +73,10 @@ namespace ZEngine
 			return true;
 		else
 			return false;
+	}
+
+	void Utilities::SeedRandom()
+	{
+		srand(time(0));
 	}
 }
