@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "ResourceBar.h"
 
+#include "Animation.h"
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -33,6 +35,7 @@ public:
 
 private:
 	void Move(float dT);
+	void UpdateAnimations();
 
 	Player* _playerRef;
 	ZEngine::GameDataRef _data;
@@ -46,6 +49,12 @@ private:
 	float _speed = 30.0f;
 
 	sf::Vector2f _knockbackAmt;
+
+	ZEngine::Animation _walk;
+
+	ZEngine::Animation _attackWindup;
+	ZEngine::Animation _attackReset;
+
 
 };
 

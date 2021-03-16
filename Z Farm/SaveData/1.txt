@@ -1,4 +1,4 @@
-zBits:6
+zBits:7
 gameTier:1
 damageIndex:2
 speedIndex:0

@@ -54,6 +54,9 @@
     <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="SaveDataManager.cpp" />
+    <ClCompile Include="Animation.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -109,6 +112,9 @@
     <ClInclude Include="BalanceSheet.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="SaveDataManager.h" />
+    <ClInclude Include="Animation.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
