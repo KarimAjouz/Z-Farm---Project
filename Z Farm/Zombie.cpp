@@ -15,17 +15,22 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_maxHealth(_health),
 	_playerRef(playerRef),
 	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f)),
-	damage(5.0f)
+	damage(5.0f),
+	_walk(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite),
+	_attackWindup(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite),
+	_attackReset(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite)
 {
 	_healthBar.ReScaleWidth(0.5f);
 	_healthBar.ResizeForeground(_health / _maxHealth);
 	_healthBar.Centralise();
 
 	_data->assetManager.LoadTexture("Zombie", texPath);
-	sprite.setTexture(_data->assetManager.GetTexture("Zombie"));
-	sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-	sprite.setScale(0.5f, 0.5f);
+
+	sprite.setOrigin(11, 16);
+	sprite.setScale(2.0f, 2.0f);
 	sprite.setPosition(pos);
+
+	_walk.Play();
 }
 
 
@@ -41,6 +46,7 @@ void Zombie::Init()
 void Zombie::Update(float dT)
 {
 	Move(dT);
+	_walk.Update(dT);
 }
 
 void Zombie::Draw()
@@ -120,4 +126,9 @@ void Zombie::AugmentKnockback(float amt)
 	temp = temp * amt;
 
 	_knockbackAmt += temp;
+}
+
+void Zombie::UpdateAnimations()
+{
+
 }

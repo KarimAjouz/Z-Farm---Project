@@ -22,6 +22,8 @@
 #define BULLET_FILEPATH "Media/Gameplay/Bullet.png"
 #define PICKUP_FILEPATH "Media/Gameplay/Pickup.png"
 
+#define SKELE_WALK "Media/Gameplay/Skeleton_Walk.png"
+
 #define UI_RELOADBAR "Media/UI/ReloadBar"
 
 #define SAVE_PATH "SaveData/"

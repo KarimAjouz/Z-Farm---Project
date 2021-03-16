@@ -1,5 +1,5 @@
 #include "AssetManager.h"
-
+#include <iostream>
 
 namespace ZEngine
 {
@@ -33,8 +33,12 @@ namespace ZEngine
 		if (_textures.count(name) == 1)
 			return this->_textures.at(name);
 		else
+		{
+			std::cout << "AssetManager::GetTexture - Failed to get " << name << std::endl;
 			throw std::runtime_error("AssetManager::GetTexture - Failed to get " + name);
+		}
 	}
+
 
 	void AssetManager::LoadFont(std::string name, std::string filePath)
 	{
