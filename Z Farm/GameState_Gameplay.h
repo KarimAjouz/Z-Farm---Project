@@ -50,7 +50,6 @@ private:
 
 	sf::Text _zombitsText;
 
-	ZEngine::ResourceBar healthBar;
 
 	bool _paused;
 

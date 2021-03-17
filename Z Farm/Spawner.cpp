@@ -9,6 +9,7 @@ Spawner::Spawner(float spawnTime, ZEngine::GameDataRef data, Player* playerRef, 
 	_timer(spawnTime, true),
 	_zombieList(zombies)
 {
+	Spawn();
 	_timer.Start();
 }
 

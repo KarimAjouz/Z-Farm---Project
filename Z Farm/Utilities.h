@@ -22,6 +22,10 @@ namespace ZEngine
 
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
 
+		static bool RectCollider(sf::FloatRect a, sf::FloatRect b);
+
+		static bool CircleIntRectCollider(sf::Sprite circle, sf::IntRect rect);
+
 		static void SeedRandom();
 
 

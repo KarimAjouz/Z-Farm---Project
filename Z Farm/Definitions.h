@@ -22,7 +22,12 @@
 #define BULLET_FILEPATH "Media/Gameplay/Bullet.png"
 #define PICKUP_FILEPATH "Media/Gameplay/Pickup.png"
 
-#define SKELE_WALK "Media/Gameplay/Skeleton_Walk.png"
+#define SKELE_WALK "Media/Gameplay/Skeleton/Skeleton_Walk.png"
+#define SKELE_WIND_UP "Media/Gameplay/Skeleton/Skeleton_Wind_Up.png"
+#define SKELE_ATTACK "Media/Gameplay/Skeleton/Skeleton_Attack.png"
+#define SKELE_ATTACK_RESET "Media/Gameplay/Skeleton/Skeleton_Attack_Reset.png"
+#define SKELE_DAMAGE "Media/Gameplay/Skeleton/Skeleton_Damage.png"
+#define SKELE_DEATH "Media/Gameplay/Skeleton/Skeleton_Death.png"
 
 #define UI_RELOADBAR "Media/UI/ReloadBar"
 

@@ -18,9 +18,10 @@ namespace ZEngine
 		void Resume();
 		void Restart();
 		void Stop();
+		void End();
 
-		bool Complete();
-
+		bool complete;
+		std::string animName;
 	private:
 		sf::Sprite* _spritePtr;
 		Timer _segmentTimer;

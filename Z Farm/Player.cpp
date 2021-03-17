@@ -13,7 +13,8 @@ Player::Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	damageTimer(3.0f, false),
 	health(100.0f),
 	_knockbackAmt(sf::Vector2f(0.0f, 0.0f)),
-	dead(saveData.isDead)
+	dead(saveData.isDead),
+	_healthBar(_data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50.0f))
 {
 	_data->assetManager.LoadTexture("Player", texPath);
 	sprite.setTexture(_data->assetManager.GetTexture("Player"));
@@ -21,6 +22,11 @@ Player::Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	sprite.setScale(0.5f, 0.5f);
 	sprite.setPosition(pos);
 	damageTimer.Start();
+
+	_healthBar.Centralise();
+	_healthBar.ReScaleWidth(5.0f);
+	_healthBar.Move(sf::Vector2f(SCREEN_WIDTH / 2, 50.0f));
+	_healthBar.ResizeForeground(1.0f);
 }
 
 
@@ -41,6 +47,8 @@ void Player::Update(float dT)
 void Player::Draw()
 {
 	_data->window.draw(sprite);
+
+	_healthBar.Draw();
 
 	gun.Draw();
 }
@@ -100,6 +108,8 @@ bool Player::TakeDamage(float dam, sf::Vector2f zombiePosition)
 	{
 		health -= dam;
 
+		_healthBar.ResizeForeground(health / 100.0f);
+
 		AugmentKnockback(zombiePosition);
 
 		sprite.setColor(sf::Color(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, 0.5f * 255.0f));
@@ -127,6 +137,9 @@ void Player::AugmentKnockback(sf::Vector2f zombiePosition)
 
 void Player::Respawn()
 {
+	// Reset the healthbar back to maximum.
+	_healthBar.ResizeForeground(1.0f);
+
 	sprite.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	health = 100.0f;
 	dead = false;

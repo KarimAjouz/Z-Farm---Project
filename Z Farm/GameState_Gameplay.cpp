@@ -26,8 +26,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_zombieSpawner(10.0f, _data, &player, _zombies),
 	_paused(false),
 	zombits(_saveData.zBits),
-	gameTier(_saveData.gameTier),
-	healthBar(_data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50.0f))
+	gameTier(_saveData.gameTier)
 {
 	_zombitsText.setFont(_data->assetManager.GetFont("Menu Button Font"));
 	_zombitsText.setPosition(sf::Vector2f(50.0f, 20.0f));
@@ -35,11 +34,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_zombitsText.setFillColor(sf::Color::White);
 
 	ZEngine::Utilities::SeedRandom();
-
-	healthBar.Centralise();
-	healthBar.ReScaleWidth(5.0f);
-	healthBar.Move(sf::Vector2f(SCREEN_WIDTH / 2, 50.0f));
-	healthBar.ResizeForeground(1.0f);
 
 	InitShopScales();
 
@@ -112,12 +106,12 @@ void GameState_Gameplay::Update(float dT)
 		CollidePickups();
 
 		UpdateZombies(dT);
-		CollideZombies();
+		//CollideZombies();
 
 		UpdateBullets(dT);
 		CollideBullets();
 
-		CollidePlayerZombies();
+		//CollidePlayerZombies();
 	}
 }
 
@@ -132,8 +126,6 @@ void GameState_Gameplay::Draw()
 	player.Draw();
 
 	_data->window.draw(_zombitsText);
-
-	healthBar.Draw();
 
 	DrawZombies();
 	DrawBullets();
@@ -310,11 +302,10 @@ void GameState_Gameplay::CollidePlayerZombies()
 {
 	for (int i = 0; i < _zombies->size(); i++)
 	{
-		if (ZEngine::Utilities::CircleCollider(player.sprite, _zombies->at(i)->sprite))
+		if (ZEngine::Utilities::RectCollider(player.sprite.getGlobalBounds(), _zombies->at(i)->sprite.getGlobalBounds()))
 		{
 			if (player.TakeDamage(_zombies->at(i)->damage, _zombies->at(i)->sprite.getPosition()))
 			{
-				healthBar.ResizeForeground(player.health / 100.0f);
 
 				if (player.health <= 0.0f)
 				{
@@ -364,9 +355,6 @@ void GameState_Gameplay::RespawnPlayer()
 	// Subtract the respawn cost from the number of zombits left.
 	zombits *= 0.9f;
 	_zombitsText.setString("Zb: " + std::to_string(zombits));
-
-	// Reset the healthbar back to maximum.
-	healthBar.ResizeForeground(1.0f);
 }
 
 /// <summary>

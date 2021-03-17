@@ -24,7 +24,7 @@ public:
 
 	sf::Sprite sprite;
 
-	void MarkForDeath(bool mark);
+	void MarkForDeath();
 	bool IsMarked();
 
 	void CollideWithEntity(sf::Vector2f colMovement);
@@ -34,15 +34,32 @@ public:
 	void AugmentKnockback(float amt);
 
 private:
+	enum State
+	{
+		walking,
+		attackWindUp,
+		attack,
+		attackReset,
+		takingDamage,
+		dying
+	};
+	
+	State _state = walking;
+
+
 	void Move(float dT);
+	void UpdateState();
 	void UpdateAnimations();
 
 	Player* _playerRef;
 	ZEngine::GameDataRef _data;
 
+	sf::IntRect _attackZone = sf::IntRect(60, 0, 20, 30);
+
 	float _health;
 	float _maxHealth;
 	bool _kill = false;
+	bool _isFlipped;
 
 	ZEngine::ResourceBar _healthBar;
 
@@ -50,10 +67,16 @@ private:
 
 	sf::Vector2f _knockbackAmt;
 
-	ZEngine::Animation _walk;
+	ZEngine::Animation* _curAnim;
 
-	ZEngine::Animation _attackWindup;
+	ZEngine::Animation _walk;
+	ZEngine::Animation _attackWindUp;
 	ZEngine::Animation _attackReset;
+	ZEngine::Animation _attack;
+	ZEngine::Animation _takingDamage;
+	ZEngine::Animation _dying;
+
+	void FlipSprite();
 
 
 };

@@ -11,7 +11,9 @@ namespace ZEngine
 		_numFrames(0),
 		_interval(0),
 		_playing(false),
-		_frameRect(frameRect)
+		_frameRect(frameRect),
+		complete(false),
+		animName(name)
 	{
 		_data->assetManager.LoadTexture(name, path);
 		_spritePtr->setTexture(_data->assetManager.GetTexture(name));
@@ -35,7 +37,7 @@ namespace ZEngine
 			if (_index == _numFrames - 1 && _looping)
 				Restart();
 			else if (_index == _numFrames - 1 && !_looping)
-				Stop();
+				End();
 			else
 				NextFrame();
 		}
@@ -43,8 +45,10 @@ namespace ZEngine
 
 	void Animation::Play()
 	{
+		_spritePtr->setTexture(_data->assetManager.GetTexture(animName));
+		_spritePtr->setTextureRect(_frameRect);
 		_playing = true;
-
+		complete = false;
 		_segmentTimer.Start();
 	}
 
@@ -72,13 +76,8 @@ namespace ZEngine
 	void Animation::Stop()
 	{
 		_playing = false;
+		_index = 0;
 		_segmentTimer.Pause();
-
-	}
-
-	bool Animation::Complete()
-	{
-		return false;
 	}
 
 	void Animation::NextFrame()
@@ -97,4 +96,9 @@ namespace ZEngine
 		_spritePtr->setTextureRect(temp);
 	}
 
+	void Animation::End()
+	{
+		Stop();
+		complete = true;
+	}
 }

@@ -75,8 +75,18 @@ namespace ZEngine
 			return false;
 	}
 
+	bool Utilities::RectCollider(sf::FloatRect a, sf::FloatRect b)
+	{
+		if (a.intersects(b))
+			return true;
+		
+		return false;
+	}
+
 	void Utilities::SeedRandom()
 	{
 		srand(time(0));
 	}
+
+
 }

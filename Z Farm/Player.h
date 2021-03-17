@@ -29,12 +29,13 @@ public:
 
 private:
 	void Move(float dT);
-
+	ZEngine::GameDataRef _data;
+	
+	ZEngine::ResourceBar _healthBar;
 	void AugmentKnockback(sf::Vector2f zombiePosition);
 
 	sf::Vector2f _knockbackAmt;
 
-	ZEngine::GameDataRef _data;
 	float _speed = 100.0f;
 	
 	ZEngine::Timer damageTimer;
