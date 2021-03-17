@@ -16,13 +16,14 @@ namespace ZEngine
 		animName(name),
 		_origin(origin)
 	{
+		//Loads in and sets the texture and the correct frame of animation.
 		_data->assetManager.LoadTexture(name, path);
 		_spritePtr->setTexture(_data->assetManager.GetTexture(name));
 		_spritePtr->setTextureRect(frameRect);
 
+		//Calculate the number of frames and set the time interval.
 		_numFrames = _data->assetManager.GetTexture(name).getSize().x / frameRect.width;
 		_interval = animLength / _numFrames;
-
 		_segmentTimer.SetTimer(_interval);
 	}
 
@@ -33,8 +34,10 @@ namespace ZEngine
 
 	void Animation::Update(float dT)
 	{
+		//If this animation segment is complete...
 		if (_segmentTimer.Complete())
 		{
+			//Check if we are at the final frame and need to loop or not. Otherwise, jump to the next frame.
 			if (_index == _numFrames - 1 && _looping)
 				Restart();
 			else if (_index == _numFrames - 1 && !_looping)
@@ -44,6 +47,9 @@ namespace ZEngine
 		}
 	}
 
+	/// <summary>
+	/// Plays this animation.
+	/// </summary>
 	void Animation::Play()
 	{
 		_spritePtr->setTexture(_data->assetManager.GetTexture(animName));
@@ -53,8 +59,6 @@ namespace ZEngine
 
 		_playing = true;
 		complete = false;
-
-
 
 		Restart();
 	}
@@ -87,6 +91,7 @@ namespace ZEngine
 		_segmentTimer.Pause();
 	}
 
+	//Jumps to the next frame of the animation.
 	void Animation::NextFrame()
 	{
 		_index++;
@@ -95,6 +100,7 @@ namespace ZEngine
 		_segmentTimer.Start();
 	}
 
+	//Sets the current frame to the correct frame of animation.
 	void Animation::SetFrame()
 	{
 		sf::IntRect temp;

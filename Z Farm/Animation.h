@@ -3,6 +3,10 @@
 #include "Game.h"
 #include "Timer.h"
 
+/// <summary>
+/// A framework-level class that handles a single animation loop.
+/// </summary>
+
 namespace ZEngine
 {
 	class Animation

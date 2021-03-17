@@ -37,7 +37,6 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	r.setFillColor(sf::Color::Green);
 }
 
-
 Zombie::~Zombie()
 {
 }
@@ -120,11 +119,18 @@ void Zombie::DamageZombie(float dam)
 
 }
 
+/// <summary>
+/// Marks the entity for death so the engine knows to delete them when the frame ends.
+/// </summary>
 void Zombie::MarkForDeath()
 {
 	_kill = true;
 }
 
+/// <summary>
+/// Returns if the entity is to be gotten rid of at the end of the frame.
+/// </summary>
+/// <returns></returns>
 bool Zombie::IsMarked()
 {
 	return _kill;
@@ -144,6 +150,9 @@ void Zombie::AugmentKnockback(float amt)
 	_knockbackAmt += temp;
 }
 
+/// <summary>
+/// Handles the state system logic.
+/// </summary>
 void Zombie::UpdateState()
 {
 	State temp = _state;
@@ -199,7 +208,9 @@ void Zombie::UpdateState()
 	UpdateAnimations();
 }
 
-
+/// <summary>
+/// Decides which animation to switch to depending on the state the entity is in.
+/// </summary>
 void Zombie::UpdateAnimations()
 {
 	std::string temp = _curAnim->animName;
@@ -238,6 +249,7 @@ void Zombie::UpdateAnimations()
 		_curAnim->Play();
 }
 
+//Flips the sprite visually.
 void Zombie::FlipSprite()
 {
 	_isFlipped = !_isFlipped;
