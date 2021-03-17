@@ -54,7 +54,8 @@ private:
 	Player* _playerRef;
 	ZEngine::GameDataRef _data;
 
-	sf::IntRect _attackZone = sf::IntRect(60, 0, 20, 30);
+	sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(20, 30));
+	sf::IntRect _attackZone = sf::IntRect(0, 0, 20, 30);
 
 	float _health;
 	float _maxHealth;

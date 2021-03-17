@@ -1,8 +1,8 @@
-zBits:11
+zBits:13
 gameTier:1
 damageIndex:2
 speedIndex:0
-bulletsPerShotIndex:2
+bulletsPerShotIndex:0
 spreadIndex:0
-ammoCountIndex:0
+ammoCountIndex:2
 isDead:0

@@ -8,7 +8,7 @@ namespace ZEngine
 	class Animation
 	{
 	public:
-		Animation(float animLength, bool loop, ZEngine::GameDataRef data, std::string name, std::string path, sf::IntRect frameRect, sf::Sprite* spriteRef);
+		Animation(float animLength, bool loop, ZEngine::GameDataRef data, std::string name, std::string path, sf::IntRect frameRect, sf::Sprite* spriteRef, sf::Vector2f origin);
 		~Animation();
 
 		void Update(float dT);
@@ -19,6 +19,8 @@ namespace ZEngine
 		void Restart();
 		void Stop();
 		void End();
+
+		sf::Vector2f _origin;
 
 		bool complete;
 		std::string animName;

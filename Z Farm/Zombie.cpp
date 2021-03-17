@@ -16,12 +16,12 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_playerRef(playerRef),
 	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f)),
 	damage(5.0f),
-	_walk(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite),
-	_attackWindUp(0.8f, false, _data, "SkeletonWindUp", SKELE_WIND_UP, sf::IntRect(0, 0, 43, 37), &sprite),
-	_attack(0.5f, false, _data, "SkeletonAttack", SKELE_ATTACK, sf::IntRect(0, 0, 43, 37), &sprite),
-	_attackReset(1.0f, false, _data, "SkeletonReset", SKELE_ATTACK_RESET, sf::IntRect(0, 0, 43, 37), &sprite),
-	_takingDamage(0.8f, false, _data, "SkeletonTakingDamage", SKELE_DAMAGE, sf::IntRect(0, 0, 30, 32), &sprite),
-	_dying(1.0f, false, _data, "SkeletonDying", SKELE_DEATH, sf::IntRect(0, 0, 33, 32), &sprite),
+	_walk(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite, sf::Vector2f(8, 17)),
+	_attackWindUp(0.8f, false, _data, "SkeletonWindUp", SKELE_WIND_UP, sf::IntRect(0, 0, 43, 37), &sprite, sf::Vector2f(11, 21)),
+	_attack(0.5f, false, _data, "SkeletonAttack", SKELE_ATTACK, sf::IntRect(0, 0, 43, 37), &sprite, sf::Vector2f(11, 21)),
+	_attackReset(1.0f, false, _data, "SkeletonReset", SKELE_ATTACK_RESET, sf::IntRect(0, 0, 43, 37), &sprite, sf::Vector2f(11, 21)),
+	_takingDamage(0.8f, false, _data, "SkeletonTakingDamage", SKELE_DAMAGE, sf::IntRect(0, 0, 30, 32), &sprite, sf::Vector2f(14, 16)),
+	_dying(1.0f, false, _data, "SkeletonDying", SKELE_DEATH, sf::IntRect(0, 0, 33, 32), &sprite, sf::Vector2f(19, 16)),
 	_isFlipped(false),
 	_curAnim(&_walk)
 {
@@ -29,12 +29,12 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_healthBar.ResizeForeground(_health / _maxHealth);
 	_healthBar.Centralise();
 
-	sprite.setOrigin(11, 16);
 	sprite.setScale(2.0f, 2.0f);
 	sprite.setPosition(pos);
-
-	_walk.Play();
+	_curAnim->Play();
 	UpdateAnimations();
+
+	r.setFillColor(sf::Color::Green);
 }
 
 
@@ -59,6 +59,7 @@ void Zombie::Update(float dT)
 void Zombie::Draw()
 {
 	_data->window.draw(sprite);
+	_data->window.draw(r);
 	_healthBar.Draw();
 }
 
@@ -147,8 +148,14 @@ void Zombie::UpdateState()
 {
 	State temp = _state;
 
-	sf::FloatRect colRect = sf::FloatRect(_attackZone.left + sprite.getPosition().x, _attackZone.top + sprite.getPosition().y, _attackZone.width, _attackZone.height);
+	sf::FloatRect colRect;
 
+	colRect = sf::FloatRect(sprite.getPosition().x, _attackZone.top + sprite.getPosition().y, _attackZone.width, _attackZone.height);
+
+	if (_isFlipped)
+		colRect.left -= 60;
+	else
+		colRect.left += 40;
 
 	switch (_state)
 	{
@@ -235,6 +242,4 @@ void Zombie::FlipSprite()
 {
 	_isFlipped = !_isFlipped;
 	sprite.setScale(sprite.getScale().x * -1, sprite.getScale().y);
-	
-	_attackZone.left *= -1;
 }

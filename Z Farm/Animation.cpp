@@ -2,7 +2,7 @@
 
 namespace ZEngine
 {
-	Animation::Animation(float animLength, bool loop, ZEngine::GameDataRef data, std::string name, std::string path, sf::IntRect frameRect, sf::Sprite* spriteRef) :
+	Animation::Animation(float animLength, bool loop, ZEngine::GameDataRef data, std::string name, std::string path, sf::IntRect frameRect, sf::Sprite* spriteRef, sf::Vector2f origin) :
 		_segmentTimer(animLength, true),
 		_looping(loop),
 		_data(data),
@@ -13,7 +13,8 @@ namespace ZEngine
 		_playing(false),
 		_frameRect(frameRect),
 		complete(false),
-		animName(name)
+		animName(name),
+		_origin(origin)
 	{
 		_data->assetManager.LoadTexture(name, path);
 		_spritePtr->setTexture(_data->assetManager.GetTexture(name));
@@ -47,9 +48,15 @@ namespace ZEngine
 	{
 		_spritePtr->setTexture(_data->assetManager.GetTexture(animName));
 		_spritePtr->setTextureRect(_frameRect);
+
+		_spritePtr->setOrigin(_origin);
+
 		_playing = true;
 		complete = false;
-		_segmentTimer.Start();
+
+
+
+		Restart();
 	}
 
 	void Animation::Restart()
