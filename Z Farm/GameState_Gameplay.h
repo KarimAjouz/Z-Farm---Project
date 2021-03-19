@@ -31,8 +31,8 @@ public:
 	SaveDataManager::SaveData _saveData;
 	int zombits;
 	int gameTier;
-	Player player;
 
+	Player& GetPlayer() { return _player; };
 
 private:
 
@@ -46,6 +46,7 @@ private:
 	std::vector<Pickup*>* _pickups;
 	std::vector<ShopGunScale*>* _shopScales;
 
+	Player _player;
 	Spawner _zombieSpawner;
 
 	sf::Text _zombitsText;
@@ -72,5 +73,6 @@ private:
 	void RespawnPlayer();
 
 	void Exit();
+
 };
 

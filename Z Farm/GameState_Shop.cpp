@@ -4,7 +4,7 @@
 
 GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, GameState_Gameplay* gameplayState, std::vector<ShopGunScale*>* scales) :
 	_data(data),
-	_gun(&gameplayState->player.gun),
+	_gun(&gameplayState->GetPlayer().gun),
 	_zombits(&gameplayState->zombits),
 	_scales(scales),
 	_quitShopButton("Exit Shop", _data, sf::Vector2f(600.0f, 500.0f), sf::Color::Black, MENU_BUTTON_FOLDER_FILEPATH, "Menu Button")

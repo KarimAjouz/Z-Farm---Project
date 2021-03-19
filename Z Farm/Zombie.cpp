@@ -15,7 +15,7 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_maxHealth(_health),
 	_playerRef(playerRef),
 	_healthBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(pos.x - 16.0f, pos.y - 20.0f)),
-	damage(5.0f),
+	damage(60.0f),
 	_walk(1.0f, true, _data, "SkeletonWalk", SKELE_WALK, sf::IntRect(0, 0, 22, 33), &sprite, sf::Vector2f(8, 17)),
 	_attackWindUp(0.8f, false, _data, "SkeletonWindUp", SKELE_WIND_UP, sf::IntRect(0, 0, 43, 37), &sprite, sf::Vector2f(11, 21)),
 	_attack(0.5f, false, _data, "SkeletonAttack", SKELE_ATTACK, sf::IntRect(0, 0, 43, 37), &sprite, sf::Vector2f(11, 21)),
@@ -34,7 +34,6 @@ Zombie::Zombie(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data,
 	_curAnim->Play();
 	UpdateAnimations();
 
-	r.setFillColor(sf::Color::Green);
 }
 
 Zombie::~Zombie()
@@ -51,6 +50,7 @@ void Zombie::Update(float dT)
 	Move(dT);
 
 	UpdateState();
+	UpdateAnimations();
 
 	_curAnim->Update(dT);
 }
@@ -155,8 +155,6 @@ void Zombie::AugmentKnockback(float amt)
 /// </summary>
 void Zombie::UpdateState()
 {
-	State temp = _state;
-
 	sf::FloatRect colRect;
 
 	colRect = sf::FloatRect(sprite.getPosition().x, _attackZone.top + sprite.getPosition().y, _attackZone.width, _attackZone.height);
@@ -205,7 +203,6 @@ void Zombie::UpdateState()
 		break;
 	}
 
-	UpdateAnimations();
 }
 
 /// <summary>

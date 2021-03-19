@@ -18,12 +18,12 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	balanceSheet(BalanceSheet()),
 	_saveManager(SaveDataManager()),
 	_saveData(_saveManager.LoadGame(1)),
-	player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data, _saveData, &balanceSheet),
 	_bullets(new std::vector<Bullet*>()),
+	_player(PLAYER_FILEPATH, sf::Vector2f(400.0f, 300.0f), data, _saveData, &balanceSheet, _bullets),
 	_zombies(new std::vector<Zombie*>()),
 	_pickups(new std::vector<Pickup*>()),
 	_shopScales(new std::vector<ShopGunScale*>()),
-	_zombieSpawner(10.0f, _data, &player, _zombies),
+	_zombieSpawner(10.0f, _data, &_player, _zombies),
 	_paused(false),
 	zombits(_saveData.zBits),
 	gameTier(_saveData.gameTier)
@@ -74,14 +74,14 @@ void GameState_Gameplay::PollEvents()
 				_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Shop(_data, this, _shopScales)), false);
 				break;
 			case sf::Keyboard::R:
-				if (player.dead)
+				if (_player.dead)
 					RespawnPlayer();
 				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
-			if (e.mouseButton.button == sf::Mouse::Left && !_paused && !player.dead)
-				player.gun.Shoot(_bullets, _data, player.GetPosition());
+			if (e.mouseButton.button == sf::Mouse::Left && !_paused && !_player.dead)
+				_player.Attack();
 			break;
 		case sf::Event::Closed:
 			Exit();
@@ -99,7 +99,7 @@ void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
 	{
-		player.Update(dT);
+		_player.Update(dT);
 		_zombieSpawner.Update(dT);
 
 		UpdatePickups(dT);
@@ -123,7 +123,7 @@ void GameState_Gameplay::Draw()
 {
 	_data->window.clear();
 
-	player.Draw();
+	_player.Draw();
 
 	_data->window.draw(_zombitsText);
 
@@ -239,7 +239,7 @@ void GameState_Gameplay::UpdateZombies(float dT)
 
 		if (_zombies->at(i)->IsMarked())
 		{
-			_pickups->push_back(new Pickup(1, PICKUP_FILEPATH, _zombies->at(i)->sprite.getPosition(), _data, _zombies->at(i)->sprite.getPosition() - player.sprite.getPosition()));
+			_pickups->push_back(new Pickup(1, PICKUP_FILEPATH, _zombies->at(i)->sprite.getPosition(), _data, _zombies->at(i)->sprite.getPosition() - _player.sprite.getPosition()));
 
 
 			Zombie* zed = _zombies->at(i);
@@ -286,7 +286,7 @@ void GameState_Gameplay::CollidePickups()
 {
 	for (int i = 0; i < _pickups->size(); i++)
 	{
-		if (ZEngine::Utilities::CircleCollider(player.sprite, _pickups->at(i)->sprite))
+		if (ZEngine::Utilities::CircleCollider(_player.sprite, _pickups->at(i)->sprite))
 		{
 			zombits += _pickups->at(i)->Destroy(true);
 
@@ -302,14 +302,14 @@ void GameState_Gameplay::CollidePlayerZombies()
 {
 	for (int i = 0; i < _zombies->size(); i++)
 	{
-		if (ZEngine::Utilities::RectCollider(player.sprite.getGlobalBounds(), _zombies->at(i)->sprite.getGlobalBounds()))
+		if (ZEngine::Utilities::RectCollider(_player.sprite.getGlobalBounds(), _zombies->at(i)->sprite.getGlobalBounds()))
 		{
-			if (player.TakeDamage(_zombies->at(i)->damage, _zombies->at(i)->sprite.getPosition()))
+			if (_player.TakeDamage(_zombies->at(i)->damage, _zombies->at(i)->sprite.getPosition()))
 			{
 
-				if (player.health <= 0.0f)
+				if (_player.health <= 0.0f)
 				{
-					player.dead = true;
+					_player.dead = true;
 				}
 			}
 		}
@@ -346,7 +346,7 @@ void GameState_Gameplay::InitShopScales()
 void GameState_Gameplay::RespawnPlayer()
 {
 	// Respawn the player.
-	player.Respawn();
+	_player.Respawn();
 
 	// Knock all the zombies back
 	for (int i = 0; i < _zombies->size(); i++)
@@ -369,7 +369,7 @@ void GameState_Gameplay::Exit()
 	_saveData.ammoCountIndex = _shopScales->at(4)->GetIndex();
 
 	_saveData.zBits = zombits;
-	_saveData.isDead = player.dead;
+	_saveData.isDead = _player.dead;
 	_saveData.gameTier = gameTier;
 
 	_saveManager.SaveGame(1, _saveData);

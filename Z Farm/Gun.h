@@ -13,10 +13,10 @@
 class Gun
 {
 public:
-	Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b);
+	Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b, std::vector<Bullet*>* bullets);
 	~Gun();
 
-	void Shoot(std::vector<Bullet*>* bullets, ZEngine::GameDataRef data, sf::Vector2f pos);
+	void Shoot(ZEngine::GameDataRef data, sf::Vector2f pos);
 
 	int bulletDamage;
 	int bulletSpeed;
@@ -42,5 +42,7 @@ private:
 	ZEngine::GameDataRef _data;
 
 	ZEngine::Timer _reloadTimer;
+
+	std::vector<Bullet*>* _bulletsRef;
 };
 

@@ -9,7 +9,7 @@
 /// The constructor for the players gun.
 /// </summary>
 /// <param name="data"> A reference to the game data. </param>
-Gun::Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b) :
+Gun::Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b, std::vector<Bullet*>* bullets) :
 	_reloadTimer(5.0f, false),
 	bulletSpeed(b->speed.at(saveData.speedIndex).value),
 	bulletSpread(b->spread.at(saveData.spreadIndex).value),
@@ -18,7 +18,8 @@ Gun::Gun(ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceS
 	ammoCount(b->ammoCount.at(saveData.ammoCountIndex).value),
 	_reloadBar(data, UI_RELOADBAR, "Ammobar", sf::Vector2f(SCREEN_WIDTH - 124.0f, 48)),
 	_reloading(false),
-	_data(data)
+	_data(data),
+	_bulletsRef(bullets)
 {
 	bulletsRemaining = ammoCount;
 	_data->assetManager.LoadTexture("Bullet", BULLET_FILEPATH);
@@ -69,7 +70,7 @@ void Gun::Draw()
 /// <param name="_bullets"> A pointer to the vector of bullets to spawn the bullets into. </param>
 /// <param name="data"> Reference to the game data. </param>
 /// <param name="pos"> Sets the position to spawn the bullet in. </param>
-void Gun::Shoot(std::vector<Bullet*>* _bullets, ZEngine::GameDataRef data, sf::Vector2f pos)
+void Gun::Shoot(ZEngine::GameDataRef data, sf::Vector2f pos)
 {
 	if (!_reloading && bulletsRemaining > 0)
 	{
@@ -88,7 +89,7 @@ void Gun::Shoot(std::vector<Bullet*>* _bullets, ZEngine::GameDataRef data, sf::V
 				target.y += ZEngine::Utilities::Random(-spreadRad, spreadRad);
 
 				Bullet* b = new Bullet(data, pos, target, bulletSpeed, bulletDamage);
-				_bullets->push_back(b);
+				_bulletsRef->push_back(b);
 				bulletsRemaining--;
 			}
 		}

@@ -57,6 +57,7 @@
     <ClCompile Include="Animation.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
+    <ClCompile Include="ShopWedge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Animation.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
+    <ClInclude Include="ShopWedge.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

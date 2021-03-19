@@ -29,6 +29,15 @@
 #define SKELE_DAMAGE "Media/Gameplay/Skeleton/Skeleton_Damage.png"
 #define SKELE_DEATH "Media/Gameplay/Skeleton/Skeleton_Death.png"
 
+
+#define PLAYER_IDLE "Media/Gameplay/Player/Idle.png"
+#define PLAYER_WALK "Media/Gameplay/Player/Run.png"
+#define PLAYER_WIND_UP "Media/Gameplay/Player/AttackWindUp.png"
+#define PLAYER_ATTACK "Media/Gameplay/Player/Attack.png"
+#define PLAYER_HIT "Media/Gameplay/Player/Hit.png"
+#define PLAYER_DEATH "Media/Gameplay/Player/Death.png"
+#define PLAYER_DASH "Media/Gameplay/Player/Dash.png"
+
 #define UI_RELOADBAR "Media/UI/ReloadBar"
 
 #define SAVE_PATH "SaveData/"
