@@ -26,8 +26,8 @@ namespace ZEngine
 
 		sf::Vector2f _origin;
 
-		bool complete;
-		std::string animName;
+		bool Complete;
+		std::string Name;
 	private:
 		sf::Sprite* _spritePtr;
 		Timer _segmentTimer;

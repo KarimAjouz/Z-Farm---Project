@@ -10,7 +10,7 @@ class GameState_Shop : public ZEngine::GameState
 {
 
 public:
-	GameState_Shop(ZEngine::GameDataRef _data, GameState_Gameplay* gameplayStateRef, std::vector<ShopGunScale*>* scales);
+	GameState_Shop(ZEngine::GameDataRef _data, GameState_Gameplay* gameplayStateRef);
 	~GameState_Shop();
 
 	void Init();
@@ -22,17 +22,6 @@ public:
 private:
 	ZEngine::GameDataRef _data;
 	ZEngine::StateRef _gameplayState;
-
-	Gun* _gun;
-	int* _zombits;
-	int* _gameTier;
-
-	std::vector<ShopGunScale*>* _scales;
-
-	sf::Sprite _bgSprite;
-	sf::Text _zbitsText;
-
-	ZEngine::Button _quitShopButton;
 
 	void QuitShop();
 

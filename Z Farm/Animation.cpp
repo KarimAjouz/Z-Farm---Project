@@ -12,8 +12,8 @@ namespace ZEngine
 		_interval(0),
 		_playing(false),
 		_frameRect(frameRect),
-		complete(false),
-		animName(name),
+		Complete(false),
+		Name(name),
 		_origin(origin)
 	{
 		//Loads in and sets the texture and the correct frame of animation.
@@ -52,13 +52,13 @@ namespace ZEngine
 	/// </summary>
 	void Animation::Play()
 	{
-		_spritePtr->setTexture(_data->assetManager.GetTexture(animName));
+		_spritePtr->setTexture(_data->assetManager.GetTexture(Name));
 		_spritePtr->setTextureRect(_frameRect);
 
 		_spritePtr->setOrigin(_origin);
 
 		_playing = true;
-		complete = false;
+		Complete = false;
 
 		Restart();
 	}
@@ -112,6 +112,6 @@ namespace ZEngine
 	void Animation::End()
 	{
 		Stop();
-		complete = true;
+		Complete = true;
 	}
 }

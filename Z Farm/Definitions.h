@@ -5,6 +5,8 @@
 
 #define SPLASH_SCREEN_SHOW_TIME 0.5f
 
+const float SCALE = 30.f;
+
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
@@ -31,7 +33,7 @@
 
 
 #define PLAYER_IDLE "Media/Gameplay/Player/Idle.png"
-#define PLAYER_WALK "Media/Gameplay/Player/Run.png"
+#define PLAYER_RUN "Media/Gameplay/Player/Run.png"
 #define PLAYER_WIND_UP "Media/Gameplay/Player/AttackWindUp.png"
 #define PLAYER_ATTACK "Media/Gameplay/Player/Attack.png"
 #define PLAYER_HIT "Media/Gameplay/Player/Hit.png"

@@ -4,76 +4,54 @@
 #include "Gun.h"
 #include "SaveDataManager.h"
 #include "Timer.h"
-#include "Animation.h"
+#include "AnimationSystem.h"
+
+#include <box2d.h>
 
 #include <SFML/Graphics.hpp>
 
 class Player : public Agent
 {
 public:
-	Player(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, SaveDataManager::SaveData saveData, BalanceSheet* b, std::vector<Bullet*>* bullets);
+	Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2World* worldRef);
 	~Player();
 
 	void Update(float dT);
 	void Draw();
 
-	bool TakeDamage(float dam, sf::Vector2f zombiePosition);
-	void Respawn();
-
-	void Attack();
-
-	sf::Vector2f GetPosition();
-
-	Gun gun;
-
-	sf::Sprite sprite;
-	float health;
-	bool dead;
-
 private:
 	enum State
 	{
 		idle,
-		walking,
-		takingDamage,
-		attackWindUp,
-		attacking,
-		dashing,
+		running,
+		jumping,
+		falling,
+		windUp,
+		attack,
+		hit,
 		dying
 	};
 
-	State _state = idle;
-
-	void Move(float dT);
+	b2Vec2 _wasd = b2Vec2();
+	int forceMult = 5;
+	State _state;
 	ZEngine::GameDataRef _data;
 	
-	ZEngine::ResourceBar _healthBar;
-	void AugmentKnockback(sf::Vector2f zombiePosition);
+	ZEngine::AnimationSystem _animSystem = ZEngine::AnimationSystem(&sprite, _data);
+	sf::IntRect _colBox = sf::IntRect(25, 16, 14, 16);
 
-	sf::Vector2f _knockbackAmt;
+	b2Body* _playerBody = nullptr;
 
-	bool _isFlipped = false;
 
-	float _speed = 100.0f;
-
-	sf::Vector2f _attackLocation = sf::Vector2f(162, 76);
+	void HandleInputs();
+	void UpdatePhysics();
 	
-	ZEngine::Timer damageTimer;
-
-	ZEngine::Animation* _curAnim;
-
-	ZEngine::Animation _idleAnim;
-	ZEngine::Animation _walkAnim;
-	ZEngine::Animation _hitAnim;
-	ZEngine::Animation _windUpAnim;
-	ZEngine::Animation _attackAnim;
-	ZEngine::Animation _dashAnim;
-	ZEngine::Animation _dyingAnim;
-
 	void UpdateState();
-	void UpdateAnimations();
+	void UpdateAnimations(float dT);
 
-	void FlipSprite();
+	void InitAnimations();
+	void InitPhysics(sf::Vector2f pos, b2World* worldRef);
+
 
 };
 
