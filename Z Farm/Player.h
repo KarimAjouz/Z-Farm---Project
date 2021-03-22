@@ -5,7 +5,6 @@
 #include "SaveDataManager.h"
 #include "Timer.h"
 #include "AnimationSystem.h"
-#include "FootContactListener.h"
 
 #include <box2d.h>
 
@@ -19,6 +18,9 @@ public:
 
 	void Update(float dT);
 	void Draw();
+
+
+	bool grounded = false;
 
 private:
 	enum class State
@@ -42,7 +44,7 @@ private:
 	ZEngine::GameDataRef _data;
 	
 	ZEngine::AnimationSystem _animSystem = ZEngine::AnimationSystem(&sprite, _data);
-	sf::IntRect _colBox = sf::IntRect(25, 16, 14, 16);
+	sf::IntRect _colBox = sf::IntRect(25, 16, 12, 22);
 
 	sf::RectangleShape debugRect = sf::RectangleShape();
 	sf::RectangleShape footDebugShape = sf::RectangleShape();
@@ -50,11 +52,7 @@ private:
 
 	b2Body* _playerBody = nullptr;
 	b2Fixture* _footFixture = nullptr;
-	bool _grounded = false;
 	bool _jumping = false;
-
-
-	FootContactListener _footListener;
 
 	void HandleInputs();
 	void UpdatePhysics();

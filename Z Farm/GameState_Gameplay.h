@@ -6,8 +6,12 @@
 #include "Game.h"
 #include "Timer.h"
 #include "SaveDataManager.h"
+#include "ContactListener.h"
+#include "Tile.h"
+#include "PhysicsDebugDraw.h"
 
 #include <box2d.h>
+
 
 #include "Player.h"
 
@@ -33,6 +37,7 @@ public:
 
 
 
+
 private:
 
 	b2Vec2 _gravity;
@@ -42,8 +47,14 @@ private:
 	ZEngine::GameDataRef _data;
 
 	Player _player;
+	ContactListener _contactListener;
 
+	Tile tile;
+
+	PhysicsDebugDraw _debugDraw;
 	bool _paused;
+
+	bool _debugMode = false;
 
 	void Exit();
 

@@ -22,12 +22,17 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_player(sf::Vector2f(400.0f, 300.0f), data, &balanceSheet, &_world),
 	_paused(false),
 	_gravity(0.0f, 9.8f),
-	_world(_gravity)
+	_world(_gravity),
+	_contactListener(&_player),
+	tile(_data, &_world, "TestTile", TILE_PATH, true, sf::Vector2f(650.0f, 550.0f), sf::IntRect(64, 32, 32, 32)),
+	_debugDraw(data)
 {
 	ZEngine::Utilities::SeedRandom();
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
-
+	_world.SetContactListener(&_contactListener);
+	_debugDraw.SetFlags(b2Draw::e_shapeBit);
+	_world.SetDebugDraw(&_debugDraw);
 }
 
 
@@ -60,6 +65,9 @@ void GameState_Gameplay::PollEvents()
 					Resume();
 				else
 					Pause();
+				break;
+			case sf::Keyboard::O:
+				_debugMode = !_debugMode;
 				break;
 			}
 			break;
@@ -97,6 +105,10 @@ void GameState_Gameplay::Draw()
 	_data->window.clear();
 
 	_player.Draw();
+	tile.Draw();
+
+	if(_debugMode)
+		_world.DebugDraw();
 
 	_data->window.display();
 }
@@ -133,6 +145,6 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	FixtureDef.density = 0.f;  // Sets the density of the body
 	FixtureDef.shape = &Shape; // Sets the shape
 	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
-	fixture->GetUserData().pointer = 1; //Tag the ground as 1
+	fixture->GetUserData().pointer = static_cast<int>(CollisionTag::level); //Tag the ground as 1
 	
 }

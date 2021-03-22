@@ -7,9 +7,22 @@
 
 const float SCALE = 30.f;
 
+enum class CollisionTag
+{
+	def,
+	player,
+	playerFoot,
+	level,
+	ground,
+	enemy, 
+	background
+};
+
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
+
+#define TILE_PATH "Media/Textures/TerrainAndBackWall.png"
 
 #define UNPURCHASED_TIER_FILEPATH "Media/Shop/Tier_Unpurchased.png"
 #define PURCHASED_TIER_FILEPATH "Media/Shop/Tier_Purchased.png"

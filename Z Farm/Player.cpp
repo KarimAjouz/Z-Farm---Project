@@ -9,29 +9,19 @@
 Player::Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2World* worldRef) :
 	_data(data),
 	_state(State::idle),
-	_worldRef(worldRef),
-	_footListener(_grounded)
+	_worldRef(worldRef)
 {
-	InitPhysics(pos, _worldRef);
+	InitAnimations();
 
 	sprite.setPosition(pos);
 	sprite.setScale(2.0f, 2.0f);
 	sprite.setOrigin(32, 20);
 
-	InitAnimations();
+
+	InitPhysics(pos, _worldRef);
+
 	_animSystem.SetAnimation("PlayerIdle");
 	_animSystem.Play();
-
-	debugRect = sf::RectangleShape(sf::Vector2f(_colBox.width * sprite.getScale().x, _colBox.height * sprite.getScale().y));
-	debugRect.setOutlineColor(sf::Color::Red);
-	debugRect.setFillColor(sf::Color::Transparent);
-	debugRect.setOutlineThickness(1);
-
-	footDebugShape = sf::RectangleShape(sf::Vector2f(0.3f * SCALE, 0.3f * SCALE));
-	footDebugShape.setOutlineColor(sf::Color::Green);
-	footDebugShape.setFillColor(sf::Color::Transparent);
-	footDebugShape.setOutlineThickness(1);
-	footDebugShape.setOrigin(sf::Vector2f(footDebugShape.getSize().x / 2, footDebugShape.getSize().y / 2));
 }
 
 
@@ -47,20 +37,11 @@ void Player::Update(float dT)
 	UpdateState();
 	UpdateAnimations(dT);
 
-	//debugRect.setPosition(sf::Vector2f(sprite.getPosition().x - (_colBox.width / 2 * abs(sprite.getScale().x)), sprite.getPosition().y - (_colBox.height / 2)));
-	b2Transform transform = _playerBody->GetTransform();
-	b2Vec2 footPos = _playerBody->GetTransform().p + b2Vec2(0, (_colBox.height * abs(sprite.getScale().y) - 9) / SCALE);
-	debugRect.setPosition(sf::Vector2f((transform.p.x * SCALE) - (_colBox.width), (transform.p.y * SCALE) - (_colBox.height / 2)));
-	footDebugShape.setPosition(sf::Vector2f(footPos.x * SCALE, footPos.y * SCALE));
-
 }
 
 void Player::Draw()
 {
 	_data->window.draw(sprite);
-	_data->window.draw(debugRect);
-	_data->window.draw(footDebugShape);
-
 }
 
 
@@ -88,7 +69,7 @@ void Player::UpdateState()
 				_state = State::falling;
 			break;
 		case Player::State::falling:
-			if (_grounded)
+			if (grounded)
 			{
 				_animSystem.SetAnimation("PlayerLand");
 				_animSystem.Play();
@@ -183,7 +164,7 @@ void Player::HandleInputs()
 			_wasd.y = -1;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && _grounded && !_jumping)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && grounded)
 		_jumping = true;
 	else
 		_jumping = false;
@@ -255,10 +236,8 @@ void Player::InitPhysics(sf::Vector2f pos, b2World* worldRef)
 	_playerBody->CreateFixture(&myFixtureDef);
 
 	//add foot sensor fixture
-	polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, _colBox.height * abs(sprite.getScale().x) / SCALE), 0);
+	polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0, (static_cast<float>(_colBox.height) * abs(sprite.getScale().y) / 2) / SCALE), 0);
 	myFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = _playerBody->CreateFixture(&myFixtureDef);
-	footSensorFixture->GetUserData().pointer = 3;
-
-	_worldRef->SetContactListener(&_footListener);
+	footSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::playerFoot);
 }
