@@ -132,5 +132,7 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	b2FixtureDef FixtureDef;
 	FixtureDef.density = 0.f;  // Sets the density of the body
 	FixtureDef.shape = &Shape; // Sets the shape
-	Body->CreateFixture(&FixtureDef); // Apply the fixture definition
+	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
+	fixture->GetUserData().pointer = 1; //Tag the ground as 1
+	
 }

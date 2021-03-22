@@ -53,6 +53,9 @@
       <Filter>ZEngine</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSystem.cpp" />
+    <ClCompile Include="FootContactListener.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -107,6 +110,9 @@
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSystem.h" />
+    <ClInclude Include="FootContactListener.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

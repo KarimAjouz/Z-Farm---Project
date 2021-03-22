@@ -15,10 +15,12 @@ namespace ZEngine
 		void SetAnimation(std::string name); //Sets the current animation.
 		void Play();
 
+		bool Complete() { return _curAnim->Complete; }
+
 		std::string GetCurrentAnim() { return _curAnim->Name; }
 	private:
 		std::vector<Animation*> _anims;
-		Animation* _curAnim;
+		Animation* _curAnim = nullptr;
 
 		ZEngine::GameDataRef _data;
 		sf::Sprite* _spritePtr;

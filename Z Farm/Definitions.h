@@ -34,6 +34,11 @@ const float SCALE = 30.f;
 
 #define PLAYER_IDLE "Media/Gameplay/Player/Idle.png"
 #define PLAYER_RUN "Media/Gameplay/Player/Run.png"
+#define PLAYER_JUMP "Media/Gameplay/Player/Jump.png"
+#define PLAYER_FALL "Media/Gameplay/Player/Fall.png"
+#define PLAYER_LAND "Media/Gameplay/Player/Land.png"
+
+
 #define PLAYER_WIND_UP "Media/Gameplay/Player/AttackWindUp.png"
 #define PLAYER_ATTACK "Media/Gameplay/Player/Attack.png"
 #define PLAYER_HIT "Media/Gameplay/Player/Hit.png"

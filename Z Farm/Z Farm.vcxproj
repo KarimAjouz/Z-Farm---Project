@@ -141,6 +141,7 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="FootContactListener.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameState_Gameplay.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BalanceSheet.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="FootContactListener.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameState_Gameplay.h" />
