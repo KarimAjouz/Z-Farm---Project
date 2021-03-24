@@ -52,7 +52,7 @@ private:
 
 	b2Body* _playerBody = nullptr;
 	b2Fixture* _footFixture = nullptr;
-	bool _jumping = false;
+	int _jumpTimeout = 0;
 
 	void HandleInputs();
 	void UpdatePhysics();

@@ -9,6 +9,8 @@
 #include "ContactListener.h"
 #include "Tile.h"
 #include "PhysicsDebugDraw.h"
+#include "Room.h"
+#include "LevelBuilder.h"
 
 #include <box2d.h>
 
@@ -49,17 +51,19 @@ private:
 	Player _player;
 	ContactListener _contactListener;
 
-	Tile tile;
-
 	PhysicsDebugDraw _debugDraw;
 	bool _paused;
 
 	bool _debugMode = false;
 
+	Room _level;
+
+	LevelBuilder _levelBuilder;
+	bool _building;
+
 	void Exit();
 
 	void CreateGround(b2World& world, float x, float y);
-	void CreateBox(b2World& World, int MouseX, int MouseY);
 
 };
 

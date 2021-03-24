@@ -164,10 +164,15 @@ void Player::HandleInputs()
 			_wasd.y = -1;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && grounded)
-		_jumping = true;
-	else
-		_jumping = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && grounded && _jumpTimeout < 0)
+	{
+		float impulse = _playerBody->GetMass() * 10;
+		_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
+		_jumpTimeout = 5;
+		_state = State::jumping;
+	}
+	else if (_jumpTimeout >= 0)
+		_jumpTimeout--;
 	
 }
 
@@ -186,13 +191,6 @@ void Player::UpdatePhysics()
 		case 1:
 			_desiredVelocity = b2Min(vel.x + 0.1f, 5.0f);
 			break;
-	}
-
-	if (_jumping)
-	{
-		float impulse = _playerBody->GetMass() * 2;
-		_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
-		_state = State::jumping;
 	}
 
 	float velChange = _desiredVelocity - vel.x;
@@ -223,7 +221,7 @@ void Player::InitPhysics(sf::Vector2f pos, b2World* worldRef)
 	bodyDef.position = b2Vec2(pos.x / SCALE, pos.y / SCALE);
 	bodyDef.type = b2_dynamicBody;
 	_playerBody = worldRef->CreateBody(&bodyDef); 
-
+	_playerBody->SetFixedRotation(true);
 	b2PolygonShape polygonShape;
 	polygonShape.SetAsBox(_colBox.width / SCALE, _colBox.height / SCALE);
 

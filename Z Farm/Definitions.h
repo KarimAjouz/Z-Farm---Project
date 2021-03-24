@@ -1,7 +1,7 @@
 #pragma once
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 960
+#define SCREEN_HEIGHT 640
 
 #define SPLASH_SCREEN_SHOW_TIME 0.5f
 
@@ -23,9 +23,6 @@ enum class CollisionTag
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
 
 #define TILE_PATH "Media/Textures/TerrainAndBackWall.png"
-
-#define UNPURCHASED_TIER_FILEPATH "Media/Shop/Tier_Unpurchased.png"
-#define PURCHASED_TIER_FILEPATH "Media/Shop/Tier_Purchased.png"
 
 
 #define MENU_BUTTON_FOLDER_FILEPATH "Media/Buttons/Menu/"
@@ -61,3 +58,4 @@ enum class CollisionTag
 #define UI_RELOADBAR "Media/UI/ReloadBar"
 
 #define SAVE_PATH "SaveData/"
+#define LEVEL_PATH "LevelData/"

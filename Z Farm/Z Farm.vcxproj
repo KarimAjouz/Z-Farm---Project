@@ -149,8 +149,10 @@
     <ClCompile Include="GameState_Shop.cpp" />
     <ClCompile Include="GameState_Splash.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelBuilder.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Menu_Scale.cpp" />
     <ClCompile Include="PhysicsDebugDraw.cpp" />
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameMaps.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameState_Gameplay.h" />
     <ClInclude Include="GameState_MainMenu.h" />
@@ -177,7 +180,9 @@
     <ClInclude Include="GameState_Splash.h" />
     <ClInclude Include="Definitions.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Menu_Scale.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelBuilder.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="PhysicsDebugDraw.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />

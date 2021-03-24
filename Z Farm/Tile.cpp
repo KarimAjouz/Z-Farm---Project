@@ -21,14 +21,8 @@ Tile::Tile(ZEngine::GameDataRef data, b2World* worldRef, std::string name, std::
 	else
 		_collisionTag = CollisionTag::background;
 
-	GenPhysics(worldRef, frameRect);
-
-	debugRect.setOrigin(sf::Vector2f(frameRect.width / 2, frameRect.height / 2));
-	debugRect.setFillColor(sf::Color::Transparent);
-	debugRect.setOutlineColor(sf::Color::Magenta);
-	debugRect.setOutlineThickness(1.0f);
-	debugRect.setPosition(tileBody->GetTransform().p.x * SCALE, tileBody->GetTransform().p.y * SCALE);
-	debugRect.setScale(2.0f, 2.0f);
+	if(collision)
+		GenPhysics(worldRef, frameRect);
 
 }
 

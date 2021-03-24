@@ -24,8 +24,9 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_gravity(0.0f, 9.8f),
 	_world(_gravity),
 	_contactListener(&_player),
-	tile(_data, &_world, "TestTile", TILE_PATH, true, sf::Vector2f(650.0f, 550.0f), sf::IntRect(64, 32, 32, 32)),
-	_debugDraw(data)
+	_debugDraw(data),
+	_level(data, &_world),
+	_levelBuilder(_data)
 {
 	ZEngine::Utilities::SeedRandom();
 
@@ -69,6 +70,9 @@ void GameState_Gameplay::PollEvents()
 			case sf::Keyboard::O:
 				_debugMode = !_debugMode;
 				break;
+			case sf::Keyboard::L:
+				_building = !_building;
+				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
@@ -92,6 +96,9 @@ void GameState_Gameplay::Update(float dT)
 	{
 		_player.Update(dT);
 
+		if(_building)
+			_levelBuilder.Update(dT);
+
 		_world.Step(dT, 8, 3);
 	}
 }
@@ -104,11 +111,15 @@ void GameState_Gameplay::Draw()
 {
 	_data->window.clear();
 
+	_level.Draw();
 	_player.Draw();
-	tile.Draw();
 
 	if(_debugMode)
 		_world.DebugDraw();
+
+
+	if (_building)
+		_levelBuilder.Draw();
 
 	_data->window.display();
 }
