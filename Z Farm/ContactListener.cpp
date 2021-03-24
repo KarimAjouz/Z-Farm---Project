@@ -16,9 +16,10 @@ void ContactListener::BeginContact(b2Contact* contact)
     int fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
 
     if (fixtureAUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureBUserData == static_cast<int>(CollisionTag::level))
-        playerRef->grounded = true;
+        playerRef->footContacts++;
     else if (fixtureBUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureAUserData == static_cast<int>(CollisionTag::level))
-        playerRef->grounded = true;
+        playerRef->footContacts++;
+
 }
 
 void ContactListener::EndContact(b2Contact* contact)
@@ -27,7 +28,7 @@ void ContactListener::EndContact(b2Contact* contact)
     int fixtureAUserData = contact->GetFixtureA()->GetUserData().pointer;
     int fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
     if (fixtureAUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureBUserData == static_cast<int>(CollisionTag::level))
-        playerRef->grounded = false;
+        playerRef->footContacts--;
     else if (fixtureBUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureAUserData == static_cast<int>(CollisionTag::level))
-        playerRef->grounded = false;
+        playerRef->footContacts--;
 }

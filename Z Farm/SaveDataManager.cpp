@@ -1,4 +1,5 @@
 #include "SaveDataManager.h"
+#include <fstream>
 #include "Definitions.h"
 
 #include <iostream>

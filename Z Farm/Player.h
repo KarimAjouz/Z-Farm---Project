@@ -20,7 +20,7 @@ public:
 	void Draw();
 
 
-	bool grounded = false;
+	int footContacts = 0;
 
 private:
 	enum class State
@@ -53,6 +53,7 @@ private:
 	b2Body* _playerBody = nullptr;
 	b2Fixture* _footFixture = nullptr;
 	int _jumpTimeout = 0;
+	bool _jumping = false;
 
 	void HandleInputs();
 	void UpdatePhysics();

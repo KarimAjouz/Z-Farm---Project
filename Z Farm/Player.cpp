@@ -69,7 +69,7 @@ void Player::UpdateState()
 				_state = State::falling;
 			break;
 		case Player::State::falling:
-			if (grounded)
+			if (footContacts > 0)
 			{
 				_animSystem.SetAnimation("PlayerLand");
 				_animSystem.Play();
@@ -164,15 +164,10 @@ void Player::HandleInputs()
 			_wasd.y = -1;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && grounded && _jumpTimeout < 0)
-	{
-		float impulse = _playerBody->GetMass() * 10;
-		_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
-		_jumpTimeout = 5;
-		_state = State::jumping;
-	}
-	else if (_jumpTimeout >= 0)
-		_jumpTimeout--;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && footContacts > 0 && _jumpTimeout < 0)
+		_jumping = true;
+	else
+		_jumping = false;
 	
 }
 
@@ -198,7 +193,16 @@ void Player::UpdatePhysics()
 
 	_playerBody->ApplyLinearImpulse(b2Vec2(impulse, 0), _playerBody->GetWorldCenter(), true);
 
-	//_playerBody->ApplyForceToCenter(b2Vec2(_wasd.x * forceMult, 0.0f), true);
+	if (_jumping && footContacts > 0 && _jumpTimeout < 0)
+	{
+		float impulse = _playerBody->GetMass() * 10;
+		_playerBody->SetLinearVelocity(b2Vec2(_playerBody->GetLinearVelocity().x, 0.0f));
+		_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
+		_jumpTimeout = 15;
+		_state = State::jumping;
+	}
+	else if (_jumpTimeout >= 0)
+		_jumpTimeout--;
 
 
 	sprite.setPosition(_playerBody->GetPosition().x * SCALE, _playerBody->GetPosition().y * SCALE);
@@ -229,7 +233,7 @@ void Player::InitPhysics(sf::Vector2f pos, b2World* worldRef)
 	myFixtureDef.density = 1.0f;
 
 	//fixtureDef.friction = 0.8f;
-	myFixtureDef.restitution = 0.2f;
+	myFixtureDef.restitution = 0.0f;
 	myFixtureDef.shape = &polygonShape;
 	_playerBody->CreateFixture(&myFixtureDef);
 

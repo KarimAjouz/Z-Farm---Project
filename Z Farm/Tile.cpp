@@ -57,3 +57,9 @@ void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)
 
 	fixture->GetUserData().pointer = static_cast<int>(_collisionTag);
 }
+
+void Tile::RemovePhysics()
+{
+	if(_collisionTag == CollisionTag::level)
+		tileBody->GetWorld()->DestroyBody(tileBody);
+}

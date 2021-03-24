@@ -26,7 +26,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_contactListener(&_player),
 	_debugDraw(data),
 	_level(data, &_world),
-	_levelBuilder(_data)
+	_levelBuilder(_data, &_level)
 {
 	ZEngine::Utilities::SeedRandom();
 
@@ -51,6 +51,8 @@ void GameState_Gameplay::Init()
 void GameState_Gameplay::PollEvents()
 {
 	sf::Event e;
+
+
 	while (_data->window.pollEvent(e))
 	{
 		switch (e.type)
@@ -73,9 +75,23 @@ void GameState_Gameplay::PollEvents()
 			case sf::Keyboard::L:
 				_building = !_building;
 				break;
+			case sf::Keyboard::M:
+				if (_building)
+					_levelBuilder.SaveLevel();
+				break;
+			case sf::Keyboard::N:
+				if (_building)
+					_levelBuilder.LoadLevel();
+				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
+			if (_building)
+				_levelBuilder.ReplaceTile();
+			break;
+		case sf::Event::MouseWheelScrolled:
+			if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+				_levelBuilder.Scroll(e.mouseWheelScroll.delta);
 
 			break;
 		case sf::Event::Closed:
@@ -83,6 +99,7 @@ void GameState_Gameplay::PollEvents()
 			break;
 		}
 	}
+
 }
 
 
