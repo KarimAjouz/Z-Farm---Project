@@ -160,6 +160,7 @@
     <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TilePicker.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="SaveDataManager.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TilePicker.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>

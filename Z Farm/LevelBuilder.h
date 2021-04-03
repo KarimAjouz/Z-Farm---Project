@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Level.h"
+#include "TilePicker.h"
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -25,6 +26,9 @@ public:
 
 	void MouseRelease();
 
+
+	void OpenSelector();
+
 private:
 	int _scrollSelector = 0;
 	ZEngine::GameDataRef _data;
@@ -42,6 +46,8 @@ private:
 	sf::RectangleShape _newRoomSelector;
 
 	std::vector<std::vector<sf::Vector2i>> _curMap;
+
+	TilePicker _tilePicker;
 
 	bool CheckForLevel(std::string levelName);
 	bool _inRoom = false;

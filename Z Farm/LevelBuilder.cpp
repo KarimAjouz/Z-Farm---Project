@@ -13,7 +13,8 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_data(data),
 	_curSelectedTexture(),
 	_levelRef(levelRef),
-	_worldRef(worldRef)
+	_worldRef(worldRef),
+	_tilePicker(_data)
 {
 	_data->assetManager.LoadTexture("Tiles", TILE_PATH);
 	_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Tiles"));
@@ -81,6 +82,8 @@ void LevelBuilder::Scroll(int dir)
 void LevelBuilder::Update(float dT)
 {
 	TestMouseHover();
+
+	_tilePicker.Update(dT);
 }
 
 
@@ -91,14 +94,26 @@ void LevelBuilder::Draw()
 	_data->window.draw(_curSelectedTexture);
 	_data->window.draw(_curTextureOutline);
 	_data->window.draw(_newRoomSelector);
+
+	_tilePicker.Draw();
 }
 
 void LevelBuilder::MouseRelease()
 {
-	if (_inRoom)
-		ReplaceTile();
+	if (!_tilePicker.active)
+	{
+		if (_inRoom)
+			ReplaceTile();
+		else
+			NewRoom();
+	}
 	else
-		NewRoom();
+	{
+		_texRect = _tilePicker.GetTileRect();
+		//sf::IntRect temp = sf::IntRect(_texRect.left % _data->assetManager.GetTexture("Tiles").getSize().x, _texRect.top, 32, 32);
+
+		_curSelectedTexture.setTextureRect(_texRect);
+	}
 }
 
 void LevelBuilder::NewRoom()
@@ -382,3 +397,7 @@ void LevelBuilder::TestMouseHover()
 	_curSelectedTexture.setPosition(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 33.0f))));
 }
 
+void LevelBuilder::OpenSelector()
+{
+	_tilePicker.active = true;
+}

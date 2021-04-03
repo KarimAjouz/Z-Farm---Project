@@ -80,6 +80,11 @@ void GameState_Gameplay::PollEvents()
 				break;
 			case sf::Keyboard::L:
 				_building = !_building;
+
+				if (_building == false)
+				{
+					_data->window.setView(_data->window.getDefaultView());
+				}
 				break;
 			case sf::Keyboard::M:
 				if (_building)
@@ -89,11 +94,45 @@ void GameState_Gameplay::PollEvents()
 				if (_building)
 					_levelBuilder.LoadLevel();
 				break;
+			case sf::Keyboard::Up:
+				if (_building)
+				{
+					sf::View tempView = _data->window.getView();
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 5.0f));
+					_data->window.setView(tempView);
+				}
+				break;
+			case sf::Keyboard::Down:
+				if (_building)
+				{
+					sf::View tempView = _data->window.getView();
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 5.0f));
+					_data->window.setView(tempView);
+				}
+				break;
+			case sf::Keyboard::Left:
+				if (_building)
+				{
+					sf::View tempView = _data->window.getView();
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 5.0f, tempView.getCenter().y));
+					_data->window.setView(tempView);
+				}
+				break;
+			case sf::Keyboard::Right:
+				if (_building)
+				{
+					sf::View tempView = _data->window.getView();
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 5.0f, tempView.getCenter().y));
+					_data->window.setView(tempView);
+				}
+				break;
 			}
 			break;
 		case sf::Event::MouseButtonReleased:
-			if (_building)
+			if (_building && e.mouseButton.button == sf::Mouse::Button::Left)
 				_levelBuilder.MouseRelease();
+			if (_building && e.mouseButton.button == sf::Mouse::Button::Right)
+				_levelBuilder.OpenSelector();
 			break;
 		case sf::Event::MouseWheelScrolled:
 			if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)

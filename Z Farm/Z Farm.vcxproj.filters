@@ -55,9 +55,18 @@
     </ClCompile>
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="PhysicsDebugDraw.cpp" />
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LevelBuilder.cpp" />
+    <ClCompile Include="Room.cpp">
+      <Filter>LevelEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>LevelEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelBuilder.cpp">
+      <Filter>LevelEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TilePicker.cpp">
+      <Filter>LevelEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -114,10 +123,19 @@
     </ClInclude>
     <ClInclude Include="Tile.h" />
     <ClInclude Include="PhysicsDebugDraw.h" />
-    <ClInclude Include="Room.h" />
-    <ClInclude Include="Level.h" />
     <ClInclude Include="GameMaps.h" />
-    <ClInclude Include="LevelBuilder.h" />
+    <ClInclude Include="Room.h">
+      <Filter>LevelEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>LevelEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelBuilder.h">
+      <Filter>LevelEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="TilePicker.h">
+      <Filter>LevelEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
@@ -125,6 +143,12 @@
     </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{784db363-901d-4f10-91f7-9db0e8b80286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelEditor">
+      <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{542fc80a-ead8-4540-a7d6-c986e72d5a8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
