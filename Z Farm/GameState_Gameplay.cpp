@@ -26,7 +26,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_contactListener(&_player),
 	_debugDraw(data),
 	_level(data, &_world),
-	_levelBuilder(_data, &_level)
+	_levelBuilder(_data, &_world, &_level)
 {
 	ZEngine::Utilities::SeedRandom();
 
@@ -34,6 +34,12 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_world.SetContactListener(&_contactListener);
 	_debugDraw.SetFlags(b2Draw::e_shapeBit);
 	_world.SetDebugDraw(&_debugDraw);
+
+	sf::View view;
+	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	
+	_data->window.setView(view);
 }
 
 
@@ -87,7 +93,7 @@ void GameState_Gameplay::PollEvents()
 			break;
 		case sf::Event::MouseButtonReleased:
 			if (_building)
-				_levelBuilder.ReplaceTile();
+				_levelBuilder.MouseRelease();
 			break;
 		case sf::Event::MouseWheelScrolled:
 			if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)

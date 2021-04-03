@@ -243,3 +243,26 @@ void Player::InitPhysics(sf::Vector2f pos, b2World* worldRef)
 	b2Fixture* footSensorFixture = _playerBody->CreateFixture(&myFixtureDef);
 	footSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::playerFoot);
 }
+
+void Player::SetView()
+{
+	sf::View view = _data->window.getView();
+
+	sf::Vector2f center = view.getCenter();
+	sf::Vector2f playerPos = sprite.getPosition();
+
+	if (playerPos.x < 0)
+		center.x -= SCREEN_WIDTH;
+	else if (playerPos.x > SCREEN_WIDTH)
+		center.x += SCREEN_WIDTH;
+
+	if (playerPos.y < 0)
+		center.y -= SCREEN_HEIGHT;
+	else if (playerPos.y > SCREEN_HEIGHT)
+		center.y += SCREEN_HEIGHT;
+
+	view.setCenter(center);
+
+	_data->window.setView(view);
+
+}

@@ -16,6 +16,9 @@ public:
 
 	void GenPhysics(b2World* worldRef, sf::IntRect frameRect);
 	void RemovePhysics();
+	
+	sf::Sprite sprite;
+
 
 private:
 	ZEngine::GameDataRef _data;
@@ -23,8 +26,6 @@ private:
 
 	b2Body* tileBody = nullptr;
 
-	sf::RectangleShape debugRect;
-	sf::Sprite _sprite;
 
 
 

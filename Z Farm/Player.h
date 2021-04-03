@@ -22,6 +22,8 @@ public:
 
 	int footContacts = 0;
 
+	void SetView();
+
 private:
 	enum class State
 	{

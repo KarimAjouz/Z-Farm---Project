@@ -11,6 +11,7 @@ public:
     ~ContactListener();
 
     Player* playerRef;
+    sf::View* viewRef;
 
     void BeginContact(b2Contact* contact);
 

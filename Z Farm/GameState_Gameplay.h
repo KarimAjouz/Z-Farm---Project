@@ -9,7 +9,6 @@
 #include "ContactListener.h"
 #include "Tile.h"
 #include "PhysicsDebugDraw.h"
-#include "Room.h"
 #include "LevelBuilder.h"
 
 #include <box2d.h>
@@ -39,9 +38,7 @@ public:
 
 
 
-
 private:
-
 	b2Vec2 _gravity;
 	b2World _world;
 
@@ -56,7 +53,7 @@ private:
 
 	bool _debugMode = false;
 
-	Room _level;
+	Level _level;
 
 	LevelBuilder _levelBuilder;
 	bool _building;

@@ -5,6 +5,8 @@ class Room
 {
 public:
 	Room(ZEngine::GameDataRef data, b2World* worldRef);
+	Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset);
+	Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset, std::vector < std::vector < sf::Vector2i >> map);
 	~Room();
 
 	void Update(float dT);
@@ -17,12 +19,18 @@ public:
 	std::vector<std::vector<sf::Vector2i>> GetMap() { return _map; }
 	void SetMap(std::vector < std::vector < sf::Vector2i >> m) { _map = m; }
 
+	sf::Vector2f roomOffset = sf::Vector2f(0, 0);
+	sf::RectangleShape roomShape;
+
+	std::vector<Tile> tiles;
+
 	void BuildLevel();
 private:
 
 	ZEngine::GameDataRef _data;
 	b2World* _worldRef;
-	std::vector<Tile> _tiles;
+
+
 
 	sf::Vector2i floorTile = sf::Vector2i(1, 0);
 	sf::Vector2i emptyTile = sf::Vector2i(1, 6);
@@ -41,5 +49,6 @@ private:
 		{floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile, floorTile},
 	};
 
+	void BuildPhyics();
 };
 

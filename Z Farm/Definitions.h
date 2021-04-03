@@ -15,7 +15,8 @@ enum class CollisionTag
 	level,
 	ground,
 	enemy, 
-	background
+	background,
+	room
 };
 
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"

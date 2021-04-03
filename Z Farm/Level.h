@@ -4,13 +4,16 @@
 class Level
 {
 public:
-	Level();
+	Level(ZEngine::GameDataRef data, b2World* worldRef);
 	~Level();
 
 	void Update(float dT);
 	void Draw();
 
+	std::vector<Room> rooms;
 private:
-	std::vector<Room> _rooms;
+
+	ZEngine::GameDataRef _data;
+	b2World* _worldRef;
 };
 
