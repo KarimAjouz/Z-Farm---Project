@@ -145,7 +145,7 @@ void LevelBuilder::AddTile()
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
-			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView) / 64;
+			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / 64;
 			_levelRef->rooms[i].AddTile(tilePos.x, tilePos.y, _texRect.left % _data->assetManager.GetTexture("Tiles").getSize().x, _texRect.top);
 		}
 	}
@@ -165,7 +165,7 @@ void LevelBuilder::RemoveTile()
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
-			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView) / 64;
+			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / 64;
 			_levelRef->rooms[i].RemoveTile(tilePos.x, tilePos.y);
 		}
 	}
@@ -361,7 +361,9 @@ void LevelBuilder::TestMouseHover()
 			for (int j = 0; j < _levelRef->rooms[i].tiles.size(); j++)
 			{
 				if (_levelRef->rooms[i].tiles[j].sprite.getGlobalBounds().contains(mousePositionInView))
+				{
 					_hoveredTile.setPosition(_levelRef->rooms[i].tiles[j].sprite.getPosition());
+				}
 			}
 			_inRoom = true;
 		}
@@ -399,5 +401,5 @@ void LevelBuilder::TestMouseHover()
 
 void LevelBuilder::OpenSelector()
 {
-	_tilePicker.active = true;
+	_tilePicker.Activate();
 }

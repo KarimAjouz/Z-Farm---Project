@@ -11,9 +11,11 @@ public:
 	void Update(float dT);
 	void Draw();
 
-	bool active;
 
 	sf::IntRect GetTileRect();
+
+	void Activate();
+	bool active;
 
 private:
 

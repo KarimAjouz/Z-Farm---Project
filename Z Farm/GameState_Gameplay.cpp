@@ -98,7 +98,7 @@ void GameState_Gameplay::PollEvents()
 				if (_building)
 				{
 					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 5.0f));
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 10.0f));
 					_data->window.setView(tempView);
 				}
 				break;
@@ -106,7 +106,7 @@ void GameState_Gameplay::PollEvents()
 				if (_building)
 				{
 					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 5.0f));
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 10.0f));
 					_data->window.setView(tempView);
 				}
 				break;
@@ -114,7 +114,7 @@ void GameState_Gameplay::PollEvents()
 				if (_building)
 				{
 					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 5.0f, tempView.getCenter().y));
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 10.0f, tempView.getCenter().y));
 					_data->window.setView(tempView);
 				}
 				break;
@@ -122,7 +122,7 @@ void GameState_Gameplay::PollEvents()
 				if (_building)
 				{
 					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 5.0f, tempView.getCenter().y));
+					tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 10.0f, tempView.getCenter().y));
 					_data->window.setView(tempView);
 				}
 				break;

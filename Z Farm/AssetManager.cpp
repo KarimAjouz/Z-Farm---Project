@@ -59,5 +59,7 @@ namespace ZEngine
 			return this->_fonts.at(name);
 		else
 			throw std::runtime_error("AssetManager::GetFont - Failed to get " + name);
+
+
 	}
 }

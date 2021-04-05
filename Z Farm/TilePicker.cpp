@@ -37,11 +37,14 @@ void TilePicker::Update(float dT)
 	{
 		if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
 		{
+			//Get the mouse position relative to the sf::view (Mouse position in world space)
 			sf::Vector2f mousePosRelativeToView = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
+
 			sf::Vector2f newPos = mousePosRelativeToView;
 
-			newPos.x -= std::fmodf(mousePosRelativeToView.x, 32);
-			newPos.y -= std::fmodf(mousePosRelativeToView.y, 32);
+			//Offsets based on the mouse position 
+			newPos.x -= std::fmodf(mousePosRelativeToView.x - (std::fmodf(_selector.getPosition().x, 32.0f)), 32);
+			newPos.y -= std::fmodf(mousePosRelativeToView.y - (std::fmodf(_selector.getPosition().y, 32.0f)), 32);
 
 			_hoveredTile.setPosition(newPos);
 		}
@@ -66,18 +69,28 @@ sf::IntRect TilePicker::GetTileRect()
 	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
 	{
 		sf::Vector2f tilePos = _hoveredTile.getPosition();
-		tilePos.x -= SCREEN_WIDTH - _selector.getTexture()->getSize().x;
-		tilePos.y -= SCREEN_HEIGHT - _selector.getTexture()->getSize().y;
+
+
+
+		tilePos -= _selector.getPosition();
 
 		texRect.left = tilePos.x;
 		texRect.top = tilePos.y;
 		texRect.width = 32;
 		texRect.height = 32;
 
-		_activeTile.setPosition(_hoveredTile.getPosition());
+		_activeTile.setPosition(tilePos);
 
 		active = false;
 	}
 
 	return texRect;
+}
+
+void TilePicker::Activate()
+{
+	active = true;
+	_selector.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
+	_selectorWindow.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
+	_activeTile.setPosition(_activeTile.getPosition() + _selector.getPosition());
 }

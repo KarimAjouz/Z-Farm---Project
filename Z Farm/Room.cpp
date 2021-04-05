@@ -116,7 +116,7 @@ void Room::AddTile(int x, int y, int xUV, int yUV)
 	if (yUV >= 160)
 		collision = false;
 
-	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "Tiles", TILE_PATH, collision, newPos, sf::IntRect(xUV, yUV, 32, 32));
+	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "Tiles", TILE_PATH, collision, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
 	_map[y][x] = sf::Vector2i(xUV / 32, yUV / 32);
 }
 
