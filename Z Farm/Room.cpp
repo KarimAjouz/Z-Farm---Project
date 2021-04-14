@@ -26,14 +26,24 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setFillColor(sf::Color::Transparent);
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
+
+	BuildPhyics();
 }
 
 Room::~Room()
 {
+	for (int i = agents.size() - 1; i > 0; i--)
+	{
+		delete agents[i];
+	}
 }
 
 void Room::Update(float dT)
 {
+	for (int i = 0; i < agents.size(); i++)
+		agents[i]->Update(dT);
+
+	RemoveDeadEntities();
 }
 
 void Room::Draw()
@@ -41,7 +51,9 @@ void Room::Draw()
 	for (int i = 0; i < tiles.size(); i++)
 		tiles.at(i).Draw();
 
-	_data->window.draw(roomShape);
+	for (int i = 0; i < agents.size(); i++)
+		agents[i]->Draw();
+
 }
 
 /// <summary>
@@ -49,7 +61,13 @@ void Room::Draw()
 /// </summary>
 void Room::BuildLevel()
 {
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		tiles[i].RemovePhysics();
+	}
+
 	tiles.clear();
+
 	for (int y = 0; y < _map.size(); y++)
 	{
 		for (int x = 0; x < _map[y].size(); x++)
@@ -70,7 +88,7 @@ Tile Room::GenTiles(sf::Vector2i uv, int x, int y)
 {
 	bool collision = true;
 
-	if (uv.y * 32 >= 160)
+	if (uv.y * 32 >= 160 || (uv.x * 32 == 32 && uv.y * 32 == 32))
 		collision = false;
 
 	//Builds a tile at the correct location.
@@ -113,7 +131,7 @@ void Room::AddTile(int x, int y, int xUV, int yUV)
 	x = x % 15;
 	y = y % 10;
 
-	if (yUV >= 160)
+	if (yUV >= 160 || (xUV == 32 && yUV == 32))
 		collision = false;
 
 	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "Tiles", TILE_PATH, collision, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
@@ -124,16 +142,28 @@ void Room::BuildPhyics()
 {
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(roomOffset.x / SCALE, roomOffset.y / SCALE);
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_staticBody;
 	b2Body* body = _worldRef->CreateBody(&bodyDef);
+	body->SetFixedRotation(true);
 
-	// Create and add Room Sensor Fixture
+	b2PolygonShape polygonShape;
+	polygonShape.SetAsBox(SCREEN_WIDTH / 2 / SCALE, SCREEN_HEIGHT / 2 / SCALE, b2Vec2(SCREEN_WIDTH / 2 / SCALE, SCREEN_HEIGHT / 2 / SCALE), 0);
+
 	b2FixtureDef fixtureDef;
-	b2PolygonShape polygonShape; 
-	polygonShape.SetAsBox(0, 0, b2Vec2(SCREEN_WIDTH / SCALE, SCREEN_HEIGHT / SCALE), 0);
+	fixtureDef.density = 1.0f;
 
-
+	fixtureDef.shape = &polygonShape;
 	fixtureDef.isSensor = true;
+
 	b2Fixture* roomSensorFixture = body->CreateFixture(&fixtureDef);
 	roomSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::room);
+}
+
+void Room::RemoveDeadEntities()
+{
+	for (int i = 0; i < agents.size(); i++)
+	{
+		if (agents[i]->isMarked)
+			agents.erase(agents.begin() + i);
+	}
 }

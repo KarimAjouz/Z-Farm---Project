@@ -13,9 +13,15 @@ public:
 
 
 	void FlipSprite();
+	
+	virtual void Hit() = 0;
 
 	sf::Sprite sprite;
+	sf::RectangleShape hitbox;
 	bool isFlipped;
+	bool isMarked = false;
+
+	void MarkForDeath() { isMarked = true; };
 private:
 };
 

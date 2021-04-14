@@ -10,6 +10,8 @@
 #include "Tile.h"
 #include "PhysicsDebugDraw.h"
 #include "LevelBuilder.h"
+#include "AlarmPig.h"
+#include "SwordPickup.h"
 
 #include <box2d.h>
 
@@ -36,6 +38,8 @@ public:
 	BalanceSheet balanceSheet;
 	SaveDataManager::SaveData saveData;
 
+	void SetViewCenter(sf::Vector2f newCenter) { _viewTarget = newCenter; }
+
 
 
 private:
@@ -45,7 +49,6 @@ private:
 	SaveDataManager _saveManager;
 	ZEngine::GameDataRef _data;
 
-	Player _player;
 	ContactListener _contactListener;
 
 	PhysicsDebugDraw _debugDraw;
@@ -53,14 +56,21 @@ private:
 
 	bool _debugMode = false;
 
-	Level _level;
+	Level* _level = new Level();
+
+	Player _player;
 
 	LevelBuilder _levelBuilder;
 	bool _building;
 
+	SwordPickup _testSword;
+	sf::Vector2f _viewTarget = sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
 	void Exit();
 
 	void CreateGround(b2World& world, float x, float y);
+
+	void LerpView(float dT);
 
 };
 

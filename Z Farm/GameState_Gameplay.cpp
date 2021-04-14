@@ -19,21 +19,25 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_data(data),
 	balanceSheet(BalanceSheet()),
 	_saveManager(SaveDataManager()),
-	_player(sf::Vector2f(400.0f, 300.0f), data, &balanceSheet, &_world),
+	_player(sf::Vector2f(400.0f, 300.0f), data, &balanceSheet, &_world, &_viewTarget, _level),
 	_paused(false),
 	_gravity(0.0f, 9.8f),
 	_world(_gravity),
 	_contactListener(&_player),
 	_debugDraw(data),
-	_level(data, &_world),
-	_levelBuilder(_data, &_world, &_level)
+	_levelBuilder(_data, &_world, _level),
+	_testSword(_data, &_world, &_player)
 {
 	ZEngine::Utilities::SeedRandom();
+
+	
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
 	_world.SetContactListener(&_contactListener);
 	_debugDraw.SetFlags(b2Draw::e_shapeBit);
 	_world.SetDebugDraw(&_debugDraw);
+
+	_level->Init(_data, &_world);
 
 	sf::View view;
 	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -133,6 +137,9 @@ void GameState_Gameplay::PollEvents()
 				_levelBuilder.MouseRelease();
 			if (_building && e.mouseButton.button == sf::Mouse::Button::Right)
 				_levelBuilder.OpenSelector();
+
+			if (!_building && e.mouseButton.button == sf::Mouse::Button::Left)
+				_player.Stab();
 			break;
 		case sf::Event::MouseWheelScrolled:
 			if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
@@ -156,12 +163,20 @@ void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
 	{
-		_player.Update(dT);
-
 		if(_building)
 			_levelBuilder.Update(dT);
+		else
+		{
+			_level->Update(dT);
+			_player.Update(dT);
+			LerpView(dT);
 
-		_world.Step(dT, 8, 3);
+			_testSword.Update(dT);
+
+			_world.Step(dT, 8, 3);
+
+		}
+
 	}
 }
 
@@ -173,8 +188,10 @@ void GameState_Gameplay::Draw()
 {
 	_data->window.clear();
 
-	_level.Draw();
+	_level->Draw();
 	_player.Draw();
+	_testSword.Draw();
+
 
 	if(_debugMode)
 		_world.DebugDraw();
@@ -201,6 +218,7 @@ void GameState_Gameplay::Resume()
 /// </summary>
 void GameState_Gameplay::Exit()
 {
+	delete _level;
 	_data->window.close();
 }
 
@@ -220,4 +238,13 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
 	fixture->GetUserData().pointer = static_cast<int>(CollisionTag::level); //Tag the ground as 1
 	
+}
+
+void GameState_Gameplay::LerpView(float dT)
+{
+	sf::View view = _data->window.getView();
+	sf::Vector2f newCenter = view.getCenter();
+	newCenter = ZEngine::Utilities::Lerp(newCenter, _viewTarget, dT);
+	view.setCenter(newCenter);
+	_data->window.setView(view);
 }

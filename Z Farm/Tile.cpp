@@ -16,8 +16,7 @@ Tile::Tile(ZEngine::GameDataRef data, b2World* worldRef, std::string name, std::
 	else
 		_collisionTag = CollisionTag::background;
 
-	if(collision)
-		GenPhysics(worldRef, frameRect);
+	GenPhysics(worldRef, frameRect);
 
 }
 
@@ -40,20 +39,24 @@ void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)
 	tileDef.position = b2Vec2(sprite.getPosition().x / SCALE, sprite.getPosition().y / SCALE);
 	tileDef.type = b2_kinematicBody;
 	tileBody = worldRef->CreateBody(&tileDef);
+	tileBody->GetUserData().pointer = static_cast<int>(CollisionTag::tile);
 
 	b2PolygonShape polygonShape;
 	polygonShape.SetAsBox((frameRect.width * sprite.getScale().x / 2) / SCALE, (frameRect.height * sprite.getScale().y / 2 ) / SCALE, b2Vec2(0.0f, 0.0f), 0.0f);
 
-	b2FixtureDef myFixtureDef;
-	myFixtureDef.density = 1.0f;
-	myFixtureDef.shape = &polygonShape;
-	b2Fixture* fixture = tileBody->CreateFixture(&myFixtureDef);
+	if (_collisionTag == CollisionTag::level)
+	{
+		b2FixtureDef myFixtureDef;
+		myFixtureDef.density = 1.0f;
+		myFixtureDef.friction = 0.8f;
+		myFixtureDef.shape = &polygonShape;
+		b2Fixture* fixture = tileBody->CreateFixture(&myFixtureDef);
+		fixture->GetUserData().pointer = static_cast<int>(_collisionTag);
+	}
 
-	fixture->GetUserData().pointer = static_cast<int>(_collisionTag);
 }
 
 void Tile::RemovePhysics()
 {
-	if(_collisionTag == CollisionTag::level)
-		tileBody->GetWorld()->DestroyBody(tileBody);
+	tileBody->GetWorld()->DestroyBody(tileBody);
 }

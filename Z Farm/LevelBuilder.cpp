@@ -283,6 +283,7 @@ void LevelBuilder::LoadLevel()
 		//Set the tiles in the map copy to the correct coordinates. 
 		if (input.is_open())
 		{
+
 			_levelRef->rooms.clear();
 
 			int y = 0;

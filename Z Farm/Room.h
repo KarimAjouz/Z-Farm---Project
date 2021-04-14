@@ -1,12 +1,12 @@
 #pragma once
 #include "Tile.h"
+#include "Agent.h"
 
 class Room
 {
 public:
 	Room(ZEngine::GameDataRef data, b2World* worldRef);
 	Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset);
-	Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset, std::vector < std::vector < sf::Vector2i >> map);
 	~Room();
 
 	void Update(float dT);
@@ -25,6 +25,23 @@ public:
 	std::vector<Tile> tiles;
 
 	void BuildLevel();
+
+	std::vector < std::vector < sf::Vector2i >> emptyRoom =
+	{
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
+	};
+
+	std::vector<Agent*> agents;
+
 private:
 
 	ZEngine::GameDataRef _data;
@@ -50,5 +67,9 @@ private:
 	};
 
 	void BuildPhyics();
+
+	void SetView();
+
+	void RemoveDeadEntities();
 };
 

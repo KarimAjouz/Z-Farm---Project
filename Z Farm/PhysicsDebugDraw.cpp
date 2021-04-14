@@ -44,10 +44,28 @@ void PhysicsDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCoun
 
 void PhysicsDebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& color)
 {
+	sf::CircleShape circle;
+	circle.setRadius(radius * SCALE);
+	circle.setOrigin(sf::Vector2f(center.x * SCALE, center.y * SCALE));
+	circle.setPosition(sf::Vector2f(center.x * SCALE, center.y * SCALE));
+	circle.setFillColor(sf::Color::Transparent);
+	circle.setOutlineColor(sf::Color(color.r, color.g, color.b, color.a));
+
+	_data->window.draw(circle);
+
 }
 
 void PhysicsDebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color)
 {
+	sf::CircleShape circle;
+	circle.setRadius(radius * SCALE);
+	circle.setOrigin(sf::Vector2f(radius * SCALE, radius * SCALE));
+	circle.setPosition(sf::Vector2f(center.x * SCALE, center.y * SCALE));
+	circle.setFillColor(sf::Color::Transparent);
+	circle.setOutlineColor(sf::Color::Red);
+	circle.setOutlineThickness(1.0f);
+
+	_data->window.draw(circle);
 }
 
 void PhysicsDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)

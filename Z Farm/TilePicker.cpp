@@ -6,6 +6,7 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_data(data),
 	active(false)
 {
+	_data->assetManager.LoadTexture("Tiles", TILE_PATH);
 	_selector.setTexture(_data->assetManager.GetTexture("Tiles"));
 	_selector.setPosition(sf::Vector2f(SCREEN_WIDTH - _selector.getTexture()->getSize().x, SCREEN_HEIGHT - _selector.getTexture()->getSize().y));
 

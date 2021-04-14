@@ -88,5 +88,19 @@ namespace ZEngine
 		srand(time(0));
 	}
 
+	float Utilities::Lerp(float cur, float target, float inc)
+	{
+		float ret = cur;
+		ret += ((target - cur) * inc);
+		return ret;
+	}
+
+	sf::Vector2f Utilities::Lerp(sf::Vector2f cur, sf::Vector2f target, float inc)
+	{
+		sf::Vector2f ret = cur;
+		ret += ((target - cur) * inc);
+		return ret;
+	}
+
 
 }

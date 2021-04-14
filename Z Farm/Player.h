@@ -5,6 +5,8 @@
 #include "SaveDataManager.h"
 #include "Timer.h"
 #include "AnimationSystem.h"
+#include "Level.h"
+#include "Timer.h"
 
 #include <box2d.h>
 
@@ -13,7 +15,7 @@
 class Player : public Agent
 {
 public:
-	Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2World* worldRef);
+	Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2World* worldRef, sf::Vector2f* viewTargetRef, Level* levelRef);
 	~Player();
 
 	void Update(float dT);
@@ -24,6 +26,10 @@ public:
 
 	void SetView();
 
+	void Hit();
+	void EquipSword();
+
+	void Stab();
 private:
 	enum class State
 	{
@@ -37,20 +43,28 @@ private:
 		dying
 	};
 
+	bool _swordActive = false;
+
 	b2World* _worldRef;
 	sf::Vector2i _wasd = sf::Vector2i();
 	float _desiredVelocity = 0;
+	
+
+	ZEngine::Timer _stabDelay;
 
 	int forceMult = 5;
 	State _state;
 	ZEngine::GameDataRef _data;
 	
 	ZEngine::AnimationSystem _animSystem = ZEngine::AnimationSystem(&sprite, _data);
-	sf::IntRect _colBox = sf::IntRect(25, 16, 12, 22);
+	sf::IntRect _colBox = sf::IntRect(25, 16, 18, 12);
 
-	sf::RectangleShape debugRect = sf::RectangleShape();
-	sf::RectangleShape footDebugShape = sf::RectangleShape();
+	sf::RectangleShape _lStab = sf::RectangleShape(sf::Vector2f(24, 12));
+	sf::RectangleShape _rStab = sf::RectangleShape(sf::Vector2f(24, 12));
 
+
+	sf::Vector2f* _viewTargetRef;
+	Level* _levelRef;
 
 	b2Body* _playerBody = nullptr;
 	b2Fixture* _footFixture = nullptr;
@@ -64,7 +78,9 @@ private:
 	void UpdateAnimations(float dT);
 
 	void InitAnimations();
-	void InitPhysics(sf::Vector2f pos, b2World* worldRef);
+	void InitPhysics(sf::Vector2f pos);
+
+	void TestStab();
 
 
 };

@@ -28,6 +28,8 @@ namespace ZEngine
 
 		static void SeedRandom();
 
+		static float Lerp(float cur, float target, float inc);
+		static sf::Vector2f Lerp(sf::Vector2f cur, sf::Vector2f target, float inc);
 
 
 	};

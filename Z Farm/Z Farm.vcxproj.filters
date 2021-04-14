@@ -43,18 +43,13 @@
     <ClCompile Include="GameState_Splash.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="Animation.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
     <ClCompile Include="AnimationSystem.cpp" />
-    <ClCompile Include="ContactListener.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="PhysicsDebugDraw.cpp" />
     <ClCompile Include="Room.cpp">
       <Filter>LevelEditor</Filter>
     </ClCompile>
@@ -67,6 +62,17 @@
     <ClCompile Include="TilePicker.cpp">
       <Filter>LevelEditor</Filter>
     </ClCompile>
+    <ClCompile Include="AlarmPig.cpp" />
+    <ClCompile Include="ContactListener.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsDebugDraw.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Pickup.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -118,11 +124,7 @@
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="AnimationSystem.h" />
-    <ClInclude Include="ContactListener.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h" />
-    <ClInclude Include="PhysicsDebugDraw.h" />
     <ClInclude Include="GameMaps.h" />
     <ClInclude Include="Room.h">
       <Filter>LevelEditor</Filter>
@@ -136,6 +138,14 @@
     <ClInclude Include="TilePicker.h">
       <Filter>LevelEditor</Filter>
     </ClInclude>
+    <ClInclude Include="AlarmPig.h" />
+    <ClInclude Include="ContactListener.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsDebugDraw.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordPickup.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
