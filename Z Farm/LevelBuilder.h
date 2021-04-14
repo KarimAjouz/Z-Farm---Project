@@ -2,6 +2,9 @@
 #include "Game.h"
 #include "Level.h"
 #include "TilePicker.h"
+#include "Player.h"
+
+
 #include <SFML/Graphics.hpp>
 
 #include <string>
@@ -9,7 +12,7 @@
 class LevelBuilder
 {
 public:
-	LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* levelRef);
+	LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* levelRef, Player* playerRef);
 	~LevelBuilder();
 
 	void Update(float dT);
@@ -36,6 +39,7 @@ private:
 	sf::Vector2f _curRoomOffset = sf::Vector2f();
 	Level* _levelRef;
 	b2World* _worldRef;
+	Player* _playerRef;
 
 	sf::IntRect _texRect = sf::IntRect(0, 0, 32, 32);
 
@@ -53,5 +57,6 @@ private:
 	bool _inRoom = false;
 
 	void NewRoom();
+	void AddUnit();
 	void TestMouseHover();
 };

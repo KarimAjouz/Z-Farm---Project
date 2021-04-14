@@ -53,3 +53,14 @@ void Level::Draw()
 		rooms[i].Draw();
 	}
 }
+
+void Level::ClearUnitPhysics()
+{
+	for (int i = 0; i < rooms.size(); i++)
+	{
+		for (int j = 0; j < rooms[i].agents.size(); j++)
+		{
+			_worldRef->DestroyBody(rooms[i].agents[j]->body);
+		}
+	}
+}

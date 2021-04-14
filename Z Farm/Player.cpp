@@ -29,7 +29,7 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2W
 	_lStab.setOrigin(24, 12);
 	_rStab.setOrigin(24, 12);
 
-
+	SetView();
 }
 
 
@@ -374,8 +374,11 @@ void Player::SetView()
 {
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
-		if(_levelRef->rooms[i].roomShape.getGlobalBounds().contains(sprite.getPosition()))
+		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(sprite.getPosition()))
+		{
 			*_viewTargetRef = sf::Vector2f(_levelRef->rooms[i].roomOffset.x + SCREEN_WIDTH / 2, _levelRef->rooms[i].roomOffset.y + SCREEN_HEIGHT / 2);
+			_levelRef->activeRoom = &_levelRef->rooms[i];
+		}
 	}
 }
 

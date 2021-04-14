@@ -30,10 +30,10 @@ private:
 	void UpdateAnimations();
 	void UpdateState();
 
-	b2Body* _body = nullptr;
 
 	ZEngine::AnimationSystem _animSys;
 	
+	sf::RectangleShape line = sf::RectangleShape(sf::Vector2f(150.0f, 5.0f));
 
 
 	void DestroyPig();

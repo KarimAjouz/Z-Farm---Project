@@ -22,6 +22,16 @@ public:
 	bool isMarked = false;
 
 	void MarkForDeath() { isMarked = true; };
+
+	enum class Type
+	{
+		alarmPig
+	};
+
+	Type type = Type::alarmPig;
+
+	b2Body* body = nullptr;
+
 private:
 };
 

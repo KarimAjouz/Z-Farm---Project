@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Room.h"
+
 class Level
 {
 public:
@@ -12,6 +13,8 @@ public:
 	void Init(ZEngine::GameDataRef _data, b2World* worldRef);
 	void Update(float dT);
 	void Draw();
+
+	void ClearUnitPhysics();
 
 	std::vector<Room> rooms;
 	Room* activeRoom;

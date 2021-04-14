@@ -25,7 +25,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_world(_gravity),
 	_contactListener(&_player),
 	_debugDraw(data),
-	_levelBuilder(_data, &_world, _level),
+	_levelBuilder(_data, &_world, _level, &_player),
 	_testSword(_data, &_world, &_player)
 {
 	ZEngine::Utilities::SeedRandom();

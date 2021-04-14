@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "Agent.h"
 
 class TilePicker
 {
@@ -17,6 +18,14 @@ public:
 	void Activate();
 	bool active;
 
+	enum class State
+	{
+		shipTiles,
+		units
+	};
+
+	State state = State::shipTiles;
+
 private:
 
 	sf::Sprite _selector;
@@ -25,5 +34,8 @@ private:
 	sf::RectangleShape _hoveredTile;
 	sf::RectangleShape _selectorWindow;
 	sf::RectangleShape _activeTile;
+
+	void UpdateState();
+	Agent* InstantiateAgent();
 };
 

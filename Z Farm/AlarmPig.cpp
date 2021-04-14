@@ -40,17 +40,15 @@ void AlarmPig::Update(float dT)
 
 	_animSys.Update(dT);
 
-	sprite.setPosition(_body->GetPosition().x * SCALE, _body->GetPosition().y * SCALE);
+	sprite.setPosition(body->GetPosition().x * SCALE, body->GetPosition().y * SCALE);
 	hitbox.setPosition(sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y + 12));
-
-
 
 }
 
 void AlarmPig::Draw()
 {
 	_data->window.draw(sprite);
-
+	//_data->window.draw(line);
 }
 
 void AlarmPig::UpdateState()
@@ -75,6 +73,13 @@ void AlarmPig::UpdateAnimations()
 {
 	switch (_state)
 	{
+		case State::idle:
+			if (_animSys.GetCurrentAnim() != "PigIdle")
+			{
+				_animSys.SetAnimation("PigIdle");
+				_animSys.Play();
+			}
+			break;
 		case State::hit:
 			if (_animSys.GetCurrentAnim() != "PigHit")
 			{
@@ -108,8 +113,8 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(pos.x / SCALE, pos.y / SCALE);
 	bodyDef.type = b2_dynamicBody;
-	_body = _worldRef->CreateBody(&bodyDef);
-	_body->SetFixedRotation(true);
+	body = _worldRef->CreateBody(&bodyDef);
+	body->SetFixedRotation(true);
 
 	b2PolygonShape polygonShape;
 	b2CircleShape circleShape;
@@ -122,20 +127,24 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 	myFixtureDef.friction = 0.4f;
 	myFixtureDef.restitution = 0.5f;
 	myFixtureDef.shape = &circleShape;
-	b2Fixture* playerFixture = _body->CreateFixture(&myFixtureDef);
+	b2Fixture* playerFixture = body->CreateFixture(&myFixtureDef);
 	playerFixture->GetUserData().pointer = static_cast<int>(CollisionTag::enemy);
 }
 
 void AlarmPig::DestroyPig()
 {
+	_worldRef->DestroyBody(body);
 	isMarked = true;
-	_worldRef->DestroyBody(_body);
 }
 
 void AlarmPig::Hit()
 {
-	if(_state != State::hit)
+	if (_state != State::hit)
+	{
+		body->GetFixtureList()->SetSensor(true);
+		body->ApplyLinearImpulseToCenter(b2Vec2(3.0f, -3.0f), true);
 		_state = State::hit;
+	}
 }
 
 bool AlarmPig::CanSeePlayer()
@@ -152,7 +161,7 @@ bool AlarmPig::CanSeePlayer()
 
 	b2Vec2 intersectionNormal = b2Vec2(0.0f, 0.0f);
 
-	float closestFraction = 320.0f / SCALE;
+	float closestFraction = SCREEN_WIDTH * 2 / SCALE;
 	input.maxFraction = closestFraction;
 
 	for (b2Body* b = _worldRef->GetBodyList(); b; b = b->GetNext())
@@ -164,17 +173,21 @@ bool AlarmPig::CanSeePlayer()
 			if (!f->RayCast(&output, input, 0))
 				continue;
 
-			if (output.fraction < closestFraction && static_cast<int>(f->GetUserData().pointer) == static_cast<int>(CollisionTag::player))
+			if (output.fraction < closestFraction)
 			{
 				closestFraction = output.fraction;
 				intersectionNormal = output.normal;
 
-				playerVisible = true;
+				if(static_cast<int>(f->GetUserData().pointer) == static_cast<int>(CollisionTag::player))
+					playerVisible = true;
 			}
 		}
 	}
 
 	b2Vec2 intersectionPoint = input.p1 + closestFraction * (input.p2 - input.p1);
+
+	//line.setPosition(intersectionPoint.x * SCALE, intersectionPoint.y * SCALE);
+	//line.setSize(sf::Vector2f((input.p1.x - intersectionPoint.x) * SCALE, 2.0f));
 
 
 	return playerVisible;
