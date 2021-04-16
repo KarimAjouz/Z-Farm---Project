@@ -27,21 +27,24 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
 
+
+	props.push_back(new Spike(_data, _worldRef, sf::Vector2f(640, 640 - 128)));
+
 	BuildPhyics();
 }
 
 Room::~Room()
 {
-	for (int i = agents.size() - 1; i > 0; i--)
-	{
-		delete agents[i];
-	}
+
 }
 
 void Room::Update(float dT)
 {
 	for (int i = 0; i < agents.size(); i++)
-		agents[i]->Update(dT);
+		agents.at(i)->Update(dT);
+
+	for (int i = 0; i < props.size(); i++)
+		props.at(i)->Update(dT);
 
 	RemoveDeadEntities();
 }
@@ -52,7 +55,10 @@ void Room::Draw()
 		tiles.at(i).Draw();
 
 	for (int i = 0; i < agents.size(); i++)
-		agents[i]->Draw();
+		agents.at(i)->Draw();
+
+	for (int i = 0; i < props.size(); i++)
+		props.at(i)->Draw();
 
 }
 
@@ -163,7 +169,7 @@ void Room::RemoveDeadEntities()
 {
 	for (int i = 0; i < agents.size(); i++)
 	{
-		if (agents[i]->isMarked)
+		if (agents.at(i)->isMarked)
 			agents.erase(agents.begin() + i);
 	}
 }

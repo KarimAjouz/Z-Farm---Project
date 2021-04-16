@@ -15,6 +15,7 @@ public:
 	void FlipSprite();
 	
 	virtual void Hit() = 0;
+	virtual void Hit(sf::Vector2f playerPos) = 0;
 
 	sf::Sprite sprite;
 	sf::RectangleShape hitbox;

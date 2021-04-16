@@ -269,7 +269,7 @@ void LevelBuilder::SaveLevel()
 
 			for (int a = 0; a < _levelRef->rooms[i].agents.size(); a++)
 			{
-				Agent* agent = _levelRef->rooms[i].agents[a];
+				Agent* agent = _levelRef->rooms[i].agents.at(a);
 				std::string agentType = std::to_string(static_cast<int>(agent->type));
 				std::string xPos = std::to_string(agent->sprite.getPosition().x);
 				std::string yPos = std::to_string(agent->sprite.getPosition().y);
@@ -368,7 +368,7 @@ void LevelBuilder::LoadLevel()
 					switch (type)
 					{
 						case Agent::Type::alarmPig:
-							Agent* newAgent = new AlarmPig(_data, _worldRef, agentPos);
+							AlarmPig* newAgent = new AlarmPig(_data, _worldRef, agentPos);
 							
 							if (flipped)
 								newAgent->FlipSprite();

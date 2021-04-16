@@ -100,7 +100,6 @@ void AlarmPig::UpdateAnimations()
 
 void AlarmPig::InitAnimations()
 {
-
 	sf::IntRect frameRect = sf::IntRect(0, 0, 34, 28);
 	sf::Vector2f frameOrigin = sf::Vector2f(20, 12);
 	_animSys.AddAnimation("PigIdle", PIG_IDLE, 1.1f, true, frameRect, frameOrigin);
@@ -127,8 +126,8 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 	myFixtureDef.friction = 0.4f;
 	myFixtureDef.restitution = 0.5f;
 	myFixtureDef.shape = &circleShape;
-	b2Fixture* playerFixture = body->CreateFixture(&myFixtureDef);
-	playerFixture->GetUserData().pointer = static_cast<int>(CollisionTag::enemy);
+	b2Fixture* pigFixture = body->CreateFixture(&myFixtureDef);
+	pigFixture->GetUserData().pointer = static_cast<int>(CollisionTag::enemy);
 }
 
 void AlarmPig::DestroyPig()
@@ -141,8 +140,30 @@ void AlarmPig::Hit()
 {
 	if (_state != State::hit)
 	{
-		body->GetFixtureList()->SetSensor(true);
-		body->ApplyLinearImpulseToCenter(b2Vec2(3.0f, -3.0f), true);
+		_state = State::hit;
+	}
+}
+
+void AlarmPig::Hit(sf::Vector2f playerPos)
+{
+	if (_state != State::hit)
+	{
+		if (playerPos.x < sprite.getPosition().x)
+		{
+			if (isFlipped)
+				FlipSprite();
+
+			body->ApplyLinearImpulseToCenter(b2Vec2(3.0f, -3.0f), true);
+		}
+
+		if (playerPos.x > sprite.getPosition().x)
+		{
+			if (!isFlipped)
+				FlipSprite();
+
+			body->ApplyLinearImpulseToCenter(b2Vec2(-3.0f, -3.0f), true);
+		}
+
 		_state = State::hit;
 	}
 }

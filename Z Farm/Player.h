@@ -27,6 +27,7 @@ public:
 	void SetView();
 
 	void Hit();
+	void Hit(sf::Vector2f enemyPos);
 	void EquipSword();
 
 	void Stab();

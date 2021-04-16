@@ -73,6 +73,8 @@
       <Filter>ZEngine</Filter>
     </ClCompile>
     <ClCompile Include="SwordPickup.cpp" />
+    <ClCompile Include="Prop.cpp" />
+    <ClCompile Include="Spike.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -146,6 +148,8 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="SwordPickup.h" />
+    <ClInclude Include="Prop.h" />
+    <ClInclude Include="Spike.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

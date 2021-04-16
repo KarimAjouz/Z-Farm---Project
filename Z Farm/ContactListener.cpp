@@ -1,7 +1,8 @@
 #include "ContactListener.h"
 
-ContactListener::ContactListener(Player* player) :
-    playerRef(player)
+ContactListener::ContactListener(Player* player, Level* level) :
+    playerRef(player),
+    levelRef(level)
 {
 }
 
@@ -20,6 +21,20 @@ void ContactListener::BeginContact(b2Contact* contact)
         playerRef->footContacts++;
     else if (fixtureBUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureAUserData == static_cast<int>(CollisionTag::level))
         playerRef->footContacts++;
+
+    // Handles Spike Collisions with Player
+    if (fixtureAUserData == static_cast<int>(CollisionTag::player) && fixtureBUserData == static_cast<int>(CollisionTag::spike))
+        playerRef->Hit();
+    else if (fixtureBUserData == static_cast<int>(CollisionTag::player) && fixtureAUserData == static_cast<int>(CollisionTag::spike))
+        playerRef->Hit();
+
+    // Handles Spike Collisions with enemies.
+    if (fixtureAUserData == static_cast<int>(CollisionTag::enemy) && fixtureBUserData == static_cast<int>(CollisionTag::spike))
+        levelRef->SpikeAgents();
+    else if (fixtureBUserData == static_cast<int>(CollisionTag::enemy) && fixtureAUserData == static_cast<int>(CollisionTag::spike))
+        levelRef->SpikeAgents();
+
+
 
 
 }

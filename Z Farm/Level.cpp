@@ -1,9 +1,6 @@
 #include "Level.h"
 #include "AlarmPig.h"
 
-Level::Level()
-{
-}
 
 Level::Level(ZEngine::GameDataRef data, b2World* worldRef) :
 	_data(data),
@@ -16,26 +13,29 @@ Level::Level(ZEngine::GameDataRef data, b2World* worldRef) :
 		rooms[i].BuildLevel();
 	}
 
+	activeRoom = &rooms[0];
+	activeRoom->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(600.0f, 500.0f)));
+
 }
 
 Level::~Level()
 {
+
 }
 
 void Level::Init(ZEngine::GameDataRef data, b2World* worldRef)
 {
-	_data = data;
-	_worldRef = worldRef;
-	rooms.push_back(Room(data, worldRef, sf::Vector2f(0.0f, 0.0f)));
+	//_data = data;
+	//_worldRef = worldRef;
+	//rooms.push_back(Room(data, worldRef, sf::Vector2f(0.0f, 0.0f)));
 
-	for (int i = 0; i < rooms.size(); i++)
-	{
-		rooms[i].BuildLevel();
-	}
+	//for (int i = 0; i < rooms.size(); i++)
+	//{
+	//	rooms[i].BuildLevel();
+	//}
 
 
-	activeRoom = &rooms[0];
-	activeRoom->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(600.0f, 500.0f)));
+	//activeRoom = &rooms[0];
 }
 
 void Level::Update(float dT)
@@ -60,7 +60,22 @@ void Level::ClearUnitPhysics()
 	{
 		for (int j = 0; j < rooms[i].agents.size(); j++)
 		{
-			_worldRef->DestroyBody(rooms[i].agents[j]->body);
+			_worldRef->DestroyBody(rooms[i].agents.at(j)->body);
+		}
+	}
+}
+
+void Level::SpikeAgents()
+{
+	for (int a = 0; a < activeRoom->agents.size(); a++)
+	{
+		for (int p = 0; p < activeRoom->props.size(); p++)
+		{
+			if (activeRoom->props.at(p)->type == Prop::Type::spike)
+			{
+				if (activeRoom->agents.at(a)->hitbox.getGlobalBounds().intersects(activeRoom->props.at(p)->hitBox.getGlobalBounds()))
+					activeRoom->agents.at(a)->Hit(activeRoom->props.at(p)->sprite.getPosition());
+			}
 		}
 	}
 }

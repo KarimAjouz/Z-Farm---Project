@@ -7,10 +7,11 @@ class ContactListener : public b2ContactListener
 {
 public:
 
-    ContactListener(Player* player);
+    ContactListener(Player* player, Level* level);
     ~ContactListener();
 
     Player* playerRef;
+    Level* levelRef;
 
     void BeginContact(b2Contact* contact);
 

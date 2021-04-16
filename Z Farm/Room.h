@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "Agent.h"
+#include "Spike.h"
 
 class Room
 {
@@ -40,7 +41,8 @@ public:
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
 	};
 
-	std::vector<Agent*> agents;
+	std::vector<Agent*> agents = std::vector<Agent*>();
+	std::vector<Prop*> props = std::vector<Prop*>();
 
 private:
 

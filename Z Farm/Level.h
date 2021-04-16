@@ -5,7 +5,6 @@
 class Level
 {
 public:
-	Level();
 	Level(ZEngine::GameDataRef data, b2World* worldRef);
 	~Level();
 
@@ -16,8 +15,10 @@ public:
 
 	void ClearUnitPhysics();
 
+	void SpikeAgents();
+
 	std::vector<Room> rooms;
-	Room* activeRoom;
+	Room* activeRoom = nullptr;
 private:
 
 	ZEngine::GameDataRef _data;

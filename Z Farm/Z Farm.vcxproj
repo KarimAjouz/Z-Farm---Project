@@ -152,6 +152,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
+    <ClCompile Include="Prop.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PhysicsDebugDraw.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBar.cpp" />
     <ClCompile Include="SaveDataManager.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="SwordPickup.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -186,12 +188,14 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelBuilder.h" />
+    <ClInclude Include="Prop.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="PhysicsDebugDraw.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBar.h" />
     <ClInclude Include="SaveDataManager.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="SwordPickup.h" />
     <ClInclude Include="Tile.h" />

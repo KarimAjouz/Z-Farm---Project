@@ -23,10 +23,11 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_paused(false),
 	_gravity(0.0f, 9.8f),
 	_world(_gravity),
-	_contactListener(&_player),
+	_contactListener(&_player, _level),
 	_debugDraw(data),
 	_levelBuilder(_data, &_world, _level, &_player),
-	_testSword(_data, &_world, &_player)
+	_testSword(_data, &_world, &_player),
+	_level(new Level(_data, &_world))
 {
 	ZEngine::Utilities::SeedRandom();
 
@@ -37,7 +38,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_debugDraw.SetFlags(b2Draw::e_shapeBit);
 	_world.SetDebugDraw(&_debugDraw);
 
-	_level->Init(_data, &_world);
+	//_level->Init(_data, &_world);
 
 	sf::View view;
 	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);

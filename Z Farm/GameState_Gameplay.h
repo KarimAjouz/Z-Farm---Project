@@ -15,7 +15,7 @@
 
 #include <box2d.h>
 
-
+#include "Spike.h"
 #include "Player.h"
 
 
@@ -49,14 +49,14 @@ private:
 	SaveDataManager _saveManager;
 	ZEngine::GameDataRef _data;
 
-	ContactListener _contactListener;
 
 	PhysicsDebugDraw _debugDraw;
 	bool _paused;
 
 	bool _debugMode = false;
 
-	Level* _level = new Level();
+	Level* _level;
+	ContactListener _contactListener;
 
 	Player _player;
 

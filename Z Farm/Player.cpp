@@ -97,6 +97,11 @@ void Player::UpdateState()
 		case Player::State::hit:
 			break;
 		case Player::State::dying:
+			if (_animSystem.GetCurrentAnim() == "PlayerDeath" && _animSystem.Complete())
+			{
+				_state = State::idle;
+				_playerBody->SetTransform(b2Vec2(200.0f / SCALE, 400.0f / SCALE), 0.0f);
+			}
 			break;
 		default:
 			break;
@@ -171,6 +176,13 @@ void Player::UpdateAnimations(float dT)
 				TestStab();
 
 			break;
+		case State::dying:
+			if (_animSystem.GetCurrentAnim() != "PlayerDeath")
+			{
+				_animSystem.SetAnimation("PlayerDeath");
+				_animSystem.Play();
+			}
+			break;
 		}
 	}
 	else
@@ -219,7 +231,13 @@ void Player::UpdateAnimations(float dT)
 				_animSystem.SetAnimation("PlayerFall");
 				_animSystem.Play();
 			}
-
+			break;
+		case State::dying:
+			if (_animSystem.GetCurrentAnim() != "PlayerDeath")
+			{
+				_animSystem.SetAnimation("PlayerDeath");
+				_animSystem.Play();
+			}
 			break;
 		}
 	}
@@ -230,7 +248,12 @@ void Player::UpdateAnimations(float dT)
 
 void Player::Hit()
 {
+	_state = State::dying;
+}
 
+void Player::Hit(sf::Vector2f enemyPos)
+{
+	_state = State::dying;
 }
 
 void Player::EquipSword()
@@ -312,6 +335,7 @@ void Player::InitAnimations()
 	_animSystem.AddAnimation("PlayerJump",      PLAYER_JUMP,             0.3f, false, frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerFall",      PLAYER_FALL,             0.1f, false, frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerLand",      PLAYER_LAND,             0.2f, false, frameRect, frameOrigin);
+	_animSystem.AddAnimation("PlayerDeath",     PLAYER_DEATH,            0.4f, false, frameRect, frameOrigin);
 
 	_animSystem.AddAnimation("PlayerIdleSword", PLAYER_IDLE_SWORD,       0.5f, true,  frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerRunSword",  PLAYER_RUN_SWORD,        0.5f, true,  frameRect, frameOrigin);
@@ -397,16 +421,16 @@ void Player::TestStab()
 	{
 		for (int i = 0; i < _levelRef->activeRoom->agents.size(); i++)
 		{
-			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents[i]->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->agents[i]->Hit();
+			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
+				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
 		}
 	}
 	else if (!isFlipped)
 	{
 		for (int i = 0; i < _levelRef->activeRoom->agents.size(); i++)
 		{
-			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents[i]->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->agents[i]->Hit();
+			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
+				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
 		}
 	}
 
