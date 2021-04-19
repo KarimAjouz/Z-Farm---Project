@@ -1,7 +1,7 @@
 #pragma once
-#include "Prop.h"
+#include "Obstacle.h"
 
-class Spike : public Prop
+class Spike : public Obstacle
 {
 public:
 	Spike(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f pos);

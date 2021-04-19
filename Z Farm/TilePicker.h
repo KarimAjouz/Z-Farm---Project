@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "Agent.h"
+#include "Obstacle.h"
 
 class TilePicker
 {
@@ -21,7 +22,9 @@ public:
 	enum class State
 	{
 		shipTiles,
-		units
+		units,
+		obstacles,
+		props
 	};
 
 	State state = State::shipTiles;
@@ -36,6 +39,8 @@ private:
 	sf::RectangleShape _activeTile;
 
 	void UpdateState();
-	Agent* InstantiateAgent();
+	// Agent* InstantiateAgent();
+	// Obstacle* InstantiateObstacle();
+
 };
 

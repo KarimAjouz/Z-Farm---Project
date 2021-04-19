@@ -8,6 +8,10 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 {
 	_data->assetManager.LoadTexture("Tiles", TILE_PATH);
 	_data->assetManager.LoadTexture("Units", UNITS_PATH);
+	_data->assetManager.LoadTexture("Obstacles", SPIKE_TRAP);
+	_data->assetManager.LoadTexture("Props", SWORD_ITEM);
+
+
 	_selector.setTexture(_data->assetManager.GetTexture("Tiles"));
 	_selector.setPosition(sf::Vector2f(SCREEN_WIDTH - _selector.getTexture()->getSize().x, SCREEN_HEIGHT - _selector.getTexture()->getSize().y));
 
@@ -60,7 +64,10 @@ void TilePicker::Update(float dT)
 			state = State::shipTiles;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
 			state = State::units;
-		
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
+			state = State::obstacles;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num4))
+			state = State::props;
 
 	}
 
@@ -103,23 +110,34 @@ sf::IntRect TilePicker::GetTileRect()
 	return texRect;
 }
 
-Agent* TilePicker::InstantiateAgent()
-{
-	Agent* newAgent = nullptr;
+//Agent* TilePicker::InstantiateAgent()
+//{
+//	Agent* newAgent = nullptr;
+//
+//	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
+//	{
+//		sf::Vector2f tilePos = _hoveredTile.getPosition();
+//		_activeTile.setPosition(tilePos);
+//
+//		active = false;
+//	}
+//
+//	return newAgent;
+//}
 
-	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
-	{
-		sf::Vector2f tilePos = _hoveredTile.getPosition();
-
-		
-
-		_activeTile.setPosition(tilePos);
-
-		active = false;
-	}
-
-	return newAgent;
-}
+//Obstacle* TilePicker::InstantiateObstacle()
+//{
+//	Obstacle* newObstacle = nullptr;
+//
+//	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
+//	{
+//		sf::Vector2f tilePos = _hoveredTile.getPosition();
+//		_activeTile.setPosition(tilePos);
+//		active = false;
+//	}
+//
+//	return newObstacle;
+//}
 
 void TilePicker::Activate()
 {
@@ -139,6 +157,14 @@ void TilePicker::UpdateState()
 			break;
 		case State::units:
 			_selector.setTexture(_data->assetManager.GetTexture("Units"));
+			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
+			break;
+		case State::obstacles:
+			_selector.setTexture(_data->assetManager.GetTexture("Obstacles"));
+			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
+			break;
+		case State::props:
+			_selector.setTexture(_data->assetManager.GetTexture("Props"));
 			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 			break;
 

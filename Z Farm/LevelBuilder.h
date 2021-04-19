@@ -58,5 +58,7 @@ private:
 
 	void NewRoom();
 	void AddUnit();
+	void AddObstacle();
+
 	void TestMouseHover();
 };

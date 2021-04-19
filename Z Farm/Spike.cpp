@@ -46,11 +46,14 @@ void Spike::InitPhysics()
 
 	//Define, set, and add the primary fixture for the spike
 	b2PolygonShape fixtureShape;
-	fixtureShape.SetAsBox(30 / SCALE, 10 / SCALE);
+	fixtureShape.SetAsBox(30 / SCALE, 8 / SCALE);
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.density = 1.0f;
 	myFixtureDef.shape = &fixtureShape;
+	b2Fixture* mainFixture = body->CreateFixture(&myFixtureDef);
+
+	fixtureShape.SetAsBox(30 / SCALE, 10 / SCALE);
 	b2Fixture* spikeFixture = body->CreateFixture(&myFixtureDef);
-	//spikeFixture->SetSensor(true);
+	spikeFixture->SetSensor(true);
 	spikeFixture->GetUserData().pointer = static_cast<int>(CollisionTag::spike);
 }

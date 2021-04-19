@@ -152,7 +152,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
-    <ClCompile Include="Prop.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PhysicsDebugDraw.cpp" />
@@ -188,7 +188,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelBuilder.h" />
-    <ClInclude Include="Prop.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="PhysicsDebugDraw.h" />
     <ClInclude Include="Pickup.h" />

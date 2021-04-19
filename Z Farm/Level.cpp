@@ -69,12 +69,12 @@ void Level::SpikeAgents()
 {
 	for (int a = 0; a < activeRoom->agents.size(); a++)
 	{
-		for (int p = 0; p < activeRoom->props.size(); p++)
+		for (int p = 0; p < activeRoom->obstacles.size(); p++)
 		{
-			if (activeRoom->props.at(p)->type == Prop::Type::spike)
+			if (activeRoom->obstacles.at(p)->type == Obstacle::Type::spike)
 			{
-				if (activeRoom->agents.at(a)->hitbox.getGlobalBounds().intersects(activeRoom->props.at(p)->hitBox.getGlobalBounds()))
-					activeRoom->agents.at(a)->Hit(activeRoom->props.at(p)->sprite.getPosition());
+				if (activeRoom->agents.at(a)->hitbox.getGlobalBounds().intersects(activeRoom->obstacles.at(p)->hitBox.getGlobalBounds()))
+					activeRoom->agents.at(a)->Hit(activeRoom->obstacles.at(p)->sprite.getPosition());
 			}
 		}
 	}

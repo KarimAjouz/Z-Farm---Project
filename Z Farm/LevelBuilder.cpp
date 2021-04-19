@@ -32,7 +32,9 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_hoveredTile.setOutlineThickness(1);
 	_hoveredTile.setOrigin(16, 16);
 	_hoveredTile.setOutlineColor(sf::Color::Green);
-	_hoveredTile.setFillColor(sf::Color::Transparent);
+	
+	sf::Color hoverColor = sf::Color(255, 255, 255, 100.0f);
+	_hoveredTile.setFillColor(hoverColor);
 	_hoveredTile.setScale(2.0f, 2.0f);
 
 	_newRoomSelector.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -83,8 +85,6 @@ void LevelBuilder::Update(float dT)
 void LevelBuilder::Draw()
 {
 	_data->window.draw(_hoveredTile);
-	_data->window.draw(_curSelectedTexture);
-	_data->window.draw(_curTextureOutline);
 	_data->window.draw(_newRoomSelector);
 
 	_tilePicker.Draw();
@@ -108,6 +108,18 @@ void LevelBuilder::MouseRelease()
 				else
 					NewRoom();
 				break;
+			case TilePicker::State::obstacles:
+				if (_inRoom)
+					AddObstacle();
+				else
+					NewRoom();
+				break;
+			case TilePicker::State::props:
+				//if (_inRoom)
+				//	AddUnit();
+				//else
+				//	NewRoom();
+				break;
 		}
 	}
 	else if (_tilePicker.active)
@@ -117,14 +129,22 @@ void LevelBuilder::MouseRelease()
 			case TilePicker::State::shipTiles:
 				_texRect = _tilePicker.GetTileRect();
 				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Tiles"));
-				_curSelectedTexture.setTextureRect(_texRect);
+				_hoveredTile.setScale(2.0f, 2.0f);
 				break;
 			case TilePicker::State::units:
 				_texRect = _tilePicker.GetTileRect();
 				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Units"));
-				_curSelectedTexture.setTextureRect(_texRect);
+				_hoveredTile.setScale(1.0f, 1.0f);
+				break;
+			case TilePicker::State::obstacles:
+				_texRect = _tilePicker.GetTileRect();
+				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Obstacles"));
+				_hoveredTile.setScale(2.0f, 2.0f);
 				break;
 		}
+		_curSelectedTexture.setTextureRect(_texRect);
+		_hoveredTile.setTexture(_curSelectedTexture.getTexture());
+		_hoveredTile.setTextureRect(_texRect);
 		//sf::IntRect temp = sf::IntRect(_texRect.left % _data->assetManager.GetTexture("Tiles").getSize().x, _texRect.top, 32, 32);
 
 	}
@@ -168,6 +188,8 @@ void LevelBuilder::AddTile()
 
 
 }
+
+
 
 /// <summary>
 /// Removes the tile at the current mouse location.
@@ -278,6 +300,16 @@ void LevelBuilder::SaveLevel()
 				output << "AGENT: " << agentType << ", (" << xPos << "/" << yPos << "), " << flipped << "\n";
 			}
 
+			for (int a = 0; a < _levelRef->rooms[i].obstacles.size(); a++)
+			{
+				Obstacle* obs = _levelRef->rooms[i].obstacles.at(a);
+				std::string obsType = std::to_string(static_cast<int>(obs->type));
+				std::string xPos = std::to_string(obs->sprite.getPosition().x);
+				std::string yPos = std::to_string(obs->sprite.getPosition().y);
+
+				output << "OBSTACLE: " << obsType << ", (" << xPos << "/" << yPos << "), " << "\n";
+			}
+
 			output << "\n" << "-------END OF ROOM-------" << "\n";
 		}
 	}
@@ -309,6 +341,7 @@ void LevelBuilder::LoadLevel()
 		sf::Vector2f roomOffset = sf::Vector2f();
 
 		std::vector<Agent*> levelAgents;
+		std::vector<Obstacle*> levelObstacles;
 
 		//Set the tiles in the map copy to the correct coordinates. 
 		if (input.is_open())
@@ -335,13 +368,14 @@ void LevelBuilder::LoadLevel()
 					Room r = Room(Room(_data, _worldRef, roomOffset));
 					r.SetMap(map);
 					r.agents = levelAgents;
+					r.obstacles = levelObstacles;
 					_levelRef->rooms.push_back(r);
 					y = 0;
 				}
 				else if (line.substr(0, 5) == "AGENT")
 				{
 					Agent::Type type;
-					sf::Vector2f agentPos;
+					sf::Vector2f pos;
 					bool flipped = false;
 
 					size_t sep1 = line.find(':') + 2;
@@ -352,12 +386,12 @@ void LevelBuilder::LoadLevel()
 
 					sep1 = line.find('/');
 
-					agentPos.x = static_cast<float>(std::stof(line.substr(sep2, sep1 - sep2)));
+					pos.x = static_cast<float>(std::stof(line.substr(sep2, sep1 - sep2)));
 
 					sep2 = line.find(')');
 
 
-					agentPos.y = static_cast<float>(std::stof(line.substr(sep1 + 1, sep2 - sep1)));
+					pos.y = static_cast<float>(std::stof(line.substr(sep1 + 1, sep2 - sep1)));
 
 					sep2 += 2;
 
@@ -368,13 +402,47 @@ void LevelBuilder::LoadLevel()
 					switch (type)
 					{
 						case Agent::Type::alarmPig:
-							AlarmPig* newAgent = new AlarmPig(_data, _worldRef, agentPos);
+							AlarmPig* newAgent = new AlarmPig(_data, _worldRef, pos);
 							
 							if (flipped)
 								newAgent->FlipSprite();
 
 							levelAgents.push_back(newAgent);
 							break;
+					}
+				}
+				else if (line.substr(0, 8) == "OBSTACLE")
+				{
+					Obstacle::Type type;
+					sf::Vector2f pos;
+
+					size_t sep1 = line.find(':') + 2;
+					size_t sep2 = line.find('(') + 1;
+
+
+					type = static_cast<Obstacle::Type>(std::stoi(line.substr(sep1, 1)));
+
+					sep1 = line.find('/');
+
+					pos.x = static_cast<float>(std::stof(line.substr(sep2, sep1 - sep2)));
+
+					sep2 = line.find(')');
+
+
+					pos.y = static_cast<float>(std::stof(line.substr(sep1 + 1, sep2 - sep1)));
+					pos.y -= 52.0f;
+
+					sep2 += 2;
+
+					std::string flippedString = line.substr(sep2 + 1);
+
+					switch (type)
+					{
+					case Obstacle::Type::spike:
+						Spike* newSpike = new Spike(_data, _worldRef, pos);
+
+						levelObstacles.push_back(newSpike);
+						break;
 					}
 				}
 				else
@@ -433,7 +501,11 @@ void LevelBuilder::TestMouseHover()
 			{
 				if (_levelRef->rooms[i].tiles[j].sprite.getGlobalBounds().contains(mousePositionInView))
 				{
-					_hoveredTile.setPosition(_levelRef->rooms[i].tiles[j].sprite.getPosition());
+
+					if (_tilePicker.state == TilePicker::State::units)
+						_hoveredTile.setPosition(mousePositionInView);
+					else
+						_hoveredTile.setPosition(_levelRef->rooms[i].tiles[j].sprite.getPosition());
 				}
 			}
 			_inRoom = true;
@@ -463,7 +535,6 @@ void LevelBuilder::TestMouseHover()
 		_newRoomSelector.setOutlineThickness(0.0f);
 		_curSelectedTexture.setScale(1.0f, 1.0f);
 		_curTextureOutline.setScale(1.0f, 1.0f);
-		_hoveredTile.setScale(2.0f, 2.0f);
 	}
 
 	_curTextureOutline.setPosition(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 34.0f))));
@@ -485,4 +556,19 @@ void LevelBuilder::AddUnit()
 	}
 
 	r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window))))));
+}
+
+void LevelBuilder::AddObstacle()
+{
+	Room* r = &_levelRef->rooms[0];
+	for (int i = 0; i < _levelRef->rooms.size(); i++)
+	{
+		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)))))
+			r = &_levelRef->rooms[i];
+	}
+	sf::Vector2f objectPos = _hoveredTile.getPosition();
+	objectPos.y -= 32.0f;
+
+	r->obstacles.push_back(new Spike(_data, _worldRef, objectPos));
+
 }

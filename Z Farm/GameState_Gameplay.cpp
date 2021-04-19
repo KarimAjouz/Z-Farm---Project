@@ -38,8 +38,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_debugDraw.SetFlags(b2Draw::e_shapeBit);
 	_world.SetDebugDraw(&_debugDraw);
 
-	//_level->Init(_data, &_world);
-
 	sf::View view;
 	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);

@@ -28,7 +28,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setOutlineThickness(5.0f);
 
 
-	props.push_back(new Spike(_data, _worldRef, sf::Vector2f(640, 640 - 128)));
+	obstacles.push_back(new Spike(_data, _worldRef, sf::Vector2f(640, 640 - 128)));
 
 	BuildPhyics();
 }
@@ -43,8 +43,8 @@ void Room::Update(float dT)
 	for (int i = 0; i < agents.size(); i++)
 		agents.at(i)->Update(dT);
 
-	for (int i = 0; i < props.size(); i++)
-		props.at(i)->Update(dT);
+	for (int i = 0; i < obstacles.size(); i++)
+		obstacles.at(i)->Update(dT);
 
 	RemoveDeadEntities();
 }
@@ -57,8 +57,8 @@ void Room::Draw()
 	for (int i = 0; i < agents.size(); i++)
 		agents.at(i)->Draw();
 
-	for (int i = 0; i < props.size(); i++)
-		props.at(i)->Draw();
+	for (int i = 0; i < obstacles.size(); i++)
+		obstacles.at(i)->Draw();
 
 }
 

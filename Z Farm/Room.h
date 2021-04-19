@@ -42,7 +42,7 @@ public:
 	};
 
 	std::vector<Agent*> agents = std::vector<Agent*>();
-	std::vector<Prop*> props = std::vector<Prop*>();
+	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
 
 private:
 

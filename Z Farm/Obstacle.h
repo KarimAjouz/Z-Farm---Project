@@ -3,11 +3,11 @@
 #include "Game.h"
 #include "box2d.h"
 
-class Prop
+class Obstacle
 {
 public:
-	Prop();
-	~Prop();
+	Obstacle();
+	~Obstacle();
 
 	virtual void Update(float dT) = 0;
 	virtual void Draw() = 0;
