@@ -33,6 +33,9 @@ public:
 
 	b2Body* body = nullptr;
 
+	b2World* worldRef = nullptr;
+
+
 private:
 };
 

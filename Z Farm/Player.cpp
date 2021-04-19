@@ -101,6 +101,8 @@ void Player::UpdateState()
 			{
 				_state = State::idle;
 				_playerBody->SetTransform(b2Vec2(200.0f / SCALE, 400.0f / SCALE), 0.0f);
+				sprite.setPosition(200, 400);
+				SetView();
 			}
 			break;
 		default:
@@ -424,6 +426,12 @@ void Player::TestStab()
 			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
 				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
 		}
+
+		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
+		{
+			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
+				_levelRef->activeRoom->obstacles.at(i)->Hit();
+		}
 	}
 	else if (!isFlipped)
 	{
@@ -431,6 +439,12 @@ void Player::TestStab()
 		{
 			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
 				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
+		}
+
+		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
+		{
+			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
+				_levelRef->activeRoom->obstacles.at(i)->Hit();
 		}
 	}
 

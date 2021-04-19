@@ -86,7 +86,7 @@ void GameState_Gameplay::PollEvents()
 
 				if (_building == false)
 				{
-					_data->window.setView(_data->window.getDefaultView());
+					_player.SetView();
 				}
 				break;
 			case sf::Keyboard::M:
@@ -230,7 +230,7 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	b2Body* Body = world.CreateBody(&BodyDef);
 
 	b2PolygonShape Shape;
-	Shape.SetAsBox((1600.f / 2) / SCALE, (16.f / 2) / SCALE); // Creates a box shape. Divide your desired width and height by 2.
+	Shape.SetAsBox((0 / 2) / SCALE, (0 / 2) / SCALE); // Creates a box shape. Divide your desired width and height by 2.
 	b2FixtureDef FixtureDef;
 	FixtureDef.density = 0.f;  // Sets the density of the body
 	FixtureDef.shape = &Shape; // Sets the shape

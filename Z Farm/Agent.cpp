@@ -9,6 +9,8 @@ Agent::Agent()
 
 Agent::~Agent()
 {
+	worldRef->DestroyBody(body);
+
 }
 
 void Agent::FlipSprite()

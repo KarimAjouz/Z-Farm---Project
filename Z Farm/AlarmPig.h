@@ -17,7 +17,6 @@ public:
 	void Hit(sf::Vector2f playerPos);
 private:
 	ZEngine::GameDataRef _data;
-	b2World* _worldRef;
 
 	enum class State
 	{

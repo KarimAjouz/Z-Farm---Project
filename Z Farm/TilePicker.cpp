@@ -153,20 +153,20 @@ void TilePicker::UpdateState()
 	{
 		case State::shipTiles:
 			_selector.setTexture(_data->assetManager.GetTexture("Tiles"));
-			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 			break;
 		case State::units:
 			_selector.setTexture(_data->assetManager.GetTexture("Units"));
-			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 			break;
 		case State::obstacles:
 			_selector.setTexture(_data->assetManager.GetTexture("Obstacles"));
-			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 			break;
 		case State::props:
 			_selector.setTexture(_data->assetManager.GetTexture("Props"));
-			_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 			break;
 
 	}
+
+	_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
+	_selector.setTextureRect(sf::IntRect(0, 0, _selectorWindow.getSize().x, _selectorWindow.getSize().y));
+
 }

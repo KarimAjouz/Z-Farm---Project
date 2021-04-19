@@ -1,6 +1,7 @@
 #include "LevelBuilder.h"
 #include "Definitions.h"
 #include "AlarmPig.h"
+#include "Box.h"
 
 
 #include <fstream>
@@ -28,6 +29,8 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_curTextureOutline.setFillColor(sf::Color::Transparent);
 	_curTextureOutline.setOutlineThickness(1);
 
+	_hoveredTile.setTexture(_curSelectedTexture.getTexture());
+	_hoveredTile.setTextureRect(_texRect);
 	_hoveredTile.setSize(sf::Vector2f(_texRect.width + 2, _texRect.height + 2));
 	_hoveredTile.setOutlineThickness(1);
 	_hoveredTile.setOrigin(16, 16);
@@ -41,6 +44,7 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_newRoomSelector.setFillColor(sf::Color::Transparent);
 	_newRoomSelector.setOutlineColor(sf::Color::Blue);
 	_newRoomSelector.setOutlineThickness(5.0f);
+	LoadLevel("Default");
 }
 
 LevelBuilder::~LevelBuilder()
@@ -298,6 +302,8 @@ void LevelBuilder::SaveLevel()
 				std::string flipped = std::to_string(static_cast<int>(agent->isFlipped));
 
 				output << "AGENT: " << agentType << ", (" << xPos << "/" << yPos << "), " << flipped << "\n";
+
+				delete agent;
 			}
 
 			for (int a = 0; a < _levelRef->rooms[i].obstacles.size(); a++)
@@ -308,6 +314,8 @@ void LevelBuilder::SaveLevel()
 				std::string yPos = std::to_string(obs->sprite.getPosition().y);
 
 				output << "OBSTACLE: " << obsType << ", (" << xPos << "/" << yPos << "), " << "\n";
+
+				delete obs;
 			}
 
 			output << "\n" << "-------END OF ROOM-------" << "\n";
@@ -327,6 +335,7 @@ void LevelBuilder::LoadLevel()
 	std::cin >> lName;
 	std::cout << std::endl;
 
+
 	// If there's a level with that name....
 	if (CheckForLevel(lName))
 	{
@@ -343,12 +352,13 @@ void LevelBuilder::LoadLevel()
 		std::vector<Agent*> levelAgents;
 		std::vector<Obstacle*> levelObstacles;
 
+
+		_levelRef->ClearUnitPhysics();
+		_levelRef->ClearLevel();
+
 		//Set the tiles in the map copy to the correct coordinates. 
 		if (input.is_open())
 		{
-			_levelRef->ClearUnitPhysics();
-			_levelRef->rooms.clear();
-
 			int y = 0;
 
 			while (getline(input, line))
@@ -371,6 +381,9 @@ void LevelBuilder::LoadLevel()
 					r.obstacles = levelObstacles;
 					_levelRef->rooms.push_back(r);
 					y = 0;
+
+					levelAgents.clear();
+					levelObstacles.clear();
 				}
 				else if (line.substr(0, 5) == "AGENT")
 				{
@@ -464,10 +477,169 @@ void LevelBuilder::LoadLevel()
 				_levelRef->rooms[i].BuildLevel();
 
 		}
+		_playerRef->SetView();
 	}
 	else
 	{
 		std::cout << "LOAD ABORTED. Could not find level with Name: " << lName <<std::endl;
+	}
+}
+
+/// <summary>
+/// Load Level from a sting.
+/// </summary>
+void LevelBuilder::LoadLevel(std::string name)
+{
+	std::string lName = name;
+
+	// If there's a level with that name....
+	if (CheckForLevel(lName))
+	{
+		// build a copy of the current map.
+		std::vector<std::vector<sf::Vector2i>> map = _levelRef->emptyRoom;
+
+		std::string filePath = LEVEL_PATH + lName;
+		std::ifstream input(filePath + ".txt");
+
+		std::string line;
+
+		sf::Vector2f roomOffset = sf::Vector2f();
+
+		std::vector<Agent*> levelAgents;
+		std::vector<Obstacle*> levelObstacles;
+
+
+		_levelRef->ClearUnitPhysics();
+		_levelRef->ClearLevel();
+
+		//Set the tiles in the map copy to the correct coordinates. 
+		if (input.is_open())
+		{
+
+			int y = 0;
+
+			while (getline(input, line))
+			{
+				if (line.substr(0, 6) == "Offset")
+				{
+					std::string num = line.substr(8, line.length() - 8);
+
+					size_t separator = num.find('/');
+
+					roomOffset.x = stof(num.substr(0, separator));
+					roomOffset.y = stof(num.substr(separator + 1));;
+
+				}
+				else if (line == "-------END OF ROOM-------")
+				{
+					Room r = Room(Room(_data, _worldRef, roomOffset));
+					r.SetMap(map);
+					r.agents = levelAgents;
+					r.obstacles = levelObstacles;
+					_levelRef->rooms.push_back(r);
+					y = 0;
+
+					levelAgents.clear();
+					levelObstacles.clear();
+				}
+				else if (line.substr(0, 5) == "AGENT")
+				{
+					Agent::Type type;
+					sf::Vector2f pos;
+					bool flipped = false;
+
+					size_t sep1 = line.find(':') + 2;
+					size_t sep2 = line.find('(') + 1;
+
+
+					type = static_cast<Agent::Type>(std::stoi(line.substr(sep1, 1)));
+
+					sep1 = line.find('/');
+
+					pos.x = static_cast<float>(std::stof(line.substr(sep2, sep1 - sep2)));
+
+					sep2 = line.find(')');
+
+
+					pos.y = static_cast<float>(std::stof(line.substr(sep1 + 1, sep2 - sep1)));
+
+					sep2 += 2;
+
+					std::string flippedString = line.substr(sep2 + 1);
+
+					flipped = static_cast<bool>(std::stoi(flippedString));
+
+					switch (type)
+					{
+					case Agent::Type::alarmPig:
+						AlarmPig* newAgent = new AlarmPig(_data, _worldRef, pos);
+
+						if (flipped)
+							newAgent->FlipSprite();
+
+						levelAgents.push_back(newAgent);
+						break;
+					}
+				}
+				else if (line.substr(0, 8) == "OBSTACLE")
+				{
+					Obstacle::Type type;
+					sf::Vector2f pos;
+
+					size_t sep1 = line.find(':') + 2;
+					size_t sep2 = line.find('(') + 1;
+
+
+					type = static_cast<Obstacle::Type>(std::stoi(line.substr(sep1, 1)));
+
+					sep1 = line.find('/');
+
+					pos.x = static_cast<float>(std::stof(line.substr(sep2, sep1 - sep2)));
+
+					sep2 = line.find(')');
+
+
+					pos.y = static_cast<float>(std::stof(line.substr(sep1 + 1, sep2 - sep1)));
+					pos.y -= 52.0f;
+
+					sep2 += 2;
+
+					std::string flippedString = line.substr(sep2 + 1);
+
+					switch (type)
+					{
+						case Obstacle::Type::spike:
+							Spike* newSpike = new Spike(_data, _worldRef, pos);
+
+							levelObstacles.push_back(newSpike);
+							break;
+					}
+				}
+				else
+				{
+					for (int i = 0; i < line.size(); i += 7)
+					{
+						std::string temp = line.substr(i, 2);
+						int xTile = std::stoi(line.substr(i, 2));
+						int yTile = std::stoi(line.substr(i + 3, 2));
+
+						map[y][i / 7] = sf::Vector2i(xTile, yTile);
+					}
+					y++;
+
+				}
+			}
+
+			for (int i = 0; i < _levelRef->rooms.size(); i++)
+				_levelRef->rooms[i].BuildLevel();
+
+		}
+		_playerRef->SetView();
+		_levelRef->rooms[0].obstacles.push_back(new Box(_data, _worldRef, sf::Vector2f(400.0f, 500.0f)));
+	}
+	else
+	{
+		std::cout << "LOAD ABORTED. Could not find level with Name: " << lName << std::endl;
 	}
 }
 

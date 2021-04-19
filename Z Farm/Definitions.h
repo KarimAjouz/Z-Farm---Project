@@ -19,7 +19,8 @@ enum class CollisionTag
 	background,
 	room,
 	playerSword,
-	spike
+	spike,
+	box
 };
 
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"
@@ -31,6 +32,9 @@ enum class CollisionTag
 
 #define SWORD_ITEM "Media/Gameplay/Pickups/Sword.png"
 #define SPIKE_TRAP "Media/Gameplay/Traps/Spikes.png"
+#define BOX_OBSTACLE "Media/Gameplay/Props/Box/Box.png"
+#define BOX_OBSTACLE_HIT "Media/Gameplay/Props/Box/Hit.png"
+
 
 
 #define MENU_BUTTON_FOLDER_FILEPATH "Media/Buttons/Menu/"

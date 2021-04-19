@@ -11,14 +11,15 @@ public:
 	void Update(float dT);
 	void Draw();
 
-	b2Body* body;
 
+	void InitPhysics();
+
+	void Hit();
 
 private:
 	ZEngine::GameDataRef _data;
 
 	b2World* _worldRef;
 
-	void InitPhysics();
 };
 

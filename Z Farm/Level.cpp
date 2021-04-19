@@ -6,15 +6,6 @@ Level::Level(ZEngine::GameDataRef data, b2World* worldRef) :
 	_data(data),
 	_worldRef(worldRef)
 {
-	rooms.push_back(Room(data, worldRef, sf::Vector2f(0.0f, 0.0f)));
-
-	for (int i = 0; i < rooms.size(); i++)
-	{
-		rooms[i].BuildLevel();
-	}
-
-	activeRoom = &rooms[0];
-	activeRoom->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(600.0f, 500.0f)));
 
 }
 
@@ -73,9 +64,17 @@ void Level::SpikeAgents()
 		{
 			if (activeRoom->obstacles.at(p)->type == Obstacle::Type::spike)
 			{
-				if (activeRoom->agents.at(a)->hitbox.getGlobalBounds().intersects(activeRoom->obstacles.at(p)->hitBox.getGlobalBounds()))
+				if (activeRoom->agents.at(a)->hitbox.getGlobalBounds().intersects(activeRoom->obstacles.at(p)->hitbox.getGlobalBounds()))
 					activeRoom->agents.at(a)->Hit(activeRoom->obstacles.at(p)->sprite.getPosition());
 			}
 		}
 	}
+}
+
+void Level::ClearLevel()
+{
+	for (int i = 0; i < rooms.size(); i++)
+		rooms.pop_back();
+
+	rooms.clear();
 }

@@ -1,4 +1,5 @@
 #include "Room.h"
+#include "Box.h"
 
 /// <summary>
 /// Basic constructor. Builds a room at the base coordinates.
@@ -27,15 +28,11 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
 
-
-	obstacles.push_back(new Spike(_data, _worldRef, sf::Vector2f(640, 640 - 128)));
-
 	BuildPhyics();
 }
 
 Room::~Room()
 {
-
 }
 
 void Room::Update(float dT)
@@ -170,6 +167,11 @@ void Room::RemoveDeadEntities()
 	for (int i = 0; i < agents.size(); i++)
 	{
 		if (agents.at(i)->isMarked)
+		{
+			//_worldRef->DestroyBody(agents.at(i)->body);
+			Agent* a = agents.at(i);
+			delete a;
 			agents.erase(agents.begin() + i);
+		}
 	}
 }

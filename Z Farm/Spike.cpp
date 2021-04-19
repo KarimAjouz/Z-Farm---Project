@@ -12,10 +12,10 @@ Spike::Spike(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f pos) :
 	sprite.setOrigin(16, 26);
 
 
-	hitBox.setOrigin(30, 10);
+	hitbox.setOrigin(30, 10);
 
-	hitBox.setPosition(sprite.getPosition());
-	hitBox.setSize(sf::Vector2f(30.0f, 10.0f) * sprite.getScale().x);
+	hitbox.setPosition(sprite.getPosition());
+	hitbox.setSize(sf::Vector2f(30.0f, 10.0f) * sprite.getScale().x);
 
 	InitPhysics();
 
@@ -38,22 +38,21 @@ void Spike::Draw()
 
 void Spike::InitPhysics()
 {
-	//Define and set the physics body values
-	b2BodyDef bodyDef;
-	bodyDef.position = b2Vec2(sprite.getPosition().x / SCALE, sprite.getPosition().y / SCALE);
-	bodyDef.type = b2_staticBody;
-	body = _worldRef->CreateBody(&bodyDef);
+	// Call the base InitPhysics function to initialise the body.
+	Obstacle::InitPhysics(sf::IntRect(0, 0, 30, 8), true, false, _worldRef);
 
-	//Define, set, and add the primary fixture for the spike
-	b2PolygonShape fixtureShape;
-	fixtureShape.SetAsBox(30 / SCALE, 8 / SCALE);
+	// Create the spike sensor fixture.
 	b2FixtureDef myFixtureDef;
-	myFixtureDef.density = 1.0f;
+	b2PolygonShape fixtureShape;
 	myFixtureDef.shape = &fixtureShape;
-	b2Fixture* mainFixture = body->CreateFixture(&myFixtureDef);
-
 	fixtureShape.SetAsBox(30 / SCALE, 10 / SCALE);
+
 	b2Fixture* spikeFixture = body->CreateFixture(&myFixtureDef);
 	spikeFixture->SetSensor(true);
 	spikeFixture->GetUserData().pointer = static_cast<int>(CollisionTag::spike);
+}
+
+void Spike::Hit()
+{
+
 }

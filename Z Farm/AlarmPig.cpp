@@ -3,13 +3,13 @@
 #include "Definitions.h"
 
 
-AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f pos) :
+AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	_data(data),
-	_worldRef(worldRef),
 	_animSys(&sprite, _data)
 {
 	InitAnimations();
 
+	worldRef = world;
 	sprite.setPosition(pos);
 	sprite.setScale(sf::Vector2f(2.0f, 2.0f));
 	sprite.setOrigin(sf::Vector2f(20, 15));
@@ -30,7 +30,6 @@ AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f po
 
 AlarmPig::~AlarmPig()
 {
-
 }
 
 void AlarmPig::Update(float dT)
@@ -112,7 +111,7 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(pos.x / SCALE, pos.y / SCALE);
 	bodyDef.type = b2_dynamicBody;
-	body = _worldRef->CreateBody(&bodyDef);
+	body = worldRef->CreateBody(&bodyDef);
 	body->SetFixedRotation(true);
 
 	b2PolygonShape polygonShape;
@@ -132,7 +131,7 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 
 void AlarmPig::DestroyPig()
 {
-	_worldRef->DestroyBody(body);
+	//_worldRef->DestroyBody(body);
 	isMarked = true;
 }
 
@@ -185,7 +184,7 @@ bool AlarmPig::CanSeePlayer()
 	float closestFraction = SCREEN_WIDTH * 2 / SCALE;
 	input.maxFraction = closestFraction;
 
-	for (b2Body* b = _worldRef->GetBodyList(); b; b = b->GetNext())
+	for (b2Body* b = worldRef->GetBodyList(); b; b = b->GetNext())
 	{
 		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
 		{

@@ -26,6 +26,7 @@ public:
 
 	void SaveLevel();
 	void LoadLevel();
+	void LoadLevel(std::string name);
 
 	void MouseRelease();
 

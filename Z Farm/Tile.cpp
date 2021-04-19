@@ -58,5 +58,6 @@ void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)
 
 void Tile::RemovePhysics()
 {
+	tileBody->DestroyFixture(tileBody->GetFixtureList());
 	tileBody->GetWorld()->DestroyBody(tileBody);
 }
