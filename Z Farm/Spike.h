@@ -15,6 +15,7 @@ public:
 	void InitPhysics();
 
 	void Hit();
+	void Hit(sf::Vector2f playerPos);
 
 private:
 	ZEngine::GameDataRef _data;

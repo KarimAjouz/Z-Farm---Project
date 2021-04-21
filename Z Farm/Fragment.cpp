@@ -1,7 +1,8 @@
 #include "Fragment.h"
 #include "Definitions.h"
+#include "Utilities.h"
 
-Fragment::Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect texRect, sf::Vector2f pos) :
+Fragment::Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect texRect, sf::Vector2f pos, sf::Vector2f forceDir) :
 	_data(data),
 	_worldRef(worldRef)
 {
@@ -13,6 +14,17 @@ Fragment::Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect tex
 
 	InitPhysics();
 
+	
+	
+	sf::Vector2f force = sf::Vector2f(ZEngine::Utilities::Random(forceDir.x - 45, forceDir.x + 45), ZEngine::Utilities::Random(forceDir.y - 45, forceDir.y + 45));
+
+	force = ZEngine::Utilities::NormaliseVector(forceDir) * 3.0f;
+
+	b2Vec2 b2Force = b2Vec2(force.x, force.y);
+	
+
+	body->ApplyLinearImpulseToCenter(b2Force, true);
+
 }
 
 Fragment::~Fragment()
@@ -23,7 +35,7 @@ Fragment::~Fragment()
 void Fragment::Update(float dT)
 {
 	sprite.setPosition(body->GetPosition().x * SCALE, body->GetPosition().y * SCALE);
-	sprite.setRotation( body->GetTransform().q.GetAngle() * 180 / b2_pi);
+	sprite.setRotation(body->GetTransform().q.GetAngle() * 180 / b2_pi);
 }
 
 void Fragment::Draw()

@@ -56,3 +56,7 @@ void Spike::Hit()
 {
 
 }
+
+void Spike::Hit(sf::Vector2f playerPos)
+{
+}

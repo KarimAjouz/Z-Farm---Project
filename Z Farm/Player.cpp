@@ -430,7 +430,7 @@ void Player::TestStab()
 		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
 		{
 			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->obstacles.at(i)->Hit();
+				_levelRef->activeRoom->obstacles.at(i)->Hit(sprite.getPosition());
 		}
 	}
 	else if (!isFlipped)
@@ -443,8 +443,8 @@ void Player::TestStab()
 
 		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
 		{
-			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->obstacles.at(i)->Hit();
+			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
+				_levelRef->activeRoom->obstacles.at(i)->Hit(sprite.getPosition());
 		}
 	}
 

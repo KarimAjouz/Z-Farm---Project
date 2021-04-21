@@ -13,6 +13,7 @@ public:
 	virtual void Draw() = 0;
 
 	virtual void Hit() = 0;
+	virtual void Hit(sf::Vector2f playerPos) = 0;
 
 	enum class Type
 	{

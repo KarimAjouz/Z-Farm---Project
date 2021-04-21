@@ -24,6 +24,7 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	InitPhysics();
 }
 
+
 Box::~Box()
 {
 	worldRef->DestroyBody(body);
@@ -64,33 +65,39 @@ void Box::InitPhysics()
 	body->GetUserData().pointer = static_cast<int>(CollisionTag::box);
 }
 
-void Box::Shatter()
+void Box::Shatter(sf::Vector2f playerPos)
 {
 	worldRef->DestroyBody(body);
 
+	sf::Vector2f forceDir = sprite.getPosition() - playerPos;
+
 	sf::IntRect texRect = sf::IntRect(0, 0, 8, 7);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 
 	texRect = sf::IntRect(0, 7, 6, 9);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 
 	texRect = sf::IntRect(6, 7, 9, 9);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 	
 	texRect = sf::IntRect(8, 0, 7, 7);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 
 	texRect = sf::IntRect(15, 0, 6, 7);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 	
 	texRect = sf::IntRect(15, 7, 6, 9);
-	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top)));
+	_fragments.push_back(Fragment(_data, worldRef, texRect, sf::Vector2f(sprite.getPosition().x + texRect.left, sprite.getPosition().y + texRect.top), forceDir));
 
 	_shattered = true;
 }
 
-void Box::Hit()
+void Box::Hit(sf::Vector2f playerPos)
 {
 	if(!_shattered)
-		Shatter();
+		Shatter(playerPos);
+}
+
+void Box::Hit()
+{
 }

@@ -4,7 +4,7 @@
 class Fragment : public Prop
 {
 public:
-	Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect texRect, sf::Vector2f pos);
+	Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect texRect, sf::Vector2f pos, sf::Vector2f forceDir);
 	~Fragment();
 
 	void Update(float dT);

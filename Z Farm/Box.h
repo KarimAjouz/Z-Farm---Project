@@ -11,9 +11,10 @@ public:
 	void Update(float dT);
 	void Draw();
 
-	void Shatter();
+	void Shatter(sf::Vector2f playerPos);
 
 	void Hit();
+	void Hit(sf::Vector2f playerPos);
 
 private:
 	ZEngine::GameDataRef _data;
