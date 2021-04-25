@@ -16,5 +16,11 @@ public:
     void BeginContact(b2Contact* contact);
 
     void EndContact(b2Contact* contact);
+
+    int fixtureAUserData = 0;
+    int fixtureBUserData = 0;
+
+private:
+    bool IsContact(CollisionTag aTag, CollisionTag bTag);
 };
 

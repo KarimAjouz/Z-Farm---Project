@@ -48,14 +48,7 @@ void Room::Update(float dT)
 
 void Room::Draw()
 {
-	for (int i = 0; i < tiles.size(); i++)
-		tiles.at(i).Draw();
-
-	for (int i = 0; i < agents.size(); i++)
-		agents.at(i)->Draw();
-
-	for (int i = 0; i < obstacles.size(); i++)
-		obstacles.at(i)->Draw();
+	
 
 }
 
@@ -78,6 +71,24 @@ void Room::BuildLevel()
 			tiles.push_back(GenTiles(_map[y][x], x, y));
 		}
 	}
+}
+
+void Room::DrawTiles()
+{
+	for (int i = 0; i < tiles.size(); i++)
+		tiles.at(i).Draw();
+}
+
+void Room::DrawAgents()
+{
+	for (int i = 0; i < agents.size(); i++)
+		agents.at(i)->Draw();
+}
+
+void Room::DrawObstacles()
+{
+	for (int i = 0; i < obstacles.size(); i++)
+		obstacles.at(i)->Draw();
 }
 
 /// <summary>

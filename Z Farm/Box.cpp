@@ -20,6 +20,7 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	hitbox.setOrigin(11, 8);
 	hitbox.setScale(sprite.getScale());
 
+	type = Obstacle::Type::box;
 
 	InitPhysics();
 }
@@ -62,7 +63,7 @@ void Box::Draw()
 void Box::InitPhysics()
 {
 	Obstacle::InitPhysics(sf::IntRect(0, 0, 22, 16), true, true, worldRef);
-	body->GetUserData().pointer = static_cast<int>(CollisionTag::box);
+	body->GetFixtureList()->GetUserData().pointer = static_cast<int>(CollisionTag::box);
 }
 
 void Box::Shatter(sf::Vector2f playerPos)

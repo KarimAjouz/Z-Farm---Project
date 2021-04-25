@@ -84,8 +84,6 @@ void LevelBuilder::Update(float dT)
 	_tilePicker.Update(dT);
 }
 
-
-
 void LevelBuilder::Draw()
 {
 	_data->window.draw(_hoveredTile);
@@ -108,13 +106,13 @@ void LevelBuilder::MouseRelease()
 				break;
 			case TilePicker::State::units:
 				if (_inRoom)
-					AddUnit();
+					AddUnit(_entityType);
 				else
 					NewRoom();
 				break;
 			case TilePicker::State::obstacles:
 				if (_inRoom)
-					AddObstacle();
+					AddObstacle(_entityType);
 				else
 					NewRoom();
 				break;
@@ -128,28 +126,47 @@ void LevelBuilder::MouseRelease()
 	}
 	else if (_tilePicker.active)
 	{
+		TilePicker::SelectorItem item = _tilePicker.GetSelectorItem();;
 		switch (_tilePicker.state)
 		{
 			case TilePicker::State::shipTiles:
 				_texRect = _tilePicker.GetTileRect();
 				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Tiles"));
 				_hoveredTile.setScale(2.0f, 2.0f);
+				SetMouseGridLock(true);
 				break;
 			case TilePicker::State::units:
-				_texRect = _tilePicker.GetTileRect();
-				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Units"));
+				_texRect = item.rect.getTextureRect();
+				_curSelectedTexture.setTexture(*item.texture);
 				_hoveredTile.setScale(1.0f, 1.0f);
+				_entityType = item.type;
+				SetMouseGridLock(false);
 				break;
 			case TilePicker::State::obstacles:
-				_texRect = _tilePicker.GetTileRect();
-				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Obstacles"));
-				_hoveredTile.setScale(2.0f, 2.0f);
+				_texRect = item.rect.getTextureRect();
+				_curSelectedTexture.setTexture(*item.texture);
+				_entityType = item.type;
+
+				switch (_entityType)
+				{
+					case static_cast<int>(Obstacle::Type::box) :
+						SetMouseGridLock(false);
+						_hoveredTile.setScale(1.0f, 1.0f);
+						break;
+					case static_cast<int>(Obstacle::Type::spike) :
+						SetMouseGridLock(true);
+						_hoveredTile.setScale(2.0f, 2.0f);
+						break;
+				}
+
 				break;
 		}
+
+
+
 		_curSelectedTexture.setTextureRect(_texRect);
 		_hoveredTile.setTexture(_curSelectedTexture.getTexture());
 		_hoveredTile.setTextureRect(_texRect);
-		//sf::IntRect temp = sf::IntRect(_texRect.left % _data->assetManager.GetTexture("Tiles").getSize().x, _texRect.top, 32, 32);
 
 	}
 }
@@ -674,7 +691,7 @@ void LevelBuilder::TestMouseHover()
 				if (_levelRef->rooms[i].tiles[j].sprite.getGlobalBounds().contains(mousePositionInView))
 				{
 
-					if (_tilePicker.state == TilePicker::State::units)
+					if (!_mouseLocked)
 						_hoveredTile.setPosition(mousePositionInView);
 					else
 						_hoveredTile.setPosition(_levelRef->rooms[i].tiles[j].sprite.getPosition());
@@ -718,7 +735,7 @@ void LevelBuilder::OpenSelector()
 	_tilePicker.Activate();
 }
 
-void LevelBuilder::AddUnit()
+void LevelBuilder::AddUnit(int type)
 {
 	Room* r = &_levelRef->rooms[0];
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
@@ -730,17 +747,30 @@ void LevelBuilder::AddUnit()
 	r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window))))));
 }
 
-void LevelBuilder::AddObstacle()
+void LevelBuilder::AddObstacle(int type)
 {
 	Room* r = &_levelRef->rooms[0];
+	sf::Vector2f mousePosInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)));
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
-		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)))))
+		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePosInView))
 			r = &_levelRef->rooms[i];
 	}
 	sf::Vector2f objectPos = _hoveredTile.getPosition();
-	objectPos.y -= 32.0f;
 
-	r->obstacles.push_back(new Spike(_data, _worldRef, objectPos));
+	switch (type)
+	{
+		case static_cast<int>(Obstacle::Type::spike) :
+			objectPos.y -= 32.0f;
+			r->obstacles.push_back(new Spike(_data, _worldRef, objectPos));
+			break;
+		case static_cast<int>(Obstacle::Type::box) :
+			r->obstacles.push_back(new Box(_data, _worldRef, objectPos));
+			break;
+	}
+}
 
+void LevelBuilder::SetMouseGridLock(bool isLock)
+{
+	_mouseLocked = isLock;
 }

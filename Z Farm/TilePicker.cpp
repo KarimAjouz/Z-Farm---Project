@@ -7,9 +7,10 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	active(false)
 {
 	_data->assetManager.LoadTexture("Tiles", TILE_PATH);
-	_data->assetManager.LoadTexture("Units", UNITS_PATH);
-	_data->assetManager.LoadTexture("Obstacles", SPIKE_TRAP);
-	_data->assetManager.LoadTexture("Props", SWORD_ITEM);
+	_data->assetManager.LoadTexture("AlarmPig", UNITS_PATH);
+	_data->assetManager.LoadTexture("Spike", SPIKE_TRAP);
+	_data->assetManager.LoadTexture("Box", BOX_OBSTACLE);
+	_data->assetManager.LoadTexture("Sword", SWORD_ITEM);
 
 
 	_selector.setTexture(_data->assetManager.GetTexture("Tiles"));
@@ -30,11 +31,12 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_activeTile.setOutlineColor(sf::Color::Yellow);
 	_activeTile.setOutlineThickness(2.0f);
 	_activeTile.setSize(sf::Vector2f(32, 32));
+
+	InitEntities();
 }
 
 TilePicker::~TilePicker()
 {
-
 }
 
 void TilePicker::Update(float dT)
@@ -60,14 +62,27 @@ void TilePicker::Update(float dT)
 			_hoveredTile.setPosition(newPos);
 		}
 
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num1))
+		{
 			state = State::shipTiles;
+			RepositionWindows();
+		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
+		{
 			state = State::units;
+			RepositionWindows();
+		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
+		{
 			state = State::obstacles;
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num4))
-			state = State::props;
+			RepositionWindows();
+		}
+		//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num4))
+		//{
+		//	state = State::props;
+		//	RepositionWindows();
+		//}
 
 	}
 
@@ -78,12 +93,30 @@ void TilePicker::Draw()
 {
 	if (active)
 	{
-		_data->window.draw(_selector);
+		switch (state)
+		{
+		case State::shipTiles:		
+			_data->window.draw(_selector);
+			break;
+		case State::units:
+			for (int i = 0; i < _unitList.size(); i++)
+				_data->window.draw(_unitList[i].rect);
+			break;
+		case State::obstacles:
+			for (int i = 0; i < _obstacleList.size(); i++)
+				_data->window.draw(_obstacleList[i].rect);
+			break;
+		case State::props:
+			_selector.setTexture(_data->assetManager.GetTexture("Props"));
+			break;
+
+		}
+
 		_data->window.draw(_selectorWindow);
+
 
 		_data->window.draw(_hoveredTile);
 		_data->window.draw(_activeTile);
-	
 	}
 }
 
@@ -110,63 +143,112 @@ sf::IntRect TilePicker::GetTileRect()
 	return texRect;
 }
 
-//Agent* TilePicker::InstantiateAgent()
-//{
-//	Agent* newAgent = nullptr;
-//
-//	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
-//	{
-//		sf::Vector2f tilePos = _hoveredTile.getPosition();
-//		_activeTile.setPosition(tilePos);
-//
-//		active = false;
-//	}
-//
-//	return newAgent;
-//}
-
-//Obstacle* TilePicker::InstantiateObstacle()
-//{
-//	Obstacle* newObstacle = nullptr;
-//
-//	if (_selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
-//	{
-//		sf::Vector2f tilePos = _hoveredTile.getPosition();
-//		_activeTile.setPosition(tilePos);
-//		active = false;
-//	}
-//
-//	return newObstacle;
-//}
-
 void TilePicker::Activate()
 {
 	active = true;
 	_selector.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
 	_selectorWindow.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
 	_activeTile.setPosition(_activeTile.getPosition() + _selector.getPosition());
+
+	RepositionWindows();
+
+
 }
 
 void TilePicker::UpdateState()
 {
+
+	
+
+
+}
+
+void TilePicker::InitEntities()
+{
+	SelectorItem box;
+	box.rect.setTexture(&_data->assetManager.GetTexture("Box"));
+	box.rect.setSize(sf::Vector2f(32, 32));
+	box.type = static_cast<int>(Obstacle::Type::box);
+
+	box.texture = &_data->assetManager.GetTexture("Box");
+	box.rect.setFillColor(sf::Color::White);
+	box.rect.setOutlineColor(sf::Color::Black);
+	box.rect.setOutlineThickness(1.0f);
+
+
+	SelectorItem spike;
+	spike.rect.setTexture(&_data->assetManager.GetTexture("Spike"));
+	spike.rect.setSize(sf::Vector2f(32, 32));
+	spike.type = static_cast<int>(Obstacle::Type::spike);
+	
+	spike.texture = &_data->assetManager.GetTexture("Spike");
+
+	spike.rect.setFillColor(sf::Color::White);
+	spike.rect.setOutlineColor(sf::Color::Black);
+	spike.rect.setOutlineThickness(1.0f);
+
+	SelectorItem alarmPig;
+	alarmPig.rect.setTexture(&_data->assetManager.GetTexture("AlarmPig"));
+	alarmPig.rect.setSize(sf::Vector2f(32, 32));
+	alarmPig.type = static_cast<int>(Agent::Type::alarmPig);
+
+	alarmPig.texture = &_data->assetManager.GetTexture("AlarmPig");
+	alarmPig.rect.setFillColor(sf::Color::White);
+	alarmPig.rect.setOutlineColor(sf::Color::Black);
+	alarmPig.rect.setOutlineThickness(1.0f);
+
+	_obstacleList.push_back(box);
+	_obstacleList.push_back(spike);
+
+	_unitList.push_back(alarmPig);
+}
+
+TilePicker::SelectorItem TilePicker::GetSelectorItem()
+{
+	TilePicker::SelectorItem selectorItem;
+	sf::Vector2f mousePosRelativeToView = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
+
+	switch (state)
+	{
+		case State::units:
+			if (_selectorWindow.getGlobalBounds().contains(mousePosRelativeToView))
+				for (int i = 0; i < _unitList.size(); i++)
+					if (_unitList[i].rect.getGlobalBounds().contains(mousePosRelativeToView))
+					{
+
+						selectorItem = _unitList[i];
+					}
+			break;
+		case State::obstacles:
+			if (_selectorWindow.getGlobalBounds().contains(mousePosRelativeToView))
+				for (int i = 0; i < _obstacleList.size(); i++)
+					if (_obstacleList[i].rect.getGlobalBounds().contains(mousePosRelativeToView))
+						selectorItem = _obstacleList[i];
+			break;
+	}
+	active = false;
+
+	return selectorItem;
+}
+
+void TilePicker::RepositionWindows()
+{
 	switch (state)
 	{
 		case State::shipTiles:
-			_selector.setTexture(_data->assetManager.GetTexture("Tiles"));
+			_selectorWindow.setSize(sf::Vector2f(_data->assetManager.GetTexture("Tiles").getSize()));
 			break;
 		case State::units:
-			_selector.setTexture(_data->assetManager.GetTexture("Units"));
+			for (int i = 0; i < _unitList.size(); i++)
+				_unitList[i].rect.setPosition(_selector.getPosition().x + (i * 32), _selector.getPosition().y + ((i / 10) * 32));
+			_selectorWindow.setSize(sf::Vector2f(std::min(static_cast<int>(_unitList.size()), 10) * 32, ((static_cast<int>(_unitList.size()) / 10) + 1) * 32));
 			break;
 		case State::obstacles:
-			_selector.setTexture(_data->assetManager.GetTexture("Obstacles"));
+			for (int i = 0; i < _obstacleList.size(); i++)
+				_obstacleList[i].rect.setPosition(_selector.getPosition().x + (i * 32), _selector.getPosition().y + ((i / 10) * 32));
+			_selectorWindow.setSize(sf::Vector2f(std::min(static_cast<int>(_obstacleList.size()), 10) * 32, (static_cast<int>((_obstacleList.size()) / 10) + 1) * 32));
 			break;
-		case State::props:
-			_selector.setTexture(_data->assetManager.GetTexture("Props"));
-			break;
-
 	}
 
-	_selectorWindow.setSize(static_cast<sf::Vector2f>(_selector.getTexture()->getSize()));
 	_selector.setTextureRect(sf::IntRect(0, 0, _selectorWindow.getSize().x, _selectorWindow.getSize().y));
-
 }

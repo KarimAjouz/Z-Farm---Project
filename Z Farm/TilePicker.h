@@ -27,8 +27,16 @@ public:
 		props
 	};
 
+	struct SelectorItem
+	{
+		sf::RectangleShape rect;
+		sf::Texture* texture;
+		int type;
+	};
+
 	State state = State::shipTiles;
 
+	SelectorItem GetSelectorItem();
 private:
 
 	sf::Sprite _selector;
@@ -38,9 +46,14 @@ private:
 	sf::RectangleShape _selectorWindow;
 	sf::RectangleShape _activeTile;
 
+	std::vector<SelectorItem> _obstacleList;
+	std::vector<SelectorItem> _unitList;
+
 	void UpdateState();
 	// Agent* InstantiateAgent();
 	// Obstacle* InstantiateObstacle();
 
+	void InitEntities();
+	void RepositionWindows();
 };
 

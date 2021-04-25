@@ -13,45 +13,42 @@ ContactListener::~ContactListener()
 void ContactListener::BeginContact(b2Contact* contact)
 {
     // Get the fixture tags.
-    int fixtureAUserData = contact->GetFixtureA()->GetUserData().pointer;
-    int fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
+    fixtureAUserData = contact->GetFixtureA()->GetUserData().pointer;
+    fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
 
     // Handles grounding the player.
-    if (fixtureAUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureBUserData == static_cast<int>(CollisionTag::level))
+    if (IsContact(CollisionTag::level, CollisionTag::playerFoot))
         playerRef->footContacts++;
-    else if (fixtureBUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureAUserData == static_cast<int>(CollisionTag::level))
+    else if (IsContact(CollisionTag::box, CollisionTag::playerFoot))
         playerRef->footContacts++;
 
     // Handles Spike Collisions with Player
-    if (fixtureAUserData == static_cast<int>(CollisionTag::player) && fixtureBUserData == static_cast<int>(CollisionTag::spike))
-        playerRef->Hit();
-    else if (fixtureBUserData == static_cast<int>(CollisionTag::player) && fixtureAUserData == static_cast<int>(CollisionTag::spike))
+    if (IsContact(CollisionTag::player, CollisionTag::spike))
         playerRef->Hit();
 
     // Handles Spike Collisions with enemies.
-    if (fixtureAUserData == static_cast<int>(CollisionTag::enemy) && fixtureBUserData == static_cast<int>(CollisionTag::spike))
+    if (IsContact(CollisionTag::enemy, CollisionTag::spike))
         levelRef->SpikeAgents();
-    else if (fixtureBUserData == static_cast<int>(CollisionTag::enemy) && fixtureAUserData == static_cast<int>(CollisionTag::spike))
-        levelRef->SpikeAgents();
-
-
-
-
 }
 
 void ContactListener::EndContact(b2Contact* contact)
 {
     //check if fixture A was the foot sensor
-    int fixtureAUserData = contact->GetFixtureA()->GetUserData().pointer;
-    int fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
+    fixtureAUserData = contact->GetFixtureA()->GetUserData().pointer;
+    fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
 
 
-    if (fixtureAUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureBUserData == static_cast<int>(CollisionTag::level))
-        playerRef->footContacts--;
-    else if (fixtureBUserData == static_cast<int>(CollisionTag::playerFoot) && fixtureAUserData == static_cast<int>(CollisionTag::level))
+    if (IsContact(CollisionTag::playerFoot, CollisionTag::level) || IsContact(CollisionTag::playerFoot, CollisionTag::box))
         playerRef->footContacts--;
 
-    if (fixtureAUserData == static_cast<int>(CollisionTag::player) && fixtureBUserData == static_cast<int>(CollisionTag::room) ||
-        fixtureBUserData == static_cast<int>(CollisionTag::player) && fixtureAUserData == static_cast<int>(CollisionTag::room) )
+    if (IsContact(CollisionTag::player, CollisionTag::room))
         playerRef->SetView();
+}
+
+bool ContactListener::IsContact(CollisionTag aTag, CollisionTag bTag)
+{
+    if (fixtureAUserData == static_cast<int>(aTag) && fixtureBUserData == static_cast<int>(bTag) || fixtureBUserData == static_cast<int>(aTag) && fixtureAUserData == static_cast<int>(bTag))
+        return true;
+
+    return false;
 }

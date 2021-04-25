@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Button.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
@@ -43,46 +41,71 @@
     <ClCompile Include="GameState_Splash.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="BalanceSheet.cpp" />
-    <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="Animation.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationSystem.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Room.cpp">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="LevelBuilder.cpp">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="TilePicker.cpp">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="AlarmPig.cpp" />
     <ClCompile Include="ContactListener.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsDebugDraw.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Pickup.cpp">
-      <Filter>ZEngine</Filter>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Agents</Filter>
     </ClCompile>
-    <ClCompile Include="SwordPickup.cpp" />
-    <ClCompile Include="Spike.cpp" />
-    <ClCompile Include="Obstacle.cpp" />
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Fragment.cpp" />
-    <ClCompile Include="Prop.cpp" />
+    <ClCompile Include="AlarmPig.cpp">
+      <Filter>Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="BalanceSheet.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveDataManager.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Prop.cpp">
+      <Filter>Props</Filter>
+    </ClCompile>
+    <ClCompile Include="Fragment.cpp">
+      <Filter>Props</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordPickup.cpp">
+      <Filter>Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Pickup.cpp">
+      <Filter>Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h" />
-    <ClInclude Include="Definitions.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="AssetManager.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
@@ -122,40 +145,75 @@
     <ClInclude Include="GameState_Splash.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="Pickup.h" />
-    <ClInclude Include="BalanceSheet.h" />
-    <ClInclude Include="SaveDataManager.h" />
     <ClInclude Include="Animation.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationSystem.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="GameMaps.h" />
     <ClInclude Include="Room.h">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="LevelBuilder.h">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="TilePicker.h">
-      <Filter>LevelEditor</Filter>
+      <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="AlarmPig.h" />
     <ClInclude Include="ContactListener.h">
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsDebugDraw.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="SwordPickup.h" />
-    <ClInclude Include="Spike.h" />
-    <ClInclude Include="Obstacle.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Fragment.h" />
-    <ClInclude Include="Prop.h" />
+    <ClInclude Include="Agent.h">
+      <Filter>Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AlarmPig.h">
+      <Filter>Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="BalanceSheet.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMaps.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveDataManager.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Prop.h">
+      <Filter>Props</Filter>
+    </ClInclude>
+    <ClInclude Include="Fragment.h">
+      <Filter>Props</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordPickup.h">
+      <Filter>Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickup.h">
+      <Filter>Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
@@ -164,11 +222,29 @@
     <Filter Include="States">
       <UniqueIdentifier>{784db363-901d-4f10-91f7-9db0e8b80286}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelEditor">
-      <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{542fc80a-ead8-4540-a7d6-c986e72d5a8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Obstacles">
+      <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Agents">
+      <UniqueIdentifier>{566185ac-2cf5-494b-92f9-07f45de272e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{b5765943-056d-460d-82d1-8c967470d002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{3b582bed-ce8a-440d-9944-7257980aa50e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Props">
+      <UniqueIdentifier>{fc6bea0e-fdd9-4ef3-8fe4-0763a3d41a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pickups">
+      <UniqueIdentifier>{4207444a-f9d9-4cd6-b0ce-271ffddecd44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

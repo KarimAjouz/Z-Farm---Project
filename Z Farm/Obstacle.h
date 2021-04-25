@@ -17,7 +17,8 @@ public:
 
 	enum class Type
 	{
-		spike
+		spike,
+		box
 	};
 
 	Type type = Type::spike;
@@ -32,6 +33,7 @@ public:
 	b2World* worldRef = nullptr;
 
 	void InitPhysics(sf::IntRect collisionBox, bool collider, bool isDynamic, b2World* world);
+
 private:
 };
 

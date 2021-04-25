@@ -31,6 +31,10 @@ public:
 
 	std::vector<Agent*> agents = std::vector<Agent*>();
 	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
+
+	void DrawTiles();
+	void DrawAgents();
+	void DrawObstacles();
 private:
 
 	ZEngine::GameDataRef _data;

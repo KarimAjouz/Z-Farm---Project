@@ -40,9 +40,13 @@ void Level::Update(float dT)
 void Level::Draw()
 {
 	for (int i = 0; i < rooms.size(); i++)
-	{
-		rooms[i].Draw();
-	}
+		rooms[i].DrawTiles();
+
+	for (int i = 0; i < rooms.size(); i++)
+		rooms[i].DrawObstacles();
+
+	for (int i = 0; i < rooms.size(); i++)
+		rooms[i].DrawAgents();
 }
 
 void Level::ClearUnitPhysics()

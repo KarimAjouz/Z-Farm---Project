@@ -33,6 +33,7 @@ public:
 
 	void OpenSelector();
 
+	void SetMouseGridLock(bool isLock);
 private:
 	int _scrollSelector = 0;
 	ZEngine::GameDataRef _data;
@@ -54,12 +55,16 @@ private:
 
 	TilePicker _tilePicker;
 
+	bool _mouseLocked = true;
+
+	int _entityType;
 	bool CheckForLevel(std::string levelName);
 	bool _inRoom = false;
 
 	void NewRoom();
-	void AddUnit();
-	void AddObstacle();
+	void AddUnit(int type);
+	void AddObstacle(int type);
 
 	void TestMouseHover();
+
 };
