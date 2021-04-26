@@ -38,6 +38,8 @@ public:
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
 	};
 
+	void RegenLevel();
+
 private:
 
 	ZEngine::GameDataRef _data;

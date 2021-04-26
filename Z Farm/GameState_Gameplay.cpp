@@ -48,6 +48,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 
 GameState_Gameplay::~GameState_Gameplay()
 {
+	delete _level;
 }
 
 void GameState_Gameplay::Init()
@@ -86,6 +87,7 @@ void GameState_Gameplay::PollEvents()
 
 				if (_building == false)
 				{
+					_level->RegenLevel();
 					_player.SetView();
 				}
 				break;

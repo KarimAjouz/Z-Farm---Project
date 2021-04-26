@@ -22,6 +22,9 @@ AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) 
 	hitbox.setOutlineColor(sf::Color::Blue);
 	hitbox.setOutlineThickness(1.0f);
 
+	
+	type = Agent::Type::alarmPig;
+
 	InitPhysics(pos);
 
 	_animSys.SetAnimation("PigIdle");
@@ -114,7 +117,6 @@ void AlarmPig::InitPhysics(sf::Vector2f pos)
 	body = worldRef->CreateBody(&bodyDef);
 	body->SetFixedRotation(true);
 
-	b2PolygonShape polygonShape;
 	b2CircleShape circleShape;
 	circleShape.m_radius = 17 / SCALE;
 	circleShape.m_p = b2Vec2(0, 17 / 2 / SCALE);

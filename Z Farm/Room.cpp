@@ -1,5 +1,6 @@
 #include "Room.h"
 #include "Box.h"
+#include "Baldy.h"
 
 /// <summary>
 /// Basic constructor. Builds a room at the base coordinates.
@@ -28,6 +29,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
 
+
 	BuildPhyics();
 }
 
@@ -44,12 +46,31 @@ void Room::Update(float dT)
 		obstacles.at(i)->Update(dT);
 
 	RemoveDeadEntities();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C))
+		showNav = !showNav;
 }
 
 void Room::Draw()
 {
-	
+	for (int i = 0; i < navMap.size(); i++)
+	{
+		_data->window.draw(navMap[i].nodeArea);
 
+		if (showNav)
+		{
+			for (int j = 0; j < navMap[i].edges.size(); j++)
+			{
+				sf::Vertex line[2];
+				line[0].position = navMap[i].GetNodeLocation();
+				line[0].color = sf::Color::Blue;
+				line[1].position = navMap[i].edges[j].node->GetNodeLocation();
+				line[1].color = sf::Color::Blue;
+
+				_data->window.draw(line, 2, sf::Lines);
+			}
+		}
+	}
 }
 
 /// <summary>
@@ -57,13 +78,16 @@ void Room::Draw()
 /// </summary>
 void Room::BuildLevel()
 {
+	// Clear all of the tile physics.
 	for (int i = 0; i < tiles.size(); i++)
 	{
 		tiles[i].RemovePhysics();
 	}
 
+	// Get rid of the tiles in the room.
 	tiles.clear();
 
+	//Generate a new set of tiles for the room.
 	for (int y = 0; y < _map.size(); y++)
 	{
 		for (int x = 0; x < _map[y].size(); x++)
@@ -71,6 +95,9 @@ void Room::BuildLevel()
 			tiles.push_back(GenTiles(_map[y][x], x, y));
 		}
 	}
+
+	//Generate navNodes for the room.
+	GenNavMap();
 }
 
 void Room::DrawTiles()
@@ -185,4 +212,30 @@ void Room::RemoveDeadEntities()
 			agents.erase(agents.begin() + i);
 		}
 	}
+}
+
+/// <summary>
+/// Generate a navigation map for the room.
+/// </summary>
+void Room::GenNavMap()
+{
+	navMap.clear();
+
+	//Look through the current tile map and push back all of the required nodes
+
+	for (int i = 0; i < tiles.size(); i++)
+	{
+		int x = i % 15;
+		int y = i / 15;
+
+		if (y < 9)
+			if(tiles[i].collisionTag == CollisionTag::background && tiles[i + 15].collisionTag == CollisionTag::level)
+				navMap.push_back(Node(tiles[i].sprite.getPosition()));
+	}
+
+	for (int i = 0; i < navMap.size(); i++)
+	{
+		navMap[i].GenerateNodeList(&navMap, tiles);
+	}
+
 }

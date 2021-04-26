@@ -47,6 +47,9 @@ void Level::Draw()
 
 	for (int i = 0; i < rooms.size(); i++)
 		rooms[i].DrawAgents();
+
+	for (int i = 0; i < rooms.size(); i++)
+		rooms[i].Draw();
 }
 
 void Level::ClearUnitPhysics()
@@ -81,4 +84,10 @@ void Level::ClearLevel()
 		rooms.pop_back();
 
 	rooms.clear();
+}
+
+void Level::RegenLevel()
+{
+	for (int i = 0; i < rooms.size(); i++)
+		rooms[i].BuildLevel();
 }

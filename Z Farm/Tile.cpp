@@ -12,9 +12,9 @@ Tile::Tile(ZEngine::GameDataRef data, b2World* worldRef, std::string name, std::
 	sprite.setScale(2.0f, 2.0f);
 
 	if (collision)
-		_collisionTag = CollisionTag::level;
+		collisionTag = CollisionTag::level;
 	else
-		_collisionTag = CollisionTag::background;
+		collisionTag = CollisionTag::background;
 
 	GenPhysics(worldRef, frameRect);
 
@@ -44,14 +44,14 @@ void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)
 	b2PolygonShape polygonShape;
 	polygonShape.SetAsBox((frameRect.width * sprite.getScale().x / 2) / SCALE, (frameRect.height * sprite.getScale().y / 2 ) / SCALE, b2Vec2(0.0f, 0.0f), 0.0f);
 
-	if (_collisionTag == CollisionTag::level)
+	if (collisionTag == CollisionTag::level)
 	{
 		b2FixtureDef myFixtureDef;
 		myFixtureDef.density = 1.0f;
 		myFixtureDef.friction = 0.8f;
 		myFixtureDef.shape = &polygonShape;
 		b2Fixture* fixture = tileBody->CreateFixture(&myFixtureDef);
-		fixture->GetUserData().pointer = static_cast<int>(_collisionTag);
+		fixture->GetUserData().pointer = static_cast<int>(collisionTag);
 	}
 
 }

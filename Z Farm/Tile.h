@@ -20,9 +20,9 @@ public:
 	sf::Sprite sprite;
 
 
+	CollisionTag collisionTag = CollisionTag::def;
 private:
 	ZEngine::GameDataRef _data;
-	CollisionTag _collisionTag = CollisionTag::def;
 
 	b2Body* tileBody = nullptr;
 

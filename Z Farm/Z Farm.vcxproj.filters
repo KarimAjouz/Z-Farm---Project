@@ -104,6 +104,10 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="Baldy.cpp">
+      <Filter>Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -214,6 +218,10 @@
     <ClInclude Include="Tile.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Baldy.h">
+      <Filter>Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

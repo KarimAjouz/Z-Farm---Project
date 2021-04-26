@@ -2,6 +2,7 @@
 #include "Tile.h"
 #include "Agent.h"
 #include "Spike.h"
+#include "Node.h"
 
 class Room
 {
@@ -32,9 +33,13 @@ public:
 	std::vector<Agent*> agents = std::vector<Agent*>();
 	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
 
+	std::vector<Node> navMap;
+
 	void DrawTiles();
 	void DrawAgents();
 	void DrawObstacles();
+
+	bool showNav = false;
 private:
 
 	ZEngine::GameDataRef _data;
@@ -64,5 +69,7 @@ private:
 	void SetView();
 
 	void RemoveDeadEntities();
+
+	void GenNavMap();
 };
 

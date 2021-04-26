@@ -82,6 +82,23 @@ enum class CollisionTag
 #define PLAYER_UPSLASH_ATTACK "Media/Gameplay/Player/Sword/UpSlashAttack.png"
 #define PLAYER_DOWNSLASH_ATTACK "Media/Gameplay/Player/Sword/DownSlashAttack.png"
 
+
+#define BALDY_IDLE "Media/Gameplay/Pirates/Baldy/Idle.png"
+#define BALDY_RUN "Media/Gameplay/Pirates/Baldy/Run.png"
+#define BALDY_PREJUMP "Media/Gameplay/Pirates/Baldy/PreJump.png"
+#define BALDY_JUMP "Media/Gameplay/Pirates/Baldy/Jump.png"
+#define BALDY_FALL "Media/Gameplay/Pirates/Baldy/Fall.png"
+#define BALDY_LAND "Media/Gameplay/Pirates/Baldy/Land.png"
+#define BALDY_KICK "Media/Gameplay/Pirates/Baldy/Kick.png"
+#define BALDY_HIT "Media/Gameplay/Pirates/Baldy/Hit.png"
+#define BALDY_DEAD "Media/Gameplay/Pirates/Baldy/Dead.png"
+
+
+
+
+
+
+
 #define UI_RELOADBAR "Media/UI/ReloadBar"
 
 #define SAVE_PATH "SaveData/"

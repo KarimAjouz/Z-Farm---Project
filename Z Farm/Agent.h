@@ -26,10 +26,11 @@ public:
 
 	enum class Type
 	{
-		alarmPig
+		alarmPig,
+		swordsman
 	};
 
-	Type type = Type::alarmPig;
+	Type type;
 
 	b2Body* body = nullptr;
 

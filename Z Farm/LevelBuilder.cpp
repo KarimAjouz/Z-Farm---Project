@@ -1,6 +1,7 @@
 #include "LevelBuilder.h"
 #include "Definitions.h"
 #include "AlarmPig.h"
+#include "Baldy.h"
 #include "Box.h"
 
 
@@ -209,7 +210,6 @@ void LevelBuilder::AddTile()
 
 
 }
-
 
 
 /// <summary>
@@ -494,6 +494,7 @@ void LevelBuilder::LoadLevel()
 				_levelRef->rooms[i].BuildLevel();
 
 		}
+
 		_playerRef->SetView();
 	}
 	else
@@ -524,6 +525,7 @@ void LevelBuilder::LoadLevel(std::string name)
 
 		std::vector<Agent*> levelAgents;
 		std::vector<Obstacle*> levelObstacles;
+
 
 
 		_levelRef->ClearUnitPhysics();
@@ -653,6 +655,7 @@ void LevelBuilder::LoadLevel(std::string name)
 		}
 		_playerRef->SetView();
 		_levelRef->rooms[0].obstacles.push_back(new Box(_data, _worldRef, sf::Vector2f(400.0f, 500.0f)));
+		_levelRef->rooms[0].agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(100, 500), &_levelRef->rooms[0]));
 	}
 	else
 	{
