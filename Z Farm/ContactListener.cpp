@@ -22,6 +22,14 @@ void ContactListener::BeginContact(b2Contact* contact)
     else if (IsContact(CollisionTag::box, CollisionTag::playerFoot))
         playerRef->footContacts++;
 
+    if (IsContact(CollisionTag::level, CollisionTag::enemyFoot))
+    {
+        if(fixtureAUserData == static_cast<int>(CollisionTag::enemyFoot))
+            reinterpret_cast<Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts++;
+        else
+            reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts++;
+    }
+
     // Handles Spike Collisions with Player
     if (IsContact(CollisionTag::player, CollisionTag::spike))
         playerRef->Hit();
@@ -40,6 +48,15 @@ void ContactListener::EndContact(b2Contact* contact)
 
     if (IsContact(CollisionTag::playerFoot, CollisionTag::level) || IsContact(CollisionTag::playerFoot, CollisionTag::box))
         playerRef->footContacts--;
+
+
+    if (IsContact(CollisionTag::level, CollisionTag::enemyFoot))
+    {
+        if (fixtureAUserData == static_cast<int>(CollisionTag::enemyFoot))
+            reinterpret_cast<Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts--;
+        else
+            reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts--;
+    }
 
     if (IsContact(CollisionTag::player, CollisionTag::room))
         playerRef->SetView();

@@ -36,6 +36,7 @@ public:
 
 	b2World* worldRef = nullptr;
 
+	int footContacts = 0;
 
 private:
 };

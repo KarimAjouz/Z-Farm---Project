@@ -35,6 +35,10 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 
 Room::~Room()
 {
+	for (Node* node : navMap)
+	{
+		delete node;
+	}
 }
 
 void Room::Update(float dT)
@@ -55,16 +59,16 @@ void Room::Draw()
 {
 	for (int i = 0; i < navMap.size(); i++)
 	{
-		_data->window.draw(navMap[i].nodeArea);
+		_data->window.draw(navMap[i]->nodeArea);
 
 		if (showNav)
 		{
-			for (int j = 0; j < navMap[i].edges.size(); j++)
+			for (int j = 0; j < navMap[i]->edges.size(); j++)
 			{
 				sf::Vertex line[2];
-				line[0].position = navMap[i].GetNodeLocation();
+				line[0].position = navMap[i]->GetNodeLocation();
 				line[0].color = sf::Color::Blue;
-				line[1].position = navMap[i].edges[j].node->GetNodeLocation();
+				line[1].position = navMap[i]->edges[j].node->GetNodeLocation();
 				line[1].color = sf::Color::Blue;
 
 				_data->window.draw(line, 2, sf::Lines);
@@ -230,12 +234,12 @@ void Room::GenNavMap()
 
 		if (y < 9)
 			if(tiles[i].collisionTag == CollisionTag::background && tiles[i + 15].collisionTag == CollisionTag::level)
-				navMap.push_back(Node(tiles[i].sprite.getPosition()));
+				navMap.push_back(new Node(tiles[i].sprite.getPosition()));
 	}
 
 	for (int i = 0; i < navMap.size(); i++)
 	{
-		navMap[i].GenerateNodeList(&navMap, tiles);
+		navMap[i]->GenerateNodeList(&navMap, tiles);
 	}
 
 }

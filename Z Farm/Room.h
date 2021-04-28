@@ -33,7 +33,7 @@ public:
 	std::vector<Agent*> agents = std::vector<Agent*>();
 	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
 
-	std::vector<Node> navMap;
+	std::vector<Node*> navMap;
 
 	void DrawTiles();
 	void DrawAgents();

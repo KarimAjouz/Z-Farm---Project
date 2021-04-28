@@ -17,6 +17,8 @@ public:
 	void Hit(sf::Vector2f playerPos);
 
 	void Repath();
+
+	bool move;
 private:
 	ZEngine::GameDataRef _data;
 	Room* _myRoom;
@@ -31,6 +33,8 @@ private:
 		jumping,
 		falling
 	};
+
+	State _state;
 
 	void UpdateAnimations();
 	void UpdateState();
@@ -53,6 +57,18 @@ private:
 
 	sf::Vector2f _targetPosition = sf::Vector2f(900, 560);
 	std::vector<Node*> _path;
+
+
+	bool SeekTarget();
+	sf::CircleShape targetNodeCircle;
+
+
+	float _desiredVelocity = 0.0f;
+	bool _jumping = false;
+	int _jumpTimeout = 0;
+
+	void Move(int dir);
+	void Jump(float force);
 
 };
 

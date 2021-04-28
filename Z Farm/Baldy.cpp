@@ -28,8 +28,12 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 	InitAnimations();
 	InitPhysics(pos);
 
+	_state = State::moving;
 	_animSys.SetAnimation("BaldyIdle");
 	_animSys.Play();
+
+	targetNodeCircle.setFillColor(sf::Color::Magenta);
+	targetNodeCircle.setRadius(5.0f);
 
 	Repath();
 }
@@ -57,16 +61,20 @@ void Baldy::Draw()
 	_data->window.draw(sprite);
 	_data->window.draw(hitbox);
 
-	for (int i = 0; i < _path.size() - 1; i++)
+	if (_path.size() > 1)
 	{
-		sf::Vertex line[2];
-		line[0].position = _path[i]->GetNodeLocation();
-		line[0].color = sf::Color::Red;
-		line[1].position = _path[i + 1]->GetNodeLocation();
-		line[1].color = sf::Color::Red;
+		for (int i = 0; i < _path.size() - 1; i++)
+		{
+			sf::Vertex line[2];
+			line[0].position = _path[i]->GetNodeLocation();
+			line[0].color = sf::Color::Red;
+			line[1].position = _path[i + 1]->GetNodeLocation();
+			line[1].color = sf::Color::Red;
 
-		_data->window.draw(line, 2, sf::Lines);
+			_data->window.draw(line, 2, sf::Lines);
+		}
 	}
+	_data->window.draw(targetNodeCircle);
 }
 
 void Baldy::Hit()
@@ -84,12 +92,34 @@ void Baldy::Repath()
 
 void Baldy::UpdateAnimations()
 {
+	switch (_state)
+	{
+		case State::idle:
+			if (_animSys.GetCurrentAnim() != "BaldyIdle")
+			{
+				_animSys.SetAnimation("BaldyIdle");
+				_animSys.Play();
+			}
+			break;
+		case State::moving:
+			if (_animSys.GetCurrentAnim() != "BaldyRun")
+			{
+				_animSys.SetAnimation("BaldyRun");
+				_animSys.Play();
+			}
+			break;
+	}
 }
 
 void Baldy::UpdateState()
 {
-	
-
+	switch (_state)
+	{
+		case State::moving:
+			if (SeekTarget())
+				_state = State::idle;
+			break;
+	}
 
 }
 
@@ -112,6 +142,7 @@ void Baldy::InitPhysics(sf::Vector2f pos)
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(pos.x / SCALE, pos.y / SCALE);
 	bodyDef.type = b2_dynamicBody;
+	bodyDef.userData.pointer = reinterpret_cast<std::uintptr_t>(this);
 	body = worldRef->CreateBody(&bodyDef);
 	body->SetFixedRotation(true);
 
@@ -125,6 +156,12 @@ void Baldy::InitPhysics(sf::Vector2f pos)
 	myFixtureDef.shape = &polygonShape;
 	b2Fixture* baldyFixture = body->CreateFixture(&myFixtureDef);
 	baldyFixture->GetUserData().pointer = static_cast<int>(CollisionTag::enemy);
+
+	polygonShape.SetAsBox(10 / SCALE, 10 / SCALE, b2Vec2(0, (31.0f * abs(sprite.getScale().y)) / SCALE), 0);
+	myFixtureDef.isSensor = true;
+	myFixtureDef.shape = &polygonShape;
+	b2Fixture* footSensorFixture = body->CreateFixture(&myFixtureDef);
+	footSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::enemyFoot);
 
 }
 
@@ -190,7 +227,6 @@ std::vector<Node*> Baldy::PathFind(sf::Vector2f goal)
 			}
 		}
 	}
-	return returnSet;
 }
 
 /// <summary>
@@ -213,21 +249,21 @@ Node* Baldy::GetNearestNode(sf::Vector2f pos)
 	for (int i = 0; i < _myRoom->navMap.size(); i++)
 	{
 		//Set some temp variables to calculate the distance squared.
-		sf::Vector2f tempDist = _myRoom->navMap[i].GetNodeLocation() - pos;
+		sf::Vector2f tempDist = _myRoom->navMap[i]->GetNodeLocation() - pos;
 		float nodeDistSquared = (tempDist.x * tempDist.x) + (tempDist.y * tempDist.y);
 
 		//If the distance squared is -1 (This is the first run of the loop), just grab this node.
 		if (distSquared == -1)
 		{
 			distSquared = nodeDistSquared;
-			nearestNode = &_myRoom->navMap[i];
+			nearestNode = _myRoom->navMap[i];
 		}
 
 		//If the distance to the next node is less than the distance to the current nearest node, set the nearest node to this node.
 		if (nodeDistSquared < distSquared)
 		{
 			distSquared = nodeDistSquared;
-			nearestNode = &_myRoom->navMap[i];
+			nearestNode = _myRoom->navMap[i];
 		}
 	}
 
@@ -244,4 +280,71 @@ Node* Baldy::GetNearestNode(sf::Vector2f pos)
 float Baldy::GenerateHeuristic(sf::Vector2f a, sf::Vector2f b)
 {
 	return (std::abs(a.x - b.x) / 64) + (std::abs(a.y - b.y) / 64);
+}
+
+bool Baldy::SeekTarget()
+{
+	Node* nearestNode = GetNearestNode(sprite.getPosition());
+	if (_path.size() > 0)
+	{
+		if (nearestNode == _path[_path.size() - 1])
+			return true;
+	}
+	else
+		return false;
+	
+
+	//If the nearest node is the top node in the path, remove it from the path.
+	if (nearestNode == _path[0])
+		_path.erase(_path.begin());
+
+	//Get a pointer to the next node (the top node in the path)
+	Node* targetNode = _path[0];
+
+	targetNodeCircle.setPosition(targetNode->GetNodeLocation());
+
+
+	//Move in the x-direction towards the node.
+	if (targetNode->GetNodeLocation().x > nearestNode->GetNodeLocation().x)
+		Move(1);
+	else if (targetNode->GetNodeLocation().x < nearestNode->GetNodeLocation().x)
+		Move(-1);
+
+	//Decide if we need to jump.
+	if (targetNode->GetNodeLocation().y < nearestNode->GetNodeLocation().y)
+	{
+		float jumpForce = 10.0f;
+		Jump(jumpForce);
+	}
+	
+	return false;
+}
+
+void Baldy::Move(int dir)
+{
+	b2Vec2 vel = body->GetLinearVelocity();
+
+	if (dir == -1)
+		_desiredVelocity = b2Max(vel.x - 0.3f, -3.0f);
+	else if (dir == 1)
+		_desiredVelocity = b2Min(vel.x + 0.3f, 3.0f);
+
+	float velChange = _desiredVelocity - vel.x;
+	float impulse = body->GetMass() * velChange; //disregard time factor
+
+	body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(), true);
+}
+
+void Baldy::Jump(float force)
+{
+	if (!_jumping && footContacts > 0 && _jumpTimeout < 0)
+	{
+		float impulse = body->GetMass() * force;
+		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0.0f));
+		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		_jumpTimeout = 15;
+		//_state = State::jumping;
+	}
+	else if (_jumpTimeout >= 0)
+		_jumpTimeout--;
 }

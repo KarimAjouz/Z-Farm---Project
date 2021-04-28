@@ -13,20 +13,27 @@ public:
 
 	struct Edge
 	{
-		Node* node;
-		int cost;
+		Node* node = nullptr;
+		int cost = 0;
+		Edge(Node* n, int c)
+		{
+			node = n;
+			cost = c;
+		}
 	};
 
-	std::vector<Edge> edges;
+	std::vector<Edge> edges = std::vector<Edge>();
 
 	sf::CircleShape nodeArea;
 
 	sf::Vector2f GetNodeLocation() { return nodeArea.getPosition(); }
 
-	void GenerateNodeList(std::vector<Node>* nodeMap, std::vector<Tile> tiles);
+	void GenerateNodeList(std::vector<Node*>* nodeMap, std::vector<Tile> tiles);
 
 private:
 	
-	Edge MakeEdge(Node* node, int cost);
+
+	bool CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles);
+	Node* GetNodeAtLocation(sf::Vector2f pos, std::vector<Node*>* nodeMap);
 };
 
