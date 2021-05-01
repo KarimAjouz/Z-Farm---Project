@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Agent.h"
+#include "Enemy.h"
 #include "AnimationSystem.h"
 
 
-class AlarmPig : public Agent
+class AlarmPig : public Enemy
 {
 public:
 	AlarmPig(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f pos);
@@ -32,16 +32,10 @@ private:
 
 
 	ZEngine::AnimationSystem _animSys;
-	
-	sf::RectangleShape line = sf::RectangleShape(sf::Vector2f(150.0f, 5.0f));
-
-
 	void DestroyPig();
 
 	void InitAnimations();
 	void InitPhysics(sf::Vector2f pos);
-
-	bool CanSeePlayer();
 
 };
 

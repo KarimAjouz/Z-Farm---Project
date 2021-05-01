@@ -46,14 +46,8 @@ private:
 
 	bool CanSeePlayer();
 
-	std::vector<Node*> PathFind(sf::Vector2f goal);
-	Node* GetNearestNode(sf::Vector2f pos);
-	float GenerateHeuristic(sf::Vector2f a, sf::Vector2f b);
 
-	struct Score
-	{
-		float i = 999;
-	};
+
 
 	sf::Vector2f _targetPosition = sf::Vector2f(900, 560);
 	std::vector<Node*> _path;

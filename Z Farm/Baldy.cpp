@@ -1,9 +1,11 @@
 #include "Baldy.h"
 #include "Definitions.h"
+#include "Utilities.h"
 
 #include <queue>
 #include <unordered_set>
 #include <iostream>
+#include <algorithm>
 
 
 Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* myRoom) :
@@ -35,7 +37,6 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 	targetNodeCircle.setFillColor(sf::Color::Magenta);
 	targetNodeCircle.setRadius(5.0f);
 
-	Repath();
 }
 
 Baldy::~Baldy()
@@ -59,7 +60,7 @@ void Baldy::Update(float dT)
 void Baldy::Draw()
 {
 	_data->window.draw(sprite);
-	_data->window.draw(hitbox);
+	//_data->window.draw(hitbox);
 
 	if (_path.size() > 1)
 	{
@@ -87,7 +88,8 @@ void Baldy::Hit(sf::Vector2f playerPos)
 
 void Baldy::Repath()
 {
-	_path = PathFind(_targetPosition);
+	_path = ZEngine::Utilities::PathFind(_targetPosition, &sprite, _myRoom);
+	_state = State::moving;
 }
 
 void Baldy::UpdateAnimations()
@@ -171,120 +173,11 @@ bool Baldy::CanSeePlayer()
 }
 
 
-std::vector<Node*> Baldy::PathFind(sf::Vector2f goal)
-{
-	std::vector<Node*> openSet;
-	std::vector<Node*> returnSet = std::vector<Node*>();
-	std::map<Node*, Node*> cameFrom;
 
-	Node* startNode = GetNearestNode(sprite.getPosition());
-	Node* goalNode = GetNearestNode(goal);
-
-	openSet.push_back(startNode);
-
-	float h = GenerateHeuristic(startNode->GetNodeLocation(), goalNode->GetNodeLocation());
-
-	std::map<Node*, Score> gScore;
-	gScore[startNode].i = 0;
-
-	std::map<Node*, Score> fScore;
-	fScore[startNode].i = h;
-
-	while (!openSet.empty())
-	{
-		Node* currentNode = openSet[0];
-
-		//Sets the current node to be equal to the minimum fScore node in the open set
-		for (int i = 0; i < openSet.size(); i++)
-			if (fScore[openSet[i]].i < fScore[currentNode].i)
-				currentNode = openSet[i];
-
-		//Return true if a path is found.
-		if (currentNode == goalNode)
-		{
-			returnSet.push_back(currentNode);
-			return returnSet;
-		}
-
-		openSet.erase(std::find(openSet.begin(), openSet.end(), currentNode));
-
-		for (int i = 0; i < currentNode->edges.size(); i++)
-		{
-			Node::Edge neighbour = currentNode->edges[i];
-			float tentative_gScore = gScore[currentNode].i + neighbour.cost;
-			float neighbourScore = gScore[neighbour.node].i;
-
-			if (tentative_gScore < gScore[neighbour.node].i)
-			{
-				cameFrom[neighbour.node] = currentNode;
-				returnSet.push_back(currentNode);
-				gScore[neighbour.node].i = tentative_gScore;
-				fScore[neighbour.node].i = gScore[neighbour.node].i + GenerateHeuristic(neighbour.node->GetNodeLocation(), goalNode->GetNodeLocation());
-				if (std::find(openSet.begin(), openSet.end(), neighbour.node) == openSet.end()) 
-				{
-					openSet.push_back(neighbour.node);
-				}
-			}
-		}
-	}
-}
-
-/// <summary>
-/// Gets the nearest node to a location.
-/// </summary>
-/// <param name="pos"> The location to grab the nearest node to. </param>
-/// <returns> A pointer to the node nearest to position 'pos'. </returns>
-Node* Baldy::GetNearestNode(sf::Vector2f pos)
-{
-	//Init a node pointer and a temp to hold the distance to the neared node (keeping it squared to minimise sqrt calls)
-	/*
-	NOTE: I initialise distSquared as -1 because the loop will never set it to be negative.
-		  This way, in the loop, I can guarantee that the first run will return a node from the level.
-		  If there is no node, I can just return a nullptr and do a check whenever I call this function.
-	*/
-	Node* nearestNode = nullptr;
-	float distSquared = -1;
-
-	//Loop through the navMap...
-	for (int i = 0; i < _myRoom->navMap.size(); i++)
-	{
-		//Set some temp variables to calculate the distance squared.
-		sf::Vector2f tempDist = _myRoom->navMap[i]->GetNodeLocation() - pos;
-		float nodeDistSquared = (tempDist.x * tempDist.x) + (tempDist.y * tempDist.y);
-
-		//If the distance squared is -1 (This is the first run of the loop), just grab this node.
-		if (distSquared == -1)
-		{
-			distSquared = nodeDistSquared;
-			nearestNode = _myRoom->navMap[i];
-		}
-
-		//If the distance to the next node is less than the distance to the current nearest node, set the nearest node to this node.
-		if (nodeDistSquared < distSquared)
-		{
-			distSquared = nodeDistSquared;
-			nearestNode = _myRoom->navMap[i];
-		}
-	}
-
-	//Returns the nearest Node.
-	return nearestNode;
-}
-
-/// <summary>
-/// Generates a heuristic for the pathfinding algorithm from two position vectors.
-/// </summary>
-/// <param name="a"> The first position vector. </param>
-/// <param name="b"> The second position vector. </param>
-/// <returns></returns>
-float Baldy::GenerateHeuristic(sf::Vector2f a, sf::Vector2f b)
-{
-	return (std::abs(a.x - b.x) / 64) + (std::abs(a.y - b.y) / 64);
-}
 
 bool Baldy::SeekTarget()
 {
-	Node* nearestNode = GetNearestNode(sprite.getPosition());
+	Node* nearestNode = ZEngine::Utilities::GetNearestNode(sprite.getPosition(), _myRoom);
 	if (_path.size() > 0)
 	{
 		if (nearestNode == _path[_path.size() - 1])
@@ -313,7 +206,7 @@ bool Baldy::SeekTarget()
 	//Decide if we need to jump.
 	if (targetNode->GetNodeLocation().y < nearestNode->GetNodeLocation().y)
 	{
-		float jumpForce = 10.0f;
+		float jumpForce = 6.0f;
 		Jump(jumpForce);
 	}
 	
@@ -325,9 +218,9 @@ void Baldy::Move(int dir)
 	b2Vec2 vel = body->GetLinearVelocity();
 
 	if (dir == -1)
-		_desiredVelocity = b2Max(vel.x - 0.3f, -3.0f);
+		_desiredVelocity = b2Max(vel.x - 0.3f, -4.0f);
 	else if (dir == 1)
-		_desiredVelocity = b2Min(vel.x + 0.3f, 3.0f);
+		_desiredVelocity = b2Min(vel.x + 0.3f, 4.0f);
 
 	float velChange = _desiredVelocity - vel.x;
 	float impulse = body->GetMass() * velChange; //disregard time factor

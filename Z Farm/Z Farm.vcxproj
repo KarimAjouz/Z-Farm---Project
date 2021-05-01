@@ -144,6 +144,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ContactListener.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ContactListener.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMaps.h" />
