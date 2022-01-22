@@ -91,33 +91,28 @@ void TilePicker::Update(float dT)
 
 void TilePicker::Draw()
 {
-	if (active)
+	switch (state)
 	{
-		switch (state)
-		{
-		case State::shipTiles:		
-			_data->window.draw(_selector);
-			break;
-		case State::units:
-			for (int i = 0; i < _unitList.size(); i++)
-				_data->window.draw(_unitList[i].rect);
-			break;
-		case State::obstacles:
-			for (int i = 0; i < _obstacleList.size(); i++)
-				_data->window.draw(_obstacleList[i].rect);
-			break;
-		case State::props:
-			_selector.setTexture(_data->assetManager.GetTexture("Props"));
-			break;
+	case State::shipTiles:		
+		_data->window.draw(_selector);
+		break;
+	case State::units:
+		for (int i = 0; i < _unitList.size(); i++)
+			_data->window.draw(_unitList[i].rect);
+		break;
+	case State::obstacles:
+		for (int i = 0; i < _obstacleList.size(); i++)
+			_data->window.draw(_obstacleList[i].rect);
+		break;
+	case State::props:
+		_selector.setTexture(_data->assetManager.GetTexture("Props"));
+		break;
 
-		}
-
-		_data->window.draw(_selectorWindow);
-
-
-		_data->window.draw(_hoveredTile);
-		_data->window.draw(_activeTile);
 	}
+
+	_data->window.draw(_selectorWindow);
+	_data->window.draw(_hoveredTile);
+	_data->window.draw(_activeTile);
 }
 
 sf::IntRect TilePicker::GetTileRect()
@@ -128,7 +123,7 @@ sf::IntRect TilePicker::GetTileRect()
 	{
 		sf::Vector2f tilePos = _hoveredTile.getPosition();
 
-		tilePos -= _selector.getPosition();
+		//tilePos -= _selector.getPosition();
 
 		texRect.left = tilePos.x;
 		texRect.top = tilePos.y;
@@ -136,8 +131,6 @@ sf::IntRect TilePicker::GetTileRect()
 		texRect.height = 32;
 
 		_activeTile.setPosition(tilePos);
-
-		active = false;
 	}
 
 	return texRect;
@@ -146,13 +139,20 @@ sf::IntRect TilePicker::GetTileRect()
 void TilePicker::Activate()
 {
 	active = true;
-	_selector.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
-	_selectorWindow.setPosition(sf::Vector2f(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))));
 	_activeTile.setPosition(_activeTile.getPosition() + _selector.getPosition());
 
 	RepositionWindows();
+}
 
+void TilePicker::Deactivate()
+{
+	active = false;
+}
 
+bool TilePicker::isMouseInPicker()
+{
+	bool out = _selector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window)));
+	return out;
 }
 
 void TilePicker::UpdateState()
@@ -226,7 +226,6 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 						selectorItem = _obstacleList[i];
 			break;
 	}
-	active = false;
 
 	return selectorItem;
 }

@@ -62,4 +62,9 @@ namespace ZEngine
 	{
 		_length = seconds;
 	}
+	void Timer::Reset()
+	{
+		Start();
+		Pause();
+	}
 }

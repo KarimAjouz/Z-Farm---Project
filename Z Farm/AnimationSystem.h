@@ -17,7 +17,7 @@ namespace ZEngine
 
 		bool Complete() { return _curAnim->Complete; }
 
-		std::string GetCurrentAnim() { return _curAnim->Name; }
+		std::string GetCurrentAnim();
 	private:
 		std::vector<Animation*> _anims;
 		Animation* _curAnim = nullptr;

@@ -29,11 +29,11 @@ public:
 	sf::Vector2f GetNodeLocation() { return nodeArea.getPosition(); }
 
 	void GenerateNodeList(std::vector<Node*>* nodeMap, std::vector<Tile> tiles);
-
+	Node* GetNodeAtLocation(sf::Vector2f pos, std::vector<Node*>* nodeMap);
 private:
 	
 
 	bool CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles);
-	Node* GetNodeAtLocation(sf::Vector2f pos, std::vector<Node*>* nodeMap);
+	
 };
 

@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="AlarmPig.cpp" />
+    <ClCompile Include="AlertBubble.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationSystem.cpp" />
     <ClCompile Include="AssetManager.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="AlarmPig.h" />
+    <ClInclude Include="AlertBubble.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="AssetManager.h" />

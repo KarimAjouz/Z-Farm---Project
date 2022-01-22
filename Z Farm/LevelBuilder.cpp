@@ -52,6 +52,19 @@ LevelBuilder::~LevelBuilder()
 {
 }
 
+void LevelBuilder::Activate()
+{
+	_active = true;
+	_tilePicker.Activate();
+}
+
+void LevelBuilder::Deactivate()
+{
+	_active = false;
+	_tilePicker.Deactivate();
+}
+
+
 /// <summary>
 /// Scrolls the selected tile.
 /// </summary>
@@ -95,7 +108,7 @@ void LevelBuilder::Draw()
 
 void LevelBuilder::MouseRelease()
 {
-	if (!_tilePicker.active)
+	if (!_tilePicker.isMouseInPicker())
 	{
 		switch (_tilePicker.state)
 		{
@@ -125,9 +138,9 @@ void LevelBuilder::MouseRelease()
 				break;
 		}
 	}
-	else if (_tilePicker.active)
+	else
 	{
-		TilePicker::SelectorItem item = _tilePicker.GetSelectorItem();;
+		TilePicker::SelectorItem item = _tilePicker.GetSelectorItem();
 		switch (_tilePicker.state)
 		{
 			case TilePicker::State::shipTiles:
@@ -775,4 +788,51 @@ void LevelBuilder::AddObstacle(int type)
 void LevelBuilder::SetMouseGridLock(bool isLock)
 {
 	_mouseLocked = isLock;
+}
+
+void LevelBuilder::HandleKeyboardInputs(sf::Event* e)
+{
+
+	sf::View tempView = _data->window.getView();
+	switch (e->type)
+	{
+	case sf::Event::KeyPressed:
+		switch (e->type)
+		{
+		case sf::Keyboard::M:
+			SaveLevel();
+			break;
+		case sf::Keyboard::N:
+			LoadLevel();
+			break;
+		case sf::Keyboard::Up:
+			tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 10.0f));
+			_data->window.setView(tempView);
+			break;
+		case sf::Keyboard::Down:
+			tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 10.0f));
+			_data->window.setView(tempView);
+			break;
+		case sf::Keyboard::Left:
+			tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 10.0f, tempView.getCenter().y));
+			_data->window.setView(tempView);
+			break;
+		case sf::Keyboard::Right:
+			tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 10.0f, tempView.getCenter().y));
+			_data->window.setView(tempView);
+			break;
+		}
+		break;
+		case sf::Event::MouseButtonReleased:
+			if (e->mouseButton.button == sf::Mouse::Button::Left)
+				MouseRelease();
+			if (e->mouseButton.button == sf::Mouse::Button::Right)
+				OpenSelector();
+			break;
+		case sf::Event::MouseWheelScrolled:
+			if (e->mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+				Scroll(e->mouseWheelScroll.delta);
+			break;
+
+	}
 }

@@ -59,11 +59,6 @@ enum class CollisionTag
 #define PIG_ALARM "Media/Gameplay/Pig/Pig_Panic.png"
 #define PIG_DEATH "Media/Gameplay/Pig/Pig_Death.png"
 
-#define QUESTION_IN "Media/Gameplay/Dialogue/Question_In.png"
-#define EXCLAMATION_IN "Media/Gameplay/Dialogue/Alert_In.png"
-#define QUESTION_OUT "Media/Gameplay/Dialogue/Question_Out.png"
-#define EXCLAMATION_OUT "Media/Gameplay/Dialogue/Alert_Out.png"
-
 #define PLAYER_IDLE "Media/Gameplay/Player/Idle.png"
 #define PLAYER_RUN "Media/Gameplay/Player/Run.png"
 #define PLAYER_JUMP "Media/Gameplay/Player/Jump.png"
@@ -95,6 +90,10 @@ enum class CollisionTag
 #define BALDY_DEAD "Media/Gameplay/Pirates/Baldy/Dead.png"
 
 
+#define DIALOGUE_QUESTION_IN "Media/Dialogue/Question_In.png"
+#define DIALOGUE_QUESTION_OUT "Media/Dialogue/Question_Out.png"
+#define DIALOGUE_ALERT_IN "Media/Dialogue/Alert_In.png"
+#define DIALOGUE_ALERT_OUT "Media/Dialogue/Alert_Out.png"
 
 
 

@@ -238,8 +238,8 @@ bool Node::CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles)
 
 Node* Node::GetNodeAtLocation(sf::Vector2f pos, std::vector<Node*>* nodeMap)
 {
-	int xGridPos = pos.x / 64;
-	int yGridPos = pos.y / 64;
+	int xGridPos = (pos.x - 32) / 64;
+	int yGridPos = (pos.y - 32) / 64;
 
 	for (Node* node : *nodeMap)
 	{
