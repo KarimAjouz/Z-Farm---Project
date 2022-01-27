@@ -22,6 +22,7 @@ namespace ZEngine
 		float GetSecondsRemaining();
 
 		void SetTimer(float seconds);
+		void Reset();
 
 	private:
 		float _length;

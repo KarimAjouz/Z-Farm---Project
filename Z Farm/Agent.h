@@ -26,8 +26,9 @@ public:
 
 	enum class Type
 	{
+		player,
 		alarmPig,
-		swordsman
+		baldy
 	};
 
 	Type type;

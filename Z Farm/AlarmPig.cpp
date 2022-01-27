@@ -5,15 +5,18 @@
 
 AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	_data(data),
-	_animSys(&sprite, _data)
+	_animSys(&sprite, _data),
+	Enemy(data, world)
 {
 	InitAnimations();
 
 	worldRef = world;
 	sprite.setPosition(pos);
-	sprite.setScale(sf::Vector2f(2.0f, 2.0f));
+	sprite.setScale(-2.0f, 2.0f);
 	sprite.setOrigin(sf::Vector2f(20, 15));
-	
+
+	dialogueOffset = sf::Vector2f(20, -15);
+
 	hitbox = sf::RectangleShape(sf::Vector2f(12, 12));
 	hitbox.setOrigin(6, 6);
 	hitbox.setPosition(sprite.getPosition());
@@ -22,7 +25,6 @@ AlarmPig::AlarmPig(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) 
 	hitbox.setOutlineColor(sf::Color::Blue);
 	hitbox.setOutlineThickness(1.0f);
 
-	
 	type = Agent::Type::alarmPig;
 
 	InitPhysics(pos);
@@ -45,11 +47,14 @@ void AlarmPig::Update(float dT)
 	sprite.setPosition(body->GetPosition().x * SCALE, body->GetPosition().y * SCALE);
 	hitbox.setPosition(sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y + 12));
 
+	alertBubble.Update(dT, sprite.getPosition() + dialogueOffset);
 }
 
 void AlarmPig::Draw()
 {
 	_data->window.draw(sprite);
+
+	alertBubble.Draw();
 }
 
 void AlarmPig::UpdateState()
@@ -57,7 +62,7 @@ void AlarmPig::UpdateState()
 	switch (_state)
 	{
 	case State::idle:
-		if (CanSeePlayer())
+		if (alertBubble.UpdateState(CanSeePlayer(), &questionTimer))
 			_state = State::alarmed;
 		break;
 	case State::hit:
@@ -68,6 +73,7 @@ void AlarmPig::UpdateState()
 
 		break;
 	}
+
 }
 
 void AlarmPig::UpdateAnimations()

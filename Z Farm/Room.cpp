@@ -57,24 +57,24 @@ void Room::Update(float dT)
 
 void Room::Draw()
 {
-	for (int i = 0; i < navMap.size(); i++)
-	{
-		_data->window.draw(navMap[i]->nodeArea);
+	//for (int i = 0; i < navMap.size(); i++)
+	//{
+	//	_data->window.draw(navMap[i]->nodeArea);
 
-		if (showNav)
-		{
-			for (int j = 0; j < navMap[i]->edges.size(); j++)
-			{
-				sf::Vertex line[2];
-				line[0].position = navMap[i]->GetNodeLocation();
-				line[0].color = sf::Color::Blue;
-				line[1].position = navMap[i]->edges[j].node->GetNodeLocation();
-				line[1].color = sf::Color::Blue;
+	//	if (showNav)
+	//	{
+	//		for (int j = 0; j < navMap[i]->edges.size(); j++)
+	//		{
+	//			sf::Vertex line[2];
+	//			line[0].position = navMap[i]->GetNodeLocation();
+	//			line[0].color = sf::Color::Blue;
+	//			line[1].position = navMap[i]->edges[j].node->GetNodeLocation();
+	//			line[1].color = sf::Color::Blue;
 
-				_data->window.draw(line, 2, sf::Lines);
-			}
-		}
-	}
+	//			_data->window.draw(line, 2, sf::Lines);
+	//		}
+	//	}
+	//}
 }
 
 /// <summary>

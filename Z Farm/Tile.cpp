@@ -48,7 +48,7 @@ void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)
 	{
 		b2FixtureDef myFixtureDef;
 		myFixtureDef.density = 1.0f;
-		myFixtureDef.friction = 0.8f;
+		myFixtureDef.friction = 1.0f;
 		myFixtureDef.shape = &polygonShape;
 		b2Fixture* fixture = tileBody->CreateFixture(&myFixtureDef);
 		fixture->GetUserData().pointer = static_cast<int>(collisionTag);

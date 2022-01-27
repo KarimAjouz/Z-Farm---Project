@@ -18,6 +18,11 @@ public:
 	void Update(float dT);
 	void Draw();
 
+	void Activate();
+	void Deactivate();
+
+	bool isActive() { return _active; }
+
 	void Scroll(int dir);
 
 	void AddTile();
@@ -29,11 +34,12 @@ public:
 	void LoadLevel(std::string name);
 
 	void MouseRelease();
-
-
 	void OpenSelector();
 
 	void SetMouseGridLock(bool isLock);
+
+	void HandleKeyboardInputs(sf::Event* event);
+
 private:
 	int _scrollSelector = 0;
 	ZEngine::GameDataRef _data;
@@ -54,6 +60,7 @@ private:
 	std::vector<std::vector<sf::Vector2i>> _curMap;
 
 	TilePicker _tilePicker;
+	bool _active = false;
 
 	bool _mouseLocked = true;
 

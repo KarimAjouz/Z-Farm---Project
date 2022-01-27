@@ -26,9 +26,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="GameState_Gameplay.cpp">
       <Filter>States</Filter>
     </ClCompile>
@@ -107,7 +104,16 @@
     <ClCompile Include="Baldy.cpp">
       <Filter>Agents</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="AlertBubble.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -132,9 +138,6 @@
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="GameState_Gameplay.h">
@@ -221,7 +224,16 @@
     <ClInclude Include="Baldy.h">
       <Filter>Agents</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="Utilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AlertBubble.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

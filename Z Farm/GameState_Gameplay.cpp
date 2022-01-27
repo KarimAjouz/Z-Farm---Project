@@ -65,92 +65,11 @@ void GameState_Gameplay::PollEvents()
 
 	while (_data->window.pollEvent(e))
 	{
-		switch (e.type)
+		if (_levelBuilder.isActive())
 		{
-		case sf::Event::KeyPressed:
-			switch (e.key.code)
-			{
-			case sf::Keyboard::Escape:
-				Exit();
-				break;
-			case sf::Keyboard::P:
-				if (_paused)
-					Resume();
-				else
-					Pause();
-				break;
-			case sf::Keyboard::O:
-				_debugMode = !_debugMode;
-				break;
-			case sf::Keyboard::L:
-				_building = !_building;
-
-				if (_building == false)
-				{
-					_level->RegenLevel();
-					_player.SetView();
-				}
-				break;
-			case sf::Keyboard::M:
-				if (_building)
-					_levelBuilder.SaveLevel();
-				break;
-			case sf::Keyboard::N:
-				if (_building)
-					_levelBuilder.LoadLevel();
-				break;
-			case sf::Keyboard::Up:
-				if (_building)
-				{
-					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 10.0f));
-					_data->window.setView(tempView);
-				}
-				break;
-			case sf::Keyboard::Down:
-				if (_building)
-				{
-					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 10.0f));
-					_data->window.setView(tempView);
-				}
-				break;
-			case sf::Keyboard::Left:
-				if (_building)
-				{
-					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 10.0f, tempView.getCenter().y));
-					_data->window.setView(tempView);
-				}
-				break;
-			case sf::Keyboard::Right:
-				if (_building)
-				{
-					sf::View tempView = _data->window.getView();
-					tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 10.0f, tempView.getCenter().y));
-					_data->window.setView(tempView);
-				}
-				break;
-			}
-			break;
-		case sf::Event::MouseButtonReleased:
-			if (_building && e.mouseButton.button == sf::Mouse::Button::Left)
-				_levelBuilder.MouseRelease();
-			if (_building && e.mouseButton.button == sf::Mouse::Button::Right)
-				_levelBuilder.OpenSelector();
-
-			if (!_building && e.mouseButton.button == sf::Mouse::Button::Left)
-				_player.Stab();
-			break;
-		case sf::Event::MouseWheelScrolled:
-			if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
-				_levelBuilder.Scroll(e.mouseWheelScroll.delta);
-
-			break;
-		case sf::Event::Closed:
-			Exit();
-			break;
+			_levelBuilder.HandleKeyboardInputs(&e);
 		}
+		HandleKeyboardInputs(&e);
 	}
 
 }
@@ -164,7 +83,7 @@ void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
 	{
-		if(_building)
+		if(_levelBuilder.isActive())
 			_levelBuilder.Update(dT);
 		else
 		{
@@ -198,7 +117,7 @@ void GameState_Gameplay::Draw()
 		_world.DebugDraw();
 
 
-	if (_building)
+	if (_levelBuilder.isActive())
 		_levelBuilder.Draw();
 
 	_data->window.display();
@@ -248,4 +167,47 @@ void GameState_Gameplay::LerpView(float dT)
 	newCenter = ZEngine::Utilities::Lerp(newCenter, _viewTarget, dT);
 	view.setCenter(newCenter);
 	_data->window.setView(view);
+}
+
+void GameState_Gameplay::HandleKeyboardInputs(sf::Event* e)
+{
+	switch (e->type)
+	{
+	case sf::Event::KeyPressed:
+		switch (e->key.code)
+		{
+		case sf::Keyboard::Escape:
+			Exit();
+			break;
+		case sf::Keyboard::P:
+			if (_paused)
+				Resume();
+			else
+				Pause();
+			break;
+		case sf::Keyboard::O:
+			_debugMode = !_debugMode;
+			break;
+		case sf::Keyboard::L:
+			if (_levelBuilder.isActive())
+			{
+				_levelBuilder.Deactivate();
+				_level->RegenLevel();
+				_player.SetView();
+			}
+			else
+			{
+				_levelBuilder.Activate();
+			}
+			break;
+		}
+		break;
+
+		if (e->mouseButton.button == sf::Mouse::Button::Left)
+			_player.Stab();
+		break;
+	case sf::Event::Closed:
+		Exit();
+		break;
+	}
 }

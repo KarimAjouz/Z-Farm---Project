@@ -148,7 +148,7 @@ namespace ZEngine
 	{
 		std::vector<Node*> openSet;
 		std::vector<Node*> returnSet;
-		std::map<Node*, Node*> cameFrom;
+		//std::map<Node*, Node*> cameFrom;
 
 		Node* startNode = GetNearestNode(sprite->getPosition(), room);
 		Node* goalNode = GetNearestNode(goal, room);
@@ -177,12 +177,12 @@ namespace ZEngine
 			{
 				Node* n = goalNode;
 				returnSet.push_back(currentNode);
-				while (cameFrom[n] != startNode)
+				/*while (cameFrom[n] != startNode)
 				{
 					returnSet.push_back(cameFrom[n]);
 					n = cameFrom[n];
-				}
-				std::reverse(returnSet.begin(), returnSet.end());
+				}*/
+				//std::reverse(returnSet.begin(), returnSet.end());
 				return returnSet;
 			}
 
@@ -196,7 +196,8 @@ namespace ZEngine
 
 				if (tentative_gScore < gScore[neighbour.node].i)
 				{
-					cameFrom[neighbour.node] = currentNode;
+					//cameFrom[neighbour.node] = currentNode;
+					returnSet.push_back(neighbour.node);
 					gScore[neighbour.node].i = tentative_gScore;
 					fScore[neighbour.node].i = gScore[neighbour.node].i + GenerateHeuristic(neighbour.node->GetNodeLocation(), goalNode->GetNodeLocation());
 					if (std::find(openSet.begin(), openSet.end(), neighbour.node) == openSet.end())

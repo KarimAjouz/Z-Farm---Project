@@ -17,6 +17,10 @@ public:
 	sf::IntRect GetTileRect();
 
 	void Activate();
+	void Deactivate();
+
+	bool isMouseInPicker();
+
 	bool active;
 
 	enum class State
@@ -56,4 +60,3 @@ private:
 	void InitEntities();
 	void RepositionWindows();
 };
-

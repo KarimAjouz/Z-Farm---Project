@@ -61,7 +61,6 @@ private:
 	Player _player;
 
 	LevelBuilder _levelBuilder;
-	bool _building;
 
 	SwordPickup _testSword;
 	sf::Vector2f _viewTarget = sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -72,5 +71,6 @@ private:
 
 	void LerpView(float dT);
 
+	void HandleKeyboardInputs(sf::Event* e);
 };
 

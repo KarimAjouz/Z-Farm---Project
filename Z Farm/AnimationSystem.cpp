@@ -15,7 +15,8 @@ namespace ZEngine
 
 	void AnimationSystem::Update(float dT)
 	{
-		_curAnim->Update(dT);
+		if(_curAnim != nullptr)
+			_curAnim->Update(dT);
 	}
 
 	void AnimationSystem::AddAnimation(std::string name, std::string path, float animLength, bool loop, sf::IntRect frameRect, sf::Vector2f origin)
@@ -37,6 +38,14 @@ namespace ZEngine
 	void AnimationSystem::Play()
 	{
 		_curAnim->Play();
+	}
+
+	std::string AnimationSystem::GetCurrentAnim()
+	{
+		if (_curAnim == nullptr)
+			return "NONE";
+
+		return _curAnim->Name;
 	}
 
 }

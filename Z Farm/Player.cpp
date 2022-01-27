@@ -20,7 +20,7 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2W
 	sprite.setScale(2.0f, 2.0f);
 	sprite.setOrigin(32, 20);
 
-
+	type = Agent::Type::player;
 	InitPhysics(pos);
 
 	_animSystem.SetAnimation("PlayerIdle");
@@ -364,8 +364,6 @@ void Player::InitPhysics(sf::Vector2f pos)
 	b2CircleShape circleShape;
 	circleShape.m_radius = _colBox.width / SCALE;
 	circleShape.m_p = b2Vec2(0, _colBox.height / 2 / SCALE);
-
-
 
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.density = 1.0f;
