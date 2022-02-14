@@ -22,7 +22,7 @@ public:
 	Room* activeRoom = nullptr;
 
 
-	sf::Vector2i emptyTile = sf::Vector2i(1, 6);
+	sf::Vector2i emptyTile = sf::Vector2i(1, 1);
 
 	std::vector < std::vector < sf::Vector2i >> emptyRoom =
 	{

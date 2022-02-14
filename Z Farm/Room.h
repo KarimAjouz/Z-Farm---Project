@@ -49,7 +49,7 @@ private:
 
 
 	sf::Vector2i floorTile = sf::Vector2i(1, 0);
-	sf::Vector2i emptyTile = sf::Vector2i(1, 6);
+	sf::Vector2i emptyTile = sf::Vector2i(1, 1);
 
 	std::map<bool, sf::Vector2i> baseTiles{ {true, floorTile}, {false, emptyTile} };
 
