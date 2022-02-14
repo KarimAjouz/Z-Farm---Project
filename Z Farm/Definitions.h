@@ -28,7 +28,8 @@ enum class CollisionTag
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
 
-#define TILE_PATH "Media/Textures/TerrainAndBackWall.png"
+#define TILE_COL_PATH "Media/Textures/CollidableTiles.png"
+#define TILE_BG_PATH "Media/Textures/BackgroundTiles.png"
 #define UNITS_PATH "Media/Textures/EnemyTiles.png"
 
 #define SWORD_ITEM "Media/Gameplay/Pickups/Sword.png"

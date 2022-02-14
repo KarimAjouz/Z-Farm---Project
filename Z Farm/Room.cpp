@@ -96,7 +96,8 @@ void Room::BuildLevel()
 	{
 		for (int x = 0; x < _map[y].size(); x++)
 		{
-			tiles.push_back(GenTiles(_map[y][x], x, y));
+			bool col = _map[y][x] == floorTile;
+			tiles.push_back(GenTile(_map[y][x], x, y, col));
 		}
 	}
 
@@ -129,19 +130,21 @@ void Room::DrawObstacles()
 /// <param name="x"> The x position of the tile in the room. </param>
 /// <param name="y"> The y position of the tile in the room. </param>
 /// <returns></returns>
-Tile Room::GenTiles(sf::Vector2i uv, int x, int y)
+Tile Room::GenTile(sf::Vector2i uv, int x, int y, bool collision)
 {
-	bool collision = true;
-
-	if (uv.y * 32 >= 160 || (uv.x * 32 == 32 && uv.y * 32 == 32))
-		collision = false;
-
 	//Builds a tile at the correct location.
-	Tile tile = Tile(_data, _worldRef, "Tiles", TILE_PATH, collision, //Assigns basic tile data.
-		sf::Vector2f(roomOffset.x + (x * 64) + 32, roomOffset.y + (y * 64) + 32), //Sets the position of the tile, including the offset for the whole room.
-		sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
-
-	return tile;
+	if (collision)
+	{
+		return Tile(_data, _worldRef, "colTiles", TILE_COL_PATH, collision, //Assigns basic tile data.
+			sf::Vector2f(roomOffset.x + (x * 64) + 32, roomOffset.y + (y * 64) + 32), //Sets the position of the tile, including the offset for the whole room.
+			sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
+	}
+	else if (!collision)
+	{
+		return Tile(_data, _worldRef, "bgTiles", TILE_COL_PATH, collision, //Assigns basic tile data.
+			sf::Vector2f(roomOffset.x + (x * 64) + 32, roomOffset.y + (y * 64) + 32), //Sets the position of the tile, including the offset for the whole room.
+			sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
+	}
 }
 
 /// <summary>
@@ -156,7 +159,7 @@ void Room::RemoveTile(int x, int y)
 	y = y % 10;
 
 	tiles.at(x + (15 * y)).RemovePhysics();
-	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "Tiles", TILE_PATH, false, newPos, sf::IntRect(352, 256, 32, 32));
+	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "bgTiles", TILE_BG_PATH, false, newPos, sf::IntRect(352, 256, 32, 32));
 	_map[y][x] = sf::Vector2i(352/32, 256/32);
 }
 
@@ -168,18 +171,16 @@ void Room::RemoveTile(int x, int y)
 /// <param name="y"> The y location on the level grid (NOTE: NOT SCREEN SPACE) </param>
 /// <param name="xUV"> The x UV coords of the texture we are drawing. </param>
 /// <param name="yUV"> The y UV coords of the texture we are drawing. </param>
-void Room::AddTile(int x, int y, int xUV, int yUV)
+void Room::AddTile(int x, int y, int xUV, int yUV, bool col)
 {
-	bool collision = true;
-
 	sf::Vector2f newPos = sf::Vector2f((x * 64) + 32, (y * 64) + 32);
 	x = x % 15;
 	y = y % 10;
+	
+	std::string filePath = col ? TILE_COL_PATH : TILE_BG_PATH;
+	std::string tileType = col ? "colTiles" : "bgTiles";
 
-	if (yUV >= 160 || (xUV == 32 && yUV == 32))
-		collision = false;
-
-	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "Tiles", TILE_PATH, collision, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
+	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, tileType, filePath, col, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
 	_map[y][x] = sf::Vector2i(xUV / 32, yUV / 32);
 }
 

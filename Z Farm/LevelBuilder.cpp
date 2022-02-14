@@ -20,9 +20,10 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_tilePicker(_data),
 	_playerRef(playerRef)
 {
-	_data->assetManager.LoadTexture("Tiles", TILE_PATH);
+	_data->assetManager.LoadTexture("bgTiles", TILE_BG_PATH);
+	_data->assetManager.LoadTexture("colTiles", TILE_COL_PATH);
 	_data->assetManager.LoadTexture("Units", UNITS_PATH);
-	_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Tiles"));
+	_curSelectedTexture.setTexture(_data->assetManager.GetTexture("bgTiles"));
 	_curSelectedTexture.setTextureRect(_texRect);
 
 	_curTextureOutline.setSize(sf::Vector2f(_texRect.width + 2, _texRect.height + 2));
@@ -112,7 +113,13 @@ void LevelBuilder::MouseRelease()
 	{
 		switch (_tilePicker.state)
 		{
-			case TilePicker::State::shipTiles:
+			case (TilePicker::State::backgroundTiles):
+				if (_inRoom)
+					ReplaceTile();
+				else
+					NewRoom();
+				break;
+			case (TilePicker::State::collidableTiles):
 				if (_inRoom)
 					ReplaceTile();
 				else
@@ -143,9 +150,15 @@ void LevelBuilder::MouseRelease()
 		TilePicker::SelectorItem item = _tilePicker.GetSelectorItem();
 		switch (_tilePicker.state)
 		{
-			case TilePicker::State::shipTiles:
+			case TilePicker::State::backgroundTiles:
 				_texRect = _tilePicker.GetTileRect();
-				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("Tiles"));
+				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("bgTiles"));
+				_hoveredTile.setScale(2.0f, 2.0f);
+				SetMouseGridLock(true);
+				break;
+			case TilePicker::State::collidableTiles:
+				_texRect = _tilePicker.GetTileRect();
+				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("colTiles"));
 				_hoveredTile.setScale(2.0f, 2.0f);
 				SetMouseGridLock(true);
 				break;
@@ -217,7 +230,13 @@ void LevelBuilder::AddTile()
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
 			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / 64;
-			_levelRef->rooms[i].AddTile(tilePos.x, tilePos.y, _texRect.left % _data->assetManager.GetTexture("Tiles").getSize().x, _texRect.top);
+
+			bool col = false;
+
+			if (_tilePicker.state == TilePicker::State::collidableTiles)
+				col = true;
+
+			_levelRef->rooms[i].AddTile(tilePos.x, tilePos.y, _texRect.left % _curSelectedTexture.getTexture()->getSize().x, _texRect.top, col);
 		}
 	}
 

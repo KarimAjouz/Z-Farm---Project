@@ -25,7 +25,8 @@ public:
 
 	enum class State
 	{
-		shipTiles,
+		collidableTiles,
+		backgroundTiles,
 		units,
 		obstacles,
 		props
@@ -38,18 +39,18 @@ public:
 		int type;
 	};
 
-	State state = State::shipTiles;
+	State state = State::collidableTiles;
 
 	SelectorItem GetSelectorItem();
 private:
-
-	sf::Sprite _selector;
 	ZEngine::GameDataRef _data;
 
 	sf::RectangleShape _hoveredTile;
 	sf::RectangleShape _selectorWindow;
 	sf::RectangleShape _activeTile;
 
+	std::vector<sf::Sprite> _backgroundSpritesheetList;
+	std::vector<sf::Sprite> _collidablesSpritesheetList;
 	std::vector<SelectorItem> _obstacleList;
 	std::vector<SelectorItem> _unitList;
 
@@ -59,4 +60,7 @@ private:
 
 	void InitEntities();
 	void RepositionWindows();
+	void UpdateHoveredTilePos(sf::Vector2f mousePos);
+
+	void InitSheet(std::string filepath, bool isCol);
 };
