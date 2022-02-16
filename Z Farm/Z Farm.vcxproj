@@ -143,9 +143,11 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BrushTool.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EraseTool.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -156,8 +158,10 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
+    <ClCompile Include="LevelTool.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="PencilTool.cpp" />
     <ClCompile Include="Prop.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -184,9 +188,11 @@
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BalanceSheet.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BrushTool.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EraseTool.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMaps.h" />
@@ -199,8 +205,10 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelBuilder.h" />
+    <ClInclude Include="LevelTool.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="PencilTool.h" />
     <ClInclude Include="Prop.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="PhysicsDebugDraw.h" />

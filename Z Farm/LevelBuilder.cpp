@@ -74,8 +74,6 @@ void LevelBuilder::Scroll(int dir)
 {
 	sf::View view = _data->window.getView();
 
-
-
 	if (dir == 1)
 	{
 		view.setSize(view.getSize() * 1.2f);

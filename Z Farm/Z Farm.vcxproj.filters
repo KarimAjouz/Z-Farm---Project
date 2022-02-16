@@ -114,6 +114,10 @@
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="AlertBubble.cpp" />
+    <ClCompile Include="LevelTool.cpp" />
+    <ClCompile Include="PencilTool.cpp" />
+    <ClCompile Include="BrushTool.cpp" />
+    <ClCompile Include="EraseTool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -234,6 +238,10 @@
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="AlertBubble.h" />
+    <ClInclude Include="LevelTool.h" />
+    <ClInclude Include="PencilTool.h" />
+    <ClInclude Include="BrushTool.h" />
+    <ClInclude Include="EraseTool.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
