@@ -1,7 +1,14 @@
 #pragma once
+#include "Button.h"
+
 class LevelTool
 {
-	//This is the level tool class I have not figured it out yet
+public:
+	LevelTool();
+	~LevelTool();
 
+
+private:
+	ZEngine::Button _borderButton;
 };
 
