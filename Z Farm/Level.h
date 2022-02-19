@@ -22,9 +22,9 @@ public:
 	Room* activeRoom = nullptr;
 
 
-	sf::Vector2i emptyTile = sf::Vector2i(1, 1);
+	RoomTileData emptyTile = RoomTileData();
 
-	std::vector < std::vector < sf::Vector2i >> emptyRoom =
+	std::vector < std::vector < RoomTileData >> emptyRoom =
 	{
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},

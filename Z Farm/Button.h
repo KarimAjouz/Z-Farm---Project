@@ -13,6 +13,7 @@ namespace ZEngine
 
 		Button();
 		Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, std::string filePath, std::string fileName);
+
 		~Button();
 
 
@@ -28,6 +29,10 @@ namespace ZEngine
 
 		void Activate();
 
+		virtual void SetDefault();
+		virtual void SetHovered();
+		virtual void SetClicked();
+
 	private:
 		GameDataRef _data;
 		sf::Font _font;
@@ -35,12 +40,6 @@ namespace ZEngine
 		sf::Color _textColour;
 
 		std::string _fileName;
-
-		void SetDefault();
-		void SetHovered();
-		void SetClicked();
-
-
 	};
 
 

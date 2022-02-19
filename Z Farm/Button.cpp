@@ -40,6 +40,8 @@ namespace ZEngine
 		_text.setOrigin(_text.getLocalBounds().width / 2, _text.getLocalBounds().height / 2);
 	}
 
+	
+
 	Button::~Button()
 	{
 

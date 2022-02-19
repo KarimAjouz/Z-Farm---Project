@@ -1,4 +1,5 @@
 #pragma once
+#include "SFML/Graphics.hpp"
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 640
@@ -22,6 +23,24 @@ enum class CollisionTag
 	playerSword,
 	spike,
 	box
+};
+
+struct RoomTileData
+{
+	sf::Vector2i tileSheetCoords;
+	bool collision;
+
+	RoomTileData()
+	{
+		tileSheetCoords = sf::Vector2i(1, 1);
+		collision = false;
+	};
+
+	RoomTileData(sf::Vector2i sheetCoords, bool col)
+	{
+		tileSheetCoords = sheetCoords;
+		collision = col;
+	};
 };
 
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"

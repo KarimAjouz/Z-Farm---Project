@@ -96,8 +96,8 @@ void Room::BuildLevel()
 	{
 		for (int x = 0; x < _map[y].size(); x++)
 		{
-			bool col = _map[y][x] == floorTile;
-			tiles.push_back(GenTile(_map[y][x], x, y, col));
+			bool col = _map[y][x].collision;
+			tiles.push_back(GenTile(_map[y][x].tileSheetCoords, x, y, col));
 		}
 	}
 
@@ -160,7 +160,7 @@ void Room::RemoveTile(int x, int y)
 
 	tiles.at(x + (15 * y)).RemovePhysics();
 	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "bgTiles", TILE_BG_PATH, false, newPos, sf::IntRect(352, 256, 32, 32));
-	_map[y][x] = sf::Vector2i(352/32, 256/32);
+	_map[y][x] = RoomTileData(sf::Vector2i(352/32, 256/32), false);
 }
 
 
@@ -181,7 +181,7 @@ void Room::AddTile(int x, int y, int xUV, int yUV, bool col)
 	std::string tileType = col ? "colTiles" : "bgTiles";
 
 	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, tileType, filePath, col, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
-	_map[y][x] = sf::Vector2i(xUV / 32, yUV / 32);
+	_map[y][x] = RoomTileData(sf::Vector2i(xUV / 32, yUV / 32), col);
 }
 
 void Room::BuildPhyics()

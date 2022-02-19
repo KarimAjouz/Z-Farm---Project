@@ -18,8 +18,8 @@ public:
 
 	void RemoveTile(int x, int y);
 	void AddTile(int x, int y, int xUV, int yUV, bool col);
-	std::vector<std::vector<sf::Vector2i>> GetMap() { return _map; }
-	void SetMap(std::vector < std::vector < sf::Vector2i >> m) { _map = m; }
+	std::vector<std::vector<RoomTileData>> GetMap() { return _map; }
+	void SetMap(std::vector < std::vector <RoomTileData >> m) { _map = m; }
 
 	sf::Vector2f roomOffset = sf::Vector2f(0, 0);
 	sf::RectangleShape roomShape;
@@ -45,16 +45,11 @@ private:
 	ZEngine::GameDataRef _data;
 	b2World* _worldRef;
 
+	RoomTileData floorTile = RoomTileData(sf::Vector2i(1, 0), true);
+	RoomTileData emptyTile = RoomTileData(sf::Vector2i(1, 1), false);
 
 
-
-	sf::Vector2i floorTile = sf::Vector2i(1, 0);
-	sf::Vector2i emptyTile = sf::Vector2i(1, 1);
-
-	std::map<bool, sf::Vector2i> baseTiles{ {true, floorTile}, {false, emptyTile} };
-
-
-	std::vector < std::vector < sf::Vector2i >> _map =
+	std::vector < std::vector < RoomTileData >> _map =
 	{
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
 		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},

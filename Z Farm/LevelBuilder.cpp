@@ -308,7 +308,7 @@ void LevelBuilder::SaveLevel()
 		for (int i = 0; i < _levelRef->rooms.size(); i++)
 		{
 			// Get the current room.
-			std::vector<std::vector<sf::Vector2i>> map = _levelRef->rooms[i].GetMap();
+			std::vector<std::vector<RoomTileData>> map = _levelRef->rooms[i].GetMap();
 
 			sf::Vector2f roomOffset = _levelRef->rooms[i].roomOffset;
 
@@ -320,14 +320,14 @@ void LevelBuilder::SaveLevel()
 				for (int x = 0; x < map[0].size(); x++)
 				{
 					// ...Get the data from the tile in the map at (x, y)...
-					std::string numX = std::to_string(map[y][x].x);
-					std::string numY = std::to_string(map[y][x].y);
+					std::string numX = std::to_string(map[y][x].tileSheetCoords.x);
+					std::string numY = std::to_string(map[y][x].tileSheetCoords.y);
 
 					if (numX.size() == 1)
 						numX = "0" + numX;
 					if (numY.size() == 1)
 						numY = "0" + numY;
-
+					
 					//Put the data in the txt file.
 
 					output << numX << "/" << numY;
@@ -387,7 +387,7 @@ void LevelBuilder::LoadLevel()
 	if (CheckForLevel(lName))
 	{
 		// build a copy of the current map.
-		std::vector<std::vector<sf::Vector2i>> map = _levelRef->rooms[0].GetMap();
+		std::vector<std::vector<RoomTileData>> map = _levelRef->rooms[0].GetMap();
 
 		std::string filePath = LEVEL_PATH + lName;
 		std::ifstream input(filePath + ".txt");
@@ -507,13 +507,17 @@ void LevelBuilder::LoadLevel()
 				}
 				else
 				{
-					for (int i = 0; i < line.size(); i += 7)
+					for (int i = 0; i < line.size(); i += 9)
 					{
 						std::string temp = line.substr(i, 2);
 						int xTile = std::stoi(line.substr(i, 2));
 						int yTile = std::stoi(line.substr(i + 3, 2));
+						
+						int iCol = std::stoi(line.substr(i + 6, 1));
+						bool col = iCol == 1 ? true : false;
+						map[y][i / 9].tileSheetCoords = sf::Vector2i(xTile, yTile);
+						map[y][i / 9].collision = col;
 
-						map[y][i / 7] = sf::Vector2i(xTile, yTile);
 					}
 					y++;
 
@@ -544,7 +548,7 @@ void LevelBuilder::LoadLevel(std::string name)
 	if (CheckForLevel(lName))
 	{
 		// build a copy of the current map.
-		std::vector<std::vector<sf::Vector2i>> map = _levelRef->emptyRoom;
+		std::vector<std::vector<RoomTileData>> map = _levelRef->emptyRoom;
 
 		std::string filePath = LEVEL_PATH + lName;
 		std::ifstream input(filePath + ".txt");
@@ -666,13 +670,17 @@ void LevelBuilder::LoadLevel(std::string name)
 				}
 				else
 				{
-					for (int i = 0; i < line.size(); i += 7)
+					for (int i = 0; i < line.size(); i += 9)
 					{
 						std::string temp = line.substr(i, 2);
 						int xTile = std::stoi(line.substr(i, 2));
 						int yTile = std::stoi(line.substr(i + 3, 2));
 
-						map[y][i / 7] = sf::Vector2i(xTile, yTile);
+						int iCol = std::stoi(line.substr(i + 6, 1));
+						bool col = iCol == 1 ? true : false;
+
+						map[y][i / 9].tileSheetCoords = sf::Vector2i(xTile, yTile);
+						map[y][i / 9].collision = col;
 					}
 					y++;
 
