@@ -163,7 +163,7 @@ Tile Room::GenTile(sf::Vector2i uv, int x, int y, bool collision)
 	}
 	else if (!collision)
 	{
-		return Tile(_data, _worldRef, "bgTiles", TILE_COL_PATH, collision, //Assigns basic tile data.
+		return Tile(_data, _worldRef, "bgTiles", TILE_BG_PATH, collision, //Assigns basic tile data.
 			sf::Vector2f(roomOffset.x + (x * TILE_SIZE) + TILE_SIZE / 2, roomOffset.y + (y * TILE_SIZE) + TILE_SIZE / 2), //Sets the position of the tile, including the offset for the whole room.
 			sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
 	}
@@ -177,11 +177,15 @@ Tile Room::GenTile(sf::Vector2i uv, int x, int y, bool collision)
 void Room::RemoveTile(int x, int y)
 {
 	sf::Vector2f newPos = sf::Vector2f((x * TILE_SIZE) + TILE_SIZE / 2, (y * TILE_SIZE) + TILE_SIZE / 2);
-	x = x % 15;
-	y = y % 10;
 
-	tiles.at(x + (15 * y)).RemovePhysics();
-	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, "bgTiles", TILE_BG_PATH, false, newPos, sf::IntRect(352, 256, 32, 32));
+	int collumns = (SCREEN_WIDTH / (TILE_SIZE * TILE_SCALE));
+	int rows = (SCREEN_HEIGHT / (TILE_SIZE * TILE_SCALE));
+
+	x = x % collumns;
+	y = y % rows;
+
+	tiles.at(x + (collumns * y)).RemovePhysics();
+	tiles.at(x + (collumns * y)) = Tile(_data, _worldRef, "bgTiles", TILE_BG_PATH, false, newPos, sf::IntRect(352, 256, 32, 32));
 	_map[y][x] = RoomTileData(sf::Vector2i(352/32, 256/32), false);
 }
 
@@ -196,13 +200,16 @@ void Room::RemoveTile(int x, int y)
 void Room::AddTile(int x, int y, int xUV, int yUV, bool col)
 {
 	sf::Vector2f newPos = sf::Vector2f((x * TILE_SIZE) + TILE_SIZE / 2, (y * TILE_SIZE) + TILE_SIZE / 2);
-	x = x % 15;
-	y = y % 10;
-	
+
+	int collumns = (SCREEN_WIDTH / (TILE_SIZE * TILE_SCALE));
+	int rows = (SCREEN_HEIGHT / (TILE_SIZE * TILE_SCALE));
+
+	x = x % collumns;
+	y = y % rows;
 	std::string filePath = col ? TILE_COL_PATH : TILE_BG_PATH;
 	std::string tileType = col ? "colTiles" : "bgTiles";
 
-	tiles.at(x + (15 * y)) = Tile(_data, _worldRef, tileType, filePath, col, newPos + roomOffset, sf::IntRect(xUV, yUV, 32, 32));
+	tiles.at(x + (collumns * y)) = Tile(_data, _worldRef, tileType, filePath, col, newPos + roomOffset, sf::IntRect(xUV, yUV, TILE_SIZE, TILE_SIZE));
 	_map[y][x] = RoomTileData(sf::Vector2i(xUV / 32, yUV / 32), col);
 }
 

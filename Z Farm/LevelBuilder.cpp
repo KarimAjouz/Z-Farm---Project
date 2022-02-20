@@ -848,7 +848,7 @@ void LevelBuilder::HandleKeyboardInputs(sf::Event* e)
 			break;
 		}
 		break;
-		case sf::Event::MouseButtonReleased:
+		case sf::Event::MouseButtonPressed:
 			if (e->mouseButton.button == sf::Mouse::Button::Left)
 				MouseRelease();
 			break;

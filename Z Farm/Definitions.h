@@ -1,8 +1,8 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-#define SCREEN_WIDTH 1856
-#define SCREEN_HEIGHT 1024
+#define SCREEN_WIDTH 928
+#define SCREEN_HEIGHT 512
 
 #define TILE_SIZE 32
 #define TILE_SCALE 1
