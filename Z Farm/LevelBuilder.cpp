@@ -18,7 +18,8 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_levelRef(levelRef),
 	_worldRef(worldRef),
 	_tilePicker(_data),
-	_playerRef(playerRef)
+	_playerRef(playerRef),
+	_emptyRoom(Room(data, worldRef))
 {
 	_data->assetManager.LoadTexture("bgTiles", TILE_BG_PATH);
 	_data->assetManager.LoadTexture("colTiles", TILE_COL_PATH);
@@ -26,26 +27,27 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 	_curSelectedTexture.setTexture(_data->assetManager.GetTexture("bgTiles"));
 	_curSelectedTexture.setTextureRect(_texRect);
 
-	_curTextureOutline.setSize(sf::Vector2f(_texRect.width + 2, _texRect.height + 2));
+	_curTextureOutline.setSize(sf::Vector2f(TILE_SIZE * TILE_SCALE + 2, TILE_SIZE * TILE_SCALE + 2));
 	_curTextureOutline.setOutlineColor(sf::Color::Magenta);
 	_curTextureOutline.setFillColor(sf::Color::Transparent);
 	_curTextureOutline.setOutlineThickness(1);
 
 	_hoveredTile.setTexture(_curSelectedTexture.getTexture());
 	_hoveredTile.setTextureRect(_texRect);
-	_hoveredTile.setSize(sf::Vector2f(_texRect.width + 2, _texRect.height + 2));
+	_hoveredTile.setSize(sf::Vector2f((TILE_SIZE * TILE_SCALE) + 2, (TILE_SIZE * TILE_SCALE) + 2));
 	_hoveredTile.setOutlineThickness(1);
-	_hoveredTile.setOrigin(16, 16);
+	_hoveredTile.setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 	_hoveredTile.setOutlineColor(sf::Color::Green);
 	
 	sf::Color hoverColor = sf::Color(255, 255, 255, 100.0f);
 	_hoveredTile.setFillColor(hoverColor);
-	_hoveredTile.setScale(2.0f, 2.0f);
+	_hoveredTile.setScale(TILE_SCALE, TILE_SCALE);
 
 	_newRoomSelector.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
 	_newRoomSelector.setFillColor(sf::Color::Transparent);
 	_newRoomSelector.setOutlineColor(sf::Color::Blue);
 	_newRoomSelector.setOutlineThickness(5.0f);
+
 	LoadLevel("Default");
 }
 
@@ -151,13 +153,13 @@ void LevelBuilder::MouseRelease()
 			case TilePicker::State::backgroundTiles:
 				_texRect = _tilePicker.GetTileRect();
 				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("bgTiles"));
-				_hoveredTile.setScale(2.0f, 2.0f);
+				_hoveredTile.setScale(TILE_SCALE, TILE_SCALE);
 				SetMouseGridLock(true);
 				break;
 			case TilePicker::State::collidableTiles:
 				_texRect = _tilePicker.GetTileRect();
 				_curSelectedTexture.setTexture(_data->assetManager.GetTexture("colTiles"));
-				_hoveredTile.setScale(2.0f, 2.0f);
+				_hoveredTile.setScale(TILE_SCALE, TILE_SCALE);
 				SetMouseGridLock(true);
 				break;
 			case TilePicker::State::units:
@@ -227,7 +229,7 @@ void LevelBuilder::AddTile()
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
-			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / 64;
+			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / (TILE_SIZE * TILE_SCALE);
 
 			bool col = false;
 
@@ -237,8 +239,6 @@ void LevelBuilder::AddTile()
 			_levelRef->rooms[i].AddTile(tilePos.x, tilePos.y, _texRect.left % _curSelectedTexture.getTexture()->getSize().x, _texRect.top, col);
 		}
 	}
-
-
 }
 
 
@@ -254,7 +254,7 @@ void LevelBuilder::RemoveTile()
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
-			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / 64;
+			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / (TILE_SIZE * TILE_SCALE);
 			_levelRef->rooms[i].RemoveTile(tilePos.x, tilePos.y);
 		}
 	}
@@ -548,7 +548,7 @@ void LevelBuilder::LoadLevel(std::string name)
 	if (CheckForLevel(lName))
 	{
 		// build a copy of the current map.
-		std::vector<std::vector<RoomTileData>> map = _levelRef->emptyRoom;
+		std::vector<std::vector<RoomTileData>> map = _emptyRoom.GetMap();
 
 		std::string filePath = LEVEL_PATH + lName;
 		std::ifstream input(filePath + ".txt");
@@ -851,8 +851,6 @@ void LevelBuilder::HandleKeyboardInputs(sf::Event* e)
 		case sf::Event::MouseButtonReleased:
 			if (e->mouseButton.button == sf::Mouse::Button::Left)
 				MouseRelease();
-			if (e->mouseButton.button == sf::Mouse::Button::Right)
-				OpenSelector();
 			break;
 		case sf::Event::MouseWheelScrolled:
 			if (e->mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)

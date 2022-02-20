@@ -4,6 +4,9 @@
 #define SCREEN_WIDTH 1856
 #define SCREEN_HEIGHT 1024
 
+#define TILE_SIZE 32
+#define TILE_SCALE 1
+
 #define SPLASH_SCREEN_SHOW_TIME 0.5f
 
 const float SCALE = 30.f;

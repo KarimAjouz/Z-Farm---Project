@@ -26,12 +26,12 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_hoveredTile.setFillColor(sf::Color::Transparent);
 	_hoveredTile.setOutlineColor(sf::Color::Magenta);
 	_hoveredTile.setOutlineThickness(2.0f);
-	_hoveredTile.setSize(sf::Vector2f(32, 32));
+	_hoveredTile.setSize(sf::Vector2f(TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE));
 
 	_activeTile.setFillColor(sf::Color::Transparent);
 	_activeTile.setOutlineColor(sf::Color::Yellow);
 	_activeTile.setOutlineThickness(2.0f);
-	_activeTile.setSize(sf::Vector2f(32, 32));
+	_activeTile.setSize(sf::Vector2f(TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE));
 
 	InitEntities();
 }
@@ -122,7 +122,7 @@ void TilePicker::Draw()
 
 sf::IntRect TilePicker::GetTileRect()
 {
-	sf::IntRect texRect = sf::IntRect(320, 0, 32, 32);
+	sf::IntRect texRect = sf::IntRect(320, 0, TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE);
 	sf::Sprite curSelector;
 	if (state == State::backgroundTiles)
 		curSelector = _backgroundSpritesheetList[0];
@@ -137,8 +137,8 @@ sf::IntRect TilePicker::GetTileRect()
 
 		texRect.left = tilePos.x;
 		texRect.top = tilePos.y;
-		texRect.width = 32;
-		texRect.height = 32;
+		texRect.width = TILE_SCALE * TILE_SIZE;
+		texRect.height = TILE_SCALE * TILE_SIZE;
 
 		_activeTile.setPosition(tilePos);
 	}

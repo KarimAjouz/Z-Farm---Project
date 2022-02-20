@@ -9,6 +9,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef) :
 	_data(data),
 	_worldRef(worldRef)
 {
+	_map = GenEmptyMap();
 	BuildLevel();
 }
 
@@ -22,6 +23,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	_worldRef(worldRef),
 	roomOffset(offset)
 {
+	_map = GenEmptyMap();
 	BuildLevel();
 	roomShape.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
 	roomShape.setPosition(sf::Vector2f(tiles[0].sprite.getPosition().x - 32.0f, tiles[0].sprite.getPosition().y - 32.0f));
@@ -105,6 +107,26 @@ void Room::BuildLevel()
 	GenNavMap();
 }
 
+std::vector<std::vector<RoomTileData>> Room::GenEmptyMap()
+{
+	std::vector<std::vector<RoomTileData>> outMap;
+	int rows = SCREEN_HEIGHT / TILE_SIZE;
+	int collumns = SCREEN_WIDTH / TILE_SIZE;
+
+	for (int row = 0; row < rows; row++)
+	{
+		std::vector<RoomTileData> mapRow;
+		for (int collumn = 0; collumn < collumns; collumn++)
+		{
+			RoomTileData tileData = RoomTileData();
+			mapRow.push_back(tileData);
+		}
+		outMap.push_back(mapRow);
+	}
+	return outMap;
+}
+
+
 void Room::DrawTiles()
 {
 	for (int i = 0; i < tiles.size(); i++)
@@ -136,13 +158,13 @@ Tile Room::GenTile(sf::Vector2i uv, int x, int y, bool collision)
 	if (collision)
 	{
 		return Tile(_data, _worldRef, "colTiles", TILE_COL_PATH, collision, //Assigns basic tile data.
-			sf::Vector2f(roomOffset.x + (x * 64) + 32, roomOffset.y + (y * 64) + 32), //Sets the position of the tile, including the offset for the whole room.
+			sf::Vector2f(roomOffset.x + (x * TILE_SIZE) + TILE_SIZE / 2, roomOffset.y + (y * TILE_SIZE) + TILE_SIZE / 2), //Sets the position of the tile, including the offset for the whole room.
 			sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
 	}
 	else if (!collision)
 	{
 		return Tile(_data, _worldRef, "bgTiles", TILE_COL_PATH, collision, //Assigns basic tile data.
-			sf::Vector2f(roomOffset.x + (x * 64) + 32, roomOffset.y + (y * 64) + 32), //Sets the position of the tile, including the offset for the whole room.
+			sf::Vector2f(roomOffset.x + (x * TILE_SIZE) + TILE_SIZE / 2, roomOffset.y + (y * TILE_SIZE) + TILE_SIZE / 2), //Sets the position of the tile, including the offset for the whole room.
 			sf::IntRect(uv.x * 32, uv.y * 32, 32, 32)); //Sets the UV coords in the sprite sheet.
 	}
 }
@@ -154,7 +176,7 @@ Tile Room::GenTile(sf::Vector2i uv, int x, int y, bool collision)
 /// <param name="y"> The y location on the level grid (NOTE: NOT SCREEN SPACE) </param>
 void Room::RemoveTile(int x, int y)
 {
-	sf::Vector2f newPos = sf::Vector2f((x * 64) + 32, (y * 64) + 32);
+	sf::Vector2f newPos = sf::Vector2f((x * TILE_SIZE) + TILE_SIZE / 2, (y * TILE_SIZE) + TILE_SIZE / 2);
 	x = x % 15;
 	y = y % 10;
 
@@ -173,7 +195,7 @@ void Room::RemoveTile(int x, int y)
 /// <param name="yUV"> The y UV coords of the texture we are drawing. </param>
 void Room::AddTile(int x, int y, int xUV, int yUV, bool col)
 {
-	sf::Vector2f newPos = sf::Vector2f((x * 64) + 32, (y * 64) + 32);
+	sf::Vector2f newPos = sf::Vector2f((x * TILE_SIZE) + TILE_SIZE / 2, (y * TILE_SIZE) + TILE_SIZE / 2);
 	x = x % 15;
 	y = y % 10;
 	
