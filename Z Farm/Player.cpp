@@ -17,7 +17,7 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef data, BalanceSheet* b, b2W
 	InitAnimations();
 
 	sprite.setPosition(pos);
-	sprite.setScale(2.0f, 2.0f);
+	sprite.setScale(3.0f, 3.0f);
 	sprite.setOrigin(32, 20);
 
 	type = Agent::Type::player;

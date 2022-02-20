@@ -43,8 +43,8 @@ Room::~Room()
 
 void Room::Update(float dT)
 {
-	for (int i = 0; i < agents.size(); i++)
-		agents.at(i)->Update(dT);
+	//for (int i = 0; i < agents.size(); i++)
+	//	agents.at(i)->Update(dT);
 
 	for (int i = 0; i < obstacles.size(); i++)
 		obstacles.at(i)->Update(dT);

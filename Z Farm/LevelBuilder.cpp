@@ -692,7 +692,7 @@ void LevelBuilder::LoadLevel(std::string name)
 
 		}
 		_playerRef->SetView();
-		_levelRef->rooms[0].agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(100, 500), &_levelRef->rooms[0]));
+		//_levelRef->rooms[0].agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(100, 500), &_levelRef->rooms[0]));
 	}
 	else
 	{

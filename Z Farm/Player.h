@@ -58,7 +58,7 @@ private:
 	ZEngine::GameDataRef _data;
 	
 	ZEngine::AnimationSystem _animSystem = ZEngine::AnimationSystem(&sprite, _data);
-	sf::IntRect _colBox = sf::IntRect(25, 16, 18, 12);
+	sf::IntRect _colBox = sf::IntRect(25, 16, 27, 18);
 
 	sf::RectangleShape _lStab = sf::RectangleShape(sf::Vector2f(24, 12));
 	sf::RectangleShape _rStab = sf::RectangleShape(sf::Vector2f(24, 12));

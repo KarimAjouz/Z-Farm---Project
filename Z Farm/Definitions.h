@@ -1,8 +1,8 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-#define SCREEN_WIDTH 960
-#define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH 1856
+#define SCREEN_HEIGHT 1024
 
 #define SPLASH_SCREEN_SHOW_TIME 0.5f
 
