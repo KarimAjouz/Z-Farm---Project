@@ -19,6 +19,8 @@ public:
 	void Activate();
 	void Deactivate();
 
+	sf::Sprite GetCurSelector() { return _curSelector; }
+
 	bool isMouseInPicker();
 
 	bool active;
@@ -42,6 +44,8 @@ public:
 	State state = State::collidableTiles;
 
 	SelectorItem GetSelectorItem();
+
+	void SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size);
 private:
 	ZEngine::GameDataRef _data;
 
@@ -51,6 +55,9 @@ private:
 
 	std::vector<sf::Sprite> _backgroundSpritesheetList;
 	std::vector<sf::Sprite> _collidablesSpritesheetList;
+
+	sf::Sprite _curSelector;
+
 	std::vector<SelectorItem> _obstacleList;
 	std::vector<SelectorItem> _unitList;
 

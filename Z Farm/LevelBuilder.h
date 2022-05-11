@@ -49,7 +49,7 @@ private:
 	b2World* _worldRef;
 	Player* _playerRef;
 
-	sf::IntRect _texRect = sf::IntRect(0, 0, 32, 32);
+	sf::IntRect _texRect = sf::IntRect(0, 0, TILE_SIZE * TILE_SCALE, TILE_SIZE * TILE_SCALE);
 
 	sf::Sprite _curSelectedTexture;
 	sf::RectangleShape _curTextureOutline;
@@ -58,6 +58,8 @@ private:
 	sf::RectangleShape _newRoomSelector;
 
 	std::vector<std::vector<sf::Vector2i>> _curMap;
+	Room _emptyRoom;
+
 
 	TilePicker _tilePicker;
 	bool _active = false;

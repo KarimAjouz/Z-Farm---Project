@@ -28,7 +28,8 @@ public:
 	{
 		player,
 		alarmPig,
-		baldy
+		baldy, 
+		UNDEFINED
 	};
 
 	Type type;

@@ -3,6 +3,7 @@
 #include "Agent.h"
 #include "Spike.h"
 #include "Node.h"
+#include "NavMap.h"
 
 class Room
 {
@@ -14,6 +15,7 @@ public:
 	void Update(float dT);
 	void Draw();
 
+	std::vector<std::vector<RoomTileData>> GenEmptyMap();
 	Tile GenTile(sf::Vector2i t, int x, int y, bool collision);
 
 	void RemoveTile(int x, int y);
@@ -33,13 +35,11 @@ public:
 	std::vector<Agent*> agents = std::vector<Agent*>();
 	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
 
-	std::vector<Node*> navMap;
-
 	void DrawTiles();
 	void DrawAgents();
 	void DrawObstacles();
 
-	bool showNav = false;
+	bool showNav = true;
 private:
 
 	ZEngine::GameDataRef _data;
@@ -49,19 +49,10 @@ private:
 	RoomTileData emptyTile = RoomTileData(sf::Vector2i(1, 1), false);
 
 
-	std::vector < std::vector < RoomTileData >> _map =
-	{
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-		{emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile},
-	};
+	std::vector < std::vector < RoomTileData >> _map;
+
+	NavMap _navMap = NavMap();
+
 
 	void BuildPhyics();
 

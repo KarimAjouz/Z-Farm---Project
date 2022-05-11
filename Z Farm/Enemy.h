@@ -20,6 +20,6 @@ public:
 
 	b2Body* playerBody = nullptr;
 
-	void GetPlayerBody();
+	void AssignPlayerBody();
 };
 

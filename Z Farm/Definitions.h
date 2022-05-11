@@ -1,10 +1,18 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-#define SCREEN_WIDTH 960
-#define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH 928
+#define SCREEN_HEIGHT 512
+
+#define TILE_SIZE 32
+#define TILE_SCALE 1
 
 #define SPLASH_SCREEN_SHOW_TIME 0.5f
+
+#define NAVIGATION_JUMP_HEIGHT_DIVISIONS 4
+#define NAVIGATION_JUMP_SPEED_DIVISIONS 4
+#define NAVIGATION_JUMP_POLLING_FREQ 10
+
 
 const float SCALE = 30.f;
 
@@ -43,13 +51,84 @@ struct RoomTileData
 	};
 };
 
+struct JumpTrajectory
+{
+public:
+	sf::Vector2f startPos;
+	sf::Vector2f startVel;
+
+	std::vector<sf::Vector2f> pointsArray;
+
+	int fallingPointIndex = 0;
+
+private:
+	sf::Vector2f prevTestNodePos;
+
+public:
+	JumpTrajectory()
+	{
+
+	}
+
+	JumpTrajectory(sf::Vector2f inStartPos, sf::Vector2f inStartVelocity)
+	{
+		startPos = inStartPos;
+		startVel = inStartVelocity;
+
+		GeneratePointsArray();
+	}
+
+private:
+	void SetJumpTrajectoryPos(sf::Vector2f newPos)
+	{
+
+	}
+
+	void GeneratePointsArray()
+	{
+		sf::Vector2f testPos = startPos;
+		int i = 0;
+
+		while 
+			(
+			testPos.x > 0.0f && testPos.x < SCREEN_WIDTH &&
+			testPos.y > 0.0f && testPos.y < SCREEN_HEIGHT
+			)
+		{
+			pointsArray.push_back(testPos);
+			testPos = getTrajectoryPoint(startPos, startVel, i);
+			if (fallingPointIndex != 0 && testPos.y < prevTestNodePos.y)
+			{
+				fallingPointIndex = i;
+			}
+			i++;
+		}
+	}
+
+	sf::Vector2f GetPoint(int n)
+	{
+		return pointsArray[n];
+	}
+
+	sf::Vector2f getTrajectoryPoint(sf::Vector2f& startingPosition, sf::Vector2f& startingVelocity, float n)
+	{
+		//velocity and gravity are given per second but we want time step values here
+		float t = 1.0f / NAVIGATION_JUMP_POLLING_FREQ; // seconds per time step (at 60fps)
+		sf::Vector2f stepVelocity = t * startingVelocity; // m/s
+		sf::Vector2f stepGravity = t * t * sf::Vector2f(0.0f, 9.81f) * SCALE; // m/s/s
+
+		return startingPosition + n * stepVelocity + 0.5f * (n * n + n) * stepGravity;
+	}
+};
+
 #define SPLASH_SCREEN_BACKGROUND_FILEPATH "Media/Splash/Background.png"
 #define MENU_SCREEN_BACKGROUND_FILEPATH "Media/Menu/Background.png"
 #define SHOP_SCREEN_BACKGROUND_FILEPATH "Media/Shop/Background.png"
 
 #define TILE_COL_PATH "Media/Textures/CollidableTiles.png"
 #define TILE_BG_PATH "Media/Textures/BackgroundTiles.png"
-#define UNITS_PATH "Media/Textures/EnemyTiles.png"
+#define PIG_ICON "Media/Textures/PigIcon.png"
+#define BALDY_ICON "Media/Textures/BaldyIcon.png"
 
 #define SWORD_ITEM "Media/Gameplay/Pickups/Sword.png"
 #define SPIKE_TRAP "Media/Gameplay/Traps/Spikes.png"

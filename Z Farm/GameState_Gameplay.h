@@ -72,5 +72,7 @@ private:
 	void LerpView(float dT);
 
 	void HandleKeyboardInputs(sf::Event* e);
+
+	float physicsAccumulator = 0.0f;
 };
 

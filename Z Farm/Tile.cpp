@@ -9,7 +9,7 @@ Tile::Tile(ZEngine::GameDataRef data, b2World* worldRef, std::string name, std::
 	sprite.setTextureRect(frameRect);
 	sprite.setPosition(pos);
 	sprite.setOrigin(sf::Vector2f(frameRect.width / 2, frameRect.height / 2));
-	sprite.setScale(2.0f, 2.0f);
+	sprite.setScale(TILE_SCALE, TILE_SCALE);
 
 	if (collision)
 		collisionTag = CollisionTag::level;

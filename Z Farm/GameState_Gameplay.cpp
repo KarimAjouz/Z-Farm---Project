@@ -93,7 +93,13 @@ void GameState_Gameplay::Update(float dT)
 
 			_testSword.Update(dT);
 
-			_world.Step(dT, 8, 3);
+			physicsAccumulator += dT;
+			while (physicsAccumulator >= 1.0f / 60.0f)
+			{
+				_world.Step(1.0f / 60.0f, 8, 3);
+				physicsAccumulator -= 1.0f / 60.0f;
+			}
+
 
 		}
 
@@ -202,7 +208,7 @@ void GameState_Gameplay::HandleKeyboardInputs(sf::Event* e)
 			break;
 		}
 		break;
-
+	case sf::Event::MouseButtonPressed:
 		if (e->mouseButton.button == sf::Mouse::Button::Left)
 			_player.Stab();
 		break;

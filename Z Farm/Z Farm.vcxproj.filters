@@ -118,6 +118,7 @@
     <ClCompile Include="PencilTool.cpp" />
     <ClCompile Include="BrushTool.cpp" />
     <ClCompile Include="EraseTool.cpp" />
+    <ClCompile Include="NavMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -242,6 +243,7 @@
     <ClInclude Include="PencilTool.h" />
     <ClInclude Include="BrushTool.h" />
     <ClInclude Include="EraseTool.h" />
+    <ClInclude Include="NavMap.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

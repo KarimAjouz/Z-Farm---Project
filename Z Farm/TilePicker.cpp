@@ -1,6 +1,8 @@
 #include "TilePicker.h"
 
 #include "Definitions.h"
+#include <stdio.h>
+#include <iostream>
 
 TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_data(data),
@@ -8,7 +10,8 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 {
 	_data->assetManager.LoadTexture("bgTiles", TILE_BG_PATH);
 	_data->assetManager.LoadTexture("colTiles", TILE_COL_PATH);
-	_data->assetManager.LoadTexture("AlarmPig", UNITS_PATH);
+	_data->assetManager.LoadTexture("AlarmPig", PIG_ICON);
+	_data->assetManager.LoadTexture("Baldy", BALDY_ICON);
 	_data->assetManager.LoadTexture("Spike", SPIKE_TRAP);
 	_data->assetManager.LoadTexture("Box", BOX_OBSTACLE);
 	_data->assetManager.LoadTexture("Sword", SWORD_ITEM);
@@ -26,12 +29,15 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_hoveredTile.setFillColor(sf::Color::Transparent);
 	_hoveredTile.setOutlineColor(sf::Color::Magenta);
 	_hoveredTile.setOutlineThickness(2.0f);
-	_hoveredTile.setSize(sf::Vector2f(32, 32));
+	_hoveredTile.setSize(sf::Vector2f(TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE));
 
 	_activeTile.setFillColor(sf::Color::Transparent);
 	_activeTile.setOutlineColor(sf::Color::Yellow);
 	_activeTile.setOutlineThickness(2.0f);
-	_activeTile.setSize(sf::Vector2f(32, 32));
+	_activeTile.setSize(sf::Vector2f(TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE));
+	state = State::backgroundTiles;
+
+	_curSelector = _backgroundSpritesheetList[0];
 
 	InitEntities();
 }
@@ -44,6 +50,8 @@ void TilePicker::Update(float dT)
 {
 	if (active)
 	{
+		_selectorWindow.setPosition(sf::Vector2f(0.0f, 0.0f));
+		_curSelector.setPosition(sf::Vector2f(0.0f, 0.0f));
 		//Get the mouse position relative to the sf::view (Mouse position in world space)
 		sf::Vector2f mousePosRelativeToView = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
 
@@ -57,11 +65,15 @@ void TilePicker::Update(float dT)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num1))
 		{
 			state = State::backgroundTiles;
+			_curSelector = _backgroundSpritesheetList[0];
+
 			//RepositionWindows();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
 		{
 			state = State::collidableTiles;
+			_curSelector = _collidablesSpritesheetList[0];
+
 			//RepositionWindows();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
@@ -80,6 +92,27 @@ void TilePicker::Update(float dT)
 		//	RepositionWindows();
 		//}
 
+		SelectorItem curItem = GetSelectorItem();
+
+		switch (state)
+		{
+			case State::backgroundTiles:
+				break;
+			case State::collidableTiles:
+				break;
+			case State::units:
+				_hoveredTile.setSize(curItem.rect.getSize());
+				_hoveredTile.setPosition(curItem.rect.getPosition());
+				break;
+			case State::obstacles:
+				break;
+			case State::props:
+				break;
+			default:
+				std::cout << "CURRENT TILEPICKER STATE UNASSIGNED" << std::endl;
+		}
+
+
 	}
 
 	UpdateState();
@@ -93,10 +126,10 @@ void TilePicker::Draw()
 	switch (state)
 	{
 	case State::backgroundTiles:		
-		_data->window.draw(_backgroundSpritesheetList[0]);
+		_data->window.draw(_curSelector);
 		break;
 	case State::collidableTiles:
-		_data->window.draw(_collidablesSpritesheetList[0]);
+		_data->window.draw(_curSelector);
 		break;
 	case State::units:
 		for (int i = 0; i < _unitList.size(); i++)
@@ -122,14 +155,9 @@ void TilePicker::Draw()
 
 sf::IntRect TilePicker::GetTileRect()
 {
-	sf::IntRect texRect = sf::IntRect(320, 0, 32, 32);
-	sf::Sprite curSelector;
-	if (state == State::backgroundTiles)
-		curSelector = _backgroundSpritesheetList[0];
-	else if (state == State::collidableTiles)
-		curSelector = _collidablesSpritesheetList[0];
+	sf::IntRect texRect = sf::IntRect(320, 0, TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE);
 
-	if (curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
+	if (_curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
 	{
 		sf::Vector2f tilePos = _hoveredTile.getPosition();
 
@@ -137,8 +165,8 @@ sf::IntRect TilePicker::GetTileRect()
 
 		texRect.left = tilePos.x;
 		texRect.top = tilePos.y;
-		texRect.width = 32;
-		texRect.height = 32;
+		texRect.width = TILE_SCALE * TILE_SIZE;
+		texRect.height = TILE_SCALE * TILE_SIZE;
 
 		_activeTile.setPosition(tilePos);
 	}
@@ -148,14 +176,8 @@ sf::IntRect TilePicker::GetTileRect()
 
 void TilePicker::Activate()
 {
-	sf::Sprite curSelector;
-	if (state == State::backgroundTiles)
-		curSelector = _backgroundSpritesheetList[0];
-	else if (state == State::collidableTiles)
-		curSelector = _collidablesSpritesheetList[0];
-
 	active = true;
-	_activeTile.setPosition(_activeTile.getPosition() + curSelector.getPosition());
+	_activeTile.setPosition(_activeTile.getPosition() + _curSelector.getPosition());
 
 	//RepositionWindows();
 }
@@ -168,12 +190,8 @@ void TilePicker::Deactivate()
 bool TilePicker::isMouseInPicker()
 {
 	sf::Sprite curSelector;
-	if (state == State::backgroundTiles)
-		curSelector = _backgroundSpritesheetList[0];
-	else if (state == State::collidableTiles)
-		curSelector = _collidablesSpritesheetList[0];
 
-	bool out = curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window)));
+	bool out = _curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window)));
 	return out;
 }
 
@@ -213,16 +231,29 @@ void TilePicker::InitEntities()
 	alarmPig.rect.setTexture(&_data->assetManager.GetTexture("AlarmPig"));
 	alarmPig.rect.setSize(sf::Vector2f(32, 32));
 	alarmPig.type = static_cast<int>(Agent::Type::alarmPig);
+	alarmPig.rect.setPosition(sf::Vector2f(0, 0));
 
 	alarmPig.texture = &_data->assetManager.GetTexture("AlarmPig");
 	alarmPig.rect.setFillColor(sf::Color::White);
 	alarmPig.rect.setOutlineColor(sf::Color::Black);
 	alarmPig.rect.setOutlineThickness(1.0f);
 
+	SelectorItem baldy;
+	baldy.rect.setTexture(&_data->assetManager.GetTexture("Baldy"));
+	baldy.rect.setSize(sf::Vector2f(32, 64));
+	baldy.type = static_cast<int>(Agent::Type::baldy);
+	baldy.rect.setPosition(sf::Vector2f(32, 0));
+
+	baldy.texture = &_data->assetManager.GetTexture("Baldy");
+	baldy.rect.setFillColor(sf::Color::White);
+	baldy.rect.setOutlineColor(sf::Color::Black);
+	baldy.rect.setOutlineThickness(1.0f);
+
 	_obstacleList.push_back(box);
 	_obstacleList.push_back(spike);
 
 	_unitList.push_back(alarmPig);
+	_unitList.push_back(baldy);
 }
 
 TilePicker::SelectorItem TilePicker::GetSelectorItem()
@@ -237,8 +268,8 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 				for (int i = 0; i < _unitList.size(); i++)
 					if (_unitList[i].rect.getGlobalBounds().contains(mousePosRelativeToView))
 					{
-
 						selectorItem = _unitList[i];
+						std::cout << "Item = " << selectorItem.type << std::endl;
 					}
 			break;
 		case State::obstacles:
@@ -250,6 +281,12 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 	}
 
 	return selectorItem;
+}
+
+void TilePicker::SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size)
+{
+	_activeTile.setPosition(pos);
+	_activeTile.setSize(size);
 }
 
 //void TilePicker::RepositionWindows()
@@ -276,24 +313,20 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 
 void TilePicker::UpdateHoveredTilePos(sf::Vector2f mousePos)
 {
-	sf::Sprite* selector = &_backgroundSpritesheetList[0];
 
-	if (state == State::collidableTiles)
-		selector = &_collidablesSpritesheetList[0];
-
-	if (selector->getGlobalBounds().contains(mousePos))
+	if (_curSelector.getGlobalBounds().contains(mousePos))
 	{
 		sf::Vector2f newPos = mousePos;
 
 		//Offsets based on the mouse position 
-		newPos.x -= std::fmodf(mousePos.x - (std::fmodf(selector->getPosition().x, 32.0f)), 32);
-		newPos.y -= std::fmodf(mousePos.y - (std::fmodf(selector->getPosition().y, 32.0f)), 32);
+		newPos.x -= std::fmodf(mousePos.x - (std::fmodf(_curSelector.getPosition().x, TILE_SIZE)), TILE_SIZE);
+		newPos.y -= std::fmodf(mousePos.y - (std::fmodf(_curSelector.getPosition().y, TILE_SIZE)), TILE_SIZE);
 
 		if (newPos.x < 0)
-			newPos.x -= 32.0f;
+			newPos.x -= TILE_SIZE;
 
 		if (newPos.y < 0)
-			newPos.y -= 32.0f;
+			newPos.y -= TILE_SIZE;
 
 		_hoveredTile.setPosition(newPos);
 	}
