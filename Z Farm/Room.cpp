@@ -11,6 +11,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef) :
 {
 	_map = GenEmptyMap();
 	BuildLevel();
+	showNav = true;
 }
 
 /// <summary>
@@ -30,6 +31,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setFillColor(sf::Color::Transparent);
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
+	showNav = true;
 
 
 	BuildPhyics();
@@ -37,16 +39,19 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 
 Room::~Room()
 {
-	for (Node* node : navMap)
+	for (int i = 0; i < _navMap.GetMap().size(); i++)
 	{
-		delete node;
+		for (int j = 0; j < _navMap.GetMap()[i].nodes.size(); j++)
+		{
+			delete _navMap.GetMap()[i].nodes.at(j);
+		}
 	}
 }
 
 void Room::Update(float dT)
 {
-	//for (int i = 0; i < agents.size(); i++)
-	//	agents.at(i)->Update(dT);
+	for (int i = 0; i < agents.size(); i++)
+		agents.at(i)->Update(dT);
 
 	for (int i = 0; i < obstacles.size(); i++)
 		obstacles.at(i)->Update(dT);
@@ -59,24 +64,64 @@ void Room::Update(float dT)
 
 void Room::Draw()
 {
-	//for (int i = 0; i < navMap.size(); i++)
-	//{
-	//	_data->window.draw(navMap[i]->nodeArea);
+	if (showNav)
+	{
+		for (int i = 0; i < _navMap.GetMap().size(); i++)
+		{
+			for (int j = 0; j < _navMap.GetMap()[i].nodes.size(); j++)
+			{
+				Node* node = _navMap.GetMap()[i].nodes.at(j);
+				_data->window.draw(node->nodeArea);
 
-	//	if (showNav)
-	//	{
-	//		for (int j = 0; j < navMap[i]->edges.size(); j++)
-	//		{
-	//			sf::Vertex line[2];
-	//			line[0].position = navMap[i]->GetNodeLocation();
-	//			line[0].color = sf::Color::Blue;
-	//			line[1].position = navMap[i]->edges[j].node->GetNodeLocation();
-	//			line[1].color = sf::Color::Blue;
+				for (int k = 0; k < node->edges.size(); k++)
+				{
+					if (node->edges[k].type == Node::Edge::Type::walk || node->edges[k].type == Node::Edge::Type::drop)
+					{
+						sf::ConvexShape line;
 
-	//			_data->window.draw(line, 2, sf::Lines);
-	//		}
-	//	}
-	//}
+						line.setPointCount(4);
+
+						line.setPoint(0, node->nodeArea.getPosition());
+						line.setPoint(1, node->edges[k].destinationCoords);
+						line.setPoint(2, node->edges[k].destinationCoords);
+						line.setPoint(3, node->nodeArea.getPosition());
+
+						line.setOutlineThickness(2.0f);
+
+						line.setOutlineColor(sf::Color::Black);
+						_data->window.draw(line);
+					}
+					else if (node->edges[k].type == Node::Edge::Type::jump)
+					{
+						sf::CircleShape circle;
+						for (int posIndex = 0; posIndex < node->edges[k].JumpTrajectory.pointsArray.size(); posIndex++)
+						{
+							circle.setPosition(node->edges[k].JumpTrajectory.pointsArray[posIndex]);
+
+							if (posIndex == 0)
+							{
+								circle.setRadius(8.0f);
+								circle.setFillColor(sf::Color::Green);
+							}
+							else if (posIndex == node->edges[k].JumpTrajectory.pointsArray.size() - 1)
+							{
+								circle.setRadius(2.0f);
+								circle.setFillColor(sf::Color::Cyan);
+							}
+							else
+							{
+								circle.setRadius(2.0f);
+								circle.setFillColor(sf::Color::Red);
+							}
+							circle.setOrigin(circle.getRadius(), circle.getRadius());
+							_data->window.draw(circle);
+						}
+					}
+
+				}
+			}
+		}
+	}
 }
 
 /// <summary>
@@ -99,12 +144,14 @@ void Room::BuildLevel()
 		for (int x = 0; x < _map[y].size(); x++)
 		{
 			bool col = _map[y][x].collision;
+			if (col)
+				int meme = 0;
 			tiles.push_back(GenTile(_map[y][x].tileSheetCoords, x, y, col));
 		}
 	}
 
 	//Generate navNodes for the room.
-	GenNavMap();
+	_navMap.GenerateNavMap(&tiles);
 }
 
 std::vector<std::vector<RoomTileData>> Room::GenEmptyMap()
@@ -253,23 +300,33 @@ void Room::RemoveDeadEntities()
 /// </summary>
 void Room::GenNavMap()
 {
-	navMap.clear();
-
-	//Look through the current tile map and push back all of the required nodes
-
-	for (int i = 0; i < tiles.size(); i++)
-	{
-		int x = i % 15;
-		int y = i / 15;
-
-		if (y < 9)
-			if(tiles[i].collisionTag == CollisionTag::background && tiles[i + 15].collisionTag == CollisionTag::level)
-				navMap.push_back(new Node(tiles[i].sprite.getPosition()));
-	}
-
-	for (int i = 0; i < navMap.size(); i++)
-	{
-		navMap[i]->GenerateNodeList(&navMap, tiles);
-	}
+//	_navMap.ClearMap();
+//
+//	//Look through the current tile map and push back all of the required nodes
+//
+//	for (int i = 0; i < tiles.size(); i++)
+//	{
+//		int numXTiles = SCREEN_WIDTH / (TILE_SIZE * TILE_SCALE);
+//		int numYTiles = SCREEN_HEIGHT / (TILE_SIZE * TILE_SCALE);
+//		int x = i % numXTiles;
+//		int y = i / numXTiles;
+//		y--;
+//
+//		if (y < numYTiles)
+//		{
+//			if (i + numXTiles < tiles.size())
+//			{
+//				if (tiles[i + numXTiles].collisionTag == CollisionTag::level)
+//					int meme = 0;
+//				if (tiles[i].collisionTag == CollisionTag::background && tiles[i + numXTiles].collisionTag == CollisionTag::level)
+//					map.push_back(new Node(tiles[i].sprite.getPosition()));
+//			}
+//		}
+//	}
+//
+//	for (int i = 0; i < navMap.size(); i++)
+//	{
+//		navMap[i]->GenerateNodeList(&navMap, tiles);
+//	}
 
 }

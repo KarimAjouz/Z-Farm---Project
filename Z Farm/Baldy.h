@@ -38,17 +38,30 @@ private:
 	};
 
 	//Specific BaldyState handles primary AI decisions
-	enum class BaldyState
+	enum class BaldyAIState
 	{
-		watching,
-		patrolling,
+		passive,
 		questioning,
 		alert,
-		resetting
+		returning
 	};
 
+	std::string _AIStateStrings[4] = { "passive", "questioning", "alert", "returning" };
+
+	enum class BaldyState
+	{
+		moving,
+		idle,
+		wary,
+		attacking
+	};
+
+	std::string _StateStrings[4] = { "moving", "idle", "wary", "attacking" };
+
+
 	AnimState _animState;
-	BaldyState _AIState;
+	BaldyAIState _AIState;
+	BaldyState _state;
 
 	ZEngine::Timer _watchTimer;
 	ZEngine::Timer _resetTimer;
@@ -65,7 +78,7 @@ private:
 	void InitPhysics(sf::Vector2f pos);
 
 	bool _alert = false;
-	float _jumpForce = 8.0f;
+	float _jumpForce = 9.81f;
 
 
 
@@ -90,10 +103,13 @@ private:
 
 	void Patrol();
 	void StartWatch();
+	void ReturnHome();
 
 	ZEngine::Timer _attackCooldown;
 	ZEngine::Timer _attackDelay;
 	std::map<Agent*, int> _nearbyAgents;
+
+	float _MaxAttackTriggerDistanceSquared = 1400.f;
 
 	void BeginAttack(int dir);
 

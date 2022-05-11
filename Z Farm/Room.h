@@ -3,6 +3,7 @@
 #include "Agent.h"
 #include "Spike.h"
 #include "Node.h"
+#include "NavMap.h"
 
 class Room
 {
@@ -34,13 +35,11 @@ public:
 	std::vector<Agent*> agents = std::vector<Agent*>();
 	std::vector<Obstacle*> obstacles = std::vector<Obstacle*>();
 
-	std::vector<Node*> navMap;
-
 	void DrawTiles();
 	void DrawAgents();
 	void DrawObstacles();
 
-	bool showNav = false;
+	bool showNav = true;
 private:
 
 	ZEngine::GameDataRef _data;
@@ -51,6 +50,9 @@ private:
 
 
 	std::vector < std::vector < RoomTileData >> _map;
+
+	NavMap _navMap = NavMap();
+
 
 	void BuildPhyics();
 

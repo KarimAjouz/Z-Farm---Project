@@ -40,19 +40,18 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 
 	InitAnimations();
 	InitPhysics(pos);
+	std::cout << "BALDY MASS: " << body->GetMass() << std::endl;
 
 	_animState = AnimState::idle;
-	_AIState = BaldyState::watching;
-	StartWatch();
+	_AIState = BaldyAIState::passive;
+	_state = BaldyState::idle;
 	_watchTimer.Start();
 	_animSys.SetAnimation("BaldyIdle");
 	_animSys.Play();
 
 	targetNodeCircle.setFillColor(sf::Color::Magenta);
 	targetNodeCircle.setRadius(5.0f);
-	Repath(_targetPosition);
-
-	
+	//Repath(_targetPosition);
 }
 
 Baldy::~Baldy()
@@ -74,6 +73,21 @@ void Baldy::Update(float dT)
 		Repath(sf::Vector2f(sf::Mouse::getPosition(_data->window)));
 		SeekTarget(_targetPosition);
 	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
+	{
+		Jump(_jumpForce);
+	}
+
+	if (_jumpTimeout >= 0)
+	{
+		_jumpTimeout--;
+	}
+	else
+		_jumping = false;
+
+	if(!footContacts > 0)
+		std::cout << "LIN VEL X: " << body->GetLinearVelocity().x << " Y: " << body->GetLinearVelocity().y << std::endl;
 
 	alertBubble.Update(dT, sprite.getPosition() + dialogueOffset);
 }
@@ -115,7 +129,7 @@ void Baldy::Repath(sf::Vector2f pos)
 	_targetPosition = ZEngine::Utilities::GetNearestNode(pos, _myRoom)->GetNodeLocation();
 	_path = ZEngine::Utilities::PathFind(_targetPosition, &sprite, _myRoom);
 	_animState = AnimState::moving;
-	_AIState = BaldyState::patrolling;
+	_state = BaldyState::moving;
 }
 
 void Baldy::UpdateAnimations()
@@ -198,58 +212,82 @@ void Baldy::UpdateState()
 	//		break;
 	//}
 
+	sf::Vector2f playerPos = sf::Vector2f(playerBody->GetPosition().x / SCALE, playerBody->GetPosition().y / SCALE);
+	sf::Vector2f deltaPos = playerPos - sprite.getPosition();
+	float deltaPosMagSquared = deltaPos.x * deltaPos.x + deltaPos.y * deltaPos.y;
+
 	switch (_AIState)
 	{
-		case BaldyState::watching:
-			if (_watchTimer.Complete())
-				Patrol();
-
-			if (alertBubble.UpdateState(CanSeePlayer(), &_questionTimer))
-				_AIState = BaldyState::alert;
-
-
-			break;
-		case BaldyState::patrolling:
-			if (SeekTarget(_targetPosition))
-				StartWatch();
-
-			if (alertBubble.UpdateState(CanSeePlayer(), &_questionTimer))
-				_AIState = BaldyState::alert;
-
-			break;
-		case BaldyState::questioning:
-			break;
-		case BaldyState::alert:
-			if (CanSeePlayer(&_lastSeenPlayerPos))
+		case BaldyAIState::passive:
+			switch (_state)
 			{
-				Repath(_lastSeenPlayerPos);
-				_animState = AnimState::moving;
+				case BaldyState::idle:
+					if (_watchTimer.Complete())
+					{
+						Patrol();
+					}
+					break;
+				case BaldyState::moving:
+					if (SeekTarget(_targetPosition))
+					{
+						StartWatch();
+					}
+					break;
+				default:
+					std::cout << "BALDY AI STATE: " << _AIStateStrings[(int)_AIState] << " does not handle state: " << _StateStrings[(int)_state] << std::endl;
+					break;
 			}
-			else if (!CanSeePlayer())
-			{
-				_resetTimer.Start();
-				_AIState = BaldyState::resetting;
-			}
-
-			if (SeekTarget(_lastSeenPlayerPos))
-				_animState = AnimState::idle;
-
-			//Decide if attacking here
-
-			for (std::pair<Agent*, int> agents : _nearbyAgents)
-				if (agents.first->type == Agent::Type::player)
-					BeginAttack(agents.second);
-
 			break;
-		case BaldyState::resetting:
-			if (_resetTimer.Complete())
-				_AIState = BaldyState::patrolling;
-			else if (CanSeePlayer())
-				_AIState = BaldyState::alert;
+		case BaldyAIState::questioning:
+			switch (_state)
+			{
+				case BaldyState::idle:
+					if (_watchTimer.Complete())
+					{
+						ReturnHome();
+					}
+					break;
+				case BaldyState::moving:
+					if (SeekTarget(_targetPosition))
+					{
+						StartWatch();
+					}
+					break;
+				default:
+					std::cout << "BALDY AI STATE: " << _AIStateStrings[(int)_AIState] << " does not handle state: " << _StateStrings[(int)_state] << std::endl;
+					break;
+			}
+			break;
+		case BaldyAIState::alert:
+			switch (_state)
+			{
+				case BaldyState::moving:
+					SeekTarget(playerPos);
 
+					if (deltaPosMagSquared < _MaxAttackTriggerDistanceSquared)
+					{
+						int dir = 1;
+						if (deltaPos.x < 0)
+							dir = -1;
+
+						BeginAttack(dir);
+					}
+					break;
+				case BaldyState::attacking:
+
+					break;
+				default:
+					std::cout << "BALDY AI STATE: " << _AIStateStrings[(int)_AIState] << " does not handle state: " << _StateStrings[(int)_state] << std::endl;
+					break;
+			}
+		case BaldyAIState::returning:
+		
 			break;
 	}
 
+
+	if (alertBubble.UpdateState(CanSeePlayer(), &_questionTimer))
+		_state = BaldyState::wary;
 }
 
 void Baldy::InitAnimations()
@@ -349,12 +387,12 @@ bool Baldy::SeekTarget(sf::Vector2f TargetPos)
 void Baldy::Move(int dir)
 {
 	b2Vec2 vel = body->GetLinearVelocity();
-	float newSpeed;
+	float newSpeed = 0.0f;
 
 	if (dir == -1)
-		newSpeed = b2Max(vel.x - 0.3f, -_curSpeed);
+		newSpeed = b2Max(vel.x - 0.5f, -_curSpeed);
 	else if (dir == 1)
-		newSpeed = b2Min(vel.x + 0.3f, _curSpeed);
+		newSpeed = b2Min(vel.x + 0.5f, _curSpeed);
 
 	if ((dir == 1 && isFlipped) || (dir == -1 && !isFlipped))
 		FlipSprite();
@@ -374,15 +412,14 @@ void Baldy::Jump(float force)
 		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
 		_jumpTimeout = 15;
 		_animState = AnimState::preJump;
+		_jumping = true;
 	}
-	else if (_jumpTimeout >= 0)
-		_jumpTimeout--;
 }
 
 void Baldy::Patrol()
 {
-	FlipSprite();
-	_AIState = BaldyState::patrolling;
+	/*FlipSprite();
+	_state = BaldyState::moving;
 	_animState = AnimState::moving;
 	Node* targetNode = ZEngine::Utilities::GetNearestNode(sprite.getPosition(), _myRoom);
 	sf::Vector2f targetNodePos = targetNode->GetNodeLocation();
@@ -406,13 +443,13 @@ void Baldy::Patrol()
 		}
 	}
 
-	Repath(targetNode->GetNodeLocation());
+	Repath(targetNode->GetNodeLocation());*/
 }
 
 void Baldy::StartWatch()
 {
 	_animState = AnimState::idle;
-	_AIState = BaldyState::watching;
+	_state = BaldyState::idle;
 	_watchTimer.Start();
 }
 
@@ -434,4 +471,9 @@ void Baldy::TestKick()
 	{
 
 	}
+}
+
+void Baldy::ReturnHome()
+{
+
 }

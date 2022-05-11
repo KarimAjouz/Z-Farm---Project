@@ -1,6 +1,8 @@
 #include "TilePicker.h"
 
 #include "Definitions.h"
+#include <stdio.h>
+#include <iostream>
 
 TilePicker::TilePicker(ZEngine::GameDataRef data) :
 	_data(data),
@@ -8,7 +10,8 @@ TilePicker::TilePicker(ZEngine::GameDataRef data) :
 {
 	_data->assetManager.LoadTexture("bgTiles", TILE_BG_PATH);
 	_data->assetManager.LoadTexture("colTiles", TILE_COL_PATH);
-	_data->assetManager.LoadTexture("AlarmPig", UNITS_PATH);
+	_data->assetManager.LoadTexture("AlarmPig", PIG_ICON);
+	_data->assetManager.LoadTexture("Baldy", BALDY_ICON);
 	_data->assetManager.LoadTexture("Spike", SPIKE_TRAP);
 	_data->assetManager.LoadTexture("Box", BOX_OBSTACLE);
 	_data->assetManager.LoadTexture("Sword", SWORD_ITEM);
@@ -88,6 +91,27 @@ void TilePicker::Update(float dT)
 		//	state = State::props;
 		//	RepositionWindows();
 		//}
+
+		SelectorItem curItem = GetSelectorItem();
+
+		switch (state)
+		{
+			case State::backgroundTiles:
+				break;
+			case State::collidableTiles:
+				break;
+			case State::units:
+				_hoveredTile.setSize(curItem.rect.getSize());
+				_hoveredTile.setPosition(curItem.rect.getPosition());
+				break;
+			case State::obstacles:
+				break;
+			case State::props:
+				break;
+			default:
+				std::cout << "CURRENT TILEPICKER STATE UNASSIGNED" << std::endl;
+		}
+
 
 	}
 
@@ -207,16 +231,29 @@ void TilePicker::InitEntities()
 	alarmPig.rect.setTexture(&_data->assetManager.GetTexture("AlarmPig"));
 	alarmPig.rect.setSize(sf::Vector2f(32, 32));
 	alarmPig.type = static_cast<int>(Agent::Type::alarmPig);
+	alarmPig.rect.setPosition(sf::Vector2f(0, 0));
 
 	alarmPig.texture = &_data->assetManager.GetTexture("AlarmPig");
 	alarmPig.rect.setFillColor(sf::Color::White);
 	alarmPig.rect.setOutlineColor(sf::Color::Black);
 	alarmPig.rect.setOutlineThickness(1.0f);
 
+	SelectorItem baldy;
+	baldy.rect.setTexture(&_data->assetManager.GetTexture("Baldy"));
+	baldy.rect.setSize(sf::Vector2f(32, 64));
+	baldy.type = static_cast<int>(Agent::Type::baldy);
+	baldy.rect.setPosition(sf::Vector2f(32, 0));
+
+	baldy.texture = &_data->assetManager.GetTexture("Baldy");
+	baldy.rect.setFillColor(sf::Color::White);
+	baldy.rect.setOutlineColor(sf::Color::Black);
+	baldy.rect.setOutlineThickness(1.0f);
+
 	_obstacleList.push_back(box);
 	_obstacleList.push_back(spike);
 
 	_unitList.push_back(alarmPig);
+	_unitList.push_back(baldy);
 }
 
 TilePicker::SelectorItem TilePicker::GetSelectorItem()
@@ -231,8 +268,8 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 				for (int i = 0; i < _unitList.size(); i++)
 					if (_unitList[i].rect.getGlobalBounds().contains(mousePosRelativeToView))
 					{
-
 						selectorItem = _unitList[i];
+						std::cout << "Item = " << selectorItem.type << std::endl;
 					}
 			break;
 		case State::obstacles:
@@ -244,6 +281,12 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 	}
 
 	return selectorItem;
+}
+
+void TilePicker::SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size)
+{
+	_activeTile.setPosition(pos);
+	_activeTile.setSize(size);
 }
 
 //void TilePicker::RepositionWindows()

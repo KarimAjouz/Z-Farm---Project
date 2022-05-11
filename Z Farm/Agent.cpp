@@ -2,14 +2,17 @@
 
 
 
-Agent::Agent()
+Agent::Agent() :
+	isFlipped(false),
+	type(Type::UNDEFINED)
 {
 }
 
 
 Agent::~Agent()
 {
-	worldRef->DestroyBody(body);
+	if(worldRef)
+		worldRef->DestroyBody(body);
 
 }
 

@@ -6,7 +6,7 @@ Enemy::Enemy(ZEngine::GameDataRef data, b2World* world) :
 	questionTimer(1.0f, false),
 	worldRef(world)
 {
-
+	AssignPlayerBody();
 }
 
 Enemy::~Enemy()
@@ -97,7 +97,14 @@ bool Enemy::CanSeePlayer(sf::Vector2f* lastSeenPosRef)
 	return playerVisible;
 }
 
-void Enemy::GetPlayerBody()
+void Enemy::AssignPlayerBody()
 {
-	
+	for (b2Body* b = worldRef->GetBodyList(); b; b = b->GetNext())
+	{
+		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
+		{
+			if (static_cast<int>(f->GetUserData().pointer) == static_cast<int>(CollisionTag::player))
+				playerBody = f->GetBody();
+		}
+	}
 }

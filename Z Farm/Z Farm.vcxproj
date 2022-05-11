@@ -159,6 +159,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
     <ClCompile Include="LevelTool.cpp" />
+    <ClCompile Include="NavMap.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="PencilTool.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelBuilder.h" />
     <ClInclude Include="LevelTool.h" />
+    <ClInclude Include="NavMap.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PencilTool.h" />

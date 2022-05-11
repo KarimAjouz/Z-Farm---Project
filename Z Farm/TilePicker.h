@@ -44,6 +44,8 @@ public:
 	State state = State::collidableTiles;
 
 	SelectorItem GetSelectorItem();
+
+	void SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size);
 private:
 	ZEngine::GameDataRef _data;
 

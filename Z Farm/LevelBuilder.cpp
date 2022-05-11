@@ -23,7 +23,7 @@ LevelBuilder::LevelBuilder(ZEngine::GameDataRef data, b2World* worldRef, Level* 
 {
 	_data->assetManager.LoadTexture("bgTiles", TILE_BG_PATH);
 	_data->assetManager.LoadTexture("colTiles", TILE_COL_PATH);
-	_data->assetManager.LoadTexture("Units", UNITS_PATH);
+	//_data->assetManager.LoadTexture("Units", UNITS_PATH);
 	_curSelectedTexture.setTexture(_data->assetManager.GetTexture("bgTiles"));
 	_curSelectedTexture.setTextureRect(_texRect);
 
@@ -165,7 +165,7 @@ void LevelBuilder::MouseRelease()
 			case TilePicker::State::units:
 				_texRect = item.rect.getTextureRect();
 				_curSelectedTexture.setTexture(*item.texture);
-				_hoveredTile.setScale(1.0f, 1.0f);
+				_tilePicker.SetActiveTileSizePos(item.rect.getPosition(), item.rect.getSize());
 				_entityType = item.type;
 				SetMouseGridLock(false);
 				break;
@@ -784,7 +784,18 @@ void LevelBuilder::AddUnit(int type)
 			r = &_levelRef->rooms[i];
 	}
 
-	r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window))))));
+	switch (type)
+	{
+		case 1:
+			r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window))))));
+			break;
+		case 2:
+			r->agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)))), r));
+			break;
+		default:
+			std::cout << "COULD NOT IDENTIFY UNIT TYPE: " << type << std::endl;
+			break;
+	}
 }
 
 void LevelBuilder::AddObstacle(int type)
