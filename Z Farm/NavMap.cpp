@@ -195,6 +195,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							edge.cost = 2;
 							edge.destinationCoords = sf::Vector2f(edgePos);
 							edge.type = Node::Edge::Type::drop;
+							_map[i].nodes[j]->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
 							_map.at(i).nodes[j]->edges.push_back(edge);
 						}
 					}
@@ -214,8 +215,8 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							Node::Edge edge;
 							edge.cost = 2;
 							edge.destinationCoords = sf::Vector2f(edgePos);
-							edge.type = Node::Edge::Type::drop;
-							_map[i].platformsReached[GetNodeAtLocation(edgePos)->platformIndex].b = true;
+							edge.type = Node::Edge::Type::drop;							
+							_map[i].nodes[j]->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
 							_map.at(i).nodes[j]->edges.push_back(edge);
 						}
 					}
@@ -262,7 +263,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							{
 								if (testNode->platformIndex != curNode->platformIndex)
 								{
-									if (!_map[i].platformsReached[testNode->platformIndex].b)
+									if (!curNode->platformsReached[testNode->platformIndex].b)
 									{
 										Node::Edge edge;
 										JumpTrajectory edgeTraj = testJump;
@@ -271,11 +272,15 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 										edge.destinationCoords = sf::Vector2f(testNode->nodeArea.getPosition());
 										edge.JumpTrajectory = edgeTraj;
 										edge.type = Node::Edge::Type::jump;							
-										_map[i].platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
+										curNode->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
 										_map.at(i).nodes[j]->edges.push_back(edge);
 									}
 								}
 							}
+						}
+						else
+						{
+							break;
 						}
 					}
 				}

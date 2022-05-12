@@ -7,19 +7,12 @@ public:
 	NavMap();
 	~NavMap();
 
-	struct reached
-	{
-		bool b = false;
-	};
-
 	struct Platform
 	{
-		std::map<int, reached> platformsReached;
 		std::vector<Node*> nodes;
 
 		Platform()
 		{
-			platformsReached = {};
 			nodes = std::vector<Node*>();
 		}
 	};

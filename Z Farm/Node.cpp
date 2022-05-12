@@ -17,6 +17,8 @@ Node::Node(sf::Vector2f pos) :
 		nodeArea.setFillColor(sf::Color::Yellow);
 
 	nodeArea.setOutlineThickness(2.0f);
+
+	platformsReached = std::map<int, reached>();
 }
 
 Node::Node(sf::Vector2f pos, int inIndex, Node::Type inType) :
@@ -36,6 +38,7 @@ Node::Node(sf::Vector2f pos, int inIndex, Node::Type inType) :
 		nodeArea.setOutlineColor(sf::Color::Yellow);
 
 	nodeArea.setOutlineThickness(2.0f);
+	platformsReached = std::map<int, reached>();
 }
 
 Node::~Node()

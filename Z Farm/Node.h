@@ -8,6 +8,11 @@
 class Node
 {
 public:
+	struct reached
+	{
+		bool b = false;
+	};
+
 	enum class Type
 	{
 		none,
@@ -49,6 +54,9 @@ public:
 	Type type = Type::none;
 
 	void SetupNode(std::vector<Node*>* inNodeList, std::vector<Tile> tiles);
+
+	std::map<int, reached> platformsReached;
+
 private:
 	
 
