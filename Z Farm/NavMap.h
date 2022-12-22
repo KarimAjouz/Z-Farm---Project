@@ -25,6 +25,7 @@ public:
 
 	void GenerateEdges(std::vector<Tile>* inTiles);
 
+	Node* GetNodeAtLocation(sf::Vector2f pos);
 
 private:
 
@@ -33,7 +34,6 @@ private:
 	std::vector<Platform> _map;
 
 	sf::Vector2f CalculateDropEdgePos(sf::Vector2f inPos);
-	Node* GetNodeAtLocation(sf::Vector2f pos);
 
 
 };

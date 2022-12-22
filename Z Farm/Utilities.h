@@ -33,13 +33,7 @@ namespace ZEngine
 		static float Lerp(float cur, float target, float inc);
 		static sf::Vector2f Lerp(sf::Vector2f cur, sf::Vector2f target, float inc);
 
-		struct Score
-		{
-			float i = 999;
-		};
-
 		static Node* GetNearestNode(sf::Vector2f pos, Room* room);
-		static std::vector<Node*> PathFind(sf::Vector2f goal, sf::Sprite* sprite, Room* room);
 		static float GenerateHeuristic(sf::Vector2f a, sf::Vector2f b);
 	};
 

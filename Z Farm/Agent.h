@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <box2d.h>
 
+#include "Component.h"
+
 class Agent
 {
 public:
@@ -41,5 +43,7 @@ public:
 	int footContacts = 0;
 
 private:
+
+	std::vector<ZEngine::Component*> AgentComponents;
 };
 

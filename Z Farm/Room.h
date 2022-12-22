@@ -40,6 +40,8 @@ public:
 	void DrawObstacles();
 
 	bool showNav = true;
+
+	NavMap* GetNavMap() { return &_navMap; };
 private:
 
 	ZEngine::GameDataRef _data;
@@ -59,7 +61,5 @@ private:
 	void SetView();
 
 	void RemoveDeadEntities();
-
-	void GenNavMap();
 };
 

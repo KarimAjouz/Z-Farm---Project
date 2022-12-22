@@ -28,26 +28,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="AgentNavigation.cpp" />
     <ClCompile Include="AlarmPig.cpp" />
     <ClCompile Include="AlertBubble.cpp" />
     <ClCompile Include="Animation.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BrushTool.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EraseTool.cpp" />
@@ -182,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="AgentNavigation.h" />
     <ClInclude Include="AlarmPig.h" />
     <ClInclude Include="AlertBubble.h" />
     <ClInclude Include="Animation.h" />
@@ -191,6 +194,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="BrushTool.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EraseTool.h" />

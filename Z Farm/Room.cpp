@@ -11,7 +11,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef) :
 {
 	_map = GenEmptyMap();
 	BuildLevel();
-	showNav = true;
+	showNav = false;
 }
 
 /// <summary>
@@ -31,7 +31,7 @@ Room::Room(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f offset) :
 	roomShape.setFillColor(sf::Color::Transparent);
 	roomShape.setOutlineColor(sf::Color::Blue);
 	roomShape.setOutlineThickness(5.0f);
-	showNav = true;
+	showNav = false;
 
 
 	BuildPhyics();
@@ -293,40 +293,4 @@ void Room::RemoveDeadEntities()
 			agents.erase(agents.begin() + i);
 		}
 	}
-}
-
-/// <summary>
-/// Generate a navigation map for the room.
-/// </summary>
-void Room::GenNavMap()
-{
-//	_navMap.ClearMap();
-//
-//	//Look through the current tile map and push back all of the required nodes
-//
-//	for (int i = 0; i < tiles.size(); i++)
-//	{
-//		int numXTiles = SCREEN_WIDTH / (TILE_SIZE * TILE_SCALE);
-//		int numYTiles = SCREEN_HEIGHT / (TILE_SIZE * TILE_SCALE);
-//		int x = i % numXTiles;
-//		int y = i / numXTiles;
-//		y--;
-//
-//		if (y < numYTiles)
-//		{
-//			if (i + numXTiles < tiles.size())
-//			{
-//				if (tiles[i + numXTiles].collisionTag == CollisionTag::level)
-//					int meme = 0;
-//				if (tiles[i].collisionTag == CollisionTag::background && tiles[i + numXTiles].collisionTag == CollisionTag::level)
-//					map.push_back(new Node(tiles[i].sprite.getPosition()));
-//			}
-//		}
-//	}
-//
-//	for (int i = 0; i < navMap.size(); i++)
-//	{
-//		navMap[i]->GenerateNodeList(&navMap, tiles);
-//	}
-
 }

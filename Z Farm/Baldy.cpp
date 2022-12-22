@@ -127,7 +127,7 @@ void Baldy::Hit(sf::Vector2f playerPos)
 void Baldy::Repath(sf::Vector2f pos)
 {
 	_targetPosition = ZEngine::Utilities::GetNearestNode(pos, _myRoom)->GetNodeLocation();
-	_path = ZEngine::Utilities::PathFind(_targetPosition, &sprite, _myRoom);
+	//_path = ZEngine::Utilities::PathFind(_targetPosition, &sprite, _myRoom);
 	_animState = AnimState::moving;
 	_state = BaldyState::moving;
 }
