@@ -121,6 +121,7 @@
     <ClCompile Include="NavMap.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="AgentNavigation.cpp" />
+    <ClCompile Include="PathStep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -248,6 +249,7 @@
     <ClInclude Include="NavMap.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="AgentNavigation.h" />
+    <ClInclude Include="PathStep.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

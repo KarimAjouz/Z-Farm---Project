@@ -2,6 +2,7 @@
 
 // Includes
 #include "Component.h"
+#include "Node.h"
 
 // Library Includes
 #include "SFML/Graphics.hpp"
@@ -11,22 +12,27 @@
 
 // Forward Declarations ------------------------------------------------------------------------------------------------------->
 class Room;
-class Node;
 
 struct Score
 {
-	float i = 999;
+	float i = 99999;
 };
 
-class AgentNavigation : public ZEngine::Component
+class AgentNavigation /*: public ZEngine::Component*/
 {
 public:
 	AgentNavigation();
 	~AgentNavigation();
 
-	virtual void Init() override;
+	//virtual void Init() override;
 
-	std::vector<Node*> GeneratePath(sf::Vector2f goal, sf::Sprite* sprite, Room* room);
+	void GeneratePath(sf::Vector2f goal, sf::Sprite* sprite, Room* room);
+	float GenerateHeuristic(sf::Vector2f a, sf::Vector2f b);
 
+	std::vector<Node*> Path;
+
+	void ReconstructPath(std::map<Node*, Node*> InCameFrom, Node* InCurrent);
+
+	Node::Edge GetEdge(Node* currentNode, Node* nextNode, Room* room);
 };
 

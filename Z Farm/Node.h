@@ -22,6 +22,7 @@ public:
 		soloPlatform
 	};
 
+	Node();
 	Node(sf::Vector2f pos);
 	Node(sf::Vector2f pos, int inIndex, Type inType);
 	~Node();
@@ -32,14 +33,50 @@ public:
 		{
 			walk,
 			drop,
-			jump
+			jump,
+			invalid
 		};
 
 		sf::Vector2f destinationCoords = sf::Vector2f(0.f, 0.f);
 		int cost = 0;
-		Type type;
+		Type type = Type::invalid;
 		JumpTrajectory JumpTrajectory;
 
+		bool operator == (Edge const& obj)
+		{
+			if (destinationCoords != obj.destinationCoords)
+				return false;
+
+			if (cost != obj.cost)
+				return false;
+
+			if (type != obj.type)
+				return false;
+
+			if (JumpTrajectory.startVel != obj.JumpTrajectory.startVel)
+				return false;
+
+			return true;
+
+		}
+
+		bool operator != (Edge const& obj)
+		{
+			if (destinationCoords != obj.destinationCoords)
+				return true;
+
+			if (cost != obj.cost)
+				return true;
+
+			if (type != obj.type)
+				return true;
+
+			if (JumpTrajectory.startVel != obj.JumpTrajectory.startVel)
+				return true;
+
+			return false;
+
+		}
 	};
 
 	std::vector<Edge> edges = std::vector<Edge>();
@@ -56,6 +93,22 @@ public:
 	void SetupNode(std::vector<Node*>* inNodeList, std::vector<Tile> tiles);
 
 	std::map<int, reached> platformsReached;
+
+	bool operator== (const Node& obj)
+	{
+		if (obj.type == type && obj.nodeArea.getPosition() == nodeArea.getPosition())
+			return true;
+		
+		return false;
+	}
+
+	bool operator!= (const Node& obj)
+	{
+		if (obj.type == type && obj.nodeArea.getPosition() == nodeArea.getPosition())
+			return false;
+
+		return true;
+	}
 
 private:
 	

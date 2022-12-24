@@ -195,8 +195,14 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							edge.cost = 2;
 							edge.destinationCoords = sf::Vector2f(edgePos);
 							edge.type = Node::Edge::Type::drop;
-							_map[i].nodes[j]->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
-							_map.at(i).nodes[j]->edges.push_back(edge);
+
+							Node* foundNode = GetNodeAtLocation(edge.destinationCoords);
+
+							if (foundNode != nullptr)
+							{
+								_map[i].nodes[j]->platformsReached[foundNode->platformIndex].b = true;
+								_map.at(i).nodes[j]->edges.push_back(edge);
+							}
 						}
 					}
 				}
@@ -215,9 +221,15 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							Node::Edge edge;
 							edge.cost = 2;
 							edge.destinationCoords = sf::Vector2f(edgePos);
-							edge.type = Node::Edge::Type::drop;							
-							_map[i].nodes[j]->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
-							_map.at(i).nodes[j]->edges.push_back(edge);
+							edge.type = Node::Edge::Type::drop;
+
+							Node* foundNode = GetNodeAtLocation(edge.destinationCoords);
+
+							if (foundNode != nullptr)
+							{
+								_map[i].nodes[j]->platformsReached[foundNode->platformIndex].b = true;
+								_map.at(i).nodes[j]->edges.push_back(edge);
+							}
 						}
 					}
 				}
@@ -230,7 +242,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 			{
 				std::vector<JumpTrajectory> navpointTrajectories;
 
-				sf::Vector2f jumpVelocity = sf::Vector2f(8.0f, -9.8f);
+				sf::Vector2f jumpVelocity = sf::Vector2f(4.0f, -9.8);
 
 				for (int i = 1; i <= NAVIGATION_JUMP_HEIGHT_DIVISIONS; i++)
 				{
@@ -325,13 +337,20 @@ sf::Vector2f NavMap::CalculateDropEdgePos(sf::Vector2f inPos)
 
 Node* NavMap::GetNodeAtLocation(sf::Vector2f pos)
 {
+	int x = pos.x;
+	int y = pos.y;
+
+	sf::Vector2f testPos = sf::Vector2f(x - (x % (TILE_SIZE * TILE_SCALE)), y - (y % (TILE_SIZE * TILE_SCALE)));
+	testPos.x += TILE_SCALE * TILE_SIZE / 2;
+	testPos.y += TILE_SCALE * TILE_SIZE / 2;
+
 	for (int i = 0; i < _map.size(); i++)
 	{
 		std::vector<Node*> platform = _map.at(i).nodes;
 
 		for (Node* node : platform)
 		{
-			if (node->nodeArea.getGlobalBounds().contains(pos))
+			if (node->nodeArea.getGlobalBounds().contains(testPos))
 				return node;
 		}
 	}

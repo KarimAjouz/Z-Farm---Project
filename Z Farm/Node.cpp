@@ -1,5 +1,9 @@
 #include "Node.h"
 
+Node::Node()
+{
+}
+
 Node::Node(sf::Vector2f pos) :
 	platformIndex(0),
 	type(Type::none)

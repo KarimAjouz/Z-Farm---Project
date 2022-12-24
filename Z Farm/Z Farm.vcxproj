@@ -164,6 +164,7 @@
     <ClCompile Include="NavMap.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="PathStep.cpp" />
     <ClCompile Include="PencilTool.cpp" />
     <ClCompile Include="Prop.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="NavMap.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="PathStep.h" />
     <ClInclude Include="PencilTool.h" />
     <ClInclude Include="Prop.h" />
     <ClInclude Include="Room.h" />

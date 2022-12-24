@@ -1,6 +1,8 @@
-#include "Room.h"
+ #include "Room.h"
 #include "Box.h"
 #include "Baldy.h"
+
+#include "Utilities.h"
 
 /// <summary>
 /// Basic constructor. Builds a room at the base coordinates.
@@ -66,6 +68,19 @@ void Room::Draw()
 {
 	if (showNav)
 	{
+		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->window));
+		sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+
+		sf::Vector2f nearestNodePos = ZEngine::Utilities::GetNearestNode(mousePositionInView, this)->GetNodeLocation();
+
+		sf::CircleShape nearestNodeDrawCircle = sf::CircleShape(5.0f);
+		nearestNodeDrawCircle.setFillColor(sf::Color::Green);
+		nearestNodePos.x -= nearestNodeDrawCircle.getRadius();
+
+		nearestNodePos.y -= nearestNodeDrawCircle.getRadius();
+		nearestNodeDrawCircle.setPosition(nearestNodePos);
+		_data->window.draw(nearestNodeDrawCircle);
+		
 		for (int i = 0; i < _navMap.GetMap().size(); i++)
 		{
 			for (int j = 0; j < _navMap.GetMap()[i].nodes.size(); j++)
@@ -80,11 +95,36 @@ void Room::Draw()
 						sf::ConvexShape line;
 
 						line.setPointCount(4);
+						bool isRightDir = false;
 
-						line.setPoint(0, node->nodeArea.getPosition());
-						line.setPoint(1, node->edges[k].destinationCoords);
-						line.setPoint(2, node->edges[k].destinationCoords);
-						line.setPoint(3, node->nodeArea.getPosition());
+						if (node->edges[k].destinationCoords.x > node->nodeArea.getPosition().x)
+							isRightDir = true;
+
+
+						sf::Vector2f TopSpotLine = node->nodeArea.getPosition();
+						TopSpotLine.y += 4.0f;
+
+						sf::Vector2f BotSpotLine = node->nodeArea.getPosition();
+						BotSpotLine.y -= 4.0f;
+
+						sf::Vector2f destPoint = node->edges[k].destinationCoords;
+
+						line.setFillColor(sf::Color::Blue);
+
+						if (isRightDir)
+						{
+							TopSpotLine.y += 10.0f;
+							BotSpotLine.y += 10.0f;
+
+							destPoint.y += 10.0f;
+
+							line.setFillColor(sf::Color::Red);
+						}
+
+						line.setPoint(0, TopSpotLine);
+						line.setPoint(1, destPoint);
+						line.setPoint(2, destPoint);
+						line.setPoint(3, BotSpotLine);
 
 						line.setOutlineThickness(2.0f);
 
@@ -117,7 +157,6 @@ void Room::Draw()
 							_data->window.draw(circle);
 						}
 					}
-
 				}
 			}
 		}

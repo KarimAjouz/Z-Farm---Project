@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "AnimationSystem.h"
 #include "Room.h"
+#include "AgentNavigation.h"
 
 class Baldy : public Enemy
 {
@@ -84,7 +85,6 @@ private:
 
 
 	sf::Vector2f _targetPosition = sf::Vector2f(900, 560);
-	std::vector<Node*> _path;
 
 
 	bool SeekTarget(sf::Vector2f TargetPos);
@@ -99,7 +99,7 @@ private:
 	int _jumpTimeout = 0;
 
 	void Move(int dir);
-	void Jump(float force);
+	void Jump(sf::Vector2f force);
 
 	void Patrol();
 	void StartWatch();
@@ -114,6 +114,8 @@ private:
 	void BeginAttack(int dir);
 
 	void TestKick();
+
+	AgentNavigation* _navComponent;
 
 };
 

@@ -49,6 +49,9 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 	_animSys.SetAnimation("BaldyIdle");
 	_animSys.Play();
 
+
+	_navComponent = new AgentNavigation();
+
 	targetNodeCircle.setFillColor(sf::Color::Magenta);
 	targetNodeCircle.setRadius(5.0f);
 	//Repath(_targetPosition);
@@ -56,6 +59,7 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 
 Baldy::~Baldy()
 {
+	delete _navComponent;
 }
 
 void Baldy::Update(float dT)
@@ -76,7 +80,7 @@ void Baldy::Update(float dT)
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
 	{
-		Jump(_jumpForce);
+		//Jump(_jumpForce);
 	}
 
 	if (_jumpTimeout >= 0)
@@ -84,9 +88,12 @@ void Baldy::Update(float dT)
 		_jumpTimeout--;
 	}
 	else
-		_jumping = false;
+	{
+		if (footContacts > 0)
+			_jumping = false;
+	}
 
-	if(!footContacts > 0)
+	if (footContacts < 0)
 		std::cout << "LIN VEL X: " << body->GetLinearVelocity().x << " Y: " << body->GetLinearVelocity().y << std::endl;
 
 	alertBubble.Update(dT, sprite.getPosition() + dialogueOffset);
@@ -97,14 +104,14 @@ void Baldy::Draw()
 	_data->window.draw(sprite);
 	//_data->window.draw(hitbox);
 
-	if (_path.size() > 1)
+	if (_navComponent->Path.size() > 1)
 	{
-		for (int i = 0; i < _path.size() - 1; i++)
+		for (int i = 0; i < _navComponent->Path.size() - 1; i++)
 		{
 			sf::Vertex line[2];
-			line[0].position = _path[i]->GetNodeLocation();
+			line[0].position = _navComponent->Path[i]->GetNodeLocation();
 			line[0].color = sf::Color::Red;
-			line[1].position = _path[i + 1]->GetNodeLocation();
+			line[1].position = _navComponent->Path[i + 1]->GetNodeLocation();
 			line[1].color = sf::Color::Red;
 
 			_data->window.draw(line, 2, sf::Lines);
@@ -127,7 +134,7 @@ void Baldy::Hit(sf::Vector2f playerPos)
 void Baldy::Repath(sf::Vector2f pos)
 {
 	_targetPosition = ZEngine::Utilities::GetNearestNode(pos, _myRoom)->GetNodeLocation();
-	//_path = ZEngine::Utilities::PathFind(_targetPosition, &sprite, _myRoom);
+	_navComponent->GeneratePath(_targetPosition, &sprite, _myRoom);
 	_animState = AnimState::moving;
 	_state = BaldyState::moving;
 }
@@ -350,9 +357,9 @@ void Baldy::InitPhysics(sf::Vector2f pos)
 bool Baldy::SeekTarget(sf::Vector2f TargetPos)
 {
 	Node* nearestNode = ZEngine::Utilities::GetNearestNode(sprite.getPosition(), _myRoom);
-	if (_path.size() > 0)
+	if (_navComponent->Path.size() > 0)
 	{
-		if (nearestNode == _path[_path.size() - 1])
+		if (nearestNode == _navComponent->Path[_navComponent->Path.size() - 1])
 			return true;
 	}
 	else
@@ -360,25 +367,35 @@ bool Baldy::SeekTarget(sf::Vector2f TargetPos)
 	
 
 	//If the nearest node is the top node in the path, remove it from the path.
-	if (nearestNode == _path[0])
-		_path.erase(_path.begin());
+	if (nearestNode == _navComponent->Path[0])
+		_navComponent->Path.erase(_navComponent->Path.begin());
 
 	//Get a pointer to the next node (the top node in the path)
-	Node* targetNode = _path[0];
+	Node* nextPathStep = _navComponent->Path[0];
+	Node::Edge nextEdge = _navComponent->GetEdge(nearestNode, nextPathStep, _myRoom);
 
-	targetNodeCircle.setPosition(targetNode->GetNodeLocation());
+	targetNodeCircle.setPosition(nextPathStep->GetNodeLocation());
 
 
 	//Move in the x-direction towards the node.
-	if (targetNode->GetNodeLocation().x > nearestNode->GetNodeLocation().x)
-		Move(1);
-	else if (targetNode->GetNodeLocation().x < nearestNode->GetNodeLocation().x)
-		Move(-1);
-
-	//Decide if we need to jump.
-	if (targetNode->GetNodeLocation().y < nearestNode->GetNodeLocation().y)
+	switch (nextEdge.type)
 	{
-		Jump(_jumpForce);
+		case Node::Edge::Type::walk:
+			if (nextPathStep->GetNodeLocation().x > nearestNode->GetNodeLocation().x)
+				Move(1);
+			else if (nextPathStep->GetNodeLocation().x < nearestNode->GetNodeLocation().x)
+				Move(-1);
+			break;
+		case Node::Edge::Type::drop:
+			if (nextPathStep->GetNodeLocation().x > nearestNode->GetNodeLocation().x)
+				Move(1);
+			else if (nextPathStep->GetNodeLocation().x < nearestNode->GetNodeLocation().x)
+				Move(-1);
+			break;
+		case Node::Edge::Type::jump:
+			sf::Vector2f jumpVelocity = nextEdge.JumpTrajectory.startVel;
+			Jump(jumpVelocity / (SCALE));
+			break;
 	}
 	
 	return false;
@@ -403,13 +420,13 @@ void Baldy::Move(int dir)
 	body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(), true);
 }
 
-void Baldy::Jump(float force)
+void Baldy::Jump(sf::Vector2f force)
 {
 	if (!_jumping && footContacts > 0 && _jumpTimeout < 0)
 	{
-		float impulse = body->GetMass() * force;
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 0.0f));
-		body->ApplyLinearImpulse(b2Vec2(0, -impulse), body->GetWorldCenter(), true);
+		body->SetLinearVelocity(b2Vec2_zero);
+		sf::Vector2f impulse = body->GetMass() * force;
+		body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), body->GetWorldCenter(), true);
 		_jumpTimeout = 15;
 		_animState = AnimState::preJump;
 		_jumping = true;

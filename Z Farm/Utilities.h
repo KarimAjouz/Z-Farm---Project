@@ -34,7 +34,6 @@ namespace ZEngine
 		static sf::Vector2f Lerp(sf::Vector2f cur, sf::Vector2f target, float inc);
 
 		static Node* GetNearestNode(sf::Vector2f pos, Room* room);
-		static float GenerateHeuristic(sf::Vector2f a, sf::Vector2f b);
 	};
 
 }
