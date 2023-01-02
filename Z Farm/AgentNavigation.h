@@ -21,7 +21,7 @@ struct Score
 class AgentNavigation /*: public ZEngine::Component*/
 {
 public:
-	AgentNavigation();
+	AgentNavigation(ZEngine::GameDataRef InData);
 	~AgentNavigation();
 
 	//virtual void Init() override;
@@ -34,5 +34,9 @@ public:
 	void ReconstructPath(std::map<Node*, Node*> InCameFrom, Node* InCurrent);
 
 	Node::Edge GetEdge(Node* currentNode, Node* nextNode, Room* room);
+
+	void DebugDrawEdge(Node::Edge edge, Node* node);
+
+	ZEngine::GameDataRef _data;
 };
 

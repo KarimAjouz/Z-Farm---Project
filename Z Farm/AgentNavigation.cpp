@@ -7,7 +7,8 @@
 
 #include <iostream>
 
-AgentNavigation::AgentNavigation()
+AgentNavigation::AgentNavigation(ZEngine::GameDataRef InData) :
+	_data(InData)
 {
 }
 
@@ -63,6 +64,7 @@ void AgentNavigation::GeneratePath(sf::Vector2f goal, sf::Sprite* sprite, Room* 
 		{
 			Node::Edge neighbour = currentNode->edges[i];
 			Node* neighbouringNode = ZEngine::Utilities::GetNearestNode(neighbour.destinationCoords, room);
+			//DebugDrawEdge(neighbour, currentNode);
 
 			if (neighbouringNode == nullptr)
 			{
@@ -99,7 +101,9 @@ void AgentNavigation::GeneratePath(sf::Vector2f goal, sf::Sprite* sprite, Room* 
 	/// <returns></returns>
 float AgentNavigation::GenerateHeuristic(sf::Vector2f a, sf::Vector2f b)
 {
-	return (std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE)) + (std::abs(a.y - b.y) / (TILE_SCALE * TILE_SIZE));
+	return (
+		(std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE))) * (std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE)) + 
+		(std::abs(a.y - b.y) / (TILE_SCALE * TILE_SIZE) * (std::abs(a.y - b.y) / (TILE_SCALE * TILE_SIZE)));
 
 	return 0.0f;
 }
@@ -132,4 +136,35 @@ Node::Edge AgentNavigation::GetEdge(Node* currentNode, Node* nextNode, Room* roo
 			return edge;
 	}
 	return Node::Edge();
+}
+
+void AgentNavigation::DebugDrawEdge(Node::Edge edge, Node* node)
+{
+	sf::ConvexShape line;
+
+	sf::CircleShape destinationPoint = sf::CircleShape(8.0f);
+	destinationPoint.setFillColor(sf::Color::Cyan);
+	destinationPoint.setPosition(edge.destinationCoords);
+
+	line.setPointCount(4);
+
+	sf::Vector2f startPoint = node->nodeArea.getPosition();
+	sf::Vector2f destPoint = edge.destinationCoords;
+
+	line.setFillColor(sf::Color::Blue);
+
+	line.setPoint(0, startPoint);
+	line.setPoint(1, destPoint);
+	line.setPoint(2, destPoint);
+	line.setPoint(3, startPoint);
+
+	line.setOutlineThickness(2.0f);
+
+	line.setOutlineColor(sf::Color::Magenta);
+
+	_data->window.draw(line);
+	_data->window.draw(destinationPoint);
+	_data->window.display();
+	line.setOutlineColor(sf::Color::Blue);
+	_data->window.draw(line);
 }

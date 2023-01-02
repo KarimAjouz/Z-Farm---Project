@@ -14,6 +14,7 @@ namespace ZEngine
 
 		static sf::Vector2f NormaliseVector(sf::Vector2f in);
 		static float GetVectorMagnitude(sf::Vector2f in);
+		static float GetVectorMagnitudeSquared(sf::Vector2f in);
 		
 		static float Random();
 		static float Random(float max);

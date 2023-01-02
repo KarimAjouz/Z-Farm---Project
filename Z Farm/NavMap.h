@@ -27,6 +27,9 @@ public:
 
 	Node* GetNodeAtLocation(sf::Vector2f pos);
 
+
+	Node* GetNodeColWithRect(sf::RectangleShape InRect);
+
 private:
 
 
@@ -34,6 +37,10 @@ private:
 	std::vector<Platform> _map;
 
 	sf::Vector2f CalculateDropEdgePos(sf::Vector2f inPos);
+
+	bool DoesPointCollideWithLevel(sf::Vector2f InPos, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode);
+
+	bool DoesRectCollideWithLevel(sf::RectangleShape InRect, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode, bool inIsDirUp);
 
 
 };

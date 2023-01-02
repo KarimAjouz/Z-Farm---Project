@@ -96,8 +96,11 @@ private:
 			)
 		{
 			pointsArray.push_back(testPos);
+			prevTestNodePos = testPos;
 			testPos = getTrajectoryPoint(startPos, startVel, i);
-			if (fallingPointIndex != 0 && testPos.y < prevTestNodePos.y)
+
+			float yVel = testPos.y - prevTestNodePos.y;
+			if (yVel > 0.0f && fallingPointIndex == 0)
 			{
 				fallingPointIndex = i;
 			}

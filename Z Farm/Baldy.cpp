@@ -50,10 +50,12 @@ Baldy::Baldy(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos, Room* 
 	_animSys.Play();
 
 
-	_navComponent = new AgentNavigation();
+	_navComponent = new AgentNavigation(_data);
 
 	targetNodeCircle.setFillColor(sf::Color::Magenta);
 	targetNodeCircle.setRadius(5.0f);
+
+	_jumpTimeout = 15;
 	//Repath(_targetPosition);
 }
 
@@ -83,7 +85,7 @@ void Baldy::Update(float dT)
 		//Jump(_jumpForce);
 	}
 
-	if (_jumpTimeout >= 0)
+	if (_jumpTimeout >= 0 && footContacts > 0)
 	{
 		_jumpTimeout--;
 	}
@@ -392,6 +394,9 @@ bool Baldy::SeekTarget(sf::Vector2f TargetPos)
 			else if (nextPathStep->GetNodeLocation().x < nearestNode->GetNodeLocation().x)
 				Move(-1);
 			break;
+		case Node::Edge::Type::invalid:
+			Repath(TargetPos);
+			break;
 		case Node::Edge::Type::jump:
 			sf::Vector2f jumpVelocity = nextEdge.JumpTrajectory.startVel;
 			Jump(jumpVelocity / (SCALE));
@@ -403,6 +408,9 @@ bool Baldy::SeekTarget(sf::Vector2f TargetPos)
 
 void Baldy::Move(int dir)
 {
+	if (footContacts == 0)
+		return;
+
 	b2Vec2 vel = body->GetLinearVelocity();
 	float newSpeed = 0.0f;
 

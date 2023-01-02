@@ -30,6 +30,11 @@ namespace ZEngine
 		 return std::sqrt((in.x * in.x) + (in.y * in.y));
 	}
 
+	float Utilities::GetVectorMagnitudeSquared(sf::Vector2f in)
+	{
+		return (in.x * in.x) + (in.y * in.y);
+	}
+
 	float Utilities::Random()
 	{
 		float r = static_cast<float>(rand());

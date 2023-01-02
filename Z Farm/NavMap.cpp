@@ -1,4 +1,5 @@
 #include "NavMap.h"
+#include "Utilities.h"
 
 #include <iostream>
 
@@ -28,7 +29,7 @@ void NavMap::GenerateNavMap(std::vector<Tile>* inTiles)
 	{
 		int tileX = i % rowLength;
 		int tileY = i / rowLength;
-		Node tempNode = Node(sf::Vector2f(tileX * tileSize + (tileSize / 2), tileY * tileSize + (tileSize / 2)));
+		Node tempNode = Node(sf::Vector2f(tileX * tileSize + (tileSize / 2), tileY * tileSize + (5)));
 		tempNode.platformIndex = currentPlatformIndex;
 
 		int rightTileIndex = i + 1;
@@ -242,7 +243,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 			{
 				std::vector<JumpTrajectory> navpointTrajectories;
 
-				sf::Vector2f jumpVelocity = sf::Vector2f(4.0f, -9.8);
+				sf::Vector2f jumpVelocity = sf::Vector2f(4.0f, -12.0f);
 
 				for (int i = 1; i <= NAVIGATION_JUMP_HEIGHT_DIVISIONS; i++)
 				{
@@ -260,34 +261,33 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 
 				for (JumpTrajectory testJump : jumpTrajectoriesToValidate[0])
 				{
-					for (int testPointIndex = 0; testPointIndex < testJump.pointsArray.size(); testPointIndex++)
-					{
-						sf::Vector2f testPoint = testJump.pointsArray[testPointIndex];
-						int testPointXTile = testPoint.x / (TILE_SIZE * TILE_SCALE);
-						int testPointYTile = testPoint.y / (TILE_SIZE * TILE_SCALE);
-						int rowLength = SCREEN_WIDTH / (TILE_SCALE * TILE_SIZE);
-						int testTileIndex = (testPointYTile * rowLength) + testPointXTile;
+					sf::RectangleShape TestRect = sf::RectangleShape(sf::Vector2f(26, 50));
+					TestRect.setOrigin(13, 25);
 
-						Tile testTile = inTiles->at(testTileIndex);
-						if (testTile.collisionTag != CollisionTag::level)
+					bool clear = true;
+
+					for (int testPointIndex = 1; testPointIndex < testJump.pointsArray.size(); testPointIndex++)
+					{
+						TestRect.setPosition(testJump.pointsArray[testPointIndex]);
+
+						if (DoesRectCollideWithLevel(TestRect, inTiles, testJump, curNode, testPointIndex <= testJump.fallingPointIndex))
+							clear = false;
+
+						if (clear)
 						{
-							if (Node* testNode = GetNodeAtLocation(testPoint))
+							Node* validNode = GetNodeAtLocation(testJump.pointsArray[testPointIndex]);
+
+							if (validNode != nullptr && curNode->platformIndex != validNode->platformIndex && !curNode->platformsReached[validNode->platformIndex].b)
 							{
-								if (testNode->platformIndex != curNode->platformIndex)
-								{
-									if (!curNode->platformsReached[testNode->platformIndex].b)
-									{
-										Node::Edge edge;
-										JumpTrajectory edgeTraj = testJump;
-										edgeTraj.pointsArray.resize(testPointIndex);
-										edge.cost = 4;
-										edge.destinationCoords = sf::Vector2f(testNode->nodeArea.getPosition());
-										edge.JumpTrajectory = edgeTraj;
-										edge.type = Node::Edge::Type::jump;							
-										curNode->platformsReached[GetNodeAtLocation(edge.destinationCoords)->platformIndex].b = true;
-										_map.at(i).nodes[j]->edges.push_back(edge);
-									}
-								}
+								Node::Edge edge;
+								JumpTrajectory edgeTraj = testJump;
+								edgeTraj.pointsArray.resize(testPointIndex);
+								edge.cost = ZEngine::Utilities::GetVectorMagnitude(edgeTraj.startVel);
+								edge.destinationCoords = sf::Vector2f(validNode->nodeArea.getPosition());
+								edge.JumpTrajectory = edgeTraj;
+								edge.type = Node::Edge::Type::jump;
+								curNode->platformsReached[validNode->platformIndex].b = true;
+								_map.at(i).nodes[j]->edges.push_back(edge);
 							}
 						}
 						else
@@ -335,6 +335,52 @@ sf::Vector2f NavMap::CalculateDropEdgePos(sf::Vector2f inPos)
 	return sf::Vector2f(-1.f, -1.f);
 }
 
+bool NavMap::DoesPointCollideWithLevel(sf::Vector2f InPos, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode)
+{
+	sf::Vector2f testPoint = InPos;
+	int testPointXTile = testPoint.x / (TILE_SIZE * TILE_SCALE);
+	int testPointYTile = testPoint.y / (TILE_SIZE * TILE_SCALE);
+	int rowLength = SCREEN_WIDTH / (TILE_SCALE * TILE_SIZE);
+	int testTileIndex = (testPointYTile * rowLength) + testPointXTile;
+
+	if (testTileIndex >= InTiles->size())
+		return false;
+
+	Tile testTile = InTiles->at(testTileIndex);
+
+	if (testTile.collisionTag == CollisionTag::level)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool NavMap::DoesRectCollideWithLevel(sf::RectangleShape InRect, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode, bool inIsDirUp)
+{
+	sf::Vector2f testPoint = sf::Vector2f(InRect.getGlobalBounds().left, InRect.getGlobalBounds().top);
+	
+	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
+		return true;
+
+	testPoint = sf::Vector2f(InRect.getGlobalBounds().left + InRect.getGlobalBounds().width, InRect.getGlobalBounds().top);
+
+	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
+		return true;
+	
+	testPoint = sf::Vector2f(InRect.getGlobalBounds().left, InRect.getGlobalBounds().top + InRect.getGlobalBounds().height);
+
+	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
+		return true;
+
+	testPoint = sf::Vector2f(InRect.getGlobalBounds().left + InRect.getGlobalBounds().width, InRect.getGlobalBounds().top + InRect.getGlobalBounds().height);
+
+	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
+		return true;
+
+	return false;
+}
+
 Node* NavMap::GetNodeAtLocation(sf::Vector2f pos)
 {
 	int x = pos.x;
@@ -351,6 +397,22 @@ Node* NavMap::GetNodeAtLocation(sf::Vector2f pos)
 		for (Node* node : platform)
 		{
 			if (node->nodeArea.getGlobalBounds().contains(testPos))
+				return node;
+		}
+	}
+	return nullptr;
+}
+
+Node* NavMap::GetNodeColWithRect(sf::RectangleShape InRect)
+{
+
+	for (int i = 0; i < _map.size(); i++)
+	{
+		std::vector<Node*> platform = _map.at(i).nodes;
+
+		for (Node* node : platform)
+		{
+			if (InRect.getGlobalBounds().intersects(node->nodeArea.getGlobalBounds()))
 				return node;
 		}
 	}

@@ -95,36 +95,17 @@ void Room::Draw()
 						sf::ConvexShape line;
 
 						line.setPointCount(4);
-						bool isRightDir = false;
-
-						if (node->edges[k].destinationCoords.x > node->nodeArea.getPosition().x)
-							isRightDir = true;
 
 
 						sf::Vector2f TopSpotLine = node->nodeArea.getPosition();
-						TopSpotLine.y += 4.0f;
-
-						sf::Vector2f BotSpotLine = node->nodeArea.getPosition();
-						BotSpotLine.y -= 4.0f;
-
 						sf::Vector2f destPoint = node->edges[k].destinationCoords;
 
 						line.setFillColor(sf::Color::Blue);
 
-						if (isRightDir)
-						{
-							TopSpotLine.y += 10.0f;
-							BotSpotLine.y += 10.0f;
-
-							destPoint.y += 10.0f;
-
-							line.setFillColor(sf::Color::Red);
-						}
-
 						line.setPoint(0, TopSpotLine);
 						line.setPoint(1, destPoint);
 						line.setPoint(2, destPoint);
-						line.setPoint(3, BotSpotLine);
+						line.setPoint(3, TopSpotLine);
 
 						line.setOutlineThickness(2.0f);
 

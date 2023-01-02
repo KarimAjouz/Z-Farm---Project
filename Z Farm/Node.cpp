@@ -8,9 +8,9 @@ Node::Node(sf::Vector2f pos) :
 	platformIndex(0),
 	type(Type::none)
 {
-	nodeArea = sf::CircleShape(100.0f);
+	nodeArea = sf::CircleShape(16.0f);
 	nodeArea.setPosition(pos);
-	nodeArea.setOrigin(10.0f, 10.0f);
+	nodeArea.setOrigin(16.0f, 16.0f);
 	nodeArea.setFillColor(sf::Color::Transparent);
 
 	if (type == Type::platform)
@@ -29,9 +29,9 @@ Node::Node(sf::Vector2f pos, int inIndex, Node::Type inType) :
 	platformIndex(inIndex),
 	type(inType)
 {
-	nodeArea = sf::CircleShape(10.0f);
+	nodeArea = sf::CircleShape(16.0f);
 	nodeArea.setPosition(pos);
-	nodeArea.setOrigin(10.0f, 10.0f);
+	nodeArea.setOrigin(16.0f, 16.0f);
 	nodeArea.setFillColor(sf::Color::Transparent);
 
 	if (type == Type::platform)
