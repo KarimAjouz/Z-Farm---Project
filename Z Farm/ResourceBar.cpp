@@ -31,8 +31,8 @@ namespace ZEngine
 
 	void ResourceBar::Draw()
 	{
-		_data->window.draw(_background);
-		_data->window.draw(_foreground);
+		_data->GameWindow.draw(_background);
+		_data->GameWindow.draw(_foreground);
 	}
 
 	void ResourceBar::Move(sf::Vector2f pos)

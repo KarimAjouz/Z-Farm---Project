@@ -68,8 +68,8 @@ void Room::Draw()
 {
 	if (showNav)
 	{
-		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->window));
-		sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+		sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->GameWindow));
+		sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
 
 		sf::Vector2f nearestNodePos = ZEngine::Utilities::GetNearestNode(mousePositionInView, this)->GetNodeLocation();
 
@@ -79,14 +79,14 @@ void Room::Draw()
 
 		nearestNodePos.y -= nearestNodeDrawCircle.getRadius();
 		nearestNodeDrawCircle.setPosition(nearestNodePos);
-		_data->window.draw(nearestNodeDrawCircle);
+		_data->GameWindow.draw(nearestNodeDrawCircle);
 		
 		for (int i = 0; i < _navMap.GetMap().size(); i++)
 		{
 			for (int j = 0; j < _navMap.GetMap()[i].nodes.size(); j++)
 			{
 				Node* node = _navMap.GetMap()[i].nodes.at(j);
-				_data->window.draw(node->nodeArea);
+				_data->GameWindow.draw(node->nodeArea);
 
 				for (int k = 0; k < node->edges.size(); k++)
 				{
@@ -110,7 +110,7 @@ void Room::Draw()
 						line.setOutlineThickness(2.0f);
 
 						line.setOutlineColor(sf::Color::Black);
-						_data->window.draw(line);
+						_data->GameWindow.draw(line);
 					}
 					else if (node->edges[k].type == Node::Edge::Type::jump)
 					{
@@ -135,7 +135,7 @@ void Room::Draw()
 								circle.setFillColor(sf::Color::Red);
 							}
 							circle.setOrigin(circle.getRadius(), circle.getRadius());
-							_data->window.draw(circle);
+							_data->GameWindow.draw(circle);
 						}
 					}
 				}

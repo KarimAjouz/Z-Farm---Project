@@ -63,20 +63,20 @@ namespace ZEngine
 			sprite.getGlobalBounds().width, 
 			sprite.getGlobalBounds().height);
 
-		if (rect.contains(sf::Mouse::getPosition(_data->window)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		if (rect.contains(sf::Mouse::getPosition(_data->GameWindow)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 			Engaged = true;
 		
-		if (Engaged && !rect.contains(sf::Mouse::getPosition(_data->window)))
+		if (Engaged && !rect.contains(sf::Mouse::getPosition(_data->GameWindow)))
 			Engaged = false;
 
-		if (rect.contains(sf::Mouse::getPosition(_data->window)) && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && Engaged)
+		if (rect.contains(sf::Mouse::getPosition(_data->GameWindow)) && !sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && Engaged)
 			Activate();
 
-		if (rect.contains(sf::Mouse::getPosition(_data->window)) && !Engaged)
+		if (rect.contains(sf::Mouse::getPosition(_data->GameWindow)) && !Engaged)
 		{
 			SetHovered();
 		}
-		else if (rect.contains(sf::Mouse::getPosition(_data->window)) && Engaged)
+		else if (rect.contains(sf::Mouse::getPosition(_data->GameWindow)) && Engaged)
 		{
 			SetClicked();
 		}
@@ -94,8 +94,8 @@ namespace ZEngine
 
 	void Button::Draw()
 	{
-		_data->window.draw(sprite);
-		_data->window.draw(_text);
+		_data->GameWindow.draw(sprite);
+		_data->GameWindow.draw(_text);
 	}
 
 	void Button::SetDefault()

@@ -162,9 +162,9 @@ void AgentNavigation::DebugDrawEdge(Node::Edge edge, Node* node)
 
 	line.setOutlineColor(sf::Color::Magenta);
 
-	_data->window.draw(line);
-	_data->window.draw(destinationPoint);
-	_data->window.display();
+	_data->GameWindow.draw(line);
+	_data->GameWindow.draw(destinationPoint);
+	_data->GameWindow.display();
 	line.setOutlineColor(sf::Color::Blue);
-	_data->window.draw(line);
+	_data->GameWindow.draw(line);
 }

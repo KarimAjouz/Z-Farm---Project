@@ -1,0 +1,4 @@
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/tmxlite.dir
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/INSTALL.dir
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/ALL_BUILD.dir
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/ZERO_CHECK.dir

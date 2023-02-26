@@ -32,7 +32,7 @@ void Spike::Update(float dT)
 
 void Spike::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 
 }
 

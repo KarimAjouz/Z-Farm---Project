@@ -28,7 +28,7 @@ void Pickup::Update(float dT)
 
 void Pickup::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 }
 
 /// <summary>

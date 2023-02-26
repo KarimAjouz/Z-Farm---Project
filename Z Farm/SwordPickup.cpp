@@ -32,7 +32,7 @@ void SwordPickup::Update(float dT)
 void SwordPickup::Draw()
 {
 	if (!_collected)
-		_data->window.draw(sprite);
+		_data->GameWindow.draw(sprite);
 }
 
 

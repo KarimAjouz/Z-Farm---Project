@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\detail\pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\FreeFuncs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\ImageLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\miniz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\ObjectGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\Property.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\TileLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\LayerGroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\Tileset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\src\ObjectTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E02AF8B2-B0AB-34EC-A4D9-EC682386EAC8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

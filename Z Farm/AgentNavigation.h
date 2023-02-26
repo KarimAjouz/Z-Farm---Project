@@ -15,7 +15,7 @@ class Room;
 
 struct Score
 {
-	float i = 99999;
+	float i = INT_MAX;
 };
 
 class AgentNavigation /*: public ZEngine::Component*/

@@ -28,7 +28,7 @@ void AlertBubble::Update(float dT, sf::Vector2f pos)
 void AlertBubble::Draw()
 {
 	if (alertState != AlertState::passive && alertState != AlertState::alert)
-		_data->window.draw(sprite);
+		_data->GameWindow.draw(sprite);
 }
 
 bool AlertBubble::UpdateState(bool seePlayer, ZEngine::Timer* questionTimer)

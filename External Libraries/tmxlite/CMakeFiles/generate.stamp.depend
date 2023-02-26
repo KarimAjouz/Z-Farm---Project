@@ -1,0 +1,26 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeCXXInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/WindowsPaths.cmake
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/3.20.0-rc5/CMakeCCompiler.cmake
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/3.20.0-rc5/CMakeCXXCompiler.cmake
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/3.20.0-rc5/CMakeRCCompiler.cmake
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeFiles/3.20.0-rc5/CMakeSystem.cmake
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/CMakeLists.txt
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/src/CMakeLists.txt
+C:/Users/karee/Documents/GitRepo/Pixel-Pirates/Pyra-Sea/External Libraries/tmxlite/tmxlite.pc.in

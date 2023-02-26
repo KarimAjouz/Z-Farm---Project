@@ -31,11 +31,11 @@ void GameState_Splash::PollEvents()
 {
 	sf::Event event;
 
-	while (_data->window.pollEvent(event))
+	while (_data->GameWindow.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
-			_data->window.close();
+			_data->GameWindow.close();
 		}
 	}
 }
@@ -50,7 +50,7 @@ void GameState_Splash::Update(float dT)
 
 void GameState_Splash::Draw()
 {
-	_data->window.clear();
-	_data->window.draw(_bgSprite);
-	_data->window.display();
+	_data->GameWindow.clear();
+	_data->GameWindow.draw(_bgSprite);
+	_data->GameWindow.display();
 }

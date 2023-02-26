@@ -46,6 +46,8 @@ public:
 	SelectorItem GetSelectorItem();
 
 	void SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size);
+
+	void RepositionToCorner();
 private:
 	ZEngine::GameDataRef _data;
 
@@ -57,6 +59,8 @@ private:
 	std::vector<sf::Sprite> _collidablesSpritesheetList;
 
 	sf::Sprite _curSelector;
+
+	sf::Vector2f _zeroPixel = sf::Vector2f(0.0f, 0.0f);
 
 	std::vector<SelectorItem> _obstacleList;
 	std::vector<SelectorItem> _unitList;

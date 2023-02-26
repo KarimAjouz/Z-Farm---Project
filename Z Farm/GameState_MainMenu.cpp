@@ -30,12 +30,12 @@ void GameState_MainMenu::PollEvents()
 {
 	sf::Event e;
 
-	while(_data->window.pollEvent(e))
+	while(_data->GameWindow.pollEvent(e))
 	{
 		switch (e.type)
 		{
 		case sf::Event::Closed:
-			_data->window.close();
+			_data->GameWindow.close();
 			break;
 		}
 	}
@@ -47,7 +47,7 @@ void GameState_MainMenu::Update(float dT)
 		_data->stateMachine.AddState(ZEngine::StateRef(new GameState_Gameplay(_data)), true);
 
 	if (_quitButton.Active)
-		_data->window.close();
+		_data->GameWindow.close();
 
 
 	_playButton.Update(dT);
@@ -56,12 +56,12 @@ void GameState_MainMenu::Update(float dT)
 
 void GameState_MainMenu::Draw()
 {
-	_data->window.clear();
+	_data->GameWindow.clear();
 
-	_data->window.draw(_bgSprite);
+	_data->GameWindow.draw(_bgSprite);
 
 	_playButton.Draw();
 	_quitButton.Draw();
 	
-	_data->window.display();
+	_data->GameWindow.display();
 }

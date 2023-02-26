@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\karee\Documents\GitRepo\Pixel-Pirates\Pyra-Sea\External Libraries\tmxlite\CMakeFiles\7a0ed410477e63a10e1cdaca4ec1cdb2\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0A82DC3B-D87A-386E-94D5-DACC25ECE190}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

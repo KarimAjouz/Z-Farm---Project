@@ -42,7 +42,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	
-	_data->window.setView(view);
+	_data->GameWindow.setView(view);
 }
 
 
@@ -63,7 +63,7 @@ void GameState_Gameplay::PollEvents()
 	sf::Event e;
 
 
-	while (_data->window.pollEvent(e))
+	while (_data->GameWindow.pollEvent(e))
 	{
 		if (_levelBuilder.isActive())
 		{
@@ -112,7 +112,7 @@ void GameState_Gameplay::Update(float dT)
 /// <param name="dT"></param>
 void GameState_Gameplay::Draw()
 {
-	_data->window.clear();
+	_data->GameWindow.clear();
 
 	_level->Draw();
 	_player.Draw();
@@ -126,7 +126,7 @@ void GameState_Gameplay::Draw()
 	if (_levelBuilder.isActive())
 		_levelBuilder.Draw();
 
-	_data->window.display();
+	_data->GameWindow.display();
 }
 
 void GameState_Gameplay::Pause()
@@ -145,7 +145,7 @@ void GameState_Gameplay::Resume()
 void GameState_Gameplay::Exit()
 {
 	delete _level;
-	_data->window.close();
+	_data->GameWindow.close();
 }
 
 
@@ -168,11 +168,21 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 
 void GameState_Gameplay::LerpView(float dT)
 {
-	sf::View view = _data->window.getView();
+	sf::View view = _data->GameWindow.getView();
 	sf::Vector2f newCenter = view.getCenter();
+
+	float viewDist = ZEngine::Utilities::GetVectorMagnitudeSquared(_viewTarget - newCenter);
+	if (viewDist < 100.0f && viewDist != 0.0f)
+	{
+		newCenter = _viewTarget;
+		view.setCenter(newCenter);
+		_data->GameWindow.setView(view);
+		return;
+	}
+
 	newCenter = ZEngine::Utilities::Lerp(newCenter, _viewTarget, dT);
 	view.setCenter(newCenter);
-	_data->window.setView(view);
+	_data->GameWindow.setView(view);
 }
 
 void GameState_Gameplay::HandleKeyboardInputs(sf::Event* e)

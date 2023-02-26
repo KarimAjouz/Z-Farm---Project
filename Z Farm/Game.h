@@ -14,7 +14,8 @@ namespace ZEngine
 	struct GameData
 	{
 		StateMachine stateMachine;
-		sf::RenderWindow window;
+		sf::RenderWindow GameWindow;
+		sf::RenderWindow UIWindow;
 		AssetManager assetManager;
 		InputManager inputManager;
 	};

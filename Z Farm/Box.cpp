@@ -50,7 +50,7 @@ void Box::Update(float dT)
 void Box::Draw()
 {
 	if(!_shattered)
-		_data->window.draw(sprite);
+		_data->GameWindow.draw(sprite);
 	else
 	{
 		for (int i = 0; i < _fragments.size(); i++)

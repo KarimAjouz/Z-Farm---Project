@@ -30,7 +30,7 @@ void Tile::Update(float dT)
 
 void Tile::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 }
 
 void Tile::GenPhysics(b2World* worldRef, sf::IntRect frameRect)

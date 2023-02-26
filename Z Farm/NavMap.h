@@ -11,11 +11,17 @@ public:
 	{
 		std::vector<Node*> nodes;
 
+		int platformIndex;
+
+		std::map<int, float> platformsReachedToCostMap;
+
 		Platform()
 		{
 			nodes = std::vector<Node*>();
+			platformIndex = -1;
 		}
 	};
+
 
 	void GenerateNavMap(std::vector<Tile>* InTiles);
 
@@ -30,6 +36,7 @@ public:
 
 	Node* GetNodeColWithRect(sf::RectangleShape InRect);
 
+
 private:
 
 
@@ -42,6 +49,7 @@ private:
 
 	bool DoesRectCollideWithLevel(sf::RectangleShape InRect, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode, bool inIsDirUp);
 
+	bool IsJumpCostCheapestPlatformJump(int InStartingPlatformIndex, int InEndingPlatformIndex, float InJumpCost, int& InOutEdgeIndex, int& InOutExpensiveNodeIndex);
 
 };
 

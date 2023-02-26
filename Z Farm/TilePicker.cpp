@@ -50,10 +50,10 @@ void TilePicker::Update(float dT)
 {
 	if (active)
 	{
-		_selectorWindow.setPosition(sf::Vector2f(0.0f, 0.0f));
-		_curSelector.setPosition(sf::Vector2f(0.0f, 0.0f));
+		_selectorWindow.setPosition(_zeroPixel);
+		_curSelector.setPosition(_zeroPixel);
 		//Get the mouse position relative to the sf::view (Mouse position in world space)
-		sf::Vector2f mousePosRelativeToView = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
+		sf::Vector2f mousePosRelativeToView = _data->GameWindow.mapPixelToCoords(sf::Mouse::getPosition(_data->GameWindow));
 
 		if (state == TilePicker::State::backgroundTiles || state == TilePicker::State::collidableTiles)
 		{
@@ -102,7 +102,7 @@ void TilePicker::Update(float dT)
 				break;
 			case State::units:
 				_hoveredTile.setSize(curItem.rect.getSize());
-				_hoveredTile.setPosition(curItem.rect.getPosition());
+				_hoveredTile.setPosition(curItem.rect.getPosition() + _zeroPixel);
 				break;
 			case State::obstacles:
 				break;
@@ -121,26 +121,26 @@ void TilePicker::Update(float dT)
 void TilePicker::Draw()
 {
 
-	_data->window.draw(_selectorWindow);
+	_data->GameWindow.draw(_selectorWindow);
 
 	switch (state)
 	{
 	case State::backgroundTiles:		
-		_data->window.draw(_curSelector);
+		_data->GameWindow.draw(_curSelector);
 		break;
 	case State::collidableTiles:
-		_data->window.draw(_curSelector);
+		_data->GameWindow.draw(_curSelector);
 		break;
 	case State::units:
 		for (int i = 0; i < _unitList.size(); i++)
 		{
-			_data->window.draw(_unitList[i].rect);
+			_data->GameWindow.draw(_unitList[i].rect);
 		}
 		break;
 	case State::obstacles:
 		for (int i = 0; i < _obstacleList.size(); i++)
 		{
-			_data->window.draw(_obstacleList[i].rect);
+			_data->GameWindow.draw(_obstacleList[i].rect);
 		}
 		break;
 	//case State::props:
@@ -149,26 +149,30 @@ void TilePicker::Draw()
 
 	}
 
-	_data->window.draw(_hoveredTile);
-	_data->window.draw(_activeTile);
+	_data->GameWindow.draw(_hoveredTile);
+	_data->GameWindow.draw(_activeTile);
 }
 
 sf::IntRect TilePicker::GetTileRect()
 {
 	sf::IntRect texRect = sf::IntRect(320, 0, TILE_SCALE * TILE_SIZE, TILE_SCALE * TILE_SIZE);
 
-	if (_curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window))))
+	if (_curSelector.getGlobalBounds().contains(_data->GameWindow.mapPixelToCoords(sf::Mouse::getPosition(_data->GameWindow))))
 	{
-		sf::Vector2f tilePos = _hoveredTile.getPosition();
+		//sf::Vector2i tilePosI = _data->GameWindow.mapCoordsToPixel(_hoveredTile.getPosition());
+		sf::Vector2i tilePosI = sf::Vector2i(_hoveredTile.getPosition());
+		
 
-		//tilePos -= _selector.getPosition();
+		sf::Vector2f tilePos = sf::Vector2f(tilePosI.x, tilePosI.y);
+
+		tilePos -= _curSelector.getPosition();
 
 		texRect.left = tilePos.x;
 		texRect.top = tilePos.y;
 		texRect.width = TILE_SCALE * TILE_SIZE;
 		texRect.height = TILE_SCALE * TILE_SIZE;
 
-		_activeTile.setPosition(tilePos);
+		_activeTile.setPosition(tilePos + _zeroPixel);
 	}
 
 	return texRect;
@@ -191,7 +195,7 @@ bool TilePicker::isMouseInPicker()
 {
 	sf::Sprite curSelector;
 
-	bool out = _curSelector.getGlobalBounds().contains(_data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window)));
+	bool out = _curSelector.getGlobalBounds().contains(_data->GameWindow.mapPixelToCoords(sf::Mouse::getPosition(_data->GameWindow)));
 	return out;
 }
 
@@ -259,7 +263,7 @@ void TilePicker::InitEntities()
 TilePicker::SelectorItem TilePicker::GetSelectorItem()
 {
 	TilePicker::SelectorItem selectorItem;
-	sf::Vector2f mousePosRelativeToView = _data->window.mapPixelToCoords(sf::Mouse::getPosition(_data->window));
+	sf::Vector2f mousePosRelativeToView = _data->GameWindow.mapPixelToCoords(sf::Mouse::getPosition(_data->GameWindow));
 
 	switch (state)
 	{
@@ -285,8 +289,15 @@ TilePicker::SelectorItem TilePicker::GetSelectorItem()
 
 void TilePicker::SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size)
 {
-	_activeTile.setPosition(pos);
+	_activeTile.setPosition(pos + _zeroPixel);
 	_activeTile.setSize(size);
+}
+
+void TilePicker::RepositionToCorner()
+{
+	_zeroPixel = _data->GameWindow.mapPixelToCoords(sf::Vector2i(0, 0));
+
+	//SetActiveTileSizePos(GetSelectorItem().rect.getPosition(), GetSelectorItem().rect.getSize());
 }
 
 //void TilePicker::RepositionWindows()
@@ -313,20 +324,40 @@ void TilePicker::SetActiveTileSizePos(sf::Vector2f pos, sf::Vector2f size)
 
 void TilePicker::UpdateHoveredTilePos(sf::Vector2f mousePos)
 {
-
 	if (_curSelector.getGlobalBounds().contains(mousePos))
 	{
 		sf::Vector2f newPos = mousePos;
 
-		//Offsets based on the mouse position 
-		newPos.x -= std::fmodf(mousePos.x - (std::fmodf(_curSelector.getPosition().x, TILE_SIZE)), TILE_SIZE);
-		newPos.y -= std::fmodf(mousePos.y - (std::fmodf(_curSelector.getPosition().y, TILE_SIZE)), TILE_SIZE);
+		////Offsets based on the mouse position 
+		if (mousePos.x > 0)
+		{
+			if(_curSelector.getPosition().x > 0)
+				newPos.x -= std::fmodf(mousePos.x - std::fmodf(_curSelector.getPosition().x, TILE_SIZE), TILE_SIZE);
+			else
+				newPos.x -= std::fmodf(mousePos.x - std::fmodf(_curSelector.getPosition().x, -TILE_SIZE), TILE_SIZE);
+		}
+		else
+		{
+			if (_curSelector.getPosition().x > 0)
+				newPos.x -= std::fmodf(mousePos.x - std::fmodf(_curSelector.getPosition().x, TILE_SIZE), -TILE_SIZE) + TILE_SIZE;
+			else
+				newPos.x -= std::fmodf(mousePos.x - std::fmodf(_curSelector.getPosition().x, -TILE_SIZE), -TILE_SIZE) + TILE_SIZE;
+		}
 
-		if (newPos.x < 0)
-			newPos.x -= TILE_SIZE;
-
-		if (newPos.y < 0)
-			newPos.y -= TILE_SIZE;
+		if (mousePos.y > 0)
+		{
+			if (_curSelector.getPosition().y > 0)
+				newPos.y -= std::fmodf(mousePos.y - std::fmodf(_curSelector.getPosition().y, TILE_SIZE), TILE_SIZE);
+			else
+				newPos.y -= std::fmodf(mousePos.y - std::fmodf(_curSelector.getPosition().y, -TILE_SIZE), TILE_SIZE);
+		}
+		else
+		{
+			if (_curSelector.getPosition().y > 0)
+				newPos.y -= std::fmodf(mousePos.y - std::fmodf(_curSelector.getPosition().y, TILE_SIZE), -TILE_SIZE) + TILE_SIZE;
+			else
+				newPos.y -= std::fmodf(mousePos.y - std::fmodf(_curSelector.getPosition().y, -TILE_SIZE), -TILE_SIZE) + TILE_SIZE;
+		}
 
 		_hoveredTile.setPosition(newPos);
 	}
@@ -336,7 +367,7 @@ void TilePicker::InitSheet(std::string texName, bool isCol)
 {
 	sf::Sprite sheet;
 	sheet.setTexture(_data->assetManager.GetTexture(texName));
-	sheet.setPosition(0.0f, 0.0f);
+	sheet.setPosition(sf::Vector2f(0.0f, 0.0f) + _zeroPixel);
 
 	if (isCol)
 	{

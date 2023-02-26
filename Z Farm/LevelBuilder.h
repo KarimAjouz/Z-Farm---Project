@@ -65,6 +65,9 @@ private:
 	bool _active = false;
 
 	bool _mouseLocked = true;
+	bool _painting = false;
+
+	void PaintLevel();
 
 	int _entityType;
 	bool CheckForLevel(std::string levelName);

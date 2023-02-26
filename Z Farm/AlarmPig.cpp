@@ -52,7 +52,7 @@ void AlarmPig::Update(float dT)
 
 void AlarmPig::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 
 	alertBubble.Draw();
 }

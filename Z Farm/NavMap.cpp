@@ -104,6 +104,7 @@ void NavMap::GenerateNavMap(std::vector<Tile>* inTiles)
 			{
 				Platform newPlatform = Platform::Platform();
 				newPlatform.nodes.push_back(new Node(tempNode.nodeArea.getPosition(), tempNode.platformIndex, tempNode.type));
+				newPlatform.platformIndex = tempNode.platformIndex;
 				_map.push_back(newPlatform);
 			}
 
@@ -229,6 +230,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 							if (foundNode != nullptr)
 							{
 								_map[i].nodes[j]->platformsReached[foundNode->platformIndex].b = true;
+								_map[i].platformsReachedToCostMap[foundNode->platformIndex] = edge.cost;
 								_map.at(i).nodes[j]->edges.push_back(edge);
 							}
 						}
@@ -243,7 +245,7 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 			{
 				std::vector<JumpTrajectory> navpointTrajectories;
 
-				sf::Vector2f jumpVelocity = sf::Vector2f(4.0f, -12.0f);
+				sf::Vector2f jumpVelocity = sf::Vector2f(6.0f, -12.0f);
 
 				for (int i = 1; i <= NAVIGATION_JUMP_HEIGHT_DIVISIONS; i++)
 				{
@@ -261,8 +263,8 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 
 				for (JumpTrajectory testJump : jumpTrajectoriesToValidate[0])
 				{
-					sf::RectangleShape TestRect = sf::RectangleShape(sf::Vector2f(26, 50));
-					TestRect.setOrigin(13, 25);
+					sf::RectangleShape TestRect = sf::RectangleShape(sf::Vector2f(30, 54));
+					TestRect.setOrigin(15, 27);
 
 					bool clear = true;
 
@@ -279,15 +281,48 @@ void NavMap::GenerateEdges(std::vector<Tile>* inTiles)
 
 							if (validNode != nullptr && curNode->platformIndex != validNode->platformIndex && !curNode->platformsReached[validNode->platformIndex].b)
 							{
+
 								Node::Edge edge;
 								JumpTrajectory edgeTraj = testJump;
-								edgeTraj.pointsArray.resize(testPointIndex);
-								edge.cost = ZEngine::Utilities::GetVectorMagnitude(edgeTraj.startVel);
-								edge.destinationCoords = sf::Vector2f(validNode->nodeArea.getPosition());
-								edge.JumpTrajectory = edgeTraj;
-								edge.type = Node::Edge::Type::jump;
-								curNode->platformsReached[validNode->platformIndex].b = true;
-								_map.at(i).nodes[j]->edges.push_back(edge);
+
+
+								if (_map[i].platformsReachedToCostMap[validNode->platformIndex] > 0.0f)
+								{
+									float cost = _map[i].platformsReachedToCostMap[validNode->platformIndex];
+
+									int edgeIndex = -1;
+									int expensiveNodeIndex = -1;
+
+									if (IsJumpCostCheapestPlatformJump(curNode->platformIndex, validNode->platformIndex, cost, edgeIndex, expensiveNodeIndex))
+									{
+										edgeTraj.pointsArray.resize(testPointIndex);
+										edge.cost = ZEngine::Utilities::GetVectorMagnitude(edgeTraj.startVel);
+										edge.destinationCoords = sf::Vector2f(validNode->nodeArea.getPosition());
+										edge.JumpTrajectory = edgeTraj;
+										edge.type = Node::Edge::Type::jump;
+										curNode->platformsReached[validNode->platformIndex].b = true;
+										_map.at(i).nodes[j]->edges.push_back(edge);
+
+										if (edgeIndex == -1)
+										{
+											return;
+										}
+
+										// Remove the old best jump edge
+										_map[curNode->platformIndex].nodes[expensiveNodeIndex]->edges.erase(_map[curNode->platformIndex].nodes[expensiveNodeIndex]->edges.begin() + edgeIndex);
+									}
+								}
+								else
+								{
+									edgeTraj.pointsArray.resize(testPointIndex);
+									edge.cost = ZEngine::Utilities::GetVectorMagnitude(edgeTraj.startVel);
+									edge.destinationCoords = sf::Vector2f(validNode->nodeArea.getPosition());
+									edge.JumpTrajectory = edgeTraj;
+									edge.type = Node::Edge::Type::jump;
+									curNode->platformsReached[validNode->platformIndex].b = true;
+									_map[i].platformsReachedToCostMap[validNode->platformIndex] = edge.cost;
+									_map.at(i).nodes[j]->edges.push_back(edge);
+								}
 							}
 						}
 						else
@@ -358,26 +393,59 @@ bool NavMap::DoesPointCollideWithLevel(sf::Vector2f InPos, std::vector<Tile>* In
 
 bool NavMap::DoesRectCollideWithLevel(sf::RectangleShape InRect, std::vector<Tile>* InTiles, JumpTrajectory InJump, Node* InCurNode, bool inIsDirUp)
 {
+	bool tl = false, tr = false, bl = false, br = false;
+
 	sf::Vector2f testPoint = sf::Vector2f(InRect.getGlobalBounds().left, InRect.getGlobalBounds().top);
-	
 	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
-		return true;
+		tl = true;
 
 	testPoint = sf::Vector2f(InRect.getGlobalBounds().left + InRect.getGlobalBounds().width, InRect.getGlobalBounds().top);
 
 	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
-		return true;
+		tr = true;
 	
 	testPoint = sf::Vector2f(InRect.getGlobalBounds().left, InRect.getGlobalBounds().top + InRect.getGlobalBounds().height);
 
 	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
-		return true;
+		bl = true;
 
 	testPoint = sf::Vector2f(InRect.getGlobalBounds().left + InRect.getGlobalBounds().width, InRect.getGlobalBounds().top + InRect.getGlobalBounds().height);
 
 	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
+		br = true;
+
+	if (bl && br)
+		return false;
+
+	if (bl || br || tl || tr)
 		return true;
 
+	return false; 
+}
+
+bool NavMap::IsJumpCostCheapestPlatformJump(int InStartingPlatformIndex, int InEndingPlatformIndex, float InJumpCost, int& InOutEdgeIndex, int& InOutExpensiveNodeIndex)
+{
+	for (int j = 0; j < _map[InStartingPlatformIndex].nodes.size(); j++)
+	{
+		Node* n = _map[InStartingPlatformIndex].nodes[j];
+		for (int i = 0; i < n->edges.size(); i++)
+		{
+			Node::Edge edge = n->edges[i];
+
+			Node* endNode = GetNodeAtLocation(edge.destinationCoords);
+			if (!endNode || edge.type != Node::Edge::Type::jump || endNode->platformIndex != InEndingPlatformIndex)
+			{
+				continue;
+			}
+
+			if (InJumpCost <= edge.cost)
+			{
+				InOutExpensiveNodeIndex = j;
+				InOutEdgeIndex = i;
+				return true;
+			}
+		}
+	}
 	return false;
 }
 

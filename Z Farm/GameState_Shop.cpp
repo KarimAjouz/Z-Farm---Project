@@ -24,12 +24,12 @@ void GameState_Shop::PollEvents()
 {
 	sf::Event e;
 
-	while (_data->window.pollEvent(e))
+	while (_data->GameWindow.pollEvent(e))
 	{
 		switch (e.type)
 		{
 		case sf::Event::Closed:
-			_data->window.close();
+			_data->GameWindow.close();
 			break;
 		case sf::Event::KeyPressed:
 			switch (e.key.code)

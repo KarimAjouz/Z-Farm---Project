@@ -7,7 +7,7 @@ namespace ZEngine
 
 	Game::Game(int width, int height, std::string title)
 	{
-		_data->window.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
+		_data->GameWindow.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
 
 		_data->stateMachine.AddState(StateRef(new GameState_Splash(this->_data)), true);
 
@@ -27,7 +27,7 @@ namespace ZEngine
 
 		float accumulator = 0.0f;
 
-		while (this->_data->window.isOpen())
+		while (this->_data->GameWindow.isOpen())
 		{
 			this->_data->stateMachine.ProcessStateChanges();
 

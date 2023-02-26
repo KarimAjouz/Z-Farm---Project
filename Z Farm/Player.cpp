@@ -49,7 +49,7 @@ void Player::Update(float dT)
 
 void Player::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 }
 
 
@@ -73,8 +73,13 @@ void Player::UpdateState()
 			_state = State::idle;
 			break;
 		case Player::State::jumping:
+			if(yVel > -7.0f)
+				_playerBody->SetGravityScale(3.0f);
+
 			if (yVel > 0)
+			{
 				_state = State::falling;
+			}
 			break;
 		case Player::State::falling:
 			if (footContacts > 0)
@@ -86,6 +91,8 @@ void Player::UpdateState()
 
 				_animSystem.Play();
 				_state = State::idle;
+				_playerBody->SetGravityScale(1.0f);
+
 			}
 			break;
 		case Player::State::windUp:
@@ -336,7 +343,7 @@ void Player::InitAnimations()
 	_animSystem.AddAnimation("PlayerRun",       PLAYER_RUN,              0.5f, true,  frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerJump",      PLAYER_JUMP,             0.3f, false, frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerFall",      PLAYER_FALL,             0.1f, false, frameRect, frameOrigin);
-	_animSystem.AddAnimation("PlayerLand",      PLAYER_LAND,             0.2f, false, frameRect, frameOrigin);
+	_animSystem.AddAnimation("PlayerLand",      PLAYER_LAND,             0.3f, false, frameRect, frameOrigin);
 	_animSystem.AddAnimation("PlayerDeath",     PLAYER_DEATH,            0.4f, false, frameRect, frameOrigin);
 
 	_animSystem.AddAnimation("PlayerIdleSword", PLAYER_IDLE_SWORD,       0.5f, true,  frameRect, frameOrigin);
@@ -368,7 +375,7 @@ void Player::InitPhysics(sf::Vector2f pos)
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.density = 1.0f;
 
-	myFixtureDef.restitution = 0.3f;
+	myFixtureDef.restitution = 0.1f;
 	myFixtureDef.shape = &circleShape;
 	b2Fixture* playerFixture = _playerBody->CreateFixture(&myFixtureDef);
 	playerFixture->GetUserData().pointer = static_cast<int>(CollisionTag::player);

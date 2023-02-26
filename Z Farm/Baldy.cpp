@@ -76,7 +76,7 @@ void Baldy::Update(float dT)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::B))
 	{
-		Repath(sf::Vector2f(sf::Mouse::getPosition(_data->window)));
+		Repath(sf::Vector2f(sf::Mouse::getPosition(_data->GameWindow)));
 		SeekTarget(_targetPosition);
 	}
 	
@@ -103,7 +103,7 @@ void Baldy::Update(float dT)
 
 void Baldy::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 	//_data->window.draw(hitbox);
 
 	if (_navComponent->Path.size() > 1)
@@ -116,11 +116,11 @@ void Baldy::Draw()
 			line[1].position = _navComponent->Path[i + 1]->GetNodeLocation();
 			line[1].color = sf::Color::Red;
 
-			_data->window.draw(line, 2, sf::Lines);
+			_data->GameWindow.draw(line, 2, sf::Lines);
 		}
 	}
 	alertBubble.Draw();
-	_data->window.draw(targetNodeCircle);
+	_data->GameWindow.draw(targetNodeCircle);
 }
 
 void Baldy::Hit()

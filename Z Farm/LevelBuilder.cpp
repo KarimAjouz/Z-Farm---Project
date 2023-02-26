@@ -74,7 +74,7 @@ void LevelBuilder::Deactivate()
 /// <param name="dir"> The scroll direction. </param>
 void LevelBuilder::Scroll(int dir)
 {
-	sf::View view = _data->window.getView();
+	sf::View view = _data->GameWindow.getView();
 
 	if (dir == 1)
 	{
@@ -89,7 +89,7 @@ void LevelBuilder::Scroll(int dir)
 		_curTextureOutline.setScale(_curTextureOutline.getScale() / 1.2f);
 	}
 
-	_data->window.setView(view);
+	_data->GameWindow.setView(view);
 }
 
 void LevelBuilder::Update(float dT)
@@ -97,12 +97,18 @@ void LevelBuilder::Update(float dT)
 	TestMouseHover();
 
 	_tilePicker.Update(dT);
+
+	sf::Vector2i mousePos = sf::Mouse::getPosition(_data->GameWindow);
+
+	sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+
+	//std::cout << "X: " << mousePositionInView.x << ", Y: " << mousePositionInView.y << std::endl;
 }
 
 void LevelBuilder::Draw()
 {
-	_data->window.draw(_hoveredTile);
-	_data->window.draw(_newRoomSelector);
+	_data->GameWindow.draw(_hoveredTile);
+	_data->GameWindow.draw(_newRoomSelector);
 
 	_tilePicker.Draw();
 }
@@ -114,15 +120,11 @@ void LevelBuilder::MouseRelease()
 		switch (_tilePicker.state)
 		{
 			case (TilePicker::State::backgroundTiles):
-				if (_inRoom)
-					ReplaceTile();
-				else
+				if (!_inRoom)
 					NewRoom();
 				break;
 			case (TilePicker::State::collidableTiles):
-				if (_inRoom)
-					ReplaceTile();
-				else
+				if (!_inRoom)
 					NewRoom();
 				break;
 			case TilePicker::State::units:
@@ -200,7 +202,7 @@ void LevelBuilder::MouseRelease()
 
 void LevelBuilder::NewRoom()
 {
-	sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)));
+	sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->GameWindow)));
 
 	sf::Vector2f newRoomPos = sf::Vector2f(
 		mousePositionInView.x - (std::fmodf(mousePositionInView.x, SCREEN_WIDTH)),
@@ -222,8 +224,10 @@ void LevelBuilder::NewRoom()
 /// </summary>
 void LevelBuilder::AddTile()
 {
-	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->window));
-	sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+	sf::Vector2i mousePos = sf::Mouse::getPosition(_data->GameWindow);
+
+	sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+
 
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
@@ -231,11 +235,16 @@ void LevelBuilder::AddTile()
 		{
 			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / (TILE_SIZE * TILE_SCALE);
 
+			std::cout << "ADD TILE MousePos X: " << mousePositionInView.x << ", Y: " << mousePositionInView.y << std::endl;
 			bool col = false;
 
 			if (_tilePicker.state == TilePicker::State::collidableTiles)
 				col = true;
 
+
+			std::cout << "ADD TILE TilePos X: " << tilePos.x << ", Y: " << tilePos.y << std::endl;
+
+			std::cout << "ADD TILE _texRect X: " << _texRect.left % _curSelectedTexture.getTexture()->getSize().x << ", Y: " << _texRect.top << std::endl;
 			_levelRef->rooms[i].AddTile(tilePos.x, tilePos.y, _texRect.left % _curSelectedTexture.getTexture()->getSize().x, _texRect.top, col);
 		}
 	}
@@ -247,13 +256,17 @@ void LevelBuilder::AddTile()
 /// </summary>
 void LevelBuilder::RemoveTile()
 {
-	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->window));
-	sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+	sf::Vector2i mousePos = sf::Mouse::getPosition(_data->GameWindow);
+
+	sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+
 
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePositionInView))
 		{
+			std::cout << "REMOVE TILE X: " << mousePositionInView.x << ", Y: " << mousePositionInView.y << std::endl;
+
 			sf::Vector2i tilePos = sf::Vector2i(mousePositionInView - _levelRef->rooms[i].roomOffset) / (TILE_SIZE * TILE_SCALE);
 			_levelRef->rooms[i].RemoveTile(tilePos.x, tilePos.y);
 		}
@@ -322,6 +335,7 @@ void LevelBuilder::SaveLevel()
 					// ...Get the data from the tile in the map at (x, y)...
 					std::string numX = std::to_string(map[y][x].tileSheetCoords.x);
 					std::string numY = std::to_string(map[y][x].tileSheetCoords.y);
+					std::string tileCol = std::to_string(map[y][x].collision);
 
 					if (numX.size() == 1)
 						numX = "0" + numX;
@@ -330,7 +344,7 @@ void LevelBuilder::SaveLevel()
 					
 					//Put the data in the txt file.
 
-					output << numX << "/" << numY;
+					output << numX << "/" << numY << " " << tileCol;
 
 					if (x != map[0].size() - 1)
 						output << ", ";
@@ -700,6 +714,10 @@ void LevelBuilder::LoadLevel(std::string name)
 	}
 }
 
+void LevelBuilder::PaintLevel()
+{
+}
+
 /// <summary>
 /// Returns true if a level with the supplied name is found in the levelData folder.
 /// </summary>
@@ -718,8 +736,8 @@ bool LevelBuilder::CheckForLevel(std::string levelName)
 
 void LevelBuilder::TestMouseHover()
 {
-	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->window));
-	sf::Vector2f mousePositionInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
+	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(_data->GameWindow));
+	sf::Vector2f mousePositionInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(mousePos));
 	_inRoom = false;
 
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
@@ -734,7 +752,15 @@ void LevelBuilder::TestMouseHover()
 					if (!_mouseLocked)
 						_hoveredTile.setPosition(mousePositionInView);
 					else
-						_hoveredTile.setPosition(_levelRef->rooms[i].tiles[j].sprite.getPosition());
+					{
+						sf::Vector2f newPos = _levelRef->rooms[i].tiles[j].sprite.getPosition();
+						if (_hoveredTile.getPosition() != newPos)
+						{
+							_hoveredTile.setPosition(newPos);
+							if (_painting && !_tilePicker.isMouseInPicker())
+								ReplaceTile();
+						}
+					}
 				}
 			}
 			_inRoom = true;
@@ -744,7 +770,7 @@ void LevelBuilder::TestMouseHover()
 	if (!_inRoom)
 	{
 		sf::Vector2f newRoomPos = sf::Vector2f(
-			mousePositionInView.x - (std::fmodf(mousePositionInView.x, SCREEN_WIDTH)), 
+			mousePositionInView.x - (std::fmodf(mousePositionInView.x, SCREEN_WIDTH)),  
 			mousePositionInView.y - (std::fmodf(mousePositionInView.y, SCREEN_HEIGHT)));
 
 		if (mousePositionInView.x < 0)
@@ -757,7 +783,7 @@ void LevelBuilder::TestMouseHover()
 
 		_curSelectedTexture.setScale(0.0f, 0.0f);
 		_curTextureOutline.setScale(0.0f, 0.0f);
-		_hoveredTile.setScale(0.0f, 0.0f);
+		//_hoveredTile.setScale(0.0f, 0.0f);
 	}
 	else
 	{
@@ -766,8 +792,8 @@ void LevelBuilder::TestMouseHover()
 		_curTextureOutline.setScale(1.0f, 1.0f);
 	}
 
-	_curTextureOutline.setPosition(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 34.0f))));
-	_curSelectedTexture.setPosition(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 33.0f))));
+	_curTextureOutline.setPosition(_data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 34.0f))));
+	_curSelectedTexture.setPosition(_data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Vector2f(mousePos.x, mousePos.y - 33.0f))));
 }
 
 void LevelBuilder::OpenSelector()
@@ -780,17 +806,17 @@ void LevelBuilder::AddUnit(int type)
 	Room* r = &_levelRef->rooms[0];
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
-		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)))))
+		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(_data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->GameWindow)))))
 			r = &_levelRef->rooms[i];
 	}
 
 	switch (type)
 	{
 		case 1:
-			r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window))))));
+			r->agents.push_back(new AlarmPig(_data, _worldRef, sf::Vector2f(_data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->GameWindow))))));
 			break;
 		case 2:
-			r->agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(_data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)))), r));
+			r->agents.push_back(new Baldy(_data, _worldRef, sf::Vector2f(_data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->GameWindow)))), r));
 			break;
 		default:
 			std::cout << "COULD NOT IDENTIFY UNIT TYPE: " << type << std::endl;
@@ -801,7 +827,7 @@ void LevelBuilder::AddUnit(int type)
 void LevelBuilder::AddObstacle(int type)
 {
 	Room* r = &_levelRef->rooms[0];
-	sf::Vector2f mousePosInView = _data->window.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->window)));
+	sf::Vector2f mousePosInView = _data->GameWindow.mapPixelToCoords(static_cast<sf::Vector2i>(sf::Mouse::getPosition(_data->GameWindow)));
 	for (int i = 0; i < _levelRef->rooms.size(); i++)
 	{
 		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(mousePosInView))
@@ -829,44 +855,58 @@ void LevelBuilder::SetMouseGridLock(bool isLock)
 void LevelBuilder::HandleKeyboardInputs(sf::Event* e)
 {
 
-	sf::View tempView = _data->window.getView();
+	sf::View tempView = _data->GameWindow.getView();
 	switch (e->type)
 	{
 	case sf::Event::KeyPressed:
-		switch (e->type)
+		switch (e->key.code)
 		{
-		case sf::Keyboard::M:
-			SaveLevel();
-			break;
-		case sf::Keyboard::N:
-			LoadLevel();
-			break;
-		case sf::Keyboard::Up:
-			tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - 10.0f));
-			_data->window.setView(tempView);
-			break;
-		case sf::Keyboard::Down:
-			tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + 10.0f));
-			_data->window.setView(tempView);
-			break;
-		case sf::Keyboard::Left:
-			tempView.setCenter(sf::Vector2f(tempView.getCenter().x - 10.0f, tempView.getCenter().y));
-			_data->window.setView(tempView);
-			break;
-		case sf::Keyboard::Right:
-			tempView.setCenter(sf::Vector2f(tempView.getCenter().x + 10.0f, tempView.getCenter().y));
-			_data->window.setView(tempView);
-			break;
+			case sf::Keyboard::M:
+				SaveLevel();
+				break;
+			case sf::Keyboard::N:
+				LoadLevel();
+				break;
+			case sf::Keyboard::Up:
+				tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y - TILE_SIZE));
+				_data->GameWindow.setView(tempView);
+				break;
+			case sf::Keyboard::Down:
+				tempView.setCenter(sf::Vector2f(tempView.getCenter().x, tempView.getCenter().y + TILE_SIZE));
+				_data->GameWindow.setView(tempView);
+				break;
+			case sf::Keyboard::Left:
+				tempView.setCenter(sf::Vector2f(tempView.getCenter().x - TILE_SIZE, tempView.getCenter().y));
+				_data->GameWindow.setView(tempView);
+				break;
+			case sf::Keyboard::Right:
+				tempView.setCenter(sf::Vector2f(tempView.getCenter().x + TILE_SIZE, tempView.getCenter().y));
+				_data->GameWindow.setView(tempView);
+				break;
 		}
 		break;
-		case sf::Event::MouseButtonPressed:
-			if (e->mouseButton.button == sf::Mouse::Button::Left)
-				MouseRelease();
-			break;
-		case sf::Event::MouseWheelScrolled:
-			if (e->mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
-				Scroll(e->mouseWheelScroll.delta);
-			break;
+	case sf::Event::MouseButtonReleased:
+		if (e->mouseButton.button == sf::Mouse::Button::Left)
+		{
+			MouseRelease();
+			_painting = false;
+		}
+		break;
+
+	case sf::Event::MouseButtonPressed:
+		if (e->mouseButton.button == sf::Mouse::Button::Left)
+		{
+			_painting = true;
+			if (_inRoom && !_tilePicker.isMouseInPicker())
+				ReplaceTile();
+		}
+		break;
+	case sf::Event::MouseWheelScrolled:
+		if (e->mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+			Scroll(e->mouseWheelScroll.delta);
+		break;
 
 	}
+
+	_tilePicker.RepositionToCorner();
 }

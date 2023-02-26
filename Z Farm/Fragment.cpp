@@ -40,7 +40,7 @@ void Fragment::Update(float dT)
 
 void Fragment::Draw()
 {
-	_data->window.draw(sprite);
+	_data->GameWindow.draw(sprite);
 }
 
 void Fragment::InitPhysics()
