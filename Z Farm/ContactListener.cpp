@@ -33,10 +33,6 @@ void ContactListener::BeginContact(b2Contact* contact)
     // Handles Spike Collisions with Player
     if (IsContact(CollisionTag::player, CollisionTag::spike))
         playerRef->Hit();
-
-    // Handles Spike Collisions with enemies.
-    if (IsContact(CollisionTag::enemy, CollisionTag::spike))
-        levelRef->SpikeAgents();
 }
 
 void ContactListener::EndContact(b2Contact* contact)

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="27">
+ <editorsettings>
+  <chunksize width="30" height="20"/>
+ </editorsettings>
+ <tileset firstgid="1" source="Pyra-Sea Tileset.tsx"/>
+ <objectgroup id="2" name="CollisionLayer">
+  <object id="10" name="Ceiling" x="0" y="0" width="960" height="32"/>
+  <object id="11" name="rWall" x="928" y="32" width="32" height="576"/>
+  <object id="12" name="lWall" x="0" y="32" width="32" height="576"/>
+  <object id="13" name="Floor" x="0" y="608" width="960" height="32"/>
+  <object id="14" name="Platform" x="352" y="448" width="192" height="96"/>
+  <object id="15" x="544" y="480" width="64" height="64"/>
+ </objectgroup>
+ <layer id="1" name="Tile Layer 1" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eAETZGBgkKIzFgLaxw/EtkBsRydsD7SHF4hB9noCsRedsDfQnlF7aR/eo+FM+zAG5ZnRcB4NZ+Sy0xGYJsJwYCegOLJafGxS0xVIPSMQM6FhZiA/FIhBbiLGfnLsBZXnfGhYFsgHuQVkPzH1Czn2SgLNxlVXS9PIXl+guYTqaD+gGnxxC5JD9i8sfnClG2qKhwPtBsUXLH7Q0wst+XJAewHpHZHs
+  </data>
+ </layer>
+ <objectgroup color="#ffffff" id="4" name="ObjectLayer">
+  <object id="20" name="Box" x="385.25" y="387.5">
+   <properties>
+    <property name="ObjectID" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="21" name="Box" x="530" y="394">
+   <properties>
+    <property name="ObjectID" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="Box" x="223" y="499.5">
+   <properties>
+    <property name="ObjectID" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="23" name="Box" x="229.75" y="417.25">
+   <properties>
+    <property name="ObjectID" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="24" name="Box" x="302.75" y="482.75" width="0.25">
+   <properties>
+    <property name="ObjectID" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

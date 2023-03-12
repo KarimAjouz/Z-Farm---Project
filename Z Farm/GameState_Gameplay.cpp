@@ -25,7 +25,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_world(_gravity),
 	_contactListener(&_player, _level),
 	_debugDraw(data),
-	_levelBuilder(_data, &_world, _level, &_player),
 	_testSword(_data, &_world, &_player),
 	_level(new Level(_data, &_world))
 {
@@ -65,10 +64,6 @@ void GameState_Gameplay::PollEvents()
 
 	while (_data->GameWindow.pollEvent(e))
 	{
-		if (_levelBuilder.isActive())
-		{
-			_levelBuilder.HandleKeyboardInputs(&e);
-		}
 		HandleKeyboardInputs(&e);
 	}
 
@@ -83,24 +78,17 @@ void GameState_Gameplay::Update(float dT)
 {
 	if (!_paused)
 	{
-		if(_levelBuilder.isActive())
-			_levelBuilder.Update(dT);
-		else
+		_level->Update(dT);
+		_player.Update(dT);
+		LerpView(dT);
+
+		_testSword.Update(dT);
+
+		physicsAccumulator += dT;
+		while (physicsAccumulator >= 1.0f / 60.0f)
 		{
-			_level->Update(dT);
-			_player.Update(dT);
-			LerpView(dT);
-
-			_testSword.Update(dT);
-
-			physicsAccumulator += dT;
-			while (physicsAccumulator >= 1.0f / 60.0f)
-			{
-				_world.Step(1.0f / 60.0f, 8, 3);
-				physicsAccumulator -= 1.0f / 60.0f;
-			}
-
-
+			_world.Step(1.0f / 60.0f, 8, 3);
+			physicsAccumulator -= 1.0f / 60.0f;
 		}
 
 	}
@@ -121,10 +109,6 @@ void GameState_Gameplay::Draw()
 
 	if(_debugMode)
 		_world.DebugDraw();
-
-
-	if (_levelBuilder.isActive())
-		_levelBuilder.Draw();
 
 	_data->GameWindow.display();
 }
@@ -203,18 +187,6 @@ void GameState_Gameplay::HandleKeyboardInputs(sf::Event* e)
 			break;
 		case sf::Keyboard::O:
 			_debugMode = !_debugMode;
-			break;
-		case sf::Keyboard::L:
-			if (_levelBuilder.isActive())
-			{
-				_levelBuilder.Deactivate();
-				_level->RegenLevel();
-				_player.SetView();
-			}
-			else
-			{
-				_levelBuilder.Activate();
-			}
 			break;
 		}
 		break;

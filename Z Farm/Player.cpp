@@ -377,21 +377,36 @@ void Player::InitPhysics(sf::Vector2f pos)
 
 	myFixtureDef.restitution = 0.1f;
 	myFixtureDef.shape = &circleShape;
+
+	myFixtureDef.filter.categoryBits = _entityCategory::AGENTS;
+	myFixtureDef.filter.maskBits = _entityCategory::LEVEL | _entityCategory::OBSTACLES | _entityCategory::AGENTS | _entityCategory::DAMAGE;
+
 	b2Fixture* playerFixture = _playerBody->CreateFixture(&myFixtureDef);
 	playerFixture->GetUserData().pointer = static_cast<int>(CollisionTag::player);
+
 
 	//add foot sensor fixture
 	polygonShape.SetAsBox(10 / SCALE, 10 / SCALE, b2Vec2(0, (static_cast<float>(_colBox.height) * abs(sprite.getScale().y)) / SCALE), 0);
 	myFixtureDef.isSensor = true;
 	myFixtureDef.shape = &polygonShape;
+
+	myFixtureDef.filter.categoryBits = _entityCategory::LEVEL;
+	myFixtureDef.filter.maskBits = _entityCategory::LEVEL;
+
 	b2Fixture* footSensorFixture = _playerBody->CreateFixture(&myFixtureDef);
 	footSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::playerFoot);
+
+
+	//Prepare the stab sensors
+	myFixtureDef.filter.categoryBits = _entityCategory::DAMAGE;
+	myFixtureDef.filter.maskBits = _entityCategory::OBSTACLES | _entityCategory::AGENTS;
 
 	//add right stab sensor 
 	polygonShape.SetAsBox(10 / SCALE, 3 / SCALE, b2Vec2(48 / SCALE, 8 / SCALE), 0);
 	myFixtureDef.isSensor = true;
 	b2Fixture* rightStab = _playerBody->CreateFixture(&myFixtureDef);
 	rightStab->GetUserData().pointer = static_cast<int>(CollisionTag::playerSword);
+
 
 	//add left stab sensor
 	polygonShape.SetAsBox(10 / SCALE, 3 / SCALE, b2Vec2(-48 / SCALE, 8 / SCALE), 0);
@@ -403,14 +418,7 @@ void Player::InitPhysics(sf::Vector2f pos)
 
 void Player::SetView()
 {
-	for (int i = 0; i < _levelRef->rooms.size(); i++)
-	{
-		if (_levelRef->rooms[i].roomShape.getGlobalBounds().contains(sprite.getPosition()))
-		{
-			*_viewTargetRef = sf::Vector2f(_levelRef->rooms[i].roomOffset.x + SCREEN_WIDTH / 2, _levelRef->rooms[i].roomOffset.y + SCREEN_HEIGHT / 2);
-			_levelRef->activeRoom = &_levelRef->rooms[i];
-		}
-	}
+	
 }
 
 void Player::Stab()
@@ -426,30 +434,18 @@ void Player::TestStab()
 {
 	if (isFlipped)
 	{
-		for (int i = 0; i < _levelRef->activeRoom->agents.size(); i++)
+		for (int i = 0; i < _levelRef->GetObstacles().size(); i++)
 		{
-			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
-		}
-
-		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
-		{
-			if (_lStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->obstacles.at(i)->Hit(sprite.getPosition());
+			if (_lStab.getGlobalBounds().intersects(_levelRef->GetObstacles().at(i)->hitbox.getGlobalBounds()))
+				_levelRef->GetObstacles().at(i)->Hit(sprite.getPosition());
 		}
 	}
 	else if (!isFlipped)
 	{
-		for (int i = 0; i < _levelRef->activeRoom->agents.size(); i++)
+		for (int i = 0; i < _levelRef->GetObstacles().size(); i++)
 		{
-			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->agents.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->agents.at(i)->Hit(sf::Vector2f(sprite.getPosition()));
-		}
-
-		for (int i = 0; i < _levelRef->activeRoom->obstacles.size(); i++)
-		{
-			if (_rStab.getGlobalBounds().intersects(_levelRef->activeRoom->obstacles.at(i)->hitbox.getGlobalBounds()))
-				_levelRef->activeRoom->obstacles.at(i)->Hit(sprite.getPosition());
+			if (_rStab.getGlobalBounds().intersects(_levelRef->GetObstacles().at(i)->hitbox.getGlobalBounds()))
+				_levelRef->GetObstacles().at(i)->Hit(sprite.getPosition());
 		}
 	}
 

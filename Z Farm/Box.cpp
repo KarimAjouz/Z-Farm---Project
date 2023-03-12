@@ -101,4 +101,6 @@ void Box::Hit(sf::Vector2f playerPos)
 
 void Box::Hit()
 {
+	if (!_shattered)
+		Shatter(sprite.getPosition());
 }

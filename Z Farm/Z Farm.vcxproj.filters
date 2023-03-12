@@ -250,6 +250,9 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="AgentNavigation.h" />
     <ClInclude Include="PathStep.h" />
+    <ClInclude Include="SFMLOrthogonalLayer.hpp">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

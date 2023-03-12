@@ -26,6 +26,9 @@ void Prop::InitPhysics(sf::IntRect collisionBox, b2World* worldRef)
 	b2FixtureDef myFixtureDef;
 	myFixtureDef.density = 1.0f;
 
+	myFixtureDef.filter.categoryBits = _entityCategory::PROPS;
+	myFixtureDef.filter.maskBits = _entityCategory::LEVEL | _entityCategory::PROPS;
+
 	myFixtureDef.shape = &fixtureShape;
 	b2Fixture* mainFixture = body->CreateFixture(&myFixtureDef);
 }

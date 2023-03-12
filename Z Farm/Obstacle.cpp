@@ -33,6 +33,9 @@ void Obstacle::InitPhysics(sf::IntRect collisionBox, bool collider, bool isDynam
 	{
 		myFixtureDef.density = 1.0f;
 		myFixtureDef.isSensor = false;
+
+		myFixtureDef.filter.categoryBits = _entityCategory::OBSTACLES;
+		myFixtureDef.filter.maskBits =_entityCategory::LEVEL | _entityCategory::OBSTACLES | _entityCategory::AGENTS | _entityCategory::DAMAGE;
 	}
 	else
 	{
