@@ -305,18 +305,19 @@ void Player::HandleInputs()
 							_jumping = true;
 					}
 				break;
-			}
-			break;
-		case sf::Event::KeyReleased:
-			switch (e.key.code)
-			{
 				case sf::Keyboard::F:
 					if (_interactable != nullptr)
 					{
 						if (!_bIsLatched)
 							LatchToInteractable();
 					}
-				break;
+					break;
+			}
+			break;
+		case sf::Event::KeyReleased:
+			switch (e.key.code)
+			{
+				
 			}
 		break;
 		}
