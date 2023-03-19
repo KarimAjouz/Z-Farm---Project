@@ -17,7 +17,7 @@ void Prop::InitPhysics(sf::IntRect collisionBox, b2World* worldRef)
 	bodyDef.position = b2Vec2((sprite.getPosition().x + collisionBox.left) / SCALE, (sprite.getPosition().y + collisionBox.top) / SCALE);
 
 	bodyDef.type = b2_dynamicBody;
-
+	bodyDef.userData.pointer = static_cast<int>(CollisionTag::prop);
 	body = worldRef->CreateBody(&bodyDef);
 
 	//Define, set, and add the primary fixture for the spike

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Utilities.h"
 #include <iostream>
 
 /// <summary>
@@ -50,6 +51,19 @@ void Player::Update(float dT)
 void Player::Draw()
 {
 	_data->GameWindow.draw(sprite);
+
+	if (_interactable != nullptr)
+	{
+		sf::CircleShape circleInteract;
+		circleInteract.setRadius(3.0f);
+		circleInteract.setOrigin(sf::Vector2f(3.0f, 3.0f));
+		circleInteract.setPosition(_interactable->sprite.getPosition());
+		circleInteract.setFillColor(sf::Color::Cyan);
+		circleInteract.setOutlineColor(sf::Color::Cyan);
+		circleInteract.setOutlineThickness(1.0f);
+
+		_data->GameWindow.draw(circleInteract);
+	}
 }
 
 
@@ -274,28 +288,58 @@ void Player::EquipSword()
 void Player::HandleInputs()
 {
 	b2Vec2 vel = _playerBody->GetLinearVelocity();
-	_wasd = sf::Vector2i();
+
+	for (sf::Event e : _inputEvents)
+	{
+		switch (e.type)
+		{
+		case sf::Event::KeyPressed:
+			switch (e.key.code)
+			{
+				case sf::Keyboard::Space:
+					if (_jumpTimeout < 0 && footContacts > 0 || _bIsLatched)
+					{
+						if (_bIsLatched)
+							JumpFromLatchable();
+						else
+							_jumping = true;
+					}
+				break;
+			}
+			break;
+		case sf::Event::KeyReleased:
+			switch (e.key.code)
+			{
+				case sf::Keyboard::F:
+					if (_interactable != nullptr)
+					{
+						if (!_bIsLatched)
+							LatchToInteractable();
+					}
+				break;
+			}
+		break;
+		}
+	}
 
 	if (_state == State::idle || _state == State::running || _state == State::jumping || _state == State::falling)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			_wasd.x -= 1;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			_wasd.x += 1;
+			_wasd.x = -1;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			_wasd.x = 1;
+		else
+			_wasd.x = 0;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			_wasd.y = 1;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 			_wasd.y = -1;
-
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && footContacts > 0 && _jumpTimeout < 0)
-			_jumping = true;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			_wasd.y = 1;
 		else
-			_jumping = false;
+			_wasd.y = 0;
 	}
+	
+
 }
 
 void Player::UpdatePhysics()
@@ -319,14 +363,27 @@ void Player::UpdatePhysics()
 	float impulse = _playerBody->GetMass() * velChange; //disregard time factor
 
 	_playerBody->ApplyLinearImpulse(b2Vec2(impulse, 0), _playerBody->GetWorldCenter(), true);
-
-	if (_jumping && footContacts > 0 && _jumpTimeout < 0)
+	if (_bIsLatched)
+	{
+		if (_jumping)
+		{
+			float impulse = _playerBody->GetMass() * 10;
+			_playerBody->SetLinearVelocity(b2Vec2(_playerBody->GetLinearVelocity().x, 0.0f));
+			_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
+			//_jumpTimeout = 15;
+			_state = State::jumping;
+			_jumping = false;
+			_bIsLatched = false;
+		}
+	}
+	else if (_jumping && footContacts > 0 && _jumpTimeout < 0)
 	{
 		float impulse = _playerBody->GetMass() * 10;
 		_playerBody->SetLinearVelocity(b2Vec2(_playerBody->GetLinearVelocity().x, 0.0f));
 		_playerBody->ApplyLinearImpulse(b2Vec2(0, -impulse), _playerBody->GetWorldCenter(), true);
 		_jumpTimeout = 15;
 		_state = State::jumping;
+		_jumping = false;
 	}
 	else if (_jumpTimeout >= 0)
 		_jumpTimeout--;
@@ -390,8 +447,8 @@ void Player::InitPhysics(sf::Vector2f pos)
 	myFixtureDef.isSensor = true;
 	myFixtureDef.shape = &polygonShape;
 
-	myFixtureDef.filter.categoryBits = _entityCategory::LEVEL;
-	myFixtureDef.filter.maskBits = _entityCategory::LEVEL;
+	myFixtureDef.filter.categoryBits = _entityCategory::PLAYERINTERACT;
+	myFixtureDef.filter.maskBits = _entityCategory::LEVEL | _entityCategory::INTERACTABLE | _entityCategory::OBSTACLES;
 
 	b2Fixture* footSensorFixture = _playerBody->CreateFixture(&myFixtureDef);
 	footSensorFixture->GetUserData().pointer = static_cast<int>(CollisionTag::playerFoot);
@@ -449,4 +506,53 @@ void Player::TestStab()
 		}
 	}
 
+}
+
+void Player::SetInteractable(RopeSegment* InRopeSegment)
+{
+	_interactable = InRopeSegment;
+}
+
+void Player::SetInputsForPolling(std::vector<sf::Event> InInputEvents)
+{
+	_inputEvents = InInputEvents;
+}
+
+void Player::LatchToInteractable()
+{
+	if (_interactable == nullptr)
+		return;
+
+	// Make joint between player & interactable
+	b2RevoluteJointDef myJointDef = b2RevoluteJointDef();
+	
+	myJointDef.bodyA = _playerBody;
+	myJointDef.bodyB = _interactable->body;
+	
+	b2Vec2 testPosition = b2Vec2(_interactable->sprite.getPosition().x / SCALE, _interactable->sprite.getPosition().y / SCALE);
+	b2Vec2 jointPosAnchorB = _interactable->body->GetPosition();
+
+	myJointDef.localAnchorB.Set(0, 0);
+
+	if (myJointDef.bodyB == nullptr)
+	{
+		std::cout << "Error: Player::LatchToInteractable --> bodyB is invalid!" << std::endl;
+		return;
+	}
+
+	myJointDef.collideConnected = false;
+	myJointDef.localAnchorA.Set(0, 0);
+
+	b2Joint* revoluteJoint = _worldRef->CreateJoint(&myJointDef);
+	_latchedJoint = revoluteJoint;
+	_wasd.x = 0;
+	_bIsLatched = true;
+	_state = State::latched;
+}
+
+void Player::JumpFromLatchable()
+{
+	_worldRef->DestroyJoint(_latchedJoint);
+	_state = State::jumping;
+	_jumping = true;
 }

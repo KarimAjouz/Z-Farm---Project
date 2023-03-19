@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "AlarmPig.h"
 #include "Box.h"
+#include "RopeSegment.h"
 
 #include <tmxlite/ObjectGroup.hpp>
 #include <SFML/System/Time.hpp>
@@ -116,7 +117,7 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 		worldCollisionDef.position = b2Vec2((object.getPosition().x + (object.getAABB().width / 2)) / SCALE, (object.getPosition().y + (object.getAABB().height / 2)) / SCALE);
 		worldCollisionDef.type = b2_kinematicBody;
 		b2Body* collisionBody = _worldRef->CreateBody(&worldCollisionDef);
-		collisionBody->GetUserData().pointer = static_cast<int>(CollisionTag::tile);
+		collisionBody->GetUserData().pointer = static_cast<int>(CollisionTag::level);
 
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox((object.getAABB().width / 2) / SCALE, (object.getAABB().height / 2) / SCALE, b2Vec2(0.0f, 0.0f), 0.0f);
@@ -144,19 +145,29 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 			if (propName == "ObjectID")
 			{
 				int ObjID = objProperty.getIntValue();
-				Box* box = nullptr;
-				sf::Vector2f boxPos = sf::Vector2f();
+				Obstacle* newObject = nullptr;
+				sf::Vector2f objPos = sf::Vector2f();
 
 				switch (ObjID)
 				{
 				case 0:
 					std::cout << "Spawning a box: " << std::endl;
 
-					boxPos.x = object.getPosition().x + (object.getAABB().width / 2);
-					boxPos.y = object.getPosition().y + (object.getAABB().height / 2);
-					box = new Box(_data, _worldRef, boxPos);
+					objPos.x = object.getPosition().x + (object.getAABB().width / 2);
+					objPos.y = object.getPosition().y + (object.getAABB().height / 2);
+					newObject = new Box(_data, _worldRef, objPos);
 
-					_obstacles.push_back(box);
+					_obstacles.push_back(newObject);
+
+					break;
+				case 1:
+					std::cout << "Spawning a Rope: " << std::endl;
+
+					objPos.x = object.getPosition().x + (object.getAABB().width / 2);
+					objPos.y = object.getPosition().y/* + (object.getAABB().height / 2)*/;
+					newObject = new RopeSegment(_data, _worldRef, objPos);
+
+					_obstacles.push_back(newObject);
 
 					break;
 				default:

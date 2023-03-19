@@ -45,7 +45,25 @@ void Fragment::Draw()
 
 void Fragment::InitPhysics()
 {
-	Prop::InitPhysics(sf::IntRect(0, 0, sprite.getTextureRect().width, sprite.getTextureRect().height), _worldRef);
+
+	b2BodyDef bodyDef;
+	bodyDef.position = b2Vec2((sprite.getPosition().x + sprite.getTextureRect().left) / SCALE, (sprite.getPosition().y + sprite.getTextureRect().top) / SCALE);
+
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.userData.pointer = static_cast<int>(CollisionTag::prop);
+	body = _worldRef->CreateBody(&bodyDef);
+
+	//Define, set, and add the primary fixture for the spike
+	b2PolygonShape fixtureShape;
+	fixtureShape.SetAsBox(sprite.getTextureRect().width / SCALE, sprite.getTextureRect().height / SCALE);
+	b2FixtureDef myFixtureDef;
+	myFixtureDef.density = 1.0f;
+
+	myFixtureDef.filter.categoryBits = _entityCategory::PROPS;
+	myFixtureDef.filter.maskBits = _entityCategory::LEVEL | _entityCategory::PROPS;
+
+	myFixtureDef.shape = &fixtureShape;
+	b2Fixture* mainFixture = body->CreateFixture(&myFixtureDef);
 
 	body->GetFixtureList()->SetDensity(0.25f);
 	body->GetFixtureList()->SetFriction(0.7f);

@@ -122,6 +122,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="AgentNavigation.cpp" />
     <ClCompile Include="PathStep.cpp" />
+    <ClCompile Include="RopeSegment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -253,6 +254,7 @@
     <ClInclude Include="SFMLOrthogonalLayer.hpp">
       <Filter>ZEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RopeSegment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

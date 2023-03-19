@@ -66,6 +66,11 @@ namespace ZEngine
 		return (a.getLocalBounds().width * a.getScale().x / 2) + (b.getLocalBounds().width * b.getScale().x / 2);
 	}
 
+	float Utilities::RadToDeg(float InDegrees)
+	{
+		return InDegrees / 3.141592698 * 180.f;
+	}
+
 	bool Utilities::CircleCollider(sf::Sprite a, sf::Sprite b)
 	{
 		float distSq = DistSq(a, b);

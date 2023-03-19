@@ -23,6 +23,8 @@ namespace ZEngine
 		static float DistSq(sf::Sprite a, sf::Sprite b);
 		static float MinDist(sf::Sprite a, sf::Sprite b);
 
+		static float RadToDeg(float InDegrees);
+
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
 
 		static bool RectCollider(sf::FloatRect a, sf::FloatRect b);

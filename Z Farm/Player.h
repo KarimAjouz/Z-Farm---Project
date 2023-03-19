@@ -7,6 +7,7 @@
 #include "AnimationSystem.h"
 #include "Level.h"
 #include "Timer.h"
+#include "RopeSegment.h"
 
 #include <box2d.h>
 
@@ -31,6 +32,10 @@ public:
 	void EquipSword();
 
 	void Stab();
+
+	void SetInteractable(RopeSegment* InRopeSegment);
+	void SetInputsForPolling(std::vector<sf::Event> InInputEvents);
+
 private:
 	enum class State
 	{
@@ -41,7 +46,8 @@ private:
 		windUp,
 		attack,
 		hit,
-		dying
+		dying,
+		latched
 	};
 
 	bool _swordActive = false;
@@ -69,6 +75,8 @@ private:
 
 	b2Body* _playerBody = nullptr;
 	b2Fixture* _footFixture = nullptr;
+	b2Joint* _latchedJoint = nullptr;
+
 	int _jumpTimeout = 0;
 	bool _jumping = false;
 
@@ -84,5 +92,12 @@ private:
 	void TestStab();
 
 
+	void LatchToInteractable();
+	void JumpFromLatchable();
+
+	bool _bIsLatched;
+
+	RopeSegment* _interactable;
+	std::vector<sf::Event> _inputEvents;
 };
 

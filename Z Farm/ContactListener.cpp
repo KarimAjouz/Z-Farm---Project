@@ -30,6 +30,23 @@ void ContactListener::BeginContact(b2Contact* contact)
             reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts++;
     }
 
+    if (IsContact(CollisionTag::interactable, CollisionTag::playerFoot))
+    {
+        if (fixtureAUserData == static_cast<int>(CollisionTag::interactable))
+        {
+            playerRef->SetInteractable(reinterpret_cast<RopeSegment*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer));
+            std::cout << "ROPESEGMENT SET FAM" << std::endl;
+
+        }
+        else
+        {
+            playerRef->SetInteractable(reinterpret_cast<RopeSegment*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer));
+            std::cout << "ROPESEGMENT SET FAM" << std::endl;
+
+        }
+
+    }
+
     // Handles Spike Collisions with Player
     if (IsContact(CollisionTag::player, CollisionTag::spike))
         playerRef->Hit();
@@ -52,6 +69,16 @@ void ContactListener::EndContact(b2Contact* contact)
             reinterpret_cast<Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts--;
         else
             reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts--;
+    }
+
+    if (IsContact(CollisionTag::interactable, CollisionTag::playerFoot))
+    {
+        if (fixtureAUserData == static_cast<int>(CollisionTag::interactable))
+            playerRef->SetInteractable(nullptr);
+        else
+            playerRef->SetInteractable(nullptr);
+
+        std::cout << "ROPESEGMENT UNSET FAM" << std::endl;
     }
 
     if (IsContact(CollisionTag::player, CollisionTag::room))

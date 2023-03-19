@@ -23,6 +23,8 @@ enum _entityCategory
 	DAMAGE = 0x0004,
 	OBSTACLES = 0x0008,
 	PROPS = 0x0010,
+	PLAYERINTERACT = 0x020,
+	INTERACTABLE = 0x040,
 };
 
 enum class CollisionTag
@@ -39,7 +41,9 @@ enum class CollisionTag
 	room,
 	playerSword,
 	spike,
-	box
+	prop,
+	box,
+	interactable
 };
 
 struct RoomTileData
@@ -206,6 +210,8 @@ private:
 #define DIALOGUE_ALERT_IN "Content/Media/Dialogue/Alert_In.png"
 #define DIALOGUE_ALERT_OUT "Content/Media/Dialogue/Alert_Out.png"
 
+
+#define CHAIN_LINK_TEX "Content/Media/Textures/ChainLink64.png"
 
 
 

@@ -3,6 +3,8 @@
 #include "Definitions.h"
 #include "SFML/Graphics.hpp"
 
+#include <iostream>
+
 PhysicsDebugDraw::PhysicsDebugDraw(ZEngine::GameDataRef data) :
 	_data(data)
 {
@@ -78,4 +80,13 @@ void PhysicsDebugDraw::DrawTransform(const b2Transform& xf)
 
 void PhysicsDebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
 {
+	sf::CircleShape circle;
+	circle.setRadius(3.0f);
+	circle.setOrigin(sf::Vector2f(3.0f, 3.0f));
+	circle.setPosition(sf::Vector2f(p.x * SCALE, p.y * SCALE));
+	circle.setFillColor(sf::Color::Green);
+	circle.setOutlineColor(sf::Color::Green);
+	circle.setOutlineThickness(1.0f);
+
+	_data->GameWindow.draw(circle);
 }

@@ -34,7 +34,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
 	_world.SetContactListener(&_contactListener);
-	_debugDraw.SetFlags(b2Draw::e_shapeBit);
+	_debugDraw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit);
 	_world.SetDebugDraw(&_debugDraw);
 
 	sf::View view;
@@ -59,13 +59,8 @@ void GameState_Gameplay::Init()
 /// </summary>
 void GameState_Gameplay::PollEvents()
 {
-	sf::Event e;
-
-
-	while (_data->GameWindow.pollEvent(e))
-	{
-		HandleKeyboardInputs(&e);
-	}
+	
+	HandleKeyboardInputs();
 
 }
 
@@ -169,33 +164,50 @@ void GameState_Gameplay::LerpView(float dT)
 	_data->GameWindow.setView(view);
 }
 
-void GameState_Gameplay::HandleKeyboardInputs(sf::Event* e)
+void GameState_Gameplay::HandleKeyboardInputs()
 {
-	switch (e->type)
+	std::vector<sf::Event> GameplayInputEvents;
+
+	sf::Event event;
+
+	while (_data->GameWindow.pollEvent(event))
 	{
-	case sf::Event::KeyPressed:
-		switch (e->key.code)
+
+		switch (event.type)
 		{
-		case sf::Keyboard::Escape:
+		case sf::Event::KeyPressed:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Escape:
+				Exit();
+				break;
+			case sf::Keyboard::P:
+				if (_paused)
+					Resume();
+				else
+					Pause();
+				break;
+			case sf::Keyboard::O:
+				_debugMode = !_debugMode;
+				break;
+			default:
+				GameplayInputEvents.push_back(event);
+				break;
+			}
+			break;
+		case sf::Event::MouseButtonPressed:
+			if (event.mouseButton.button == sf::Mouse::Button::Left)
+				_player.Stab();
+			else
+				GameplayInputEvents.push_back(event);
+			break;
+		case sf::Event::Closed:
 			Exit();
 			break;
-		case sf::Keyboard::P:
-			if (_paused)
-				Resume();
-			else
-				Pause();
-			break;
-		case sf::Keyboard::O:
-			_debugMode = !_debugMode;
+		default:
+			GameplayInputEvents.push_back(event);
 			break;
 		}
-		break;
-	case sf::Event::MouseButtonPressed:
-		if (e->mouseButton.button == sf::Mouse::Button::Left)
-			_player.Stab();
-		break;
-	case sf::Event::Closed:
-		Exit();
-		break;
 	}
+	_player.SetInputsForPolling(GameplayInputEvents);
 }

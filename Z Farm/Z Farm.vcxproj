@@ -173,6 +173,7 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceBar.cpp" />
+    <ClCompile Include="RopeSegment.cpp" />
     <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StateMachine.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceBar.h" />
+    <ClInclude Include="RopeSegment.h" />
     <ClInclude Include="SaveDataManager.h" />
     <ClInclude Include="SFMLOrthogonalLayer.hpp" />
     <ClInclude Include="Spike.h" />
