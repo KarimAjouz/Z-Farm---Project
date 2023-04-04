@@ -1,5 +1,6 @@
 #include "ContactListener.h"
 
+
 ContactListener::ContactListener(Player* player, Level* level) :
     playerRef(player),
     levelRef(level)
@@ -17,22 +18,22 @@ void ContactListener::BeginContact(b2Contact* contact)
     fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
 
     // Handles grounding the player.
-    if (IsContact(CollisionTag::level, CollisionTag::playerFoot))
+    if (IsContact(ECollisionTag::level, ECollisionTag::playerFoot))
         playerRef->footContacts++;
-    else if (IsContact(CollisionTag::box, CollisionTag::playerFoot))
+    else if (IsContact(ECollisionTag::box, ECollisionTag::playerFoot))
         playerRef->footContacts++;
 
-    if (IsContact(CollisionTag::level, CollisionTag::enemyFoot))
+    if (IsContact(ECollisionTag::level, ECollisionTag::enemyFoot))
     {
-        if(fixtureAUserData == static_cast<int>(CollisionTag::enemyFoot))
-            reinterpret_cast<Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts++;
+        if(fixtureAUserData == static_cast<int>(ECollisionTag::enemyFoot))
+            reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts++;
         else
-            reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts++;
+            reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts++;
     }
 
-    if (IsContact(CollisionTag::interactable, CollisionTag::playerFoot))
+    /*if (IsContact(ECollisionTag::interactable, ECollisionTag::playerFoot))
     {
-        if (fixtureAUserData == static_cast<int>(CollisionTag::interactable))
+        if (fixtureAUserData == static_cast<int>(ECollisionTag::interactable))
         {
             playerRef->SetInteractable(reinterpret_cast<RopeSegment*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer));
             std::cout << "ROPESEGMENT SET FAM" << std::endl;
@@ -45,10 +46,10 @@ void ContactListener::BeginContact(b2Contact* contact)
 
         }
 
-    }
+    }*/
 
     // Handles Spike Collisions with Player
-    if (IsContact(CollisionTag::player, CollisionTag::spike))
+    if (IsContact(ECollisionTag::player, ECollisionTag::spike))
         playerRef->Hit();
 }
 
@@ -59,33 +60,33 @@ void ContactListener::EndContact(b2Contact* contact)
     fixtureBUserData = contact->GetFixtureB()->GetUserData().pointer;
 
 
-    if (IsContact(CollisionTag::playerFoot, CollisionTag::level) || IsContact(CollisionTag::playerFoot, CollisionTag::box))
+    if (IsContact(ECollisionTag::playerFoot, ECollisionTag::level) || IsContact(ECollisionTag::playerFoot, ECollisionTag::box))
         playerRef->footContacts--;
 
 
-    if (IsContact(CollisionTag::level, CollisionTag::enemyFoot))
+    if (IsContact(ECollisionTag::level, ECollisionTag::enemyFoot))
     {
-        if (fixtureAUserData == static_cast<int>(CollisionTag::enemyFoot))
-            reinterpret_cast<Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts--;
+        if (fixtureAUserData == static_cast<int>(ECollisionTag::enemyFoot))
+            reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts--;
         else
-            reinterpret_cast<Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts--;
+            reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts--;
     }
 
-    if (IsContact(CollisionTag::interactable, CollisionTag::playerFoot))
+   /* if (IsContact(ECollisionTag::interactable, ECollisionTag::playerFoot))
     {
-        if (fixtureAUserData == static_cast<int>(CollisionTag::interactable))
+        if (fixtureAUserData == static_cast<int>(ECollisionTag::interactable))
             playerRef->SetInteractable(nullptr);
         else
             playerRef->SetInteractable(nullptr);
 
         std::cout << "ROPESEGMENT UNSET FAM" << std::endl;
-    }
+    }*/
 
-    if (IsContact(CollisionTag::player, CollisionTag::room))
+    if (IsContact(ECollisionTag::player, ECollisionTag::room))
         playerRef->SetView();
 }
 
-bool ContactListener::IsContact(CollisionTag aTag, CollisionTag bTag)
+bool ContactListener::IsContact(ECollisionTag aTag, ECollisionTag bTag)
 {
     if (fixtureAUserData == static_cast<int>(aTag) && fixtureBUserData == static_cast<int>(bTag) || fixtureBUserData == static_cast<int>(aTag) && fixtureAUserData == static_cast<int>(bTag))
         return true;

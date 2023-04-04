@@ -24,6 +24,9 @@ namespace ZEngine
 		static float MinDist(sf::Sprite a, sf::Sprite b);
 
 		static float RadToDeg(float InDegrees);
+		
+		static float ClampFloat(float InFloat, float Min, float Max);
+
 
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
 
@@ -36,7 +39,7 @@ namespace ZEngine
 		static float Lerp(float cur, float target, float inc);
 		static sf::Vector2f Lerp(sf::Vector2f cur, sf::Vector2f target, float inc);
 
-		static Node* GetNearestNode(sf::Vector2f pos, Room* room);
+		//static Node* GetNearestNode(sf::Vector2f pos, Room* room);
 	};
 
 }

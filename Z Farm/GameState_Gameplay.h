@@ -34,12 +34,16 @@ public:
 
 	void Pause();
 	void Resume();
+	void Exit();
 
 	BalanceSheet balanceSheet;
 	SaveDataManager::SaveData saveData;
 
 	void SetViewCenter(sf::Vector2f newCenter) { _viewTarget = newCenter; }
 
+	bool IsPaused() { return _paused; }
+
+	void ToggleDebugMode() { _debugMode = !_debugMode; }
 
 
 private:
@@ -63,7 +67,6 @@ private:
 	SwordPickup _testSword;
 	sf::Vector2f _viewTarget = sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	void Exit();
 
 	void CreateGround(b2World& world, float x, float y);
 
@@ -72,5 +75,9 @@ private:
 	void HandleKeyboardInputs();
 
 	float physicsAccumulator = 0.0f;
+
+	float _runningDelta;
+
+	sf::Text _debugText;
 };
 

@@ -2,48 +2,53 @@
 #include <SFML/Graphics.hpp>
 #include <box2d.h>
 
-#include "Component.h"
+#include "GameObject.h"
 
-class Agent
+namespace ZEngine
 {
-public:
-	Agent();
-	~Agent();
 
-	virtual void Update(float dT) = 0;
-	virtual void Draw() = 0;
-
-
-	void FlipSprite();
-	
-	virtual void Hit() = 0;
-	virtual void Hit(sf::Vector2f playerPos) = 0;
-
-	sf::Sprite sprite;
-	sf::RectangleShape hitbox;
-	bool isFlipped;
-	bool isMarked = false;
-
-	void MarkForDeath() { isMarked = true; };
-
-	enum class Type
+	enum class AgentType
 	{
-		player,
-		alarmPig,
-		baldy, 
-		UNDEFINED
+		AT_Player,
+		AT_AlarmPig,
+		AT_Baldy,
+		count
 	};
 
-	Type type;
 
-	b2Body* body = nullptr;
 
-	b2World* worldRef = nullptr;
+	class Agent :
+		public GameObject
+	{
+	public:
+		Agent(GameDataRef InData);
+		~Agent();
 
-	int footContacts = 0;
+		virtual void Update(float dT) = 0;
+		virtual void Draw() = 0;
 
-private:
 
-	std::vector<ZEngine::Component*> AgentComponents;
-};
+		void FlipSprite();
 
+		virtual void Hit() = 0;
+		virtual void Hit(sf::Vector2f playerPos) = 0;
+
+		sf::RectangleShape hitbox;
+		bool isFlipped;
+		bool isMarked = false;
+
+		void MarkForDeath() { isMarked = true; };
+
+		AgentType type;
+
+		b2Body* body = nullptr;
+
+		b2World* worldRef = nullptr;
+
+		int footContacts = 0;
+
+	private:
+	};
+
+
+}

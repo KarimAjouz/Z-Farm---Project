@@ -52,7 +52,7 @@ void SwordPickup::InitPhysics()
 
 void SwordPickup::TestCollision()
 {
-	if (sprite.getGlobalBounds().intersects(_playerRef->sprite.getGlobalBounds()))
+	if (sprite.getGlobalBounds().intersects(_playerRef->GetSprite()->getGlobalBounds()))
 	{
 		_playerRef->EquipSword();
 		_collected = true;

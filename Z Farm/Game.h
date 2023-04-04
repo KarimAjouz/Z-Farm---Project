@@ -17,7 +17,7 @@ namespace ZEngine
 		sf::RenderWindow GameWindow;
 		sf::RenderWindow UIWindow;
 		AssetManager assetManager;
-		InputManager inputManager;
+		//InputManager inputManager;
 	};
 
 	typedef std::shared_ptr<GameData> GameDataRef;

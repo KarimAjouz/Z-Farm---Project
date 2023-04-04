@@ -30,7 +30,7 @@
     <property name="ObjectID" type="int" value="0"/>
    </properties>
   </object>
-  <object id="33" class="Rope" gid="110" x="458.333" y="87.6667" width="16" height="64">
+  <object id="33" class="Rope" gid="110" x="451" y="407" width="16" height="386.667">
    <properties>
     <property name="ObjectID" type="int" value="1"/>
    </properties>
@@ -40,37 +40,7 @@
     <property name="ObjectID" type="int" value="1"/>
    </properties>
   </object>
-  <object id="38" gid="110" x="458" y="142.667" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
   <object id="39" gid="110" x="226" y="533.333" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="44" gid="110" x="458" y="196.667" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="45" gid="110" x="458.667" y="252.667" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="46" gid="110" x="458.667" y="308.667" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="47" gid="110" x="458.667" y="363.333" width="16" height="64">
-   <properties>
-    <property name="ObjectID" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="48" gid="110" x="458.348" y="427.087" width="16" height="64">
    <properties>
     <property name="ObjectID" type="int" value="1"/>
    </properties>

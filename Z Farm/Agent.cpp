@@ -1,32 +1,35 @@
 #include "Agent.h"
 
-#include "Component.h"
+#include "ObjectComponent.h"
 
-
-Agent::Agent() :
-	isFlipped(false),
-	type(Type::UNDEFINED)
+namespace ZEngine
 {
-}
-
-
-Agent::~Agent()
-{
-	if(worldRef)
-		worldRef->DestroyBody(body);
-
-}
-
-void Agent::FlipSprite()
-{
-	sprite.setScale(sprite.getScale().x * -1, sprite.getScale().y);
-	isFlipped = !isFlipped;
-}
-
-void Agent::Update(float dT)
-{
-	for (ZEngine::Component* component : AgentComponents)
+	Agent::Agent(GameDataRef InData) :
+		GameObject(InData),
+		isFlipped(false),
+		type(AgentType::count)
 	{
-		component->Update(dT);
+	}
+
+
+	Agent::~Agent()
+	{
+		if (worldRef)
+			worldRef->DestroyBody(body);
+
+	}
+
+	void Agent::FlipSprite()
+	{
+		m_Sprite.setScale(m_Sprite.getScale().x * -1, m_Sprite.getScale().y);
+		isFlipped = !isFlipped;
+	}
+
+	void Agent::Update(float dT)
+	{
+		for (ZEngine::ObjectComponent* Component : _Components)
+		{
+			Component->Update(dT);
+		}
 	}
 }

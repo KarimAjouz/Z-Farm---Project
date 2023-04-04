@@ -2,6 +2,7 @@
 #include "AlarmPig.h"
 #include "Box.h"
 #include "RopeSegment.h"
+#include "PhysicsComponent.h"
 
 #include <tmxlite/ObjectGroup.hpp>
 #include <SFML/System/Time.hpp>
@@ -21,10 +22,10 @@ Level::~Level()
 		_physicsBodies.pop_back();
 	}
 
-	for (int i = 0; i < _obstacles.size(); i++)
-	{
-		_obstacles.pop_back();
-	}
+	//for (int i = 0; i < _obstacles.size(); i++)
+	//{
+	//	_obstacles.pop_back();
+	//}
 }
 
 void Level::Init(ZEngine::GameDataRef data, b2World* worldRef)
@@ -48,10 +49,10 @@ void Level::Update(float dT)
 		_mapLayers[i]->update(time);
 	}
 
-	for (int i = 0; i < _obstacles.size(); i++)
-	{
-		_obstacles[i]->Update(dT);
-	}
+	//for (int i = 0; i < _obstacles.size(); i++)
+	//{
+	//	_obstacles[i]->Update(dT);
+	//}
 }
 
 void Level::Draw()
@@ -61,10 +62,10 @@ void Level::Draw()
 		_data->GameWindow.draw(*_mapLayers[i]);
 	}
 
-	for (int i = 0; i < _obstacles.size(); i++)
-	{
-		_obstacles[i]->Draw();
-	}
+	//for (int i = 0; i < _obstacles.size(); i++)
+	//{
+	//	_obstacles[i]->Draw();
+	//}
 }
 
 void Level::ClearUnitPhysics()
@@ -73,11 +74,11 @@ void Level::ClearUnitPhysics()
 
 void Level::ClearLevel()
 {
-	for (int i = 0; i < _tiles.size(); i++)
-	{
-		delete _tiles[i];
-		_tiles.pop_back();
-	}
+	//for (int i = 0; i < _tiles.size(); i++)
+	//{
+	//	delete _tiles[i];
+	//	_tiles.pop_back();
+	//}
 	for (int i = 0; i < _physicsBodies.size(); i++)
 	{
 		_physicsBodies.pop_back();
@@ -117,11 +118,11 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 		worldCollisionDef.position = b2Vec2((object.getPosition().x + (object.getAABB().width / 2)) / SCALE, (object.getPosition().y + (object.getAABB().height / 2)) / SCALE);
 		worldCollisionDef.type = b2_kinematicBody;
 		b2Body* collisionBody = _worldRef->CreateBody(&worldCollisionDef);
-		collisionBody->GetUserData().pointer = static_cast<int>(CollisionTag::level);
+		collisionBody->GetUserData().pointer = static_cast<int>(ECollisionTag::level);
 
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox((object.getAABB().width / 2) / SCALE, (object.getAABB().height / 2) / SCALE, b2Vec2(0.0f, 0.0f), 0.0f);
-		CollisionTag collisionTag = CollisionTag::level;
+		ECollisionTag collisionTag = ECollisionTag::level;
 
 		b2FixtureDef myFixtureDef;
 		myFixtureDef.density = 1.0f;
@@ -135,7 +136,7 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 
 void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 {
-	const auto& objects = inObjectLayer.getObjects();
+	/*const auto& objects = inObjectLayer.getObjects();
 	for (const auto& object : objects)
 	{
 		for (tmx::Property objProperty : object.getProperties())
@@ -147,7 +148,7 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 				int ObjID = objProperty.getIntValue();
 				Obstacle* newObject = nullptr;
 				sf::Vector2f objPos = sf::Vector2f();
-
+				int numSegments = 0;
 				switch (ObjID)
 				{
 				case 0:
@@ -164,10 +165,17 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 					std::cout << "Spawning a Rope: " << std::endl;
 
 					objPos.x = object.getPosition().x + (object.getAABB().width / 2);
-					objPos.y = object.getPosition().y/* + (object.getAABB().height / 2)*/;
-					newObject = new RopeSegment(_data, _worldRef, objPos);
+					objPos.y = object.getAABB().top - object.getAABB().height + (15.0f);
 
-					_obstacles.push_back(newObject);
+					numSegments = object.getAABB().height / 26;
+					numSegments++;
+
+					for (int i = 0; i < numSegments; i++)
+					{
+						newObject = new RopeSegment(_data, _worldRef, objPos);
+						objPos.y += 26;
+						_obstacles.push_back(newObject);
+					}
 
 					break;
 				default:
@@ -176,7 +184,7 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void Level::RegenLevel()

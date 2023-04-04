@@ -2,6 +2,7 @@
 
 #include <box2d.h>
 #include "Player.h"
+#include "PhysicsComponent.h"
 
 class ContactListener : public b2ContactListener
 {
@@ -21,6 +22,6 @@ public:
     int fixtureBUserData = 0;
 
 private:
-    bool IsContact(CollisionTag aTag, CollisionTag bTag);
+    bool IsContact(ECollisionTag aTag, ECollisionTag bTag);
 };
 

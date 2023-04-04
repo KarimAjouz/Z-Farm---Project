@@ -49,7 +49,7 @@
             "scale": 1.7416666666666665,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.28708133971304,
+                "x": 480.5741626794259,
                 "y": 320.3827751196173
             }
         },
@@ -82,7 +82,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 2804,
-                "y": 1754
+                "y": 1756
             }
         },
         "platform.tmx#tileset02": {

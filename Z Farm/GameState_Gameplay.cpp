@@ -2,7 +2,8 @@
 #include "Definitions.h"
 #include "BalanceSheet.h"
 #include "Utilities.h"
-
+#include "PhysicsComponent.h"
+#include "PlayerState.h"
 
 #include <cmath>
 
@@ -26,10 +27,12 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_contactListener(&_player, _level),
 	_debugDraw(data),
 	_testSword(_data, &_world, &_player),
-	_level(new Level(_data, &_world))
+	_level(new Level(_data, &_world)),
+	_debugText()
 {
 	ZEngine::Utilities::SeedRandom();
 
+	_player.SetInputManagerState(this);
 	
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
@@ -42,6 +45,14 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	
 	_data->GameWindow.setView(view);
+	_data->assetManager.LoadFont("DebugFont", DEBUG_FONT_PATH);
+	_debugText.setFont(_data->assetManager.GetFont("DebugFont"));
+	_debugText.setFillColor(sf::Color::Magenta);
+	_debugText.setOutlineColor(sf::Color::Black);
+	_debugText.setOutlineThickness(2.0f);
+	_debugText.setPosition(0.0f, 0.0f);
+	_debugText.setCharacterSize(16.0f);
+
 }
 
 
@@ -60,7 +71,6 @@ void GameState_Gameplay::Init()
 void GameState_Gameplay::PollEvents()
 {
 	
-	HandleKeyboardInputs();
 
 }
 
@@ -87,6 +97,8 @@ void GameState_Gameplay::Update(float dT)
 		}
 
 	}
+
+	_runningDelta = dT;
 }
 
 /// <summary>
@@ -105,6 +117,17 @@ void GameState_Gameplay::Draw()
 	if(_debugMode)
 		_world.DebugDraw();
 
+
+
+	int fps = 1.0f / _runningDelta;
+
+	_debugText.setString(
+		"FPS: " + std::to_string(fps) + "\n" + 
+		"PlayerState: " + _player.GetTraversalState()->GetStateName() + "\n" +
+		"Input X: " + std::to_string(_player.GetInputAxis().x)
+		);
+
+	_data->GameWindow.draw(_debugText);
 	_data->GameWindow.display();
 }
 
@@ -131,17 +154,17 @@ void GameState_Gameplay::Exit()
 void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 {
 	b2BodyDef BodyDef;
-	BodyDef.position = b2Vec2(x / SCALE, y / SCALE);
+	BodyDef.position = b2Vec2(x / 30, y / 30);
 	BodyDef.type = b2_staticBody;
 	b2Body* Body = world.CreateBody(&BodyDef);
 
 	b2PolygonShape Shape;
-	Shape.SetAsBox((0 / 2) / SCALE, (0 / 2) / SCALE); // Creates a box shape. Divide your desired width and height by 2.
+	Shape.SetAsBox((0 / 2) / 30, (0 / 2) / 30); // Creates a box shape. Divide your desired width and height by 2.
 	b2FixtureDef FixtureDef;
 	FixtureDef.density = 0.f;  // Sets the density of the body
 	FixtureDef.shape = &Shape; // Sets the shape
 	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
-	fixture->GetUserData().pointer = static_cast<int>(CollisionTag::level); //Tag the ground as 1
+	fixture->GetUserData().pointer = static_cast<int>(ECollisionTag::level); //Tag the ground as 1
 	
 }
 
@@ -162,7 +185,7 @@ void GameState_Gameplay::LerpView(float dT)
 	newCenter = ZEngine::Utilities::Lerp(newCenter, _viewTarget, dT);
 	view.setCenter(newCenter);
 	_data->GameWindow.setView(view);
-}
+}/*
 
 void GameState_Gameplay::HandleKeyboardInputs()
 {
@@ -210,4 +233,4 @@ void GameState_Gameplay::HandleKeyboardInputs()
 		}
 	}
 	_player.SetInputsForPolling(GameplayInputEvents);
-}
+}*/

@@ -8,12 +8,6 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
@@ -38,103 +32,139 @@
     <ClCompile Include="GameState_Splash.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Room.cpp">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClCompile>
     <ClCompile Include="LevelBuilder.cpp">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClCompile>
     <ClCompile Include="TilePicker.cpp">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClCompile>
     <ClCompile Include="ContactListener.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Project\Physics</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsDebugDraw.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Agents</Filter>
+      <Filter>Project\Physics</Filter>
     </ClCompile>
     <ClCompile Include="AlarmPig.cpp">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="Spike.cpp">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="BalanceSheet.cpp">
       <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationSystem.cpp">
-      <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="SaveDataManager.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Prop.cpp">
-      <Filter>Props</Filter>
+      <Filter>Project\Props</Filter>
     </ClCompile>
     <ClCompile Include="Fragment.cpp">
-      <Filter>Props</Filter>
+      <Filter>Project\Props</Filter>
     </ClCompile>
     <ClCompile Include="SwordPickup.cpp">
-      <Filter>Pickups</Filter>
+      <Filter>Project\Pickups</Filter>
     </ClCompile>
     <ClCompile Include="Pickup.cpp">
-      <Filter>Pickups</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Agents</Filter>
+      <Filter>Project\Pickups</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClCompile>
     <ClCompile Include="Baldy.cpp">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="AlertBubble.cpp" />
-    <ClCompile Include="LevelTool.cpp" />
-    <ClCompile Include="PencilTool.cpp" />
-    <ClCompile Include="BrushTool.cpp" />
-    <ClCompile Include="EraseTool.cpp" />
     <ClCompile Include="NavMap.cpp" />
-    <ClCompile Include="Component.cpp" />
     <ClCompile Include="AgentNavigation.cpp" />
     <ClCompile Include="PathStep.cpp" />
     <ClCompile Include="RopeSegment.cpp" />
+    <ClCompile Include="PhysicsCollider.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>ZEngine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>ZEngine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectComponent.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractableComponent.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Project\Agents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPhysicsComponent.cpp">
+      <Filter>Project\Agents\Player\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>ZEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimationComponent.cpp" />
+    <ClCompile Include="TraversalState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="FallingState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundedState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="InAirState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpingState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
@@ -161,41 +191,35 @@
     <ClInclude Include="GameState_Splash.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Room.h">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClInclude>
     <ClInclude Include="LevelBuilder.h">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClInclude>
     <ClInclude Include="TilePicker.h">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClInclude>
     <ClInclude Include="ContactListener.h">
-      <Filter>Physics</Filter>
+      <Filter>Project\Physics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsDebugDraw.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Agent.h">
-      <Filter>Agents</Filter>
+      <Filter>Project\Physics</Filter>
     </ClInclude>
     <ClInclude Include="AlarmPig.h">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClInclude>
     <ClInclude Include="Obstacle.h">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="Spike.h">
-      <Filter>Obstacles</Filter>
+      <Filter>Project\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="BalanceSheet.h">
       <Filter>Utilities</Filter>
@@ -206,55 +230,103 @@
     <ClInclude Include="GameMaps.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationSystem.h">
-      <Filter>Systems</Filter>
-    </ClInclude>
     <ClInclude Include="SaveDataManager.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Prop.h">
-      <Filter>Props</Filter>
+      <Filter>Project\Props</Filter>
     </ClInclude>
     <ClInclude Include="Fragment.h">
-      <Filter>Props</Filter>
+      <Filter>Project\Props</Filter>
     </ClInclude>
     <ClInclude Include="SwordPickup.h">
-      <Filter>Pickups</Filter>
+      <Filter>Project\Pickups</Filter>
     </ClInclude>
     <ClInclude Include="Pickup.h">
-      <Filter>Pickups</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Agents</Filter>
+      <Filter>Project\Pickups</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
-      <Filter>Level</Filter>
+      <Filter>Project\Level</Filter>
     </ClInclude>
     <ClInclude Include="Baldy.h">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Agents</Filter>
+      <Filter>Project\Agents</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="AlertBubble.h" />
-    <ClInclude Include="LevelTool.h" />
-    <ClInclude Include="PencilTool.h" />
-    <ClInclude Include="BrushTool.h" />
-    <ClInclude Include="EraseTool.h" />
     <ClInclude Include="NavMap.h" />
-    <ClInclude Include="Component.h" />
     <ClInclude Include="AgentNavigation.h" />
     <ClInclude Include="PathStep.h" />
     <ClInclude Include="SFMLOrthogonalLayer.hpp">
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="RopeSegment.h" />
+    <ClInclude Include="PhysicsCollider.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>ZEngine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>ZEngine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectComponent.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableComponent.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Project\Agents\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPhysicsComponent.h">
+      <Filter>Project\Agents\Player\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>ZEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimationComponent.h" />
+    <ClInclude Include="TraversalState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundedState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="InAirState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpingState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
@@ -263,29 +335,56 @@
     <Filter Include="States">
       <UniqueIdentifier>{784db363-901d-4f10-91f7-9db0e8b80286}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{542fc80a-ead8-4540-a7d6-c986e72d5a8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Obstacles">
-      <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Agents">
-      <UniqueIdentifier>{566185ac-2cf5-494b-92f9-07f45de272e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{b5765943-056d-460d-82d1-8c967470d002}</UniqueIdentifier>
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{3b582bed-ce8a-440d-9944-7257980aa50e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Props">
-      <UniqueIdentifier>{fc6bea0e-fdd9-4ef3-8fe4-0763a3d41a77}</UniqueIdentifier>
+    <Filter Include="ZEngine\Animation">
+      <UniqueIdentifier>{0ac1be74-892d-4449-a4e4-9c95f159e07e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pickups">
+    <Filter Include="ZEngine\Core">
+      <UniqueIdentifier>{e33f2bc6-cd79-4813-a0f3-768272118960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project">
+      <UniqueIdentifier>{13a1642a-cfdb-47d3-ae23-6c40be75b83f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents">
+      <UniqueIdentifier>{566185ac-2cf5-494b-92f9-07f45de272e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Level">
+      <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Obstacles">
+      <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Physics">
+      <UniqueIdentifier>{542fc80a-ead8-4540-a7d6-c986e72d5a8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Pickups">
       <UniqueIdentifier>{4207444a-f9d9-4cd6-b0ce-271ffddecd44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level">
-      <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
+    <Filter Include="Project\Props">
+      <UniqueIdentifier>{fc6bea0e-fdd9-4ef3-8fe4-0763a3d41a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObjects">
+      <UniqueIdentifier>{b5f1fe70-d865-48b4-b485-4a7b39de93b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\ObjectComponents">
+      <UniqueIdentifier>{9af42de5-863f-4634-9ca3-9d3c029057e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\Player">
+      <UniqueIdentifier>{4a0f51b2-031c-42c9-8d37-f06657a954f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\Player\Components">
+      <UniqueIdentifier>{c7088862-5a5b-40c1-84f8-c141d3fdda0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\Player\States">
+      <UniqueIdentifier>{d3bfde48-e8d5-4bc7-86b4-e64cebf6cc84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\Player\States\TraversalState">
+      <UniqueIdentifier>{9d6c891d-716c-4a88-bfe3-7253fa6e8244}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

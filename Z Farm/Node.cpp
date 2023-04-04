@@ -1,54 +1,54 @@
-#include "Node.h"
-
-Node::Node()
-{
-}
-
-Node::Node(sf::Vector2f pos) :
-	platformIndex(0),
-	type(Type::none)
-{
-	nodeArea = sf::CircleShape(16.0f);
-	nodeArea.setPosition(pos);
-	nodeArea.setOrigin(16.0f, 16.0f);
-	nodeArea.setFillColor(sf::Color::Transparent);
-
-	if (type == Type::platform)
-		nodeArea.setFillColor(sf::Color::Green);
-	else if (type == Type::leftPlatform || type == Type::rightPlatform)
-		nodeArea.setFillColor(sf::Color::Magenta);
-	else if (type == Type::soloPlatform)
-		nodeArea.setFillColor(sf::Color::Yellow);
-
-	nodeArea.setOutlineThickness(2.0f);
-
-	platformsReached = std::map<int, reached>();
-}
-
-Node::Node(sf::Vector2f pos, int inIndex, Node::Type inType) :
-	platformIndex(inIndex),
-	type(inType)
-{
-	nodeArea = sf::CircleShape(16.0f);
-	nodeArea.setPosition(pos);
-	nodeArea.setOrigin(16.0f, 16.0f);
-	nodeArea.setFillColor(sf::Color::Transparent);
-
-	if (type == Type::platform)
-		nodeArea.setOutlineColor(sf::Color::Green);
-	else if (type == Type::leftPlatform || type == Type::rightPlatform)
-		nodeArea.setOutlineColor(sf::Color::Magenta);
-	else if (type == Type::soloPlatform)
-		nodeArea.setOutlineColor(sf::Color::Yellow);
-
-	nodeArea.setOutlineThickness(2.0f);
-	platformsReached = std::map<int, reached>();
-}
-
-Node::~Node()
-{
-
-}
+//#include "Node.h"
+//
+//Node::Node()
+//{
+//}
+//
+//Node::Node(sf::Vector2f pos) :
+//	platformIndex(0),
+//	type(Type::none)
+//{
+//	nodeArea = sf::CircleShape(16.0f);
+//	nodeArea.setPosition(pos);
+//	nodeArea.setOrigin(16.0f, 16.0f);
+//	nodeArea.setFillColor(sf::Color::Transparent);
+//
+//	if (type == Type::platform)
+//		nodeArea.setFillColor(sf::Color::Green);
+//	else if (type == Type::leftPlatform || type == Type::rightPlatform)
+//		nodeArea.setFillColor(sf::Color::Magenta);
+//	else if (type == Type::soloPlatform)
+//		nodeArea.setFillColor(sf::Color::Yellow);
+//
+//	nodeArea.setOutlineThickness(2.0f);
+//
+//	platformsReached = std::map<int, reached>();
+//}
+//
+//Node::Node(sf::Vector2f pos, int inIndex, Node::Type inType) :
+//	platformIndex(inIndex),
+//	type(inType)
+//{
+//	nodeArea = sf::CircleShape(16.0f);
+//	nodeArea.setPosition(pos);
+//	nodeArea.setOrigin(16.0f, 16.0f);
+//	nodeArea.setFillColor(sf::Color::Transparent);
+//
+//	if (type == Type::platform)
+//		nodeArea.setOutlineColor(sf::Color::Green);
+//	else if (type == Type::leftPlatform || type == Type::rightPlatform)
+//		nodeArea.setOutlineColor(sf::Color::Magenta);
+//	else if (type == Type::soloPlatform)
+//		nodeArea.setOutlineColor(sf::Color::Yellow);
+//
+//	nodeArea.setOutlineThickness(2.0f);
+//	platformsReached = std::map<int, reached>();
+//}
+//
+//Node::~Node()
+//{
+//
+//}
 
 //void Node::GenerateNodeList(std::vector<Node*>* nodeMap, std::vector<Tile> tiles)
 //{
@@ -257,20 +257,20 @@ Node::~Node()
 //		}
 //	}
 //}
-
-bool Node::CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles)
-{
-	int xGridPos = (static_cast<int>(pos.x) % SCREEN_WIDTH) / 64;
-	int yGridPos = (static_cast<int>(pos.y) % SCREEN_HEIGHT) / 64;
-	if (yGridPos < 0)
-		yGridPos += 10;
-
-	if (tiles[xGridPos + (15 * yGridPos)].collisionTag == CollisionTag::level)
-		return false;
-
-	return true;
-}
-
-void Node::SetupNode(std::vector<Node*>* inNodeList, std::vector<Tile> inTiles)
-{
-}
+//
+//bool Node::CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles)
+//{
+//	int xGridPos = (static_cast<int>(pos.x) % SCREEN_WIDTH) / 64;
+//	int yGridPos = (static_cast<int>(pos.y) % SCREEN_HEIGHT) / 64;
+//	if (yGridPos < 0)
+//		yGridPos += 10;
+//
+//	if (tiles[xGridPos + (15 * yGridPos)].collisionTag == CollisionTag::level)
+//		return false;
+//
+//	return true;
+//}
+//
+//void Node::SetupNode(std::vector<Node*>* inNodeList, std::vector<Tile> inTiles)
+//{
+//}

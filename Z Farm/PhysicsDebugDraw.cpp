@@ -1,6 +1,6 @@
 #include "PhysicsDebugDraw.h"
 
-#include "Definitions.h"
+#include "PhysicsComponent.h"
 #include "SFML/Graphics.hpp"
 
 #include <iostream>
