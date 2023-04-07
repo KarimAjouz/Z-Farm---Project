@@ -16,6 +16,7 @@
 #define PLAYER_JUMP_SWORD "Content/Media/Gameplay/Player/Sword/Jump.png"
 #define PLAYER_FALL_SWORD "Content/Media/Gameplay/Player/Sword/Fall.png"
 #define PLAYER_LAND_SWORD "Content/Media/Gameplay/Player/Sword/Land.png"
+
 #define PLAYER_STAB_ATTACK "Content/Media/Gameplay/Player/Sword/StabAttack.png"
 #define PLAYER_UPSLASH_ATTACK "Content/Media/Gameplay/Player/Sword/UpSlashAttack.png"
 #define PLAYER_DOWNSLASH_ATTACK "Content/Media/Gameplay/Player/Sword/DownSlashAttack.png"
@@ -26,11 +27,15 @@ class PlayerAnimationComponent
 	public ZEngine::AnimationComponent
 {
 public:
+
 	PlayerAnimationComponent(sf::Sprite* spritePtr, ZEngine::GameDataRef data);
 
 	void InitAnimations();
 
 	virtual void Update(float dT) override;
+
+	void SetAnimation(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType);
+	virtual std::string GetAnimForEquipment(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType);
 
 private:
 

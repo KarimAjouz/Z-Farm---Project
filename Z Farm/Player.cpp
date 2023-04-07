@@ -5,6 +5,7 @@
 #include "PlayerPhysicsComponent.h"
 
 #include "TraversalState.h"
+#include "EquipmentState.h"
 #include "GameState_Gameplay.h"
 #include "IdleState.h"
 
@@ -431,16 +432,16 @@ void Player::SetTraversalState(TraversalState* InNewTraversalState)
 		delete m_TraversalState;
 		m_TraversalState = InNewTraversalState;
 		m_TraversalState->Enter(*this);
+		m_AnimationComponent->SetAnimation(m_TraversalState->GetTraversalType(), m_EquipmentState->GetEquipmentType());
+		m_AnimationComponent->Play();
 	}
 }
 
 void Player::HandleInput(sf::Event* InputEvent)
 {
-	PlayerState* traversalState = m_TraversalState->HandleInput(*this, InputEvent);
+	TraversalState* traversalState = dynamic_cast<TraversalState*>(m_TraversalState->HandleInput(*this, InputEvent));
 	if (traversalState != NULL)
 	{
-		delete m_TraversalState;
-		m_TraversalState = traversalState;
-		m_TraversalState->Enter(*this);
+		SetTraversalState(traversalState);
 	}
 }

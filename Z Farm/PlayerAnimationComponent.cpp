@@ -1,5 +1,8 @@
 #include "PlayerAnimationComponent.h"
 
+#include "EquipmentState.h"
+#include "TraversalState.h"
+
 PlayerAnimationComponent::PlayerAnimationComponent(sf::Sprite* spritePtr, ZEngine::GameDataRef data)
 	:
 	AnimationComponent(spritePtr, data)
@@ -30,4 +33,51 @@ void PlayerAnimationComponent::InitAnimations()
 void PlayerAnimationComponent::Update(float dT)
 {
 	AnimationComponent::Update(dT);
+}
+
+void PlayerAnimationComponent::SetAnimation(const enum ETraversalType& InAnimType, const enum EEquipmentType& InEquipmentType)
+{
+	std::string animString = GetAnimForEquipment(InAnimType, InEquipmentType);
+	ZEngine::AnimationComponent::SetAnimation(animString);
+}
+
+std::string PlayerAnimationComponent::GetAnimForEquipment(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType)
+{
+	std::string OutString = "Player";
+
+	switch (InTraversalStateType)
+	{
+	case ETraversalType::TT_Idle:
+		OutString.append("Idle");
+		break;
+	case ETraversalType::TT_Run:
+		OutString.append("Run");
+		break;
+	case ETraversalType::TT_Jump:
+		OutString.append("Jump");
+		break;
+	case ETraversalType::TT_Fall:
+		OutString.append("Fall");
+		break;
+	case ETraversalType::TT_Land:
+		OutString.append("Land");
+		break;
+	default:
+		OutString.append("Idle");
+		break;
+	}
+
+	switch (InEquipmentType)
+	{
+	case EEquipmentType::ET_Sword:
+		OutString.append("Sword");
+		break;
+	case EEquipmentType::ET_Gun:
+		OutString.append("Gun");
+		break;
+	default:
+		break;
+	}
+
+	return OutString;
 }

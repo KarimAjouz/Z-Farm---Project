@@ -79,7 +79,8 @@ private:
 
 
 	// #BeginStateMachines
-	class PlayerState* m_TraversalState;
+	class TraversalState* m_TraversalState;
+	class EquipmentState* m_EquipmentState;
 
 	// #EndStateMachines
 

@@ -161,6 +161,7 @@
     <ClCompile Include="StateMachine.cpp">
       <Filter>ZEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="EquipmentState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -331,6 +332,7 @@
     <ClInclude Include="StateMachine.h">
       <Filter>ZEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="EquipmentState.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">

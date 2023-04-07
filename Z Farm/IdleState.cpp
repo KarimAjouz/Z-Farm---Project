@@ -35,7 +35,7 @@ void IdleState::Enter(Player& InPlayer)
     GroundedState::Enter(InPlayer);
     if (!m_isLanding)
     {
-        InPlayer.GetAnimationComponent()->SetAnimation("PlayerIdle");
+        InPlayer.GetAnimationComponent()->SetAnimation();
         InPlayer.GetAnimationComponent()->Play();
     }
     m_StateName = "PS_Idle";

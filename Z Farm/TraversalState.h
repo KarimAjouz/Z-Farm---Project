@@ -2,11 +2,22 @@
 
 #include "PlayerState.h"
 
+enum class ETraversalType
+{
+	TT_Idle,
+	TT_Run,
+	TT_Jump,
+	TT_Fall,
+	TT_Land,
+	Count
+};
+
 class TraversalState
 	:
 	public PlayerState
 {
 public:
+
 
 	virtual ~TraversalState();
 
@@ -18,5 +29,9 @@ public:
 
 	virtual void Enter(Player& InPlayer) override;
 	virtual void Exit(Player& InPlayer) override;
+
+	ETraversalType GetTraversalType() { return m_TraversalType; }
+private:
+	const ETraversalType m_TraversalType;
 };
 
