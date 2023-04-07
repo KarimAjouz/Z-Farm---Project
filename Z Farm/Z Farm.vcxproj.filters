@@ -5,16 +5,7 @@
     <ClCompile Include="Button.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceBar.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
@@ -134,7 +125,6 @@
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>ZEngine</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAnimationComponent.cpp" />
     <ClCompile Include="TraversalState.cpp">
       <Filter>Project\Agents\Player\States\TraversalState</Filter>
     </ClCompile>
@@ -159,21 +149,24 @@
     <ClCompile Include="PlayerState.cpp">
       <Filter>Project\Agents\Player\States\TraversalState</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAnimationComponent.cpp">
+      <Filter>Project\Agents\Player\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetManager.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceBar.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
@@ -264,9 +257,6 @@
     <ClInclude Include="NavMap.h" />
     <ClInclude Include="AgentNavigation.h" />
     <ClInclude Include="PathStep.h" />
-    <ClInclude Include="SFMLOrthogonalLayer.hpp">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="RopeSegment.h" />
     <ClInclude Include="PhysicsCollider.h">
       <Filter>ZEngine</Filter>
@@ -302,7 +292,6 @@
     <ClInclude Include="PhysicsComponent.h">
       <Filter>ZEngine</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAnimationComponent.h" />
     <ClInclude Include="TraversalState.h">
       <Filter>Project\Agents\Player\States\TraversalState</Filter>
     </ClInclude>
@@ -326,6 +315,21 @@
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimationComponent.h">
+      <Filter>Project\Agents\Player\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SFMLOrthogonalLayer.hpp">
+      <Filter>ZEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>ZEngine\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
