@@ -1,6 +1,9 @@
 #include "GroundedState.h"
 #include "Player.h"
 #include "JumpingState.h"
+#include "LandingState.h"
+#include "AttackState.h"
+#include "EquipmentState.h"
 #include "PlayerPhysicsComponent.h"
 
 GroundedState::~GroundedState()
@@ -11,27 +14,11 @@ void GroundedState::Update(float dT, Player& InPlayer)
 {
     TraversalState::Update(dT, InPlayer);
 
-    if (
-        InPlayer.GetPhysicsComponent()->GetVelocity().x > 0.0f && InPlayer.isFlipped ||
-        InPlayer.GetPhysicsComponent()->GetVelocity().x < 0.0f && !InPlayer.isFlipped
-       )
-    {
-        InPlayer.FlipSprite();
-    }
-
 
 }
 
 PlayerState* GroundedState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 {
-    sf::Vector2f newInputAxis = InPlayer.GetInputAxis();
-
-    switch (InEvent->type)
-    {
-    
-    default:
-        break;
-    }
 
     switch (InEvent->type)
     {
@@ -47,6 +34,16 @@ PlayerState* GroundedState::HandleInput(Player& InPlayer, sf::Event* InEvent)
         default:
             break;
         }
+        break;
+    case sf::Event::EventType::MouseButtonPressed:
+        if (InEvent->mouseButton.button == sf::Mouse::Button::Left)
+        {
+            if(InPlayer.GetEquipmentState()->GetEquipmentType() == EEquipmentType::ET_Sword)
+                return new AttackState;
+        }
+        break;
+    default:
+        break;
     }
 
 	return TraversalState::HandleInput(InPlayer, InEvent);
@@ -55,17 +52,6 @@ PlayerState* GroundedState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 void GroundedState::Enter(Player& InPlayer)
 {
     TraversalState::Enter(InPlayer);
-    if (!InPlayer.GetPhysicsComponent())
-    {
-        return;
-    }
-
-    if (InPlayer.GetPhysicsComponent()->GetVelocity().y < 0.0f)
-    {
-        m_isLanding = true;
-        InPlayer.GetAnimationComponent()->SetAnimation("PlayerLand");
-        InPlayer.GetAnimationComponent()->Play();
-    }
 }
 
 void GroundedState::Exit(Player& InPlayer)

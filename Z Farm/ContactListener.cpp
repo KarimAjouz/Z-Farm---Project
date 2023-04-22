@@ -1,4 +1,8 @@
 #include "ContactListener.h"
+#include "AttackState.h"
+#include "EquipmentState.h"
+#include "Attack.h"
+#include "Box.h"
 
 
 ContactListener::ContactListener(Player* player, Level* level) :
@@ -29,6 +33,74 @@ void ContactListener::BeginContact(b2Contact* contact)
             reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts++;
         else
             reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts++;
+    }
+
+    if (IsContact(ECollisionTag::playerSword, ECollisionTag::box))
+    {
+        //Player* playerRef = nullptr;
+        //Box* boxRef = nullptr;
+        bool isAFixPlayerRef = fixtureAUserData == static_cast<int>(ECollisionTag::playerSword);
+
+        //if (isAFixPlayerRef)
+        //{
+        //    playerRef = reinterpret_cast<Player*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+        //}
+        //else
+        //{
+        //    playerRef = reinterpret_cast<Player*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+        //}
+
+        if (playerRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> playerRef is invalid!" << std::endl;
+            return;
+        }
+
+        SwordItem* SwordRef = playerRef->GetEquipmentState()->GetItem();
+
+        if (SwordRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> SwordRef is invalid!" << std::endl;
+            return;
+        }
+
+        Attack* AttackRef;
+
+        if (playerRef->GetTraversalState()->GetTraversalType() == ETraversalType::TT_Attack)
+        {
+            AttackState* AttackStateRef = static_cast<AttackState*>(playerRef->GetTraversalState());
+
+            if (AttackStateRef == nullptr)
+            {
+                std::cout << "Error: ContactListener::BeginContact --> AttackStateRef is invalid!" << std::endl;
+                return;
+            }
+
+            AttackRef = AttackStateRef->GetCurrentSequenceItem();
+        }
+        else
+        {
+            if (SwordRef->GetAttackSequence()->size() == 0)
+            {
+                std::cout << "Error: ContactListener::BeginContact --> AttackSequence is empty!" << std::endl;
+                return;
+            }
+
+            AttackRef = SwordRef->GetAttackSequence()->at(0);
+        }
+
+        if (AttackRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> AttackRef is invalid!" << std::endl;
+            return;
+        }
+
+        if (isAFixPlayerRef)
+            AttackRef->AddContactObject(reinterpret_cast<ZEngine::GameObject*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer));
+        else
+            AttackRef->AddContactObject(reinterpret_cast<ZEngine::GameObject*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer));
+
+
     }
 
     /*if (IsContact(ECollisionTag::interactable, ECollisionTag::playerFoot))
@@ -70,6 +142,73 @@ void ContactListener::EndContact(b2Contact* contact)
             reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer)->footContacts--;
         else
             reinterpret_cast<ZEngine::Agent*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer)->footContacts--;
+    }
+
+    if (IsContact(ECollisionTag::playerSword, ECollisionTag::box))
+    {
+        //Player* playerRef = nullptr;
+        //Box* boxRef = nullptr;
+        bool isAFixPlayerRef = fixtureAUserData == static_cast<int>(ECollisionTag::playerSword);
+
+        //if (isAFixPlayerRef)
+        //{
+        //    playerRef = reinterpret_cast<Player*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+        //}
+        //else
+        //{
+        //    playerRef = reinterpret_cast<Player*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+        //}
+
+        if (playerRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> playerRef is invalid!" << std::endl;
+            return;
+        }
+
+        SwordItem* SwordRef = playerRef->GetEquipmentState()->GetItem();
+
+        if (SwordRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> SwordRef is invalid!" << std::endl;
+            return;
+        }
+
+        Attack* AttackRef;
+
+        if (playerRef->GetTraversalState()->GetTraversalType() == ETraversalType::TT_Attack)
+        {
+            AttackState* AttackStateRef = static_cast<AttackState*>(playerRef->GetTraversalState());
+
+            if (AttackStateRef == nullptr)
+            {
+                std::cout << "Error: ContactListener::BeginContact --> AttackStateRef is invalid!" << std::endl;
+                return;
+            }
+
+            AttackRef = AttackStateRef->GetCurrentSequenceItem();
+        }
+        else
+        {
+            if (SwordRef->GetAttackSequence()->size() == 0)
+            {
+                std::cout << "Error: ContactListener::BeginContact --> AttackSequence is empty!" << std::endl;
+                return;
+            }
+
+            AttackRef = SwordRef->GetAttackSequence()->at(0);
+        }
+
+        if (AttackRef == nullptr)
+        {
+            std::cout << "Error: ContactListener::BeginContact --> AttackRef is invalid!" << std::endl;
+            return;
+        }
+
+        if (isAFixPlayerRef)
+            AttackRef->RemoveContactObject(reinterpret_cast<ZEngine::GameObject*>(contact->GetFixtureB()->GetBody()->GetUserData().pointer));
+        else
+            AttackRef->RemoveContactObject(reinterpret_cast<ZEngine::GameObject*>(contact->GetFixtureA()->GetBody()->GetUserData().pointer));
+
     }
 
    /* if (IsContact(ECollisionTag::interactable, ECollisionTag::playerFoot))

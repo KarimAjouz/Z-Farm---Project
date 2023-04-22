@@ -14,8 +14,6 @@ namespace ZEngine
 
 	Agent::~Agent()
 	{
-		if (worldRef)
-			worldRef->DestroyBody(body);
 
 	}
 

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Pyra-Sea Tileset.tsx",
+    "activeFile": "Template.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -38,7 +38,8 @@
             "scaleInDock": 1
         },
         "GameObjects.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 1
         },
         "Pyra-Sea Tileset.tsx": {
             "dynamicWrapping": false,
@@ -49,24 +50,24 @@
             "scale": 1.7416666666666665,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.5741626794259,
+                "x": 480.86124401913884,
                 "y": 320.3827751196173
             }
         },
         "Template.tmx": {
             "scale": 1.5,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 462.66666666666674,
-                "y": 327.66666666666663
+                "x": 546.6666666666665,
+                "y": 315.33333333333326
             }
         },
         "demo.tmx": {
             "scale": 1.3903645833333333,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 555.2500468252482,
-                "y": 266.4768683274021
+                "x": 555.6096647312231,
+                "y": 266.83648623337706
             }
         },
         "demo.tmx#tileset": {
@@ -81,7 +82,7 @@
             "scale": 0.25,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 2804,
+                "x": 2806,
                 "y": 1756
             }
         },
@@ -94,16 +95,18 @@
     "last.imagePath": "C:/Users/karee/Documents/GitRepo/Z-Farm---Project/Z Farm/Content/Media/Textures",
     "map.lastUsedFormat": "json",
     "openFiles": [
-        "Pyra-Sea Tileset.tsx"
+        "Pyra-Sea Tileset.tsx",
+        "Template.tmx"
     ],
     "project": "Test tiled project.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "Pyra-Sea Tileset.tsx",
+        "Template.tmx",
         "demo.tmx",
         "images/tilemap/platform.tsx",
         "platform.tmx",
         "C:/Users/karee/Downloads/tmxlite-master/tmxlite-master/SFMLExample/assets/demo.tmx",
-        "Pyra-Sea Tileset.tsx",
         "Template.tmj",
         "C:/Users/karee/Downloads/tmxlite-master/tmxlite-master/SFMLExample/assets/platform.tmx"
     ],

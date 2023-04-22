@@ -1,6 +1,6 @@
 #include "FallingState.h"
 #include "Player.h"
-#include "IdleState.h"
+#include "LandingState.h"
 #include "MovingState.h"
 #include "PlayerPhysicsComponent.h"
 
@@ -15,15 +15,7 @@ void FallingState::Update(float dT, Player& InPlayer)
     if (InPlayer.footContacts > 0)
     {
         InPlayer.GetPhysicsComponent()->GetBody()->SetGravityScale(1.0f);
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            InPlayer.SetTraversalState(new MovingState);
-        }
-        else
-        {
-            InPlayer.SetTraversalState(new IdleState);
-        }
+        InPlayer.SetTraversalState(new LandingState);
     }
 }
 
@@ -36,9 +28,8 @@ PlayerState* FallingState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 void FallingState::Enter(Player& InPlayer)
 {
     //AddJumpForceToPlayer(InPlayer);
-    m_StateName = "PS_Falling";
+    m_TraversalType = ETraversalType::TT_Fall;
+    m_StateName = "TT_Falling";
 
-    InPlayer.GetAnimationComponent()->SetAnimation("PlayerFall");
-    InPlayer.GetAnimationComponent()->Play();
 
 }

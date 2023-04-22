@@ -3,7 +3,7 @@
 #include "BalanceSheet.h"
 #include "Utilities.h"
 #include "PhysicsComponent.h"
-#include "PlayerState.h"
+#include "TraversalState.h"
 
 #include <cmath>
 
@@ -26,7 +26,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_world(_gravity),
 	_contactListener(&_player, _level),
 	_debugDraw(data),
-	_testSword(_data, &_world, &_player),
+	//_testSword(_data, &_world, &_player),
 	_level(new Level(_data, &_world)),
 	_debugText()
 {
@@ -37,7 +37,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
 	_world.SetContactListener(&_contactListener);
-	_debugDraw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit);
+	_debugDraw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit);
 	_world.SetDebugDraw(&_debugDraw);
 
 	sf::View view;
@@ -50,7 +50,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_debugText.setFillColor(sf::Color::Magenta);
 	_debugText.setOutlineColor(sf::Color::Black);
 	_debugText.setOutlineThickness(2.0f);
-	_debugText.setPosition(0.0f, 0.0f);
+	_debugText.setPosition(64.0f, 0.0f);
 	_debugText.setCharacterSize(16.0f);
 
 }
@@ -87,7 +87,7 @@ void GameState_Gameplay::Update(float dT)
 		_player.Update(dT);
 		LerpView(dT);
 
-		_testSword.Update(dT);
+		//_testSword.Update(dT);
 
 		physicsAccumulator += dT;
 		while (physicsAccumulator >= 1.0f / 60.0f)
@@ -111,7 +111,7 @@ void GameState_Gameplay::Draw()
 
 	_level->Draw();
 	_player.Draw();
-	_testSword.Draw();
+	//_testSword.Draw();
 
 
 	if(_debugMode)
@@ -119,7 +119,7 @@ void GameState_Gameplay::Draw()
 
 
 
-	int fps = 1.0f / _runningDelta;
+	float fps = 1.0f / _runningDelta;
 
 	_debugText.setString(
 		"FPS: " + std::to_string(fps) + "\n" + 

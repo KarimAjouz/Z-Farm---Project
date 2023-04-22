@@ -49,6 +49,7 @@ sf::Vector2i InputManager::GetMousePosition(sf::RenderWindow& InWIndow)
 
 void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 {
+	InWIndow.setKeyRepeatEnabled(false);
 	std::vector<sf::Event>* GameInputEvents = new std::vector<sf::Event>();
 	//std::vector<sf::Event>* PlayerInputEvents;
 	sf::Event event;
@@ -63,6 +64,7 @@ void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 			switch(event.key.code)
 			{
 			default:
+				std::cout << "KeyPressed: " << event.key.code << std::endl;
 				GameInputEvents->push_back(event);
 				break;
 			}
@@ -75,12 +77,31 @@ void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 				break;
 			}
 			break;
+		case sf::Event::MouseButtonPressed:
+			switch (event.key.code)
+			{
+			default:
+				std::cout << "MouseButtonPressed: " << event.key.code << std::endl;
+				GameInputEvents->push_back(event);
+				break;
+			}
+			break;
+		case sf::Event::MouseButtonReleased:
+			switch (event.key.code)
+			{
+			default:
+				std::cout << "MouseButtonReleased: " << event.key.code << std::endl;
+				GameInputEvents->push_back(event);
+				break;
+			}
+			break;
 		default:
 			//GameInputEvents->push_back(event);
 			break;
 		}
 
 	}
+	InWIndow.setKeyRepeatEnabled(true);
 
 	HandleGamestateInputs(GameInputEvents);
 	HandlePlayerInputs(GameInputEvents);
@@ -120,12 +141,6 @@ void InputManager::HandleGamestateInputs(std::vector<sf::Event>* InEventQueue)
 			default:
 				break;
 			}
-			break;
-		case sf::Event::MouseButtonPressed:
-			if (Event.mouseButton.button == sf::Mouse::Button::Left)
-				m_Player->Stab();
-			
-			InEventQueue->erase(InEventQueue->begin() + eventIndex);
 			break;
 		case sf::Event::Closed:
 			m_GameplayState->Exit();

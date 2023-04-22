@@ -30,7 +30,7 @@ public:
 	void RegenLevel();
 
 
-	//std::vector<Obstacle*> GetObstacles() { return _obstacles; }
+	std::vector<class Obstacle*> GetObstacles() { return _obstacles; }
 
 
 
@@ -42,7 +42,7 @@ private:
 	//std::vector<Tile*> _tiles;
 	std::vector<b2Body*> _physicsBodies;
 
-	//std::vector<Obstacle*> _obstacles;
+	std::vector<class Obstacle*> _obstacles;
 
 	std::vector<MapLayer*> _mapLayers;
 	std::vector<tmx::Object> _objects;

@@ -49,12 +49,11 @@ PlayerState* JumpingState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 
 void JumpingState::Enter(Player& InPlayer)
 {
+	InAirState::Enter(InPlayer);
 	AddJumpForceToPlayer(InPlayer);
-
-	InPlayer.GetAnimationComponent()->SetAnimation("PlayerJump");
-	InPlayer.GetAnimationComponent()->Play();
+	m_TraversalType = ETraversalType::TT_Jump;
 	
-	m_StateName = "PS_Jumping";
+	m_StateName = "TT_Jumping";
 	m_JumpboostTimer = m_JumpboostTimeMax;
 }
 

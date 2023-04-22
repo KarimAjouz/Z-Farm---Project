@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="50">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="224">
  <editorsettings>
   <chunksize width="30" height="20"/>
  </editorsettings>
@@ -20,16 +20,6 @@
   </data>
  </layer>
  <objectgroup color="#ffffff" id="4" name="ObjectLayer">
-  <object id="30" class="Box" gid="109" x="626.5" y="441" width="21" height="16">
-   <properties>
-    <property name="ObjectID" type="int" value="0"/>
-   </properties>
-  </object>
-  <object id="31" class="Box" gid="109" x="628" y="477" width="21" height="16">
-   <properties>
-    <property name="ObjectID" type="int" value="0"/>
-   </properties>
-  </object>
   <object id="33" class="Rope" gid="110" x="451" y="407" width="16" height="386.667">
    <properties>
     <property name="ObjectID" type="int" value="1"/>

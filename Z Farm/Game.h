@@ -30,7 +30,7 @@ namespace ZEngine
 
 
 	private:
-		const float _dt = 1.0f / 60.0f;
+		const float m_TargetDeltaTime = 1.0f / 60.0f;
 		sf::Clock _clock;
 		
 		GameDataRef _data = std::make_shared<GameData>();

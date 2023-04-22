@@ -64,7 +64,7 @@ private:
 
 	Player _player;
 
-	SwordPickup _testSword;
+	//SwordPickup _testSword;
 	sf::Vector2f _viewTarget = sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 

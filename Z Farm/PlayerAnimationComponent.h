@@ -35,6 +35,8 @@ public:
 	virtual void Update(float dT) override;
 
 	void SetAnimation(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType);
+	virtual void SetAnimation(std::string InAnimationName) override;
+
 	virtual std::string GetAnimForEquipment(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType);
 
 private:

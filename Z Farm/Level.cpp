@@ -22,10 +22,10 @@ Level::~Level()
 		_physicsBodies.pop_back();
 	}
 
-	//for (int i = 0; i < _obstacles.size(); i++)
-	//{
-	//	_obstacles.pop_back();
-	//}
+	for (int i = 0; i < _obstacles.size(); i++)
+	{
+		_obstacles.pop_back();
+	}
 }
 
 void Level::Init(ZEngine::GameDataRef data, b2World* worldRef)
@@ -49,10 +49,10 @@ void Level::Update(float dT)
 		_mapLayers[i]->update(time);
 	}
 
-	//for (int i = 0; i < _obstacles.size(); i++)
-	//{
-	//	_obstacles[i]->Update(dT);
-	//}
+	for (int i = 0; i < _obstacles.size(); i++)
+	{
+		_obstacles[i]->Update(dT);
+	}
 }
 
 void Level::Draw()
@@ -62,10 +62,10 @@ void Level::Draw()
 		_data->GameWindow.draw(*_mapLayers[i]);
 	}
 
-	//for (int i = 0; i < _obstacles.size(); i++)
-	//{
-	//	_obstacles[i]->Draw();
-	//}
+	for (int i = 0; i < _obstacles.size(); i++)
+	{
+		_obstacles[i]->Draw();
+	}
 }
 
 void Level::ClearUnitPhysics()
@@ -136,7 +136,7 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 
 void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 {
-	/*const auto& objects = inObjectLayer.getObjects();
+	const auto& objects = inObjectLayer.getObjects();
 	for (const auto& object : objects)
 	{
 		for (tmx::Property objProperty : object.getProperties())
@@ -162,7 +162,7 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 
 					break;
 				case 1:
-					std::cout << "Spawning a Rope: " << std::endl;
+					/*std::cout << "Spawning a Rope: " << std::endl;
 
 					objPos.x = object.getPosition().x + (object.getAABB().width / 2);
 					objPos.y = object.getAABB().top - object.getAABB().height + (15.0f);
@@ -175,7 +175,7 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 						newObject = new RopeSegment(_data, _worldRef, objPos);
 						objPos.y += 26;
 						_obstacles.push_back(newObject);
-					}
+					}*/
 
 					break;
 				default:
@@ -184,7 +184,7 @@ void Level::BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer)
 				}
 			}
 		}
-	}*/
+	}
 }
 
 void Level::RegenLevel()

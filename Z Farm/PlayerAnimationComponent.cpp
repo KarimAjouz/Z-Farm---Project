@@ -35,10 +35,15 @@ void PlayerAnimationComponent::Update(float dT)
 	AnimationComponent::Update(dT);
 }
 
-void PlayerAnimationComponent::SetAnimation(const enum ETraversalType& InAnimType, const enum EEquipmentType& InEquipmentType)
+void PlayerAnimationComponent::SetAnimation(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType)
 {
-	std::string animString = GetAnimForEquipment(InAnimType, InEquipmentType);
-	ZEngine::AnimationComponent::SetAnimation(animString);
+	std::string animString = GetAnimForEquipment(InTraversalStateType, InEquipmentType);
+	SetAnimation(animString);
+}
+
+void PlayerAnimationComponent::SetAnimation(std::string InAnimationName)
+{
+	AnimationComponent::SetAnimation(InAnimationName);
 }
 
 std::string PlayerAnimationComponent::GetAnimForEquipment(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType)

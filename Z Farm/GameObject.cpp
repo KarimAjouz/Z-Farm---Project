@@ -12,16 +12,18 @@ namespace ZEngine
 	GameObject::GameObject(GameDataRef InData)
 		:
 		_Components(std::vector<ObjectComponent*>()),
-		m_data(InData),
-		m_Sprite(sf::Sprite())
+		m_Data(InData),
+		m_Sprite(sf::Sprite()),
+		m_WorldRef(nullptr)
 	{
 	}
 
-	GameObject::GameObject(sf::Vector2f InPosition, GameDataRef InData)
+	GameObject::GameObject(GameDataRef InData, sf::Vector2f InPosition, b2World* InWorldRef)
 		:
 		_Components(std::vector<ObjectComponent*>()),
-		m_data(InData),
-		m_Sprite(sf::Sprite())
+		m_Data(InData),
+		m_Sprite(sf::Sprite()),
+		m_WorldRef(InWorldRef)
 	{
 		m_Sprite.setPosition(InPosition);
 	}
@@ -29,13 +31,13 @@ namespace ZEngine
 	GameObject::GameObject(sf::Vector2f InPosition, GameDataRef InData, std::string TextureName, std::string SpritePath)
 		:
 		_Components(std::vector<ObjectComponent*>()),
-		m_data(InData),
+		m_Data(InData),
 		m_Sprite(sf::Sprite())
 	{
 		m_Sprite.setPosition(InPosition);
-		m_data->assetManager.LoadTexture(TextureName, SpritePath);
+		m_Data->assetManager.LoadTexture(TextureName, SpritePath);
 
-		m_Sprite.setTexture(m_data->assetManager.GetTexture(TextureName));
+		m_Sprite.setTexture(m_Data->assetManager.GetTexture(TextureName));
 
 	}
 
@@ -55,12 +57,17 @@ namespace ZEngine
 	}
 
 
-	void GameObject::Draw(sf::RenderWindow* InWindow)
+	void GameObject::Draw()
 	{
-		InWindow->draw(m_Sprite);
-		for (ObjectComponent* Component : _Components)
-		{
-			Component->Draw(InWindow);
-		}
+		//for (ObjectComponent* Component : _Components)
+		//{
+		//	Component->Draw();
+		//}
+		m_Data->GameWindow.draw(m_Sprite);
+	}
+
+	void GameObject::Hit()
+	{
+
 	}
 }

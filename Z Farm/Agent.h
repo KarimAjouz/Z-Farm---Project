@@ -28,7 +28,7 @@ namespace ZEngine
 		virtual void Draw() = 0;
 
 
-		void FlipSprite();
+		virtual void FlipSprite();
 
 		virtual void Hit() = 0;
 		virtual void Hit(sf::Vector2f playerPos) = 0;
@@ -41,7 +41,7 @@ namespace ZEngine
 
 		AgentType type;
 
-		b2Body* body = nullptr;
+		//b2Body* body = nullptr;
 
 		b2World* worldRef = nullptr;
 

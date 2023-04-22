@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "MovingState.h"
+#include "EquipmentState.h"
 
 IdleState::~IdleState()
 {
@@ -10,13 +11,6 @@ IdleState::~IdleState()
 void IdleState::Update(float dT, Player& InPlayer)
 {
     GroundedState::Update(dT, InPlayer);
-
-    if (m_isLanding && InPlayer.GetAnimationComponent()->Complete())
-    {
-        InPlayer.GetAnimationComponent()->SetAnimation("PlayerIdle");
-        InPlayer.GetAnimationComponent()->Play();
-        m_isLanding = false;
-    }
 
     float InputAxis = InPlayer.GetInputAxis().x;
     if (InputAxis != 0.0f)
@@ -33,11 +27,8 @@ PlayerState* IdleState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 void IdleState::Enter(Player& InPlayer)
 {
     GroundedState::Enter(InPlayer);
-    if (!m_isLanding)
-    {
-        InPlayer.GetAnimationComponent()->SetAnimation();
-        InPlayer.GetAnimationComponent()->Play();
-    }
+    m_TraversalType = ETraversalType::TT_Idle;
+
     m_StateName = "PS_Idle";
 
 }

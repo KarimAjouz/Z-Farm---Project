@@ -142,11 +142,15 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="BalanceSheet.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EquipmentState.cpp" />
+    <ClCompile Include="Equippable.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +166,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InteractableComponent.cpp" />
     <ClCompile Include="JumpingState.cpp" />
+    <ClCompile Include="LandingState.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
     <ClCompile Include="MovingState.cpp" />
@@ -170,7 +175,6 @@
     <ClCompile Include="ObjectComponent.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="PathStep.cpp" />
-    <ClCompile Include="PhysicsCollider.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PlayerAnimationComponent.cpp" />
     <ClCompile Include="PlayerPhysicsComponent.cpp" />
@@ -186,8 +190,10 @@
     <ClCompile Include="SaveDataManager.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="SwordItem.cpp" />
     <ClCompile Include="SwordPickup.cpp" />
     <ClCompile Include="Baldy.cpp" />
+    <ClCompile Include="SwordState.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TilePicker.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -202,12 +208,15 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="Attack.h" />
+    <ClInclude Include="AttackState.h" />
     <ClInclude Include="BalanceSheet.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EquipmentState.h" />
+    <ClInclude Include="Equippable.h" />
     <ClInclude Include="FallingState.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="Game.h" />
@@ -225,6 +234,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InteractableComponent.h" />
     <ClInclude Include="JumpingState.h" />
+    <ClInclude Include="LandingState.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelBuilder.h" />
     <ClInclude Include="MovingState.h" />
@@ -233,7 +243,6 @@
     <ClInclude Include="ObjectComponent.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PathStep.h" />
-    <ClInclude Include="PhysicsCollider.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PlayerAnimationComponent.h" />
     <ClInclude Include="PlayerPhysicsComponent.h" />
@@ -249,8 +258,10 @@
     <ClInclude Include="SFMLOrthogonalLayer.hpp" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="SwordItem.h" />
     <ClInclude Include="SwordPickup.h" />
     <ClInclude Include="Baldy.h" />
+    <ClInclude Include="SwordState.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TilePicker.h" />
     <ClInclude Include="Timer.h" />

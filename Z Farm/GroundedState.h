@@ -12,7 +12,6 @@ public:
     virtual void Enter(Player& InPlayer) override;
     virtual void Exit(Player& InPlayer) override;
 
-    bool m_isLanding = false;
 private:
 };
 

@@ -38,6 +38,7 @@ public:
 	void Stab();
 	bool Jump();
 	void Interact();
+	virtual void FlipSprite() override;
 
 	void SetInputManagerState(class GameState_Gameplay* InGameplayRef);
 
@@ -51,8 +52,10 @@ public:
 
 
 	void SetTraversalState(class TraversalState* InNewTraversalState);
+	void SetEquipmentState(class EquipmentState* InNewEquipmentState);
 
-	class PlayerState* GetTraversalState() { return m_TraversalState; }
+	class TraversalState* GetTraversalState() { return m_TraversalState; }
+	class EquipmentState* GetEquipmentState() { return m_EquipmentState; }
 
 	void HandleInput(sf::Event* InputEvent);
 

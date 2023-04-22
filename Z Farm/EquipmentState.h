@@ -1,13 +1,14 @@
 #pragma once
 
 #include "PlayerState.h"
+#include "SwordItem.h"
 
-enum class EEquipmentType
+enum EEquipmentType
 {
 	ET_None,
 	ET_Sword,
 	ET_Gun,
-	Count
+	ET_Count
 };
 
 class EquipmentState 
@@ -25,7 +26,14 @@ public:
 	virtual PlayerState* HandleInput(Player& InPlayer, sf::Event* InputEvent) override;
 
 	virtual EEquipmentType GetEquipmentType() { return m_EquipmentType; }
-private:
-	EEquipmentType m_EquipmentType;
+	virtual void FlipEquipment() {};
+
+	SwordItem* GetItem() { return m_Item; };
+
+protected:
+	EEquipmentType m_EquipmentType = EEquipmentType::ET_None;
+
+	SwordItem* m_Item = nullptr;
+
 };
 

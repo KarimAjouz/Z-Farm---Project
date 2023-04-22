@@ -91,9 +91,6 @@
     <ClCompile Include="AgentNavigation.cpp" />
     <ClCompile Include="PathStep.cpp" />
     <ClCompile Include="RopeSegment.cpp" />
-    <ClCompile Include="PhysicsCollider.cpp">
-      <Filter>ZEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>ZEngine\Animation</Filter>
     </ClCompile>
@@ -161,7 +158,21 @@
     <ClCompile Include="StateMachine.cpp">
       <Filter>ZEngine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="EquipmentState.cpp" />
+    <ClCompile Include="EquipmentState.cpp">
+      <Filter>Project\Agents\Player\States\EquipmentState</Filter>
+    </ClCompile>
+    <ClCompile Include="LandingState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Equippable.cpp" />
+    <ClCompile Include="SwordItem.cpp" />
+    <ClCompile Include="AttackState.cpp">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordState.cpp">
+      <Filter>Project\Agents\Player\States\EquipmentState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -259,9 +270,6 @@
     <ClInclude Include="AgentNavigation.h" />
     <ClInclude Include="PathStep.h" />
     <ClInclude Include="RopeSegment.h" />
-    <ClInclude Include="PhysicsCollider.h">
-      <Filter>ZEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>ZEngine\Animation</Filter>
     </ClInclude>
@@ -332,7 +340,21 @@
     <ClInclude Include="StateMachine.h">
       <Filter>ZEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="EquipmentState.h" />
+    <ClInclude Include="EquipmentState.h">
+      <Filter>Project\Agents\Player\States\EquipmentState</Filter>
+    </ClInclude>
+    <ClInclude Include="LandingState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h" />
+    <ClInclude Include="Equippable.h" />
+    <ClInclude Include="SwordItem.h" />
+    <ClInclude Include="AttackState.h">
+      <Filter>Project\Agents\Player\States\TraversalState</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordState.h">
+      <Filter>Project\Agents\Player\States\EquipmentState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
@@ -391,6 +413,9 @@
     </Filter>
     <Filter Include="Project\Agents\Player\States\TraversalState">
       <UniqueIdentifier>{9d6c891d-716c-4a88-bfe3-7253fa6e8244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\Player\States\EquipmentState">
+      <UniqueIdentifier>{d5998eaf-ed3f-4032-9753-fc7f9d9a43b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

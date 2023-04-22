@@ -8,6 +8,7 @@
 #include "EquipmentState.h"
 #include "GameState_Gameplay.h"
 #include "IdleState.h"
+#include "SwordState.h"
 
 /// <summary>
 /// Constructs the player object, setting its texture.
@@ -16,7 +17,7 @@
 /// <param name="pos"> The position to spwan the player in. </param>
 Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b2World* worldRef, sf::Vector2f* viewTargetRef, Level* levelRef) :
 	Agent(InData),
-	//m_State(new IdleState),
+	//m_TraversalState(new IdleState),
 	_worldRef(worldRef),
 	_viewTargetRef(viewTargetRef),
 	_levelRef(levelRef),
@@ -29,12 +30,11 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b
 	m_Sprite.setScale(2.0f, 2.0f);
 	m_Sprite.setOrigin(32, 20);
 
+	SetTraversalState(new IdleState);
+
 	m_AnimationComponent = new PlayerAnimationComponent(GetSprite(), InData);
-
-	m_TraversalState = new IdleState();
-	m_TraversalState->Enter(*this);
-
 	m_PhysicsComponent = new PlayerPhysicsComponent(InData, worldRef, this);
+	SetEquipmentState(new SwordState);
 
 
 
@@ -58,7 +58,7 @@ Player::~Player()
 void Player::Update(float dT)
 {
 	m_PhysicsComponent->Update(dT);
-	m_InputManager->HandleInputEvents(m_data->GameWindow);
+	m_InputManager->HandleInputEvents(m_Data->GameWindow);
 
 	m_TraversalState->Update(dT, *this);
 	UpdatePhysics(dT);
@@ -68,7 +68,14 @@ void Player::Update(float dT)
 
 void Player::Draw()
 {
-	m_data->GameWindow.draw(m_Sprite);
+	m_Data->GameWindow.draw(m_Sprite);
+
+	//int numFixtures = 0;
+	//for (b2Fixture* b = m_PhysicsComponent->GetBody()->GetFixtureList(); b != nullptr; b = b->GetNext())
+	//{
+	//	numFixtures++;
+	//}
+	//std::cout << "NumFixtures: " << std::to_string(numFixtures) << std::endl;
 
 	/*if (_interactable != nullptr)
 	{
@@ -291,7 +298,7 @@ void Player::Hit(sf::Vector2f enemyPos)
 
 void Player::EquipSword()
 {
-	//_swordActive = true;
+	SetEquipmentState(new SwordState);
 }
 
 //
@@ -317,22 +324,7 @@ void Player::InitAnimations()
 
 void Player::InitPhysics(sf::Vector2f pos)
 {
-	////Prepare the stab sensors
-	//myFixtureDef.filter.categoryBits = _entityCategory::DAMAGE;
-	//myFixtureDef.filter.maskBits = _entityCategory::OBSTACLES | _entityCategory::AGENTS;
 
-	////add right stab sensor 
-	//polygonShape.SetAsBox(10 / SCALE, 3 / SCALE, b2Vec2(48 / SCALE, 8 / SCALE), 0);
-	//myFixtureDef.isSensor = true;
-	//b2Fixture* rightStab = _playerBody->CreateFixture(&myFixtureDef);
-	//rightStab->GetUserData().pointer = static_cast<int>(CollisionTag::playerSword);
-
-
-	////add left stab sensor
-	//polygonShape.SetAsBox(10 / SCALE, 3 / SCALE, b2Vec2(-48 / SCALE, 8 / SCALE), 0);
-	//myFixtureDef.isSensor = true;
-	//b2Fixture* leftStab = _playerBody->CreateFixture(&myFixtureDef);
-	//leftStab->GetUserData().pointer = static_cast<int>(CollisionTag::playerSword);
 
 }
 
@@ -360,6 +352,13 @@ bool Player::Jump()
 		return true;
 	}
 	return false;
+}
+
+void Player::FlipSprite()
+{
+	ZEngine::Agent::FlipSprite();
+
+	m_EquipmentState->FlipEquipment();
 }
 
 void Player::SetInputManagerState(GameState_Gameplay* InGameplayRef)
@@ -432,16 +431,47 @@ void Player::SetTraversalState(TraversalState* InNewTraversalState)
 		delete m_TraversalState;
 		m_TraversalState = InNewTraversalState;
 		m_TraversalState->Enter(*this);
-		m_AnimationComponent->SetAnimation(m_TraversalState->GetTraversalType(), m_EquipmentState->GetEquipmentType());
-		m_AnimationComponent->Play();
+
+		if (m_EquipmentState && m_AnimationComponent && InNewTraversalState->GetTraversalType() != ETraversalType::TT_Attack)
+		{
+			m_AnimationComponent->SetAnimation(m_TraversalState->GetTraversalType(), m_EquipmentState->GetEquipmentType());
+			m_AnimationComponent->Play();
+		}
+	}
+}
+
+void Player::SetEquipmentState(EquipmentState* InNewEquipmentState)
+{
+	if (InNewEquipmentState != NULL)
+	{
+		delete m_EquipmentState;
+		m_EquipmentState = InNewEquipmentState;
+		m_EquipmentState->Enter(*this);
+
+		if (m_TraversalState && m_AnimationComponent)
+		{
+			m_AnimationComponent->SetAnimation(m_TraversalState->GetTraversalType(), m_EquipmentState->GetEquipmentType());
+			m_AnimationComponent->Play();
+		}
 	}
 }
 
 void Player::HandleInput(sf::Event* InputEvent)
 {
 	TraversalState* traversalState = dynamic_cast<TraversalState*>(m_TraversalState->HandleInput(*this, InputEvent));
+	
+	TraversalState* EquipmentChosenState = dynamic_cast<TraversalState*>(m_EquipmentState->HandleInput(*this, InputEvent));
+	
+	if (EquipmentChosenState != NULL)
+	{
+		std::cout << "WE NEW JUMPIN NOW TEAM " << std::endl;
+		SetTraversalState(EquipmentChosenState);
+		return;
+	}
+
 	if (traversalState != NULL)
 	{
+		std::cout << "WE NEW JUMPIN NOW TEAM " << std::endl;
 		SetTraversalState(traversalState);
 	}
 }

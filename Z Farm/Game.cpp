@@ -21,7 +21,7 @@ namespace ZEngine
 
 	void Game::Run()
 	{
-		float newTime, frameTime, interp;
+		float newTime, frameTime;
 
 		float currentTime = this->_clock.getElapsedTime().asSeconds();
 
@@ -43,17 +43,17 @@ namespace ZEngine
 			currentTime = newTime;
 			accumulator += frameTime;
 
-			while (accumulator >= this->_dt)
+			while (accumulator >= this->m_TargetDeltaTime)
 			{
-				
+				frameTime = fmin(accumulator, this->m_TargetDeltaTime);
 				this->_data->stateMachine.GetActiveState()->PollEvents();
 
-				this->_data->stateMachine.GetActiveState()->Update(this->_dt);
+				this->_data->stateMachine.GetActiveState()->Update(m_TargetDeltaTime);
 
-				accumulator -= this->_dt;
+				accumulator -= frameTime;
 			}
 
-			interp = accumulator / this->_dt;
+			interp = accumulator / this->m_TargetDeltaTime;
 			this->_data->stateMachine.GetActiveState()->Draw();
 		}
 	}
