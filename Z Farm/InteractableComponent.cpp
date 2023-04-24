@@ -53,7 +53,7 @@ void InteractableComponent::InitPhysics()
 	fixtureDefinition.filter.maskBits = EEntityCategory::INTERACTOR;
 
 	b2Fixture* interactableFixture = m_PhysicsBody->CreateFixture(&fixtureDefinition);
-	interactableFixture->GetUserData().pointer = static_cast<int>(ECollisionTag::interactable);
+	interactableFixture->GetUserData().pointer = static_cast<int>(ECollisionTag::CT_Interactable);
 
 }
 

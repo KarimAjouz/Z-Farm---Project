@@ -18,8 +18,6 @@ public:
 
     void EndContact(b2Contact* contact);
 
-    int fixtureAUserData = 0;
-    int fixtureBUserData = 0;
 
 private:
     bool IsContact(ECollisionTag aTag, ECollisionTag bTag);

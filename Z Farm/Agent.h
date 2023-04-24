@@ -21,11 +21,11 @@ namespace ZEngine
 		public GameObject
 	{
 	public:
-		Agent(GameDataRef InData);
+		Agent(GameDataRef InData, b2World* InWorldRef);
 		~Agent();
 
-		virtual void Update(float dT) = 0;
-		virtual void Draw() = 0;
+		virtual void Update(float dT) override;
+		virtual void Draw() override;
 
 
 		virtual void FlipSprite();

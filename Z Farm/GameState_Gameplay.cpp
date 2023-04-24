@@ -26,7 +26,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_world(_gravity),
 	_contactListener(&_player, _level),
 	_debugDraw(data),
-	//_testSword(_data, &_world, &_player),
 	_level(new Level(_data, &_world)),
 	_debugText()
 {
@@ -164,7 +163,7 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	FixtureDef.density = 0.f;  // Sets the density of the body
 	FixtureDef.shape = &Shape; // Sets the shape
 	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
-	fixture->GetUserData().pointer = static_cast<int>(ECollisionTag::level); //Tag the ground as 1
+	fixture->GetUserData().pointer = static_cast<int>(ECollisionTag::CT_Level); //Tag the ground as 1
 	
 }
 

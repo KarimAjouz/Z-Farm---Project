@@ -18,6 +18,8 @@ PlayerPhysicsComponent::PlayerPhysicsComponent(ZEngine::GameDataRef InData, b2Wo
 
 PlayerPhysicsComponent::~PlayerPhysicsComponent()
 {
+	PhysicsComponent::~PhysicsComponent();
+	delete m_FootUserData;
 }
 
 void PlayerPhysicsComponent::Update(float dT)
@@ -49,7 +51,7 @@ void PlayerPhysicsComponent::InitPhysics()
 	m_PhysicsBody->SetFixedRotation(true);
 
 	b2PolygonShape polygonShape;
-	//polygonShape.SetAsBox(_colBox.width / SCALE, _colBox.height / SCALE);
+
 	b2CircleShape circleShape;
 	circleShape.m_radius = m_CollisionBox.width / SCALE;
 	circleShape.m_p = b2Vec2(0, m_CollisionBox.height / 2 / SCALE);
@@ -63,8 +65,10 @@ void PlayerPhysicsComponent::InitPhysics()
 	myFixtureDef.filter.categoryBits = EEntityCategory::AGENTS;
 	myFixtureDef.filter.maskBits = EEntityCategory::LEVEL | EEntityCategory::OBSTACLES | EEntityCategory::AGENTS | EEntityCategory::DAMAGE;
 
+	m_UserData = new PhysicsUserData(m_Player, ECollisionTag::CT_Player);
+	myFixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(m_UserData);
+
 	b2Fixture* playerFixture = m_PhysicsBody->CreateFixture(&myFixtureDef);
-	playerFixture->GetUserData().pointer = static_cast<int>(ECollisionTag::player);
 
 
 	//add foot sensor fixture
@@ -75,8 +79,10 @@ void PlayerPhysicsComponent::InitPhysics()
 	myFixtureDef.filter.categoryBits = EEntityCategory::INTERACTOR;
 	myFixtureDef.filter.maskBits = EEntityCategory::LEVEL | EEntityCategory::INTERACTABLE | EEntityCategory::OBSTACLES;
 
+	m_FootUserData = new PhysicsUserData(m_Player, ECollisionTag::CT_PlayerFoot);
+	myFixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(m_FootUserData);
+
 	b2Fixture* footSensorFixture = m_PhysicsBody->CreateFixture(&myFixtureDef);
-	footSensorFixture->GetUserData().pointer = static_cast<int>(ECollisionTag::playerFoot);
 }
 
 bool PlayerPhysicsComponent::Jump()

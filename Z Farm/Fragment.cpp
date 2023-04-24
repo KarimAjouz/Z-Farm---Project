@@ -17,9 +17,9 @@ Fragment::Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect tex
 
 	
 	
-	sf::Vector2f force = sf::Vector2f(ZEngine::Utilities::Random(forceDir.x / 2, forceDir.x), ZEngine::Utilities::Random(-20, -40));
+	sf::Vector2f force = sf::Vector2f(ZEngine::Utilities::Random(forceDir.x / 2, forceDir.x), -ZEngine::Utilities::Random(forceDir.y / 2, forceDir.y));
 
-	force = ZEngine::Utilities::NormaliseVector(force) * 2.0f;
+	force = ZEngine::Utilities::NormaliseVector(force) * 10.0f / SCALE;
 
 	b2Vec2 b2Force = b2Vec2(force.x * 2 / 3, force.y * 2 / 3);
 	
@@ -51,7 +51,7 @@ void Fragment::InitPhysics()
 	bodyDef.position = b2Vec2((sprite.getPosition().x + sprite.getTextureRect().left) / SCALE, (sprite.getPosition().y + sprite.getTextureRect().top) / SCALE);
 
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.userData.pointer = static_cast<int>(ECollisionTag::prop);
+	bodyDef.userData.pointer = static_cast<int>(ECollisionTag::CT_Prop);
 	body = _worldRef->CreateBody(&bodyDef);
 
 	//Define, set, and add the primary fixture for the spike

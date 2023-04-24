@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "ObjectComponent.h"
+#include "PhysicsComponent.h"
 
 namespace ZEngine
 {
@@ -9,12 +10,12 @@ namespace ZEngine
 
 	}
 
-	GameObject::GameObject(GameDataRef InData)
+	GameObject::GameObject(GameDataRef InData, b2World* InWorldRef)
 		:
 		_Components(std::vector<ObjectComponent*>()),
 		m_Data(InData),
 		m_Sprite(sf::Sprite()),
-		m_WorldRef(nullptr)
+		m_WorldRef(InWorldRef)
 	{
 	}
 
@@ -48,6 +49,7 @@ namespace ZEngine
 			Component->~ObjectComponent();
 		}
 	}
+
 	void GameObject::Update(float dT)
 	{
 		for (ObjectComponent* Component : _Components)
@@ -59,14 +61,15 @@ namespace ZEngine
 
 	void GameObject::Draw()
 	{
-		//for (ObjectComponent* Component : _Components)
-		//{
-		//	Component->Draw();
-		//}
 		m_Data->GameWindow.draw(m_Sprite);
 	}
 
 	void GameObject::Hit()
+	{
+
+	}
+
+	void GameObject::Hit(sf::Vector2f InDamageSourcePos)
 	{
 
 	}

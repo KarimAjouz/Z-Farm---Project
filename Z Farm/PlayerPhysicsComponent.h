@@ -21,5 +21,7 @@ private:
 	class Player* m_Player;
 
 	sf::IntRect m_CollisionBox = sf::IntRect(25, 16, 18, 12);
+
+	PhysicsUserData* m_FootUserData = nullptr;
 };
 

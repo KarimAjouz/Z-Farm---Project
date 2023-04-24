@@ -53,7 +53,7 @@ namespace ZEngine
 				accumulator -= frameTime;
 			}
 
-			interp = accumulator / this->m_TargetDeltaTime;
+			//interp = accumulator / this->m_TargetDeltaTime;
 			this->_data->stateMachine.GetActiveState()->Draw();
 		}
 	}

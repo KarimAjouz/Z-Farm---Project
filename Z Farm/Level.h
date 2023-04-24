@@ -8,6 +8,8 @@
 
 #include "SFMLOrthogonalLayer.hpp"
 
+struct PhysicsUserData;
+
 class Level
 {
 public:
@@ -41,6 +43,7 @@ private:
 
 	//std::vector<Tile*> _tiles;
 	std::vector<b2Body*> _physicsBodies;
+	std::vector<PhysicsUserData*> _physicsUserData;
 
 	std::vector<class Obstacle*> _obstacles;
 

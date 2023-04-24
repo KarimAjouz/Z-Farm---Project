@@ -4,10 +4,16 @@
 #include "box2d.h"
 #include "GameObject.h"
 
+class PhysicsComponent;
+struct PhysicsUserData;
+enum ECollisionTag;
+
 class Attack
+	:
+	public ZEngine::GameObject
 {
 public:
-	Attack(sf::IntRect InHitboxRect, class Player& InPlayer, std::string InAttackAnimName, float InDamageFrameTime);
+	Attack(ZEngine::GameDataRef InData, b2World* InWorldRef, sf::IntRect InHitboxRect, class Player& InPlayer, std::string InAttackAnimName, float InDamageFrameTime);
 	~Attack();
 
 	std::string GetAnimation() { return m_AttackAnimationName; }
@@ -15,21 +21,22 @@ public:
 	void FlipFixture();
 	float GetDamageFrameTime() { return m_DamageFrameTime; }
 
-	void AddContactObject(ZEngine::GameObject* InObject);
-	void RemoveContactObject(ZEngine::GameObject* InObject);
-	void CommitDamage();
+	void CommitDamage(sf::Vector2f InDamageSourcePos);
+
+	virtual void HandleContactBegin(PhysicsUserData* InCollidingFixture, ECollisionTag InMyCollidedFixture) override;
+	virtual void HandleContactEnd(PhysicsUserData* InCollidingFixture, ECollisionTag InMyCollidedFixture) override;
 
 private:
 	std::string m_AttackAnimationName;
-	b2Fixture* m_Hitbox = nullptr;
-	b2Body* m_PlayerBody;
+	PhysicsComponent* m_HitboxComponent = nullptr;
 	float m_DamageFrameTime;
 
 	sf::IntRect m_HitboxRect;
 
 	std::vector<ZEngine::GameObject*> m_ContactObjects;
 
-	void InitPhysics();
+	void AddContactObject(ZEngine::GameObject* InObject);
+	void RemoveContactObject(ZEngine::GameObject* InObject);
 
 };
 

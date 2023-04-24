@@ -11,10 +11,10 @@ public:
 	void Update(float dT);
 	virtual void Draw() override;
 
-	void Shatter(sf::Vector2f playerPos);
+	void Shatter(sf::Vector2f InDamageSourcePos);
 
-	void Hit();
-	void Hit(sf::Vector2f playerPos);
+	void Hit() override;
+	void Hit(sf::Vector2f InDamageSourcePos) override;
 
 private:
 	ZEngine::GameDataRef _data;

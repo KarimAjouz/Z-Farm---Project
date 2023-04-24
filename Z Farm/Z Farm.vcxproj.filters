@@ -45,13 +45,13 @@
       <Filter>Project\Agents</Filter>
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="Spike.cpp">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClCompile>
     <ClCompile Include="BalanceSheet.cpp">
       <Filter>Utilities</Filter>
@@ -218,13 +218,13 @@
       <Filter>Project\Agents</Filter>
     </ClInclude>
     <ClInclude Include="Obstacle.h">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="Spike.h">
-      <Filter>Project\Obstacles</Filter>
+      <Filter>Project\GameObjects\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="BalanceSheet.h">
       <Filter>Utilities</Filter>
@@ -384,9 +384,6 @@
     <Filter Include="Project\Level">
       <UniqueIdentifier>{a3df6c35-d069-4557-a222-37fbf4b2be07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project\Obstacles">
-      <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project\Physics">
       <UniqueIdentifier>{542fc80a-ead8-4540-a7d6-c986e72d5a8d}</UniqueIdentifier>
     </Filter>
@@ -416,6 +413,9 @@
     </Filter>
     <Filter Include="Project\Agents\Player\States\EquipmentState">
       <UniqueIdentifier>{d5998eaf-ed3f-4032-9753-fc7f9d9a43b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\GameObjects\Obstacles">
+      <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

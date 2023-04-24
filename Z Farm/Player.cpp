@@ -15,10 +15,9 @@
 /// </summary>
 /// <param name="texPath"> The filepath for the player texture. </param>
 /// <param name="pos"> The position to spwan the player in. </param>
-Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b2World* worldRef, sf::Vector2f* viewTargetRef, Level* levelRef) :
-	Agent(InData),
+Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b2World* InWorldRef, sf::Vector2f* viewTargetRef, Level* levelRef) :
+	Agent(InData, InWorldRef),
 	//m_TraversalState(new IdleState),
-	_worldRef(worldRef),
 	_viewTargetRef(viewTargetRef),
 	_levelRef(levelRef),
 	_stabDelay(0.1f, false),
@@ -33,7 +32,7 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b
 	SetTraversalState(new IdleState);
 
 	m_AnimationComponent = new PlayerAnimationComponent(GetSprite(), InData);
-	m_PhysicsComponent = new PlayerPhysicsComponent(InData, worldRef, this);
+	m_PhysicsComponent = new PlayerPhysicsComponent(InData, InWorldRef, this);
 	SetEquipmentState(new SwordState);
 
 
@@ -68,27 +67,25 @@ void Player::Update(float dT)
 
 void Player::Draw()
 {
-	m_Data->GameWindow.draw(m_Sprite);
+	Agent::Draw();
+}
 
-	//int numFixtures = 0;
-	//for (b2Fixture* b = m_PhysicsComponent->GetBody()->GetFixtureList(); b != nullptr; b = b->GetNext())
-	//{
-	//	numFixtures++;
-	//}
-	//std::cout << "NumFixtures: " << std::to_string(numFixtures) << std::endl;
-
-	/*if (_interactable != nullptr)
+void Player::HandleContactBegin(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture)
+{
+	if (InMyCollidedFixture == ECollisionTag::CT_PlayerFoot)
 	{
-		sf::CircleShape circleInteract;
-		circleInteract.setRadius(3.0f);
-		circleInteract.setOrigin(sf::Vector2f(3.0f, 3.0f));
-		circleInteract.setPosition(_interactable->sprite.getPosition());
-		circleInteract.setFillColor(sf::Color::Cyan);
-		circleInteract.setOutlineColor(sf::Color::Cyan);
-		circleInteract.setOutlineThickness(1.0f);
+		if (InCollidingUserData->CollisionTag == CT_Box || InCollidingUserData->CollisionTag == CT_Level)
+			footContacts++;
+	}
+}
 
-		_data->GameWindow.draw(circleInteract);
-	}*/
+void Player::HandleContactEnd(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture)
+{
+	if (InMyCollidedFixture == ECollisionTag::CT_PlayerFoot)
+	{
+		if(InCollidingUserData->CollisionTag == CT_Box || InCollidingUserData->CollisionTag == CT_Level)
+			footContacts--;
+	}
 }
 
 

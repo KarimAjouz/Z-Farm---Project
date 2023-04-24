@@ -20,33 +20,41 @@ enum EEntityCategory
 
 enum ECollisionTag
 {
-	def,
-	player,
-	playerFoot,
-	level,
-	tile,
-	ground,
-	enemy,
-	enemyFoot,
-	background,
-	room,
-	playerSword,
-	spike,
-	prop,
-	box,
-	interactable
+	CT_DEFAULT,
+	CT_Player,
+	CT_PlayerFoot,
+	CT_Level,
+	CT_Tile,
+	CT_Ground,
+	CT_Enemy,
+	CT_EnemyFoot,
+	CT_Background,
+	CT_Room,
+	CT_PlayerSword,
+	CT_Spike,
+	CT_Prop,
+	CT_Box,
+	CT_Interactable
 };
 
-struct BodyUserData
+class PhysicsUserData
 {
-	BodyUserData() {};
-	BodyUserData(ZEngine::GameObject* InObjectPointer)
+public:
+	PhysicsUserData() = default;
+	PhysicsUserData(ZEngine::GameObject* InObjectPointer, ECollisionTag InCollisionTag)
 		:
-		ObjectPointer(InObjectPointer) 
-	{};
+		ObjectPointer(InObjectPointer),
+		CollisionTag(InCollisionTag)
+	{
+		bIsValid = true;
+	};
 
 	ZEngine::GameObject* ObjectPointer = nullptr;
+	ECollisionTag CollisionTag = ECollisionTag::CT_DEFAULT;
+	bool bIsValid = false;
 };
+
+
 class PhysicsComponent :
 	public ZEngine::ObjectComponent
 {
@@ -59,19 +67,21 @@ public:
 	virtual void Update(float dT) override;
 
 	virtual void InitPhysics();
-	virtual void SetBodyUserData(ZEngine::GameObject* InGameObject);
+	virtual void SetBodyUserData(ZEngine::GameObject* InGameObject, ECollisionTag InCollisionTag);
 
-	void MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollisionBox, bool InIsDynamic, ZEngine::GameObject* InGameObject);
+	void MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedObject, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories);
 
 	sf::Vector2f GetVelocity() { return sf::Vector2f(m_PhysicsBody->GetLinearVelocity().x * 30, -m_PhysicsBody->GetLinearVelocity().y * 30); };
 
 	b2Body* GetBody() { return m_PhysicsBody; };
 
+
+
 protected:
 
 	b2World* m_WorldRef;
 	b2Body* m_PhysicsBody;
-	//BodyUserData m_UserData;
+	PhysicsUserData* m_UserData;
 
 	// Methods
 

@@ -2,6 +2,8 @@
 #include "Definitions.h"
 #include "PhysicsComponent.h"
 
+#include <iostream>
+
 Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	Obstacle::Obstacle(data, pos, world),
 	_data(data)
@@ -23,8 +25,22 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	hitbox.setScale(m_Sprite.getScale());
 
 	type = Obstacle::Type::box;
-	m_PhysicsComponent->MakeAsBoxBody(pos, sf::IntRect(0, 0, hitbox.getSize().x, hitbox.getSize().y), true, this);
-	//m_PhysicsComponent->SetBodyUserData(this);
+
+	m_PhysicsComponent->MakeAsBoxBody(
+		pos, 
+		sf::IntRect(0, 0, hitbox.getSize().x, hitbox.getSize().y),
+		nullptr,
+		true, 
+		false, 
+		EEntityCategory::OBSTACLES,
+			  EEntityCategory::LEVEL
+			| EEntityCategory::OBSTACLES
+			| EEntityCategory::AGENTS
+			| EEntityCategory::DAMAGE
+			| EEntityCategory::INTERACTOR
+	);
+
+	m_PhysicsComponent->SetBodyUserData(this, ECollisionTag::CT_Box);
 }
 
 
@@ -68,11 +84,13 @@ void Box::InitPhysics()
 	//Obstacle::InitPhysics(sf::IntRect(0, 0, 22, 16), true, true, worldRef);
 }
 
-void Box::Shatter(sf::Vector2f playerPos)
+void Box::Shatter(sf::Vector2f InDamageSourcePos)
 {
 	m_WorldRef->DestroyBody(m_PhysicsComponent->GetBody());
 
-	sf::Vector2f forceDir = m_Sprite.getPosition() - playerPos;
+	sf::Vector2f forceDir = m_Sprite.getPosition() - InDamageSourcePos;
+
+	std::cout << "Box::Shatter --> ForceDir = (" << std::to_string(forceDir.x) << ", " << std::to_string(forceDir.y) << ")" << std::endl;
 
 	sf::IntRect texRect = sf::IntRect(0, 0, 8, 7);
 	m_Fragments.push_back(Fragment(_data, m_WorldRef, texRect, sf::Vector2f(m_Sprite.getPosition().x + texRect.left, m_Sprite.getPosition().y + texRect.top), forceDir));
@@ -95,14 +113,14 @@ void Box::Shatter(sf::Vector2f playerPos)
 	_shattered = true;
 }
 
-void Box::Hit(sf::Vector2f playerPos)
-{
-	if(!_shattered)
-		Shatter(playerPos);
-}
-
 void Box::Hit()
 {
 	if (!_shattered)
 		Shatter(m_Sprite.getPosition());
+}
+
+void Box::Hit(sf::Vector2f InDamageSourcePos)
+{
+	if (!_shattered)
+		Shatter(InDamageSourcePos);
 }

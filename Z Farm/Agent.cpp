@@ -4,8 +4,8 @@
 
 namespace ZEngine
 {
-	Agent::Agent(GameDataRef InData) :
-		GameObject(InData),
+	Agent::Agent(GameDataRef InData, b2World* InWorldRef) :
+		GameObject(InData, InWorldRef),
 		isFlipped(false),
 		type(AgentType::count)
 	{
@@ -29,5 +29,9 @@ namespace ZEngine
 		{
 			Component->Update(dT);
 		}
+	}
+	void Agent::Draw()
+	{
+		GameObject::Draw();
 	}
 }

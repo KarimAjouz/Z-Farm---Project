@@ -38,7 +38,7 @@ void AttackState::Update(float dT, Player& InPlayer)
 
 		if (m_RunningTime > CurAttack->GetDamageFrameTime())
 		{
-			CurAttack->CommitDamage();
+			CurAttack->CommitDamage(InPlayer.GetSprite()->getPosition());
 		}
 		m_RunningTime += dT;
 	}

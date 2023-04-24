@@ -15,6 +15,9 @@
 
 #include <SFML/Graphics.hpp>
 
+struct PhysicsUserData;
+enum ECollisionTag;
+
 class Player
 	: 
 	public ZEngine::Agent
@@ -23,9 +26,12 @@ public:
 	Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b2World* worldRef, sf::Vector2f* viewTargetRef, Level* levelRef);
 	~Player();
 
-	void Update(float dT);
-	void Draw();
+	virtual void Update(float dT) override;
+	virtual void Draw() override;
 
+
+	virtual void HandleContactBegin(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) override;
+	virtual void HandleContactEnd(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) override;
 
 	int footContacts = 0;
 
@@ -37,7 +43,7 @@ public:
 
 	void Stab();
 	bool Jump();
-	void Interact();
+	//void Interact();
 	virtual void FlipSprite() override;
 
 	void SetInputManagerState(class GameState_Gameplay* InGameplayRef);
@@ -90,7 +96,6 @@ private:
 
 	bool _swordActive = false;
 
-	b2World* _worldRef;
 	sf::Vector2i _wasd = sf::Vector2i();
 	float _desiredVelocity = 0;
 	

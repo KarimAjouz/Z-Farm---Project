@@ -26,6 +26,12 @@ Level::~Level()
 	{
 		_obstacles.pop_back();
 	}
+
+	for (int i = _physicsUserData.size() -1; i > 0; i--)
+	{
+		delete _physicsUserData[i];
+		_physicsUserData.pop_back();
+	}
 }
 
 void Level::Init(ZEngine::GameDataRef data, b2World* worldRef)
@@ -118,11 +124,12 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 		worldCollisionDef.position = b2Vec2((object.getPosition().x + (object.getAABB().width / 2)) / SCALE, (object.getPosition().y + (object.getAABB().height / 2)) / SCALE);
 		worldCollisionDef.type = b2_kinematicBody;
 		b2Body* collisionBody = _worldRef->CreateBody(&worldCollisionDef);
-		collisionBody->GetUserData().pointer = static_cast<int>(ECollisionTag::level);
+
+		PhysicsUserData* LevelColliderUserData = new PhysicsUserData(nullptr, ECollisionTag::CT_Level);
+		collisionBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(LevelColliderUserData);
 
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox((object.getAABB().width / 2) / SCALE, (object.getAABB().height / 2) / SCALE, b2Vec2(0.0f, 0.0f), 0.0f);
-		ECollisionTag collisionTag = ECollisionTag::level;
 
 		b2FixtureDef myFixtureDef;
 		myFixtureDef.density = 1.0f;
@@ -130,7 +137,9 @@ void Level::BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer)
 		myFixtureDef.restitution = 0.1f;
 		myFixtureDef.shape = &polygonShape;
 		b2Fixture* fixture = collisionBody->CreateFixture(&myFixtureDef);
-		fixture->GetUserData().pointer = static_cast<int>(collisionTag);
+		fixture->GetUserData().pointer = reinterpret_cast<uintptr_t>(LevelColliderUserData);
+
+		_physicsUserData.push_back(LevelColliderUserData);
 	}
 }
 

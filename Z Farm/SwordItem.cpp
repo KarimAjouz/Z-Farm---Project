@@ -1,5 +1,6 @@
 #include "SwordItem.h"
 #include "Attack.h"
+#include "PlayerPhysicsComponent.h"
 #include "Player.h"
 
 #include <iostream>
@@ -36,7 +37,7 @@ void SwordItem::GenerateAttacks(Player& InPlayer)
 	}
 
 	sf::Vector2f playerPosition = InPlayer.GetSprite()->getPosition();
-	m_AtackSequence.push_back(new Attack(sf::IntRect(50, 8, 14, 6), InPlayer, "PlayerStab", 0.1f));
-	m_AtackSequence.push_back(new Attack(sf::IntRect(46, -16, 10, 20), InPlayer, "PlayerUpSlash", 0.1f));
-	m_AtackSequence.push_back(new Attack(sf::IntRect(47, 20, 9, 18), InPlayer, "PlayerDownSlash", 0.1f));
+	m_AtackSequence.push_back(new Attack(InPlayer.GetData(), InPlayer.GetWorldRef(), sf::IntRect(50, 8, 14, 6), InPlayer, "PlayerStab", 0.1f));
+	m_AtackSequence.push_back(new Attack(InPlayer.GetData(), InPlayer.GetWorldRef(), sf::IntRect(46, -16, 10, 20), InPlayer, "PlayerUpSlash", 0.1f));
+	m_AtackSequence.push_back(new Attack(InPlayer.GetData(), InPlayer.GetWorldRef(), sf::IntRect(47, 20, 9, 18), InPlayer, "PlayerDownSlash", 0.1f));
 }

@@ -3,6 +3,10 @@
 #include "Game.h"
 #include "box2d.h"
 #include <SFML/Graphics.hpp>
+
+struct PhysicsUserData;
+enum ECollisionTag;
+
 namespace ZEngine
 {
 
@@ -10,7 +14,7 @@ namespace ZEngine
 	{
 	public:
 		GameObject();
-		GameObject(GameDataRef InData);
+		GameObject(GameDataRef InData, class b2World* InWorldRef);
 		GameObject(GameDataRef InData, sf::Vector2f InPosition, class b2World* InWorldRef);
 
 		//Constructor for a non-physics GameObject
@@ -23,8 +27,16 @@ namespace ZEngine
 
 
 		virtual void Hit();
+		virtual void Hit(sf::Vector2f InDamageSourcePos);
+
+		virtual void HandleContactBegin(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) {};
+		virtual void HandleContactEnd(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) {};
 
 		sf::Sprite* GetSprite() { return &m_Sprite; };
+
+		ZEngine::GameDataRef GetData() { return m_Data; };
+		b2World* GetWorldRef() { return m_WorldRef; };
+
 
 	protected:
 
