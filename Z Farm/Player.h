@@ -53,7 +53,6 @@ public:
 	sf::Vector2f GetInputAxis() { return m_InputManager->GetInputAxis(); }
 	
 	PlayerAnimationComponent* GetAnimationComponent() { return m_AnimationComponent; }
-	class PlayerPhysicsComponent* GetPhysicsComponent() { return m_PhysicsComponent; }
 	InputManager* GetInputManager() { return m_InputManager; }
 
 
@@ -82,7 +81,6 @@ private:
 	/// #BeginComponents
 	PlayerAnimationComponent* m_AnimationComponent;
 	InputManager* m_InputManager;
-	class PlayerPhysicsComponent* m_PhysicsComponent;
 
 	// #EndComponents
 

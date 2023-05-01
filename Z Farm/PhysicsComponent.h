@@ -68,19 +68,25 @@ public:
 
 	virtual void InitPhysics();
 	virtual void SetBodyUserData(ZEngine::GameObject* InGameObject, ECollisionTag InCollisionTag);
+	virtual void SetFixtureUserData(ZEngine::GameObject* InGameObject, ECollisionTag InCollisionTag);
 
 	void MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedObject, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories);
+	void MakeAsBoxFixture(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedObject, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories);
 
 	sf::Vector2f GetVelocity() { return sf::Vector2f(m_PhysicsBody->GetLinearVelocity().x * 30, -m_PhysicsBody->GetLinearVelocity().y * 30); };
 
 	b2Body* GetBody() { return m_PhysicsBody; };
+	b2Fixture* GetFixture() { return m_PhysicsFixture; }
 
+	virtual bool Jump() { return false; };
+	virtual void Move() {};
 
 
 protected:
 
 	b2World* m_WorldRef;
 	b2Body* m_PhysicsBody;
+	b2Fixture* m_PhysicsFixture;
 	PhysicsUserData* m_UserData;
 
 	// Methods

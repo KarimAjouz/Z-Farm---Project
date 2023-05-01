@@ -4,6 +4,8 @@
 
 #include "GameObject.h"
 
+class PhysicsComponent;
+
 namespace ZEngine
 {
 
@@ -39,6 +41,8 @@ namespace ZEngine
 
 		void MarkForDeath() { isMarked = true; };
 
+		class PhysicsComponent* GetPhysicsComponent() { return m_PhysicsComponent; }
+
 		AgentType type;
 
 		//b2Body* body = nullptr;
@@ -46,6 +50,9 @@ namespace ZEngine
 		b2World* worldRef = nullptr;
 
 		int footContacts = 0;
+
+	protected:
+		class PhysicsComponent* m_PhysicsComponent;
 
 	private:
 	};

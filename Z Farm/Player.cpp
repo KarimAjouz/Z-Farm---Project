@@ -344,7 +344,9 @@ bool Player::Jump()
 	if (footContacts <= 0 || _jumpTimeout > 0)
 		return false;
 
-	if (m_PhysicsComponent->Jump())
+	PlayerPhysicsComponent* physicsComp = dynamic_cast<PlayerPhysicsComponent*>(m_PhysicsComponent);
+
+	if (physicsComp->Jump())
 	{
 		return true;
 	}

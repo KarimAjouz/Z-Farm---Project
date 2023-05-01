@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "box2d.h"
 #include "GameObject.h"
+#include "Agent.h"
 
 class PhysicsComponent;
 struct PhysicsUserData;
@@ -13,10 +14,12 @@ class Attack
 	public ZEngine::GameObject
 {
 public:
-	Attack(ZEngine::GameDataRef InData, b2World* InWorldRef, sf::IntRect InHitboxRect, class Player& InPlayer, std::string InAttackAnimName, float InDamageFrameTime);
+	Attack(ZEngine::GameDataRef InData, b2World* InWorldRef, sf::IntRect InHitboxRect, ZEngine::Agent& InOwningObject, std::string InAttackAnimName, float InDamageFrameTime);
 	~Attack();
 
 	std::string GetAnimation() { return m_AttackAnimationName; }
+
+	void InitHitbox();
 
 	void FlipFixture();
 	float GetDamageFrameTime() { return m_DamageFrameTime; }
@@ -34,6 +37,8 @@ private:
 	sf::IntRect m_HitboxRect;
 
 	std::vector<ZEngine::GameObject*> m_ContactObjects;
+
+	ZEngine::Agent* m_Owner;
 
 	void AddContactObject(ZEngine::GameObject* InObject);
 	void RemoveContactObject(ZEngine::GameObject* InObject);

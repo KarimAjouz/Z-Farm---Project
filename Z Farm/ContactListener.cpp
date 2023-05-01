@@ -23,13 +23,13 @@ void ContactListener::BeginContact(b2Contact* contact)
     PhysicsUserData* m_FixtureAUserData = reinterpret_cast<PhysicsUserData*>(contact->GetFixtureA()->GetUserData().pointer);
     PhysicsUserData* m_FixtureBUserData = reinterpret_cast<PhysicsUserData*>(contact->GetFixtureB()->GetUserData().pointer);
 
-    if (!m_FixtureAUserData->bIsValid)
+    if (m_FixtureAUserData == NULL || !m_FixtureAUserData->bIsValid)
     {
         std::cout << "ContactListener::BeginContact --> FixtureAUserData is null!" << std::endl;
         return;
     }
 
-    if (!m_FixtureBUserData->bIsValid)
+    if (m_FixtureBUserData == NULL || !m_FixtureBUserData->bIsValid)
     {
         std::cout << "ContactListener::BeginContact --> FixtureBUserData is null!" << std::endl;
         return;
@@ -111,13 +111,13 @@ void ContactListener::EndContact(b2Contact* contact)
     PhysicsUserData* m_FixtureAUserData = reinterpret_cast<PhysicsUserData*>(contact->GetFixtureA()->GetUserData().pointer);
     PhysicsUserData* m_FixtureBUserData = reinterpret_cast<PhysicsUserData*>(contact->GetFixtureB()->GetUserData().pointer);
 
-    if (!m_FixtureAUserData)
+    if (m_FixtureAUserData == NULL || !m_FixtureAUserData)
     {
         std::cout << "ContactListener::EndContact --> FixtureAUserData is null!" << std::endl;
         return;
     }
 
-    if (!m_FixtureBUserData)
+    if (m_FixtureBUserData == NULL || !m_FixtureBUserData)
     {
         std::cout << "ContactListener::EndContact --> FixtureBUserData is null!" << std::endl;
         return;

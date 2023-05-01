@@ -13,8 +13,8 @@ public:
 	virtual void Update(float dT) override;
 
 	virtual void InitPhysics() override;
-	bool Jump();
-	void Move();
+	virtual bool Jump() override;
+	virtual void Move() override;
 
 private:
 

@@ -1,28 +1,28 @@
 #include "Attack.h"
 #include "Player.h";
-#include "GameObject.h";
 #include "PhysicsComponent.h";
 
-Attack::Attack(ZEngine::GameDataRef InData, b2World* InWorldRef, sf::IntRect InHitbox, Player& InPlayer, std::string InAttackAnimName, float InDamageFrameTime)
+Attack::Attack(ZEngine::GameDataRef InData, b2World* InWorldRef, sf::IntRect InHitbox, ZEngine::Agent& OwningObject, std::string InAttackAnimName, float InDamageFrameTime)
 	:
 	GameObject::GameObject(InData, sf::Vector2f(), InWorldRef),
 	m_HitboxComponent(new PhysicsComponent(m_Data, m_WorldRef)),
 	m_AttackAnimationName(InAttackAnimName),
+	m_Owner(&OwningObject),
 	m_HitboxRect(InHitbox),
 	m_DamageFrameTime(InDamageFrameTime)
 {
-	//m_HitboxComponent->MakeAsBoxBody(
-	//	sf::Vector2f(m_HitboxRect.left, m_HitboxRect.top),
-	//	InHitbox,
-	//	reinterpret_cast<PhysicsComponent*>(InPlayer.GetPhysicsComponent()),
-	//	true,
-	//	true,
-	//	EEntityCategory::DAMAGE,
-	//	EEntityCategory::OBSTACLES
-	//	| EEntityCategory::AGENTS
-	//);
+	m_HitboxComponent->MakeAsBoxFixture(
+		sf::Vector2f(m_HitboxRect.left, m_HitboxRect.top),
+		m_HitboxRect,
+		reinterpret_cast<PhysicsComponent*>(OwningObject.GetPhysicsComponent()),
+		true,
+		true,
+		EEntityCategory::DAMAGE,
+		EEntityCategory::OBSTACLES
+		| EEntityCategory::AGENTS
+	);
 
-	//m_HitboxComponent->SetBodyUserData(this, ECollisionTag::CT_PlayerSword);
+	m_HitboxComponent->SetFixtureUserData(this, ECollisionTag::CT_PlayerSword);
 }
 
 Attack::~Attack()
@@ -30,13 +30,30 @@ Attack::~Attack()
 	m_HitboxComponent->~PhysicsComponent();
 }
 
+void Attack::InitHitbox()
+{
+	m_HitboxComponent->MakeAsBoxFixture(
+		sf::Vector2f(m_HitboxRect.left, m_HitboxRect.top),
+		m_HitboxRect,
+		reinterpret_cast<PhysicsComponent*>(m_Owner->GetPhysicsComponent()),
+		true,
+		true,
+		EEntityCategory::DAMAGE,
+		EEntityCategory::OBSTACLES
+		| EEntityCategory::AGENTS
+	);
+
+	m_HitboxComponent->SetFixtureUserData(this, ECollisionTag::CT_PlayerSword);
+}
+
 void Attack::FlipFixture()
 {
-	//b2Vec2 newFixturePos = m_HitboxComponent->GetBody()->GetFixtureList()->GetAABB(0).GetCenter();
-	//newFixturePos *= -1;
-	//m_HitboxRect.left *= -1;
-	//m_PlayerBody->DestroyFixture(m_Hitbox);
-	//InitPhysics();
+	b2Vec2 newFixturePos = m_HitboxComponent->GetFixture()->GetAABB(0).GetCenter();
+	newFixturePos *= -1;
+	m_HitboxRect.left *= -1;
+	m_HitboxComponent->GetBody()->DestroyFixture(m_HitboxComponent->GetFixture());
+
+	InitHitbox();
 }
 
 void Attack::AddContactObject(ZEngine::GameObject* InObject)
@@ -85,8 +102,29 @@ void Attack::CommitDamage(sf::Vector2f InDamageSourcePos)
 
 void Attack::HandleContactBegin(PhysicsUserData* InCollidingFixture, ECollisionTag InMyCollidedFixture)
 {
+	ZEngine::GameObject* AddedObj = reinterpret_cast<PhysicsUserData*>(InCollidingFixture)->ObjectPointer;
+	
+	if (AddedObj == nullptr)
+	{
+		std::cout << "WARNING: Attack::HandleContactBegin --> InCollidingFixture has a nullptr" << std::endl;
+		return;
+	}
+
+	m_ContactObjects.push_back(AddedObj);
 }
 
 void Attack::HandleContactEnd(PhysicsUserData* InCollidingFixture, ECollisionTag InMyCollidedFixture)
 {
+	ZEngine::GameObject* RemovedObj = reinterpret_cast<PhysicsUserData*>(InCollidingFixture)->ObjectPointer;
+
+	for (int i = 0; i < m_ContactObjects.size(); i++)
+	{
+		if (m_ContactObjects[i] == RemovedObj)
+		{
+			m_ContactObjects[i] = m_ContactObjects[m_ContactObjects.size() - 1];
+			m_ContactObjects.pop_back();
+
+			break;
+		}
+	}
 }
