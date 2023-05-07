@@ -1,9 +1,6 @@
 #include "Pickup.h"
 
-Pickup::Pickup()
-{
-
-}
+#include "PhysicsComponent.h"
 
 //Pickup::Pickup(int val, std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, sf::Vector2f dir) :
 //	_data(data),
@@ -17,36 +14,18 @@ Pickup::Pickup()
 //	sprite.setPosition(pos);
 //}
 
+Pickup::Pickup(ZEngine::GameDataRef InData, sf::Vector2f InPosition, b2World* InWorldRef)
+	:
+	GameObject(InData, InPosition, InWorldRef)
+{
+}
+
 Pickup::~Pickup()
 {
+	GameObject::~GameObject();
 }
 
 void Pickup::Update(float dT)
 {
 
-}
-
-void Pickup::Draw()
-{
-	_data->GameWindow.draw(sprite);
-}
-
-/// <summary>
-/// Marks the pickup for death, returns the value if collected.
-/// </summary>
-/// <param name="collected"></param>
-/// <returns></returns>
-int Pickup::Destroy(bool collected)
-{
-	_markedForDeath = true;
-
-	if (collected)
-		return _value;
-	else
-		return 0;
-}
-
-bool Pickup::IsMarked()
-{
-	return _markedForDeath;
 }

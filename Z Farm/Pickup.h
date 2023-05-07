@@ -7,29 +7,19 @@
 
 
 class Pickup
+	:
+	public ZEngine::GameObject
 {
 public:
-	Pickup();
-	Pickup(std::string texPath, sf::Vector2f pos, ZEngine::GameDataRef data, sf::Vector2f dir);
+	Pickup(ZEngine::GameDataRef InData, sf::Vector2f InPosition, class b2World* InWorldRef);
 	~Pickup();
 
-	sf::Sprite sprite;
-	void Update(float dT);
-	void Draw();
+	virtual void Update(float dT) override;
 
-	int Destroy(bool collected);
+	void Collect(ZEngine::Agent* InCollectingAgent);
 
-	bool IsMarked();
-
-
-private:
-	ZEngine::GameDataRef _data;
-
-	int _value;
-
-	sf::Vector2f _movement;
-
-	bool _markedForDeath;
+protected:
+	class PhysicsComponent* m_PhysicsComponent;
 
 };
 
