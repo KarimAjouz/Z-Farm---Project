@@ -20,7 +20,6 @@ void Equippable::UnequipItem(ZEngine::Agent& InOwningAgent)
 {
 }
 
-
 EquipmentState* Equippable::GetEquipmentState()
 {
 	return new EquipmentState();

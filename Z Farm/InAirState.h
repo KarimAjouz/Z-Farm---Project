@@ -12,4 +12,3 @@ public:
 
 	virtual PlayerState* HandleInput(Player& InPlayer, sf::Event* InEvent) override;
 };
-

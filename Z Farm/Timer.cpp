@@ -3,8 +3,6 @@
 
 namespace ZEngine
 {
-
-
 	Timer::Timer(float length, bool autoRestart) :
 		_length(length),
 		_autoRestart(autoRestart),
@@ -12,7 +10,6 @@ namespace ZEngine
 	{
 		_running = false;
 	}
-
 
 	Timer::~Timer()
 	{
@@ -36,7 +33,7 @@ namespace ZEngine
 		return false;
 	}
 
-	float Timer::GetPercentageRemaining() 
+	float Timer::GetPercentageRemaining()
 	{
 		return (_clock.getElapsedTime().asSeconds() / _length);
 	}
@@ -57,7 +54,7 @@ namespace ZEngine
 	{
 		return _clock.getElapsedTime().asSeconds();
 	}
-	
+
 	void Timer::SetTimer(float seconds)
 	{
 		_length = seconds;

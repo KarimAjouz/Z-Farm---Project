@@ -39,7 +39,6 @@ void PlayerPhysicsComponent::Update(float dT)
 
 		m_PhysicsBody->ApplyLinearImpulse(b2Vec2(impulse, 0), m_PhysicsBody->GetWorldCenter(), true);
 	}
-
 }
 
 void PlayerPhysicsComponent::InitPhysics()
@@ -69,7 +68,6 @@ void PlayerPhysicsComponent::InitPhysics()
 	myFixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(m_UserData);
 
 	b2Fixture* playerFixture = m_PhysicsBody->CreateFixture(&myFixtureDef);
-
 
 	//add foot sensor fixture
 	polygonShape.SetAsBox(10 / SCALE, 10 / SCALE, b2Vec2(0, (static_cast<float>(m_CollisionBox.height) * abs(m_Player->GetSprite()->getScale().y)) / SCALE), 0);

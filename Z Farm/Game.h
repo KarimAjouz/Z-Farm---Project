@@ -10,7 +10,6 @@
 
 namespace ZEngine
 {
-
 	struct GameData
 	{
 		StateMachine stateMachine;
@@ -28,16 +27,12 @@ namespace ZEngine
 		Game(int width, int height, std::string title);
 		~Game();
 
-
 	private:
 		const float m_TargetDeltaTime = 1.0f / 60.0f;
 		sf::Clock _clock;
-		
+
 		GameDataRef _data = std::make_shared<GameData>();
 
 		void Run();
-
-
 	};
-
 }

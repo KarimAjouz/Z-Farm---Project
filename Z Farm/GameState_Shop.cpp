@@ -6,18 +6,14 @@ GameState_Shop::GameState_Shop(ZEngine::GameDataRef data, GameState_Gameplay* ga
 	_data(data),
 	_gameplayState(gameplayState)
 {
-
 }
 
 GameState_Shop::~GameState_Shop()
 {
-
 }
-
 
 void GameState_Shop::Init()
 {
-
 }
 
 void GameState_Shop::PollEvents()
@@ -47,13 +43,11 @@ void GameState_Shop::PollEvents()
 
 void GameState_Shop::Update(float dT)
 {
-	
 }
 
 void GameState_Shop::Draw()
 {
 }
-
 
 /// <summary>
 /// Pushes shop values to the game.

@@ -19,7 +19,6 @@ class TraversalState
 {
 public:
 
-
 	virtual ~TraversalState();
 
 	//virtual void Update(float dT, Player& InPlayer) override;
@@ -35,4 +34,3 @@ public:
 protected:
 	ETraversalType m_TraversalType = ETraversalType::TT_Idle;
 };
-

@@ -37,8 +37,6 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b
 	m_EquipmentComponent = new EquipmentComponent(InData, 2);
 	SetEquipmentState(new EquipmentState());
 
-
-
 	type = ZEngine::AgentType::AT_Player;
 	InitPhysics(pos);
 
@@ -50,7 +48,6 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b
 
 	SetView();
 }
-
 
 Player::~Player()
 {
@@ -64,7 +61,6 @@ void Player::Update(float dT)
 	m_TraversalState->Update(dT, *this);
 	UpdatePhysics(dT);
 	UpdateAnimations(dT);
-
 }
 
 void Player::Draw()
@@ -85,11 +81,10 @@ void Player::HandleContactEnd(PhysicsUserData* InCollidingUserData, ECollisionTa
 {
 	if (InMyCollidedFixture == ECollisionTag::CT_PlayerFoot)
 	{
-		if(InCollidingUserData->CollisionTag == CT_Box || InCollidingUserData->CollisionTag == CT_Level)
+		if (InCollidingUserData->CollisionTag == CT_Box || InCollidingUserData->CollisionTag == CT_Level)
 			footContacts--;
 	}
 }
-
 
 /// <summary>
 /// Handles the state system logic.
@@ -281,7 +276,6 @@ void Player::UpdateAnimations(float dT)
 	//	}
 	//}
 
-
 	m_AnimationComponent->Update(dT);
 }
 
@@ -318,18 +312,14 @@ void Player::UpdatePhysics(float dT)
 
 void Player::InitAnimations()
 {
-
 }
 
 void Player::InitPhysics(sf::Vector2f pos)
 {
-
-
 }
 
 void Player::SetView()
 {
-	
 }
 
 void Player::Stab()
@@ -392,10 +382,10 @@ void Player::SetInputManagerState(GameState_Gameplay* InGameplayRef)
 //
 //	// Make joint between player & interactable
 //	b2RevoluteJointDef myJointDef = b2RevoluteJointDef();
-//	
+//
 //	myJointDef.bodyA = _playerBody;
 //	myJointDef.bodyB = _interactable->body;
-//	
+//
 //	b2Vec2 testPosition = b2Vec2(_interactable->sprite.getPosition().x / SCALE, _interactable->sprite.getPosition().y / SCALE);
 //	b2Vec2 jointPosAnchorB = _interactable->body->GetPosition();
 //
@@ -460,9 +450,9 @@ void Player::SetEquipmentState(EquipmentState* InNewEquipmentState)
 void Player::HandleInput(sf::Event* InputEvent)
 {
 	TraversalState* traversalState = dynamic_cast<TraversalState*>(m_TraversalState->HandleInput(*this, InputEvent));
-	
+
 	TraversalState* EquipmentChosenState = dynamic_cast<TraversalState*>(m_EquipmentState->HandleInput(*this, InputEvent));
-	
+
 	if (EquipmentChosenState != NULL)
 	{
 		std::cout << "WE NEW JUMPIN NOW TEAM " << std::endl;

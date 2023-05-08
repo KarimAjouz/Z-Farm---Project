@@ -2,11 +2,9 @@
 
 namespace ZEngine
 {
-
 	StateMachine::StateMachine()
 	{
 	}
-
 
 	StateMachine::~StateMachine()
 	{
@@ -59,9 +57,8 @@ namespace ZEngine
 		}
 	}
 
-	StateRef & StateMachine::GetActiveState()
+	StateRef& StateMachine::GetActiveState()
 	{
 		return this->_states.top();
 	}
-
 }

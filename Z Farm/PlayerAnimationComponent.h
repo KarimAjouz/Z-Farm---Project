@@ -21,7 +21,6 @@
 #define PLAYER_UPSLASH_ATTACK "Content/Media/Gameplay/Player/Sword/UpSlashAttack.png"
 #define PLAYER_DOWNSLASH_ATTACK "Content/Media/Gameplay/Player/Sword/DownSlashAttack.png"
 
-
 class PlayerAnimationComponent
 	:
 	public ZEngine::AnimationComponent
@@ -40,6 +39,4 @@ public:
 	virtual std::string GetAnimForEquipment(const enum ETraversalType& InTraversalStateType, const enum EEquipmentType& InEquipmentType);
 
 private:
-
 };
-

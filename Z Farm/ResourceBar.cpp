@@ -19,14 +19,12 @@ namespace ZEngine
 		Move(pos);
 	}
 
-
 	ResourceBar::~ResourceBar()
 	{
 	}
 
 	void ResourceBar::Update(float dT)
 	{
-
 	}
 
 	void ResourceBar::Draw()

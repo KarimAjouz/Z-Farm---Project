@@ -8,18 +8,16 @@ class ContactListener : public b2ContactListener
 {
 public:
 
-    ContactListener(Player* player, Level* level);
-    ~ContactListener();
+	ContactListener(Player* player, Level* level);
+	~ContactListener();
 
-    Player* playerRef;
-    Level* levelRef;
+	Player* playerRef;
+	Level* levelRef;
 
-    void BeginContact(b2Contact* contact);
+	void BeginContact(b2Contact* contact);
 
-    void EndContact(b2Contact* contact);
-
+	void EndContact(b2Contact* contact);
 
 private:
-    bool IsContact(ECollisionTag aTag, ECollisionTag bTag);
+	bool IsContact(ECollisionTag aTag, ECollisionTag bTag);
 };
-

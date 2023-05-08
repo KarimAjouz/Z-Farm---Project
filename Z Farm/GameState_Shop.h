@@ -8,7 +8,6 @@
 
 class GameState_Shop : public ZEngine::GameState
 {
-
 public:
 	GameState_Shop(ZEngine::GameDataRef _data, GameState_Gameplay* gameplayStateRef);
 	~GameState_Shop();
@@ -24,5 +23,4 @@ private:
 	ZEngine::StateRef _gameplayState;
 
 	void QuitShop();
-
 };

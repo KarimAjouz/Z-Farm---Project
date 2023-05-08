@@ -12,7 +12,7 @@
 //
 //	sprite.setTexture(_data->assetManager.GetTexture("RopeSegment"));
 //	sprite.setOrigin(4, 17);
-//	sprite.setPosition(pos);	
+//	sprite.setPosition(pos);
 //	sprite.setTextureRect(sf::IntRect(0, 0, 8, 30));
 //
 //
@@ -67,7 +67,7 @@
 //	myFixtureDef.filter.maskBits = _entityCategory::LEVEL | _entityCategory::OBSTACLES | _entityCategory::PLAYERINTERACT | _entityCategory::DAMAGE;
 //
 //	myFixtureDef.shape = &fixtureShape;
-//	
+//
 //	b2RevoluteJointDef myJointDef = b2RevoluteJointDef();
 //	myJointDef.bodyA = body;
 //

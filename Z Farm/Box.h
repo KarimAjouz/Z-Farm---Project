@@ -25,4 +25,3 @@ private:
 
 	std::vector<Fragment> m_Fragments;
 };
-

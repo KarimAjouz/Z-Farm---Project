@@ -17,7 +17,7 @@ void LandingState::Update(float dT, Player& InPlayer)
 		{
 			InPlayer.SetTraversalState(new MovingState);
 		}
-		else   
+		else
 		{
 			InPlayer.SetTraversalState(new IdleState);
 		}

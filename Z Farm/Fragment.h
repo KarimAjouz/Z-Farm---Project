@@ -18,4 +18,3 @@ private:
 
 	float sleepTimer = 0.0f;
 };
-

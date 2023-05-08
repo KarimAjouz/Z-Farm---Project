@@ -8,7 +8,6 @@
 
 #include <iostream>
 
-
 SwordPickup::SwordPickup(ZEngine::GameDataRef InData, sf::Vector2f InPosition, b2World* InWorldRef, float InRotation)
 	:
 	Pickup(InData, InPosition, InWorldRef)
@@ -39,7 +38,6 @@ SwordPickup::SwordPickup(ZEngine::GameDataRef InData, sf::Vector2f InPosition, b
 	);
 
 	m_PhysicsComponent->SetBodyUserData(this, ECollisionTag::CT_Interactable);
-
 }
 
 SwordPickup::~SwordPickup()

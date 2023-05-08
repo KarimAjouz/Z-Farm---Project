@@ -21,17 +21,15 @@ namespace ZEngine
 		_spritePtr->setTexture(_data->assetManager.GetTexture(name));
 		_spritePtr->setTextureRect(frameRect);
 		_spritePtr->setOrigin(_origin);
-		
+
 		//Calculate the number of frames and set the time interval.
 		_numFrames = _data->assetManager.GetTexture(name).getSize().x / frameRect.width;
 		_interval = animLength / _numFrames;
 		_segmentTimer.SetTimer(_interval);
-
 	}
 
 	Animation::~Animation()
 	{
-
 	}
 
 	void Animation::Update(float dT)

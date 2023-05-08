@@ -7,7 +7,6 @@
 #include "Button.h"
 #include "Menu_Scale.h"
 
-
 class GameState_MainMenu : public ZEngine::GameState
 {
 public:
@@ -15,7 +14,7 @@ public:
 	~GameState_MainMenu();
 
 	void Init();
-	
+
 	void PollEvents();
 	void Update(float dT);
 	void Draw();
@@ -27,7 +26,4 @@ private:
 
 	ZEngine::Button _playButton;
 	ZEngine::Button _quitButton;
-
-	
 };
-

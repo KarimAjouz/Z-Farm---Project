@@ -1,14 +1,12 @@
 #pragma once
 #include <vector>
 
-
 class BalanceSheet
 {
 public:
 
 	BalanceSheet();
 	~BalanceSheet();
-
 
 	struct gunStatProduct
 	{
@@ -24,10 +22,10 @@ public:
 		int damage;
 	};
 
-	std::vector<gunStatProduct> damage = 
-	{ 
+	std::vector<gunStatProduct> damage =
+	{
 		{ 1,    0,   0},
-		{ 2,    3,   2}, 
+		{ 2,    3,   2},
 		{ 3,    5,   4},
 		{ 4,   10,   8},
 		{ 5,   20,  16},
@@ -84,4 +82,3 @@ public:
 		{1001, 1000, 800},
 	};
 };
-

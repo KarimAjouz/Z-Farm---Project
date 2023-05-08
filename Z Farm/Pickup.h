@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "Agent.h"
 
-
 #include <SFML/Graphics.hpp>
 
 class Pickup
@@ -24,12 +23,9 @@ public:
 
 	virtual void Update(float dT) override;
 
-
 protected:
 	class PhysicsComponent* m_PhysicsComponent;
 
 	Type m_Type = PT_COUNT;
 	virtual void Collect(ZEngine::Agent* InCollectingAgent);
-
 };
-

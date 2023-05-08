@@ -80,7 +80,7 @@
 //		nearestNodePos.y -= nearestNodeDrawCircle.getRadius();
 //		nearestNodeDrawCircle.setPosition(nearestNodePos);
 //		_data->GameWindow.draw(nearestNodeDrawCircle);
-//		
+//
 //		for (int i = 0; i < _navMap.GetMap().size(); i++)
 //		{
 //			for (int j = 0; j < _navMap.GetMap()[i].nodes.size(); j++)

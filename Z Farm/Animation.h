@@ -45,7 +45,5 @@ namespace ZEngine
 		void NextFrame();
 
 		void SetFrame();
-
 	};
-
 };

@@ -22,8 +22,8 @@
 //	worldRef = world;
 //	_curSpeed = _walkSpeed;
 //	dialogueOffset = sf::Vector2f(30, -34);
-//	
-//	
+//
+//
 //	sprite.setPosition(pos);
 //	sprite.setScale(sf::Vector2f(1.0f, 1.0f));
 //	sprite.setOrigin(sf::Vector2f(30, 34));
@@ -79,7 +79,7 @@
 //		Repath(sf::Vector2f(sf::Mouse::getPosition(_data->GameWindow)));
 //		SeekTarget(_targetPosition);
 //	}
-//	
+//
 //	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y))
 //	{
 //		//Jump(_jumpForce);
@@ -290,7 +290,7 @@
 //					break;
 //			}
 //		case BaldyAIState::returning:
-//		
+//
 //			break;
 //	}
 //
@@ -366,7 +366,7 @@
 //	}
 //	else
 //		return false;
-//	
+//
 //
 //	//If the nearest node is the top node in the path, remove it from the path.
 //	if (nearestNode == _navComponent->Path[0])
@@ -402,7 +402,7 @@
 //			Jump(jumpVelocity / (SCALE));
 //			break;
 //	}
-//	
+//
 //	return false;
 //}
 //

@@ -40,7 +40,7 @@
 //	_hoveredTile.setOutlineThickness(1);
 //	_hoveredTile.setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 //	_hoveredTile.setOutlineColor(sf::Color::Green);
-//	
+//
 //	sf::Color hoverColor = sf::Color(255, 255, 255, 100.0f);
 //	_hoveredTile.setFillColor(hoverColor);
 //	_hoveredTile.setScale(TILE_SCALE, TILE_SCALE);
@@ -343,7 +343,7 @@
 //						numX = "0" + numX;
 //					if (numY.size() == 1)
 //						numY = "0" + numY;
-//					
+//
 //					//Put the data in the txt file.
 //
 //					output << numX << "/" << numY << " " << tileCol;
@@ -419,7 +419,7 @@
 //		_levelRef->ClearUnitPhysics();
 //		_levelRef->ClearLevel();
 //
-//		//Set the tiles in the map copy to the correct coordinates. 
+//		//Set the tiles in the map copy to the correct coordinates.
 //		if (input.is_open())
 //		{
 //			int y = 0;
@@ -479,7 +479,7 @@
 //					{
 //						case Agent::Type::alarmPig:
 //							AlarmPig* newAgent = new AlarmPig(_data, _worldRef, pos);
-//							
+//
 //							if (flipped)
 //								newAgent->FlipSprite();
 //
@@ -528,7 +528,7 @@
 //						std::string temp = line.substr(i, 2);
 //						int xTile = std::stoi(line.substr(i, 2));
 //						int yTile = std::stoi(line.substr(i + 3, 2));
-//						
+//
 //						int iCol = std::stoi(line.substr(i + 6, 1));
 //						bool col = iCol == 1 ? true : false;
 //						map[y][i / 9].tileSheetCoords = sf::Vector2i(xTile, yTile);
@@ -627,7 +627,7 @@
 //	if (!_inRoom)
 //	{
 //		sf::Vector2f newRoomPos = sf::Vector2f(
-//			mousePositionInView.x - (std::fmodf(mousePositionInView.x, SCREEN_WIDTH)),  
+//			mousePositionInView.x - (std::fmodf(mousePositionInView.x, SCREEN_WIDTH)),
 //			mousePositionInView.y - (std::fmodf(mousePositionInView.y, SCREEN_HEIGHT)));
 //
 //		if (mousePositionInView.x < 0)

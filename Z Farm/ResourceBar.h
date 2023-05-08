@@ -6,7 +6,6 @@
 
 namespace ZEngine
 {
-
 	class ResourceBar
 	{
 	public:
@@ -35,7 +34,5 @@ namespace ZEngine
 		std::string _texName;
 
 		bool _centralised;
-
 	};
-
 }

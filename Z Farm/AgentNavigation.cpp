@@ -14,7 +14,7 @@
 //
 //AgentNavigation::~AgentNavigation()
 //{
-//	
+//
 //}
 //
 ////void AgentNavigation::Init()
@@ -102,7 +102,7 @@
 //float AgentNavigation::GenerateHeuristic(sf::Vector2f a, sf::Vector2f b)
 //{
 //	return (
-//		(std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE))) * (std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE)) + 
+//		(std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE))) * (std::abs(a.x - b.x) / (TILE_SCALE * TILE_SIZE)) +
 //		(std::abs(a.y - b.y) / (TILE_SCALE * TILE_SIZE) * (std::abs(a.y - b.y) / (TILE_SCALE * TILE_SIZE)));
 //
 //	return 0.0f;

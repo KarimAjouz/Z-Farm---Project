@@ -15,7 +15,7 @@ void PhysicsDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, co
 	sf::ConvexShape polygon;
 	polygon.setPointCount(vertexCount);
 
-	for (int i = 0; i < vertexCount; i++) 
+	for (int i = 0; i < vertexCount; i++)
 	{
 		polygon.setPoint(i, sf::Vector2f(vertices[i].x, vertices[i].y));
 	}
@@ -24,7 +24,6 @@ void PhysicsDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, co
 	polygon.setOutlineThickness(1.0f);
 
 	_data->GameWindow.draw(polygon);
-
 }
 
 void PhysicsDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
@@ -54,7 +53,6 @@ void PhysicsDebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Co
 	circle.setOutlineColor(sf::Color(color.r, color.g, color.b, color.a));
 
 	_data->GameWindow.draw(circle);
-
 }
 
 void PhysicsDebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color)

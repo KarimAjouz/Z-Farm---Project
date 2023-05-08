@@ -108,7 +108,6 @@ void PhysicsComponent::MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollision
 
 	myFixtureDef.shape = &fixtureShape;
 	b2Fixture* mainFixture = m_PhysicsBody->CreateFixture(&myFixtureDef);
-
 }
 
 void PhysicsComponent::MakeAsBoxFixture(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedBody, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories)

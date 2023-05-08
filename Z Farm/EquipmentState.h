@@ -11,8 +11,8 @@ enum EEquipmentType
 	ET_Count
 };
 
-class EquipmentState 
-	: 
+class EquipmentState
+	:
 	public PlayerState
 {
 public:
@@ -22,18 +22,14 @@ public:
 	virtual void Enter(Player& InPlayer) override;
 	virtual void Exit(Player& InPlayer) override;
 
-
 	virtual void Update(float dT, Player& InPlayer) override;
 	virtual PlayerState* HandleInput(Player& InPlayer, sf::Event* InputEvent) override;
 
 	virtual EEquipmentType GetEquipmentType() { return m_EquipmentType; }
 	virtual void FlipEquipment() {};
 
-
 protected:
 	EEquipmentType m_EquipmentType = EEquipmentType::ET_None;
 
 	Equippable* m_Item = nullptr;
-
 };
-

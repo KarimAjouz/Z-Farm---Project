@@ -11,10 +11,8 @@ namespace ZEngine
 	{
 	}
 
-
 	Agent::~Agent()
 	{
-
 	}
 
 	void Agent::FlipSprite()

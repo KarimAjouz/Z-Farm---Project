@@ -7,7 +7,7 @@
 //	Spike(ZEngine::GameDataRef data, b2World* worldRef, sf::Vector2f pos);
 //	~Spike();
 //
-//	
+//
 //	void Update(float dT);
 //	void Draw();
 //

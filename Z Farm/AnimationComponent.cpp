@@ -6,7 +6,6 @@ namespace ZEngine
 		ObjectComponent(InData),
 		m_Sprite(InSprite)
 	{
-
 	}
 
 	AnimationComponent::~AnimationComponent()
@@ -15,7 +14,7 @@ namespace ZEngine
 
 	void AnimationComponent::Update(float dT)
 	{
-		if(_curAnim != nullptr)
+		if (_curAnim != nullptr)
 			_curAnim->Update(dT);
 	}
 
@@ -47,5 +46,4 @@ namespace ZEngine
 
 		return _curAnim->Name;
 	}
-
 }

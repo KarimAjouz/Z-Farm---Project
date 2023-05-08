@@ -4,7 +4,6 @@
 
 namespace ZEngine
 {
-
 	Game::Game(int width, int height, std::string title)
 	{
 		_data->GameWindow.create(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
@@ -13,7 +12,6 @@ namespace ZEngine
 
 		this->Run();
 	}
-
 
 	Game::~Game()
 	{
@@ -57,5 +55,4 @@ namespace ZEngine
 			this->_data->stateMachine.GetActiveState()->Draw();
 		}
 	}
-
 }

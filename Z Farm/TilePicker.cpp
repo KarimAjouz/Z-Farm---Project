@@ -59,7 +59,7 @@
 //		{
 //			UpdateHoveredTilePos(mousePosRelativeToView);
 //		}
-//		
+//
 //
 //
 //		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num1))
@@ -125,7 +125,7 @@
 //
 //	switch (state)
 //	{
-//	case State::backgroundTiles:		
+//	case State::backgroundTiles:
 //		_data->GameWindow.draw(_curSelector);
 //		break;
 //	case State::collidableTiles:
@@ -161,7 +161,7 @@
 //	{
 //		//sf::Vector2i tilePosI = _data->GameWindow.mapCoordsToPixel(_hoveredTile.getPosition());
 //		sf::Vector2i tilePosI = sf::Vector2i(_hoveredTile.getPosition());
-//		
+//
 //
 //		sf::Vector2f tilePos = sf::Vector2f(tilePosI.x, tilePosI.y);
 //
@@ -202,7 +202,7 @@
 //void TilePicker::UpdateState()
 //{
 //
-//	
+//
 //
 //
 //}
@@ -224,7 +224,7 @@
 //	spike.rect.setTexture(&_data->assetManager.GetTexture("Spike"));
 //	spike.rect.setSize(sf::Vector2f(32, 32));
 //	spike.type = static_cast<int>(Obstacle::Type::spike);
-//	
+//
 //	spike.texture = &_data->assetManager.GetTexture("Spike");
 //
 //	spike.rect.setFillColor(sf::Color::White);
@@ -328,7 +328,7 @@
 //	{
 //		sf::Vector2f newPos = mousePos;
 //
-//		////Offsets based on the mouse position 
+//		////Offsets based on the mouse position
 //		if (mousePos.x > 0)
 //		{
 //			if(_curSelector.getPosition().x > 0)

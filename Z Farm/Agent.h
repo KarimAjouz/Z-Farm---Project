@@ -9,7 +9,6 @@ class EquipmentComponent;
 
 namespace ZEngine
 {
-
 	enum class AgentType
 	{
 		AT_Player,
@@ -17,8 +16,6 @@ namespace ZEngine
 		AT_Baldy,
 		count
 	};
-
-
 
 	class Agent :
 		public GameObject
@@ -29,7 +26,6 @@ namespace ZEngine
 
 		virtual void Update(float dT) override;
 		virtual void Draw() override;
-
 
 		virtual void FlipSprite();
 
@@ -45,7 +41,6 @@ namespace ZEngine
 		PhysicsComponent* GetPhysicsComponent() { return m_PhysicsComponent; }
 		EquipmentComponent* GetEquipmentComponent() { return m_EquipmentComponent; }
 
-
 		AgentType type;
 
 		//b2Body* body = nullptr;
@@ -60,6 +55,4 @@ namespace ZEngine
 
 	private:
 	};
-
-
 }

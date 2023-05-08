@@ -81,7 +81,7 @@ void Attack::RemoveContactObject(ZEngine::GameObject* InObject)
 //	myFixtureDef.filter.categoryBits = EEntityCategory::DAMAGE;
 //	myFixtureDef.filter.maskBits = EEntityCategory::OBSTACLES | EEntityCategory::AGENTS;
 //
-//	//add right stab sensor 
+//	//add right stab sensor
 //	attackShape.SetAsBox(m_HitboxRect.width / SCALE, m_HitboxRect.height / SCALE, b2Vec2(m_HitboxRect.left / SCALE, m_HitboxRect.top / SCALE), 0);
 //	myFixtureDef.isSensor = true;
 //	myFixtureDef.shape = &attackShape;
@@ -103,7 +103,7 @@ void Attack::CommitDamage(sf::Vector2f InDamageSourcePos)
 void Attack::HandleContactBegin(PhysicsUserData* InCollidingFixture, ECollisionTag InMyCollidedFixture)
 {
 	ZEngine::GameObject* AddedObj = reinterpret_cast<PhysicsUserData*>(InCollidingFixture)->ObjectPointer;
-	
+
 	if (AddedObj == nullptr)
 	{
 		std::cout << "WARNING: Attack::HandleContactBegin --> InCollidingFixture has a nullptr" << std::endl;

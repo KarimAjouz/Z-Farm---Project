@@ -26,7 +26,6 @@ public:
 
 	Type type = Type::spike;
 
-
 	virtual void InitPhysics() = 0;
 
 	void InitPhysics(sf::IntRect collisionBox, bool collider, bool isDynamic, b2World* world);
@@ -34,4 +33,3 @@ public:
 protected:
 	class PhysicsComponent* m_PhysicsComponent;
 };
-

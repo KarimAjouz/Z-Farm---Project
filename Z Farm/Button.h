@@ -3,8 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 
-
-
 namespace ZEngine
 {
 	class Button
@@ -16,10 +14,8 @@ namespace ZEngine
 
 		~Button();
 
-
-
 		sf::Sprite sprite;
-		
+
 		void Init();
 		void Update(float dT);
 		void Draw();
@@ -41,6 +37,4 @@ namespace ZEngine
 
 		std::string _fileName;
 	};
-
-
 }

@@ -54,7 +54,6 @@ public:
 	bool bIsValid = false;
 };
 
-
 class PhysicsComponent :
 	public ZEngine::ObjectComponent
 {
@@ -81,7 +80,6 @@ public:
 	virtual bool Jump() { return false; };
 	virtual void Move() {};
 
-
 protected:
 
 	bool bIsFixture = false;
@@ -92,6 +90,4 @@ protected:
 	PhysicsUserData* m_UserData;
 
 	// Methods
-
 };
-

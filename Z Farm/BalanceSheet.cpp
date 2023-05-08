@@ -2,10 +2,8 @@
 
 BalanceSheet::BalanceSheet()
 {
-
 }
 
 BalanceSheet::~BalanceSheet()
 {
-
 }

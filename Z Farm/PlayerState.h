@@ -1,7 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-
 #include <vector>
 
 class Player;
@@ -20,4 +19,3 @@ public:
 protected:
 	std::string m_StateName = "UNDEFINED";
 };
-

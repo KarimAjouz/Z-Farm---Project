@@ -5,7 +5,6 @@
 
 namespace ZEngine
 {
-
 	class Utilities
 	{
 	public:
@@ -15,7 +14,7 @@ namespace ZEngine
 		static sf::Vector2f NormaliseVector(sf::Vector2f in);
 		static float GetVectorMagnitude(sf::Vector2f in);
 		static float GetVectorMagnitudeSquared(sf::Vector2f in);
-		
+
 		static float Random();
 		static float Random(float max);
 		static float Random(float min, float max);
@@ -24,9 +23,8 @@ namespace ZEngine
 		static float MinDist(sf::Sprite a, sf::Sprite b);
 
 		static float RadToDeg(float InDegrees);
-		
-		static float ClampFloat(float InFloat, float Min, float Max);
 
+		static float ClampFloat(float InFloat, float Min, float Max);
 
 		static bool CircleCollider(sf::Sprite a, sf::Sprite b);
 
@@ -41,5 +39,4 @@ namespace ZEngine
 
 		//static Node* GetNearestNode(sf::Vector2f pos, Room* room);
 	};
-
 }

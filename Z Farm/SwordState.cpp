@@ -55,7 +55,6 @@ void SwordState::Exit(Player& InPlayer)
 			return;
 
 		attack->~Attack();
-
 	}
 }
 

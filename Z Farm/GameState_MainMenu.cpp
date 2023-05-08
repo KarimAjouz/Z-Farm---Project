@@ -1,11 +1,7 @@
 #include "GameState_MainMenu.h"
 #include "Definitions.h"
 
-
 #include "GameState_Gameplay.h"
-
-
-
 
 GameState_MainMenu::GameState_MainMenu(ZEngine::GameDataRef data) :
 	_data(data),
@@ -16,7 +12,6 @@ GameState_MainMenu::GameState_MainMenu(ZEngine::GameDataRef data) :
 
 	_bgSprite.setTexture(_data->assetManager.GetTexture("Menu BG"));
 }
-
 
 GameState_MainMenu::~GameState_MainMenu()
 {
@@ -30,7 +25,7 @@ void GameState_MainMenu::PollEvents()
 {
 	sf::Event e;
 
-	while(_data->GameWindow.pollEvent(e))
+	while (_data->GameWindow.pollEvent(e))
 	{
 		switch (e.type)
 		{
@@ -49,7 +44,6 @@ void GameState_MainMenu::Update(float dT)
 	if (_quitButton.Active)
 		_data->GameWindow.close();
 
-
 	_playButton.Update(dT);
 	_quitButton.Update(dT);
 }
@@ -62,6 +56,6 @@ void GameState_MainMenu::Draw()
 
 	_playButton.Draw();
 	_quitButton.Draw();
-	
+
 	_data->GameWindow.display();
 }

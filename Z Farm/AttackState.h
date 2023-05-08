@@ -21,4 +21,3 @@ private:
 	bool m_bIsNextAttackQueued = false;
 	float m_RunningTime = 0.0f;
 };
-

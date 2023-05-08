@@ -3,7 +3,6 @@
 #include "GameState_Gameplay.h"
 #include "Player.h"
 
-
 InputManager::InputManager(Player* InPlayer, GameState_Gameplay* InGameplayState)
 	:
 	m_Player(InPlayer),
@@ -11,11 +10,9 @@ InputManager::InputManager(Player* InPlayer, GameState_Gameplay* InGameplayState
 {
 }
 
-
 InputManager::~InputManager()
 {
 }
-
 
 bool InputManager::IsSpriteClicked(sf::Sprite object, sf::RenderWindow& InWIndow)
 {
@@ -41,7 +38,6 @@ bool InputManager::IsSpriteReleased(sf::Sprite object, sf::RenderWindow& InWIndo
 	return false;
 }
 
-
 sf::Vector2i InputManager::GetMousePosition(sf::RenderWindow& InWIndow)
 {
 	return sf::Mouse::getPosition(InWIndow);
@@ -61,14 +57,14 @@ void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			switch(event.key.code)
+			switch (event.key.code)
 			{
 			default:
 				std::cout << "KeyPressed: " << event.key.code << std::endl;
 				GameInputEvents->push_back(event);
 				break;
 			}
-		break;
+			break;
 		case sf::Event::KeyReleased:
 			switch (event.key.code)
 			{
@@ -103,7 +99,6 @@ void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 			//GameInputEvents->push_back(event);
 			break;
 		}
-
 	}
 	InWIndow.setKeyRepeatEnabled(true);
 
@@ -148,7 +143,7 @@ void InputManager::HandleGamestateInputs(std::vector<sf::Event>* InEventQueue)
 			break;
 		case sf::Event::Closed:
 			m_GameplayState->Exit();
-			
+
 			InEventQueue->erase(InEventQueue->begin() + eventIndex);
 			break;
 		default:
@@ -166,7 +161,6 @@ void InputManager::HandlePlayerInputs(std::vector<sf::Event>* InEventQueue)
 		m_Player->HandleInput(&Event);
 		InEventQueue->erase(InEventQueue->begin() + eventIndex);
 	}
-
 
 	//for (int eventIndex = 0; eventIndex < InEventQueue->size(); eventIndex++)
 	//{

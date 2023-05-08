@@ -15,22 +15,17 @@ Fragment::Fragment(ZEngine::GameDataRef data, b2World* worldRef, sf::IntRect tex
 
 	InitPhysics();
 
-	
-	
 	sf::Vector2f force = sf::Vector2f(ZEngine::Utilities::Random(forceDir.x / 2, forceDir.x), -ZEngine::Utilities::Random(forceDir.y / 2, forceDir.y));
 
 	force = ZEngine::Utilities::NormaliseVector(force) * 10.0f / SCALE;
 
 	b2Vec2 b2Force = b2Vec2(force.x * 2 / 3, force.y * 2 / 3);
-	
 
 	body->ApplyLinearImpulseToCenter(b2Force, true);
-
 }
 
 Fragment::~Fragment()
 {
-
 }
 
 void Fragment::Update(float dT)
@@ -46,7 +41,6 @@ void Fragment::Draw()
 
 void Fragment::InitPhysics()
 {
-
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2((sprite.getPosition().x + sprite.getTextureRect().left) / SCALE, (sprite.getPosition().y + sprite.getTextureRect().top) / SCALE);
 
@@ -68,5 +62,4 @@ void Fragment::InitPhysics()
 
 	body->GetFixtureList()->SetDensity(0.25f);
 	body->GetFixtureList()->SetFriction(0.7f);
-	
 }

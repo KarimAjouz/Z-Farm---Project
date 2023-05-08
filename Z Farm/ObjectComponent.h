@@ -13,15 +13,12 @@ namespace ZEngine
 
 		virtual void Init();
 
-		virtual void Update(float dT); 
+		virtual void Update(float dT);
 
 		virtual void Draw(sf::RenderWindow* InWindow);
-
 
 	protected:
 
 		GameDataRef m_Data;
 	};
 }
-
-

@@ -3,16 +3,13 @@
 
 namespace ZEngine
 {
-
 	AssetManager::AssetManager()
 	{
 	}
 
-
 	AssetManager::~AssetManager()
 	{
 	}
-
 
 	void AssetManager::LoadTexture(std::string name, std::string filePath)
 	{
@@ -25,10 +22,9 @@ namespace ZEngine
 			else
 				throw std::runtime_error("AssetManager::LoadTexture - Failed to load " + name + " at filepath " + filePath);
 		}
-
 	}
 
-	sf::Texture & AssetManager::GetTexture(std::string name)
+	sf::Texture& AssetManager::GetTexture(std::string name)
 	{
 		if (_textures.count(name) == 1)
 			return this->_textures.at(name);
@@ -38,7 +34,6 @@ namespace ZEngine
 			throw std::runtime_error("AssetManager::GetTexture - Failed to get " + name);
 		}
 	}
-
 
 	void AssetManager::LoadFont(std::string name, std::string filePath)
 	{
@@ -53,13 +48,11 @@ namespace ZEngine
 		}
 	}
 
-	sf::Font & AssetManager::GetFont(std::string name)
+	sf::Font& AssetManager::GetFont(std::string name)
 	{
 		if (_fonts.count(name) == 1)
 			return this->_fonts.at(name);
 		else
 			throw std::runtime_error("AssetManager::GetFont - Failed to get " + name);
-
-
 	}
 }

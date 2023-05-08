@@ -16,7 +16,6 @@ public:
 	Level(ZEngine::GameDataRef data, b2World* worldRef);
 	~Level();
 
-
 	void Init(ZEngine::GameDataRef _data, b2World* worldRef);
 	void Update(float dT);
 	void Draw();
@@ -28,13 +27,9 @@ public:
 
 	//void SpikeAgents();
 
-
 	void RegenLevel();
 
-
 	std::vector<class Obstacle*> GetObstacles() { return _obstacles; }
-
-
 
 private:
 
@@ -55,4 +50,3 @@ private:
 	void BuildPhysicsFromCollisionLayer(tmx::ObjectGroup inObjectLayer);
 	void BuildObjectsFromObjectLayer(tmx::ObjectGroup inObjectLayer);
 };
-

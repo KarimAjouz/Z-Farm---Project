@@ -27,22 +27,21 @@ void JumpingState::Update(float dT, Player& InPlayer)
 	{
 		InPlayer.SetTraversalState(new FallingState);
 	}
-
 }
 
 PlayerState* JumpingState::HandleInput(Player& InPlayer, sf::Event* InEvent)
 {
-    switch (InEvent->type)
-    {
-    case sf::Event::EventType::KeyReleased:
-        switch (InEvent->key.code)
-        {
-        case sf::Keyboard::Space:
+	switch (InEvent->type)
+	{
+	case sf::Event::EventType::KeyReleased:
+		switch (InEvent->key.code)
+		{
+		case sf::Keyboard::Space:
 			m_JumpboostTimer = 0.0f;
-            break;
-        }
-        break;
-    }
+			break;
+		}
+		break;
+	}
 
 	return nullptr;
 }
@@ -52,7 +51,7 @@ void JumpingState::Enter(Player& InPlayer)
 	InAirState::Enter(InPlayer);
 	AddJumpForceToPlayer(InPlayer);
 	m_TraversalType = ETraversalType::TT_Jump;
-	
+
 	m_StateName = "TT_Jumping";
 	m_JumpboostTimer = m_JumpboostTimeMax;
 }

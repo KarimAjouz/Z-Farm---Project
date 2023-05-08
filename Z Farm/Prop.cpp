@@ -3,12 +3,10 @@
 
 Prop::Prop()
 {
-
 }
 
 Prop::~Prop()
 {
-	
 }
 
 void Prop::InitPhysics(sf::IntRect collisionBox, b2World* worldRef)

@@ -403,7 +403,7 @@
 //
 //	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
 //		tr = true;
-//	
+//
 //	testPoint = sf::Vector2f(InRect.getGlobalBounds().left, InRect.getGlobalBounds().top + InRect.getGlobalBounds().height);
 //
 //	if (DoesPointCollideWithLevel(testPoint, InTiles, InJump, InCurNode))
@@ -420,7 +420,7 @@
 //	if (bl || br || tl || tr)
 //		return true;
 //
-//	return false; 
+//	return false;
 //}
 //
 //bool NavMap::IsJumpCostCheapestPlatformJump(int InStartingPlatformIndex, int InEndingPlatformIndex, float InJumpCost, int& InOutEdgeIndex, int& InOutExpensiveNodeIndex)

@@ -11,7 +11,6 @@
 
 #include <iostream>
 
-
 /// <summary>
 /// Creates the Gameplay Gamestate.
 /// </summary>
@@ -32,7 +31,6 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	ZEngine::Utilities::SeedRandom();
 
 	_player.SetInputManagerState(this);
-	
 
 	CreateGround(_world, 0, SCREEN_HEIGHT - 10);
 	_world.SetContactListener(&_contactListener);
@@ -42,7 +40,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	sf::View view;
 	view.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	view.setCenter(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	
+
 	_data->GameWindow.setView(view);
 	_data->assetManager.LoadFont("DebugFont", DEBUG_FONT_PATH);
 	_debugText.setFont(_data->assetManager.GetFont("DebugFont"));
@@ -51,9 +49,7 @@ GameState_Gameplay::GameState_Gameplay(ZEngine::GameDataRef data) :
 	_debugText.setOutlineThickness(2.0f);
 	_debugText.setPosition(64.0f, 0.0f);
 	_debugText.setCharacterSize(16.0f);
-
 }
-
 
 GameState_Gameplay::~GameState_Gameplay()
 {
@@ -69,10 +65,7 @@ void GameState_Gameplay::Init()
 /// </summary>
 void GameState_Gameplay::PollEvents()
 {
-	
-
 }
-
 
 /// <summary>
 /// Updates all of the Gameplay entities.
@@ -94,7 +87,6 @@ void GameState_Gameplay::Update(float dT)
 			_world.Step(1.0f / 60.0f, 8, 3);
 			physicsAccumulator -= 1.0f / 60.0f;
 		}
-
 	}
 
 	_runningDelta = dT;
@@ -112,19 +104,16 @@ void GameState_Gameplay::Draw()
 	_player.Draw();
 	//_testSword.Draw();
 
-
-	if(_debugMode)
+	if (_debugMode)
 		_world.DebugDraw();
-
-
 
 	float fps = 1.0f / _runningDelta;
 
 	_debugText.setString(
-		"FPS: " + std::to_string(fps) + "\n" + 
+		"FPS: " + std::to_string(fps) + "\n" +
 		"PlayerState: " + _player.GetTraversalState()->GetStateName() + "\n" +
 		"Input X: " + std::to_string(_player.GetInputAxis().x)
-		);
+	);
 
 	_data->GameWindow.draw(_debugText);
 	_data->GameWindow.display();
@@ -149,7 +138,6 @@ void GameState_Gameplay::Exit()
 	_data->GameWindow.close();
 }
 
-
 void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 {
 	b2BodyDef BodyDef;
@@ -164,7 +152,6 @@ void GameState_Gameplay::CreateGround(b2World& world, float x, float y)
 	FixtureDef.shape = &Shape; // Sets the shape
 	b2Fixture* fixture = Body->CreateFixture(&FixtureDef); // Apply the fixture definition
 	fixture->GetUserData().pointer = static_cast<int>(ECollisionTag::CT_Level); //Tag the ground as 1
-	
 }
 
 void GameState_Gameplay::LerpView(float dT)
@@ -194,7 +181,6 @@ void GameState_Gameplay::HandleKeyboardInputs()
 
 	while (_data->GameWindow.pollEvent(event))
 	{
-
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:

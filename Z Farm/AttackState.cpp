@@ -8,8 +8,6 @@
 #include "SwordItem.h"
 #include "PlayerAnimationComponent.h"
 
-
-
 void AttackState::Update(float dT, Player& InPlayer)
 {
 	if (InPlayer.GetAnimationComponent()->Complete())
@@ -43,8 +41,6 @@ void AttackState::Update(float dT, Player& InPlayer)
 		}
 		m_RunningTime += dT;
 	}
-
-
 }
 
 PlayerState* AttackState::HandleInput(Player& InPlayer, sf::Event* InputEvent)
@@ -65,8 +61,8 @@ PlayerState* AttackState::HandleInput(Player& InPlayer, sf::Event* InputEvent)
 
 Attack* AttackState::GetCurrentSequenceItem()
 {
-	if(m_AttackSequence->size() > m_SequenceIndex)
-		return m_AttackSequence->at(m_SequenceIndex); 
+	if (m_AttackSequence->size() > m_SequenceIndex)
+		return m_AttackSequence->at(m_SequenceIndex);
 
 	return nullptr;
 }

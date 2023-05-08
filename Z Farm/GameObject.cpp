@@ -7,7 +7,6 @@ namespace ZEngine
 {
 	GameObject::GameObject()
 	{
-
 	}
 
 	GameObject::GameObject(GameDataRef InData, b2World* InWorldRef)
@@ -39,7 +38,6 @@ namespace ZEngine
 		m_Data->assetManager.LoadTexture(TextureName, SpritePath);
 
 		m_Sprite.setTexture(m_Data->assetManager.GetTexture(TextureName));
-
 	}
 
 	GameObject::~GameObject()
@@ -58,7 +56,6 @@ namespace ZEngine
 		}
 	}
 
-
 	void GameObject::Draw()
 	{
 		m_Data->GameWindow.draw(m_Sprite);
@@ -66,11 +63,9 @@ namespace ZEngine
 
 	void GameObject::Hit()
 	{
-
 	}
 
 	void GameObject::Hit(sf::Vector2f InDamageSourcePos)
 	{
-
 	}
 }

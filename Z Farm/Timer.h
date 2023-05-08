@@ -2,7 +2,6 @@
 
 #include <SFML/System.hpp>
 
-
 namespace ZEngine
 {
 	class Timer
@@ -26,7 +25,7 @@ namespace ZEngine
 
 	private:
 		float _length;
-		
+
 		sf::Clock _clock;
 		sf::Clock _pauseClock;
 
@@ -34,7 +33,5 @@ namespace ZEngine
 
 		bool _running;
 		bool _autoRestart;
-		
 	};
-
 }

@@ -1,6 +1,5 @@
 #include "InteractableComponent.h"
 
-
 using namespace ZEngine;
 InteractableComponent::InteractableComponent(ZEngine::GameDataRef InData, b2World* InWorldRef)
 	:
@@ -10,7 +9,7 @@ InteractableComponent::InteractableComponent(ZEngine::GameDataRef InData, b2Worl
 {
 }
 
-InteractableComponent::InteractableComponent(ZEngine::GameDataRef InData, b2World* InWorldRef, GameObject* InGameObject, float InRadius) 
+InteractableComponent::InteractableComponent(ZEngine::GameDataRef InData, b2World* InWorldRef, GameObject* InGameObject, float InRadius)
 	:
 	InteractableComponent(InData, InWorldRef)
 {
@@ -54,7 +53,6 @@ void InteractableComponent::InitPhysics()
 
 	b2Fixture* interactableFixture = m_PhysicsBody->CreateFixture(&fixtureDefinition);
 	interactableFixture->GetUserData().pointer = static_cast<int>(ECollisionTag::CT_Interactable);
-
 }
 
 void InteractableComponent::Interact()

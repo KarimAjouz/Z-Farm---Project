@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "EquipmentComponent.h"
 
-
 EquipmentState::EquipmentState()
 {
 }

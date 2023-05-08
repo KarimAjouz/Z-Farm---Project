@@ -1,7 +1,7 @@
 #pragma once
 #include "InAirState.h"
 class FallingState :
-    public InAirState
+	public InAirState
 {
 public:
 	virtual ~FallingState();
@@ -10,4 +10,3 @@ public:
 	virtual PlayerState* HandleInput(Player& InPlayer, sf::Event* InEvent) override;
 	virtual void Enter(Player& InPlayer) override;
 };
-

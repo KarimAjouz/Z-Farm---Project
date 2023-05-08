@@ -3,7 +3,6 @@
 
 namespace ZEngine
 {
-
 	class GameState
 	{
 	public:
@@ -19,13 +18,11 @@ namespace ZEngine
 		// Updates game logic for the state.
 		virtual void Update(float dT) = 0;
 
-		// Draws to the display. 
+		// Draws to the display.
 		virtual void Draw() = 0;
-
 
 		// Pauses/Resumes the state we're in.
 		virtual void Pause() { }
 		virtual void Resume() { }
 	};
-
 }

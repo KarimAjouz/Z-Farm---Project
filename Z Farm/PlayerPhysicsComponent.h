@@ -1,13 +1,12 @@
 #pragma once
 #include "PhysicsComponent.h"
 
-
 class PlayerPhysicsComponent : public PhysicsComponent
 {
 public:
 	PlayerPhysicsComponent(ZEngine::GameDataRef InData, b2World* InWorldRef);
 	PlayerPhysicsComponent(ZEngine::GameDataRef InData, b2World* InWorldRef, class Player* InPlayer);
-	
+
 	~PlayerPhysicsComponent();
 
 	virtual void Update(float dT) override;
@@ -24,4 +23,3 @@ private:
 
 	PhysicsUserData* m_FootUserData = nullptr;
 };
-

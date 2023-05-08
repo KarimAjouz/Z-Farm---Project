@@ -18,8 +18,6 @@
 #include "Spike.h"
 #include "Player.h"
 
-
-
 class GameState_Gameplay : public ZEngine::GameState
 {
 public:
@@ -45,14 +43,12 @@ public:
 
 	void ToggleDebugMode() { _debugMode = !_debugMode; }
 
-
 private:
 	b2Vec2 _gravity;
 	b2World _world;
 
 	SaveDataManager _saveManager;
 	ZEngine::GameDataRef _data;
-
 
 	PhysicsDebugDraw _debugDraw;
 	bool _paused;
@@ -67,7 +63,6 @@ private:
 	//SwordPickup _testSword;
 	sf::Vector2f _viewTarget = sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-
 	void CreateGround(b2World& world, float x, float y);
 
 	void LerpView(float dT);
@@ -80,4 +75,3 @@ private:
 
 	sf::Text _debugText;
 };
-

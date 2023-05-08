@@ -42,6 +42,4 @@ private:
 
 	void AddContactObject(ZEngine::GameObject* InObject);
 	void RemoveContactObject(ZEngine::GameObject* InObject);
-
 };
-

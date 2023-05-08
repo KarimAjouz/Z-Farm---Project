@@ -11,7 +11,6 @@ namespace ZEngine
 		Engaged(false),
 		Active(false)
 	{
-
 	}
 
 	Button::Button(std::string text, GameDataRef data, sf::Vector2f pos, sf::Color textColour, std::string filePath, std::string fileName) :
@@ -24,7 +23,7 @@ namespace ZEngine
 		_data->assetManager.LoadTexture(_fileName + " Default", filePath + "Default.png");
 		_data->assetManager.LoadTexture(_fileName + " Hovered", filePath + "Hovered.png");
 		_data->assetManager.LoadTexture(_fileName + " Clicked", filePath + "Clicked.png");
-		_data->assetManager.LoadFont(	_fileName + " Font",	   filePath + "Font.ttf");
+		_data->assetManager.LoadFont(_fileName + " Font", filePath + "Font.ttf");
 
 		sprite.setPosition(pos);
 		_text.setString(text);
@@ -40,17 +39,12 @@ namespace ZEngine
 		_text.setOrigin(_text.getLocalBounds().width / 2, _text.getLocalBounds().height / 2);
 	}
 
-	
-
 	Button::~Button()
 	{
-
 	}
 
 	void Button::Init()
 	{
-
-
 	}
 
 	void Button::Update(float dT)
@@ -59,13 +53,13 @@ namespace ZEngine
 
 		sf::IntRect rect(
 			sprite.getPosition().x - sprite.getGlobalBounds().width / 2,
-			sprite.getPosition().y - sprite.getGlobalBounds().height / 2, 
-			sprite.getGlobalBounds().width, 
+			sprite.getPosition().y - sprite.getGlobalBounds().height / 2,
+			sprite.getGlobalBounds().width,
 			sprite.getGlobalBounds().height);
 
 		if (rect.contains(sf::Mouse::getPosition(_data->GameWindow)) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 			Engaged = true;
-		
+
 		if (Engaged && !rect.contains(sf::Mouse::getPosition(_data->GameWindow)))
 			Engaged = false;
 
@@ -112,5 +106,4 @@ namespace ZEngine
 	{
 		sprite.setTexture(_data->assetManager.GetTexture(_fileName + " Clicked"));
 	}
-
 }

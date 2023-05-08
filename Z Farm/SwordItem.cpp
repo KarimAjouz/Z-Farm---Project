@@ -10,7 +10,6 @@
 
 SwordItem::SwordItem()
 {
-
 }
 
 SwordItem::~SwordItem()

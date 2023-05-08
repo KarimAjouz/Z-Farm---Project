@@ -27,7 +27,6 @@ Pickup::~Pickup()
 
 void Pickup::Update(float dT)
 {
-
 }
 
 void Pickup::Collect(ZEngine::Agent* InCollectingAgent)

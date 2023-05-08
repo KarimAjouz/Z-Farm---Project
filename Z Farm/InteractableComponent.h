@@ -26,7 +26,4 @@ protected:
 	class GameObject* m_GameObject;
 
 	float m_Radius;
-
-
 };
-

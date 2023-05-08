@@ -9,8 +9,6 @@
 #include "Timer.h"
 #include "RopeSegment.h"
 
-
-
 #include <box2d.h>
 
 #include <SFML/Graphics.hpp>
@@ -19,7 +17,7 @@ struct PhysicsUserData;
 enum ECollisionTag;
 
 class Player
-	: 
+	:
 	public ZEngine::Agent
 {
 public:
@@ -28,7 +26,6 @@ public:
 
 	virtual void Update(float dT) override;
 	virtual void Draw() override;
-
 
 	virtual void HandleContactBegin(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) override;
 	virtual void HandleContactEnd(PhysicsUserData* InCollidingUserData, ECollisionTag InMyCollidedFixture) override;
@@ -51,10 +48,9 @@ public:
 	//void SetInteractable(RopeSegment* InRopeSegment);
 
 	sf::Vector2f GetInputAxis() { return m_InputManager->GetInputAxis(); }
-	
+
 	PlayerAnimationComponent* GetAnimationComponent() { return m_AnimationComponent; }
 	InputManager* GetInputManager() { return m_InputManager; }
-
 
 	void SetTraversalState(class TraversalState* InNewTraversalState);
 	void SetEquipmentState(class EquipmentState* InNewEquipmentState);
@@ -84,30 +80,26 @@ private:
 
 	// #EndComponents
 
-
 	// #BeginStateMachines
 	class TraversalState* m_TraversalState;
 	class EquipmentState* m_EquipmentState;
 
 	// #EndStateMachines
 
-
 	bool _swordActive = false;
 
 	sf::Vector2i _wasd = sf::Vector2i();
 	float _desiredVelocity = 0;
-	
 
 	ZEngine::Timer _stabDelay;
 
 	int forceMult = 5;
 	//ZEngine::GameDataRef _data;
-	
+
 	sf::IntRect _colBox = sf::IntRect(25, 16, 18, 12);
 
 	sf::RectangleShape _lStab = sf::RectangleShape(sf::Vector2f(24, 12));
 	sf::RectangleShape _rStab = sf::RectangleShape(sf::Vector2f(24, 12));
-
 
 	sf::Vector2f* _viewTargetRef;
 	Level* _levelRef;
@@ -121,13 +113,12 @@ private:
 
 	void HandleInputs(sf::Event* InEvent);
 	void UpdatePhysics(float dT);
-	
+
 	void UpdateTraversalState(float dT);
 	void UpdateAnimations(float dT);
 
 	void InitAnimations();
 	void InitPhysics(sf::Vector2f pos);
-
 
 	void LatchToInteractable();
 	void JumpFromLatchable();
@@ -139,4 +130,3 @@ private:
 
 	//PlayerState* m_State;
 };
-

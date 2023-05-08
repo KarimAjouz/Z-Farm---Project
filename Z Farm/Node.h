@@ -98,7 +98,7 @@
 //	{
 //		if (obj.type == type && obj.nodeArea.getPosition() == nodeArea.getPosition())
 //			return true;
-//		
+//
 //		return false;
 //	}
 //
@@ -111,9 +111,9 @@
 //	}
 //
 //private:
-//	
+//
 //
 //	bool CheckSpaceIsClear(sf::Vector2f pos, std::vector<Tile> tiles);
-//	
+//
 //};
 //

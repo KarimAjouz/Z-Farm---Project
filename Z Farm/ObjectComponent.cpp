@@ -26,5 +26,4 @@ namespace ZEngine
 	{
 		//InWindow->draw(m_Sprite);
 	}
-
 }

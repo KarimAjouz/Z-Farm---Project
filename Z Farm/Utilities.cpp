@@ -27,7 +27,7 @@ namespace ZEngine
 
 	float Utilities::GetVectorMagnitude(sf::Vector2f in)
 	{
-		 return std::sqrt((in.x * in.x) + (in.y * in.y));
+		return std::sqrt((in.x * in.x) + (in.y * in.y));
 	}
 
 	float Utilities::GetVectorMagnitudeSquared(sf::Vector2f in)
@@ -102,7 +102,7 @@ namespace ZEngine
 	{
 		if (a.intersects(b))
 			return true;
-		
+
 		return false;
 	}
 

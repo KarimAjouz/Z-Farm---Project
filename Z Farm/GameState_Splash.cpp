@@ -6,19 +6,16 @@
 #include "Definitions.h"
 #include "GameState_MainMenu.h"
 
-
 GameState_Splash::GameState_Splash(ZEngine::GameDataRef data) :
 	_data(data)
 {
 	std::cout << "Splash" << std::endl;
 }
 
-
 GameState_Splash::~GameState_Splash()
 {
 	std::cout << "Splash Screen exit" << std::endl;
 }
-
 
 void GameState_Splash::Init()
 {

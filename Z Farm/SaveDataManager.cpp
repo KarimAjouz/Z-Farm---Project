@@ -4,15 +4,12 @@
 
 #include <iostream>
 
-
 SaveDataManager::SaveDataManager()
 {
-
 }
 
 SaveDataManager::~SaveDataManager()
 {
-
 }
 
 void SaveDataManager::SaveGame(int saveNumber, SaveData data)
@@ -32,7 +29,7 @@ void SaveDataManager::SaveGame(int saveNumber, SaveData data)
 		output << "spreadIndex:" + std::to_string(data.spreadIndex) + "\n";
 		output << "ammoCountIndex:" + std::to_string(data.ammoCountIndex) + "\n";
 
-		if(data.isDead)
+		if (data.isDead)
 			output << "isDead:" + std::to_string(1) + "\n";
 		else
 			output << "isDead:" + std::to_string(0) + "\n";
@@ -63,7 +60,6 @@ SaveDataManager::SaveData SaveDataManager::LoadGame(int saveNumber)
 					dataType = "Data is corrupted, line reads: " + line;
 					std::cout << dataType << std::endl;
 				}
-
 
 				//Need to sort out properly, use a hashed switch statement. Just getting it working for now.
 				if (dataType == "zBits")

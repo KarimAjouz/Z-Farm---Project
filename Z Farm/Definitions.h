@@ -13,7 +13,6 @@
 #define NAVIGATION_JUMP_SPEED_DIVISIONS 4
 #define NAVIGATION_JUMP_POLLING_FREQ 10
 
-
 struct RoomTileData
 {
 	sf::Vector2i tileSheetCoords;
@@ -70,7 +69,7 @@ struct RoomTileData
 //		sf::Vector2f testPos = startPos;
 //		int i = 0;
 //
-//		while 
+//		while
 //			(
 //			testPos.x > 0.0f && testPos.x < SCREEN_WIDTH &&
 //			testPos.y > 0.0f && testPos.y < SCREEN_HEIGHT
@@ -119,8 +118,6 @@ struct RoomTileData
 #define BOX_OBSTACLE "Content/Media/Gameplay/Props/Box/Box.png"
 #define BOX_OBSTACLE_HIT "Content/Media/Gameplay/Props/Box/Hit.png"
 
-
-
 #define MENU_BUTTON_FOLDER_FILEPATH "Content/Media/Buttons/Menu/"
 #define SCALE_BUTTON_FOLDER_FILEPATH "Content/Media/Buttons/Scale/"
 
@@ -136,7 +133,6 @@ struct RoomTileData
 #define PIG_ALARM "Content/Media/Gameplay/Pig/Pig_Panic.png"
 #define PIG_DEATH "Content/Media/Gameplay/Pig/Pig_Death.png"
 
-
 #define BALDY_IDLE "Content/Media/Gameplay/Pirates/Baldy/Idle.png"
 #define BALDY_RUN "Content/Media/Gameplay/Pirates/Baldy/Run.png"
 #define BALDY_PREJUMP "Content/Media/Gameplay/Pirates/Baldy/PreJump.png"
@@ -147,18 +143,14 @@ struct RoomTileData
 #define BALDY_HIT "Content/Media/Gameplay/Pirates/Baldy/Hit.png"
 #define BALDY_DEAD "Content/Media/Gameplay/Pirates/Baldy/Dead.png"
 
-
 #define DIALOGUE_QUESTION_IN "Content/Media/Dialogue/Question_In.png"
 #define DIALOGUE_QUESTION_OUT "Content/Media/Dialogue/Question_Out.png"
 #define DIALOGUE_ALERT_IN "Content/Media/Dialogue/Alert_In.png"
 #define DIALOGUE_ALERT_OUT "Content/Media/Dialogue/Alert_Out.png"
 
-
 #define CHAIN_LINK_TEX "Content/Media/Textures/ChainLink8x32.png"
 
 #define DEBUG_FONT_PATH "Content/Media/Fonts/DebugFontBold.otf"
-
-
 
 #define UI_RELOADBAR "Content/Media/UI/ReloadBar"
 

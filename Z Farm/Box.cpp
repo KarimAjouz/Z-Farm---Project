@@ -17,7 +17,6 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	m_Sprite.setTextureRect(sf::IntRect(0, 0, 22, 16));
 	m_Sprite.setOrigin(11, 8);
 	m_Sprite.setScale(1, 1);
-	
 
 	m_Hitbox.setPosition(m_Sprite.getPosition());
 	m_Hitbox.setSize(sf::Vector2f(11, 8) * m_Sprite.getScale().x);
@@ -27,22 +26,21 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	type = Obstacle::Type::box;
 
 	m_PhysicsComponent->MakeAsBoxBody(
-		pos, 
+		pos,
 		sf::IntRect(0, 0, m_Hitbox.getSize().x, m_Hitbox.getSize().y),
 		nullptr,
-		true, 
-		false, 
+		true,
+		false,
 		EEntityCategory::OBSTACLES,
-			  EEntityCategory::LEVEL
-			| EEntityCategory::OBSTACLES
-			| EEntityCategory::AGENTS
-			| EEntityCategory::DAMAGE
-			| EEntityCategory::INTERACTOR
+		EEntityCategory::LEVEL
+		| EEntityCategory::OBSTACLES
+		| EEntityCategory::AGENTS
+		| EEntityCategory::DAMAGE
+		| EEntityCategory::INTERACTOR
 	);
 
 	m_PhysicsComponent->SetBodyUserData(this, ECollisionTag::CT_Box);
 }
-
 
 Box::~Box()
 {
@@ -67,9 +65,9 @@ void Box::Update(float dT)
 
 void Box::Draw()
 {
-	if(!_shattered)
+	if (!_shattered)
 		Obstacle::Draw();
-	
+
 	else
 	{
 		for (int i = 0; i < m_Fragments.size(); i++)
@@ -100,13 +98,13 @@ void Box::Shatter(sf::Vector2f InDamageSourcePos)
 
 	texRect = sf::IntRect(6, 7, 9, 9);
 	m_Fragments.push_back(Fragment(_data, m_WorldRef, texRect, sf::Vector2f(m_Sprite.getPosition().x + texRect.left, m_Sprite.getPosition().y + texRect.top), forceDir));
-	
+
 	texRect = sf::IntRect(8, 0, 7, 7);
 	m_Fragments.push_back(Fragment(_data, m_WorldRef, texRect, sf::Vector2f(m_Sprite.getPosition().x + texRect.left, m_Sprite.getPosition().y + texRect.top), forceDir));
 
 	texRect = sf::IntRect(15, 0, 6, 7);
 	m_Fragments.push_back(Fragment(_data, m_WorldRef, texRect, sf::Vector2f(m_Sprite.getPosition().x + texRect.left, m_Sprite.getPosition().y + texRect.top), forceDir));
-	
+
 	texRect = sf::IntRect(15, 7, 6, 9);
 	m_Fragments.push_back(Fragment(_data, m_WorldRef, texRect, sf::Vector2f(m_Sprite.getPosition().x + texRect.left, m_Sprite.getPosition().y + texRect.top), forceDir));
 

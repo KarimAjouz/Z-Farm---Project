@@ -11,7 +11,7 @@ public:
 	SaveDataManager();
 	~SaveDataManager();
 
-	struct SaveData 
+	struct SaveData
 	{
 		int zBits = 0;
 		int gameTier = 1;
@@ -25,16 +25,11 @@ public:
 		int ammoCountIndex = 0;
 	};
 
-
-
 	void SaveGame(int saveNumber, SaveData data);
 
 	SaveData LoadGame(int saveNumber);
 
 private:
 
-
 	bool CheckForSave(int saveNumber);
-
 };
-

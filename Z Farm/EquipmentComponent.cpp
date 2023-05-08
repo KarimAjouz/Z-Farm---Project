@@ -72,7 +72,6 @@ void EquipmentComponent::EquipNext(ZEngine::Agent& InAgentRef)
 
 		m_Equipment.at(m_EquippedIndex)->EquipItem(InAgentRef);
 	}
-
 }
 
 void EquipmentComponent::EquipPrevious(ZEngine::Agent& InAgentRef)
@@ -95,6 +94,4 @@ void EquipmentComponent::EquipPrevious(ZEngine::Agent& InAgentRef)
 		}
 		m_Equipment.at(m_EquippedIndex)->EquipItem(InAgentRef);
 	}
-
-	m_Equipment.at(m_EquippedIndex)->EquipItem(InAgentRef);
 }

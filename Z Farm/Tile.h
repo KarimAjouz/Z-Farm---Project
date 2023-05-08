@@ -16,7 +16,7 @@
 //
 //	void GenPhysics(b2World* worldRef, sf::IntRect frameRect);
 //	void RemovePhysics();
-//	
+//
 //	sf::Sprite sprite;
 //
 //

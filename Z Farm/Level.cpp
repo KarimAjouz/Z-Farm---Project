@@ -7,7 +7,6 @@
 #include <tmxlite/ObjectGroup.hpp>
 #include <SFML/System/Time.hpp>
 
-
 Level::Level(ZEngine::GameDataRef data, b2World* worldRef) :
 	_data(data),
 	_worldRef(worldRef)
@@ -27,7 +26,7 @@ Level::~Level()
 		_obstacles.pop_back();
 	}
 
-	for (int i = _physicsUserData.size() -1; i > 0; i--)
+	for (int i = _physicsUserData.size() - 1; i > 0; i--)
 	{
 		delete _physicsUserData[i];
 		_physicsUserData.pop_back();
@@ -44,7 +43,6 @@ void Level::Init(ZEngine::GameDataRef data, b2World* worldRef)
 	loadedMap.load("Content/LevelData/TiledMaps/Template.tmx");
 
 	BuildLevelFromTMX(loadedMap);
-	
 }
 
 void Level::Update(float dT)
@@ -62,7 +60,7 @@ void Level::Update(float dT)
 }
 
 void Level::Draw()
-{ 
+{
 	for (int i = 0; i < _mapLayers.size(); i++)
 	{
 		_data->GameWindow.draw(*_mapLayers[i]);

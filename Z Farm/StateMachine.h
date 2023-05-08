@@ -5,7 +5,6 @@
 #include "GameState.h"
 namespace ZEngine
 {
-
 	typedef std::unique_ptr<GameState> StateRef;
 
 	class StateMachine
@@ -19,12 +18,10 @@ namespace ZEngine
 
 		void ProcessStateChanges();
 
-
 	private:
 
-
 	public:
-		StateRef & GetActiveState();
+		StateRef& GetActiveState();
 
 	private:
 		std::stack<StateRef> _states;
@@ -34,5 +31,4 @@ namespace ZEngine
 		bool _isRemoving;
 		bool _isReplacing;
 	};
-
 }

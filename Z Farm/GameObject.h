@@ -24,7 +24,6 @@ namespace ZEngine
 		virtual void Update(float dT);
 		virtual void Draw();
 
-
 		virtual void Hit();
 		virtual void Hit(sf::Vector2f InDamageSourcePos);
 
@@ -36,7 +35,6 @@ namespace ZEngine
 		ZEngine::GameDataRef GetData() { return m_Data; };
 		b2World* GetWorldRef() { return m_WorldRef; };
 
-
 	protected:
 
 		std::vector<class ObjectComponent*> _Components;
@@ -47,4 +45,3 @@ namespace ZEngine
 		sf::RectangleShape m_Hitbox;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace ZEngine
 	public:
 		AnimationComponent(sf::Sprite* spritePtr, GameDataRef data);
 		~AnimationComponent();
-		
+
 		virtual void Update(float dT) override;
 
 		virtual void AddAnimation(std::string name, std::string path, float animLength, bool loop); //Adds an animation to the system.
@@ -33,4 +33,3 @@ namespace ZEngine
 		sf::Sprite* m_Sprite;
 	};
 }
-
