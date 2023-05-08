@@ -16,16 +16,20 @@
 
 Pickup::Pickup(ZEngine::GameDataRef InData, sf::Vector2f InPosition, b2World* InWorldRef)
 	:
-	GameObject(InData, InPosition, InWorldRef)
+	ZEngine::GameObject(InData, InPosition, InWorldRef)
 {
 }
 
 Pickup::~Pickup()
 {
-	GameObject::~GameObject();
+	ZEngine::GameObject::~GameObject();
 }
 
 void Pickup::Update(float dT)
 {
 
+}
+
+void Pickup::Collect(ZEngine::Agent* InCollectingAgent)
+{
 }

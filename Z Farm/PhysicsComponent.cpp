@@ -19,7 +19,10 @@ PhysicsComponent::PhysicsComponent(ZEngine::GameDataRef InData, b2World* InWorld
 
 PhysicsComponent::~PhysicsComponent()
 {
-	m_WorldRef->DestroyBody(m_PhysicsBody);
+	if (!bIsFixture)
+		m_WorldRef->DestroyBody(m_PhysicsBody);
+	else
+		m_PhysicsBody->DestroyFixture(m_PhysicsFixture);
 
 	delete m_UserData;
 }
@@ -65,6 +68,8 @@ void PhysicsComponent::SetFixtureUserData(ZEngine::GameObject* InGameObject, ECo
 
 void PhysicsComponent::MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedBody, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories)
 {
+	bIsFixture = false;
+
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(InPos.x / SCALE, InPos.y / SCALE);
 
@@ -108,6 +113,8 @@ void PhysicsComponent::MakeAsBoxBody(sf::Vector2f InPos, sf::IntRect InCollision
 
 void PhysicsComponent::MakeAsBoxFixture(sf::Vector2f InPos, sf::IntRect InCollisionBox, PhysicsComponent* InAttachedBody, bool InIsDynamic, bool InIsSensor, uint16 InPhysicsCategory, uint16 InCollidingCategories)
 {
+	bIsFixture = true;
+
 	b2BodyDef bodyDef;
 	bodyDef.position = b2Vec2(InPos.x / SCALE, InPos.y / SCALE);
 

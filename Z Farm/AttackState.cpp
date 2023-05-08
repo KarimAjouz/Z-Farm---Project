@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Attack.h"
 #include "EquipmentState.h"
+#include "EquipmentComponent.h"
 #include "SwordItem.h"
 #include "PlayerAnimationComponent.h"
 
@@ -80,7 +81,16 @@ void AttackState::Enter(Player& InPlayer)
 	m_TraversalType = ETraversalType::TT_Attack;
 	m_StateName = "PS_Attack";
 	m_SequenceIndex = 0;
-	m_AttackSequence = InPlayer.GetEquipmentState()->GetItem()->GetAttackSequence();
+
+	SwordItem* SwordRef = dynamic_cast<SwordItem*>(InPlayer.GetEquipmentComponent()->GetEquippedItem());
+
+	if (SwordRef == nullptr)
+	{
+		std::cout << "WARNING: AttackState::Enter --> SwordRef is invalid!" << std::endl;
+		return;
+	}
+
+	m_AttackSequence = SwordRef->GetAttackSequence();
 
 	if (m_AttackSequence->size() == 0)
 	{

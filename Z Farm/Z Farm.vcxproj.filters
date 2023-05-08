@@ -173,6 +173,7 @@
     <ClCompile Include="SwordState.cpp">
       <Filter>Project\Agents\Player\States\EquipmentState</Filter>
     </ClCompile>
+    <ClCompile Include="EquipmentComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -355,6 +356,7 @@
     <ClInclude Include="SwordState.h">
       <Filter>Project\Agents\Player\States\EquipmentState</Filter>
     </ClInclude>
+    <ClInclude Include="EquipmentComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ZEngine">
@@ -416,6 +418,9 @@
     </Filter>
     <Filter Include="Project\GameObjects\Obstacles">
       <UniqueIdentifier>{f76881c0-99e0-42dd-a47f-6e246e88490c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Agents\AgentComponents">
+      <UniqueIdentifier>{9c8079cc-b2f7-4080-a7bd-1d0a524160cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

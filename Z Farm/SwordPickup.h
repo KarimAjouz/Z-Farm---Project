@@ -1,5 +1,6 @@
 #pragma once
 #include "Pickup.h"
+#include "Agent.h"
 
 class SwordPickup : Pickup 
 {
@@ -9,7 +10,8 @@ public:
 
 
 
-private:
-	
+protected:
+
+	virtual void Collect(ZEngine::Agent* InInteractingAgent) override;
 };
 

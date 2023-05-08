@@ -9,7 +9,6 @@ enum ECollisionTag;
 
 namespace ZEngine
 {
-
 	class GameObject
 	{
 	public:
@@ -44,6 +43,8 @@ namespace ZEngine
 		ZEngine::GameDataRef m_Data;
 		class b2World* m_WorldRef;
 		sf::Sprite m_Sprite;
+
+		sf::RectangleShape m_Hitbox;
 	};
 }
 

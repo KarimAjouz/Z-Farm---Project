@@ -26,7 +26,6 @@ public:
 
 	Type type = Type::spike;
 
-	sf::RectangleShape hitbox;
 
 	virtual void InitPhysics() = 0;
 

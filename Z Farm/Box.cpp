@@ -19,16 +19,16 @@ Box::Box(ZEngine::GameDataRef data, b2World* world, sf::Vector2f pos) :
 	m_Sprite.setScale(1, 1);
 	
 
-	hitbox.setPosition(m_Sprite.getPosition());
-	hitbox.setSize(sf::Vector2f(11, 8) * m_Sprite.getScale().x);
-	hitbox.setOrigin(11, 8);
-	hitbox.setScale(m_Sprite.getScale());
+	m_Hitbox.setPosition(m_Sprite.getPosition());
+	m_Hitbox.setSize(sf::Vector2f(11, 8) * m_Sprite.getScale().x);
+	m_Hitbox.setOrigin(11, 8);
+	m_Hitbox.setScale(m_Sprite.getScale());
 
 	type = Obstacle::Type::box;
 
 	m_PhysicsComponent->MakeAsBoxBody(
 		pos, 
-		sf::IntRect(0, 0, hitbox.getSize().x, hitbox.getSize().y),
+		sf::IntRect(0, 0, m_Hitbox.getSize().x, m_Hitbox.getSize().y),
 		nullptr,
 		true, 
 		false, 
@@ -54,7 +54,7 @@ void Box::Update(float dT)
 	if (!_shattered)
 	{
 		m_Sprite.setPosition(sf::Vector2f(m_PhysicsComponent->GetBody()->GetPosition().x * SCALE, m_PhysicsComponent->GetBody()->GetPosition().y * SCALE));
-		hitbox.setPosition(m_Sprite.getPosition());
+		m_Hitbox.setPosition(m_Sprite.getPosition());
 	}
 	else
 	{

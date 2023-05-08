@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "PlayerPhysicsComponent.h"
+#include "EquipmentComponent.h"
 
 #include "TraversalState.h"
 #include "EquipmentState.h"
@@ -33,7 +34,8 @@ Player::Player(sf::Vector2f pos, ZEngine::GameDataRef InData, BalanceSheet* b, b
 
 	m_AnimationComponent = new PlayerAnimationComponent(GetSprite(), InData);
 	m_PhysicsComponent = new PlayerPhysicsComponent(InData, InWorldRef, this);
-	SetEquipmentState(new SwordState);
+	m_EquipmentComponent = new EquipmentComponent(InData, 2);
+	SetEquipmentState(new EquipmentState());
 
 
 

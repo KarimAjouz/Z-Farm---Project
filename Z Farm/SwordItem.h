@@ -1,18 +1,20 @@
 #pragma once
 #include "Equippable.h"
+#include "Agent.h"
+
 #include <vector>
 
 class SwordItem :
     public Equippable
 {
 public:
-    SwordItem(class Player& InPlayer);
+    SwordItem();
     ~SwordItem();
 
-    void EquipItem(Player& InPlayer);
-    void UnequipItem();
+    virtual void EquipItem(ZEngine::Agent& InOwningAgent) override;
+    virtual void UnequipItem(ZEngine::Agent& InOwningAgent) override;
 
-    void GenerateAttacks(class Player& InPlayer);
+    void GenerateAttacks(ZEngine::Agent& InOwningAgent);
     std::vector<class Attack*>* GetAttackSequence() { return &m_AtackSequence; }
 
 private:

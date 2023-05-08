@@ -84,6 +84,8 @@ public:
 
 protected:
 
+	bool bIsFixture = false;
+
 	b2World* m_WorldRef;
 	b2Body* m_PhysicsBody;
 	b2Fixture* m_PhysicsFixture;

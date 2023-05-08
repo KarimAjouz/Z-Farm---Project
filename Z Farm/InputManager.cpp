@@ -95,6 +95,10 @@ void InputManager::HandleInputEvents(sf::RenderWindow& InWIndow)
 				break;
 			}
 			break;
+		case sf::Event::MouseWheelScrolled:
+			std::cout << "MouseWheelScrolled" << std::endl;
+			GameInputEvents->push_back(event);
+			break;
 		default:
 			//GameInputEvents->push_back(event);
 			break;

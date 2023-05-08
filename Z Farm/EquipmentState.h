@@ -17,6 +17,7 @@ class EquipmentState
 {
 public:
 
+	EquipmentState();
 	virtual ~EquipmentState() override;
 	virtual void Enter(Player& InPlayer) override;
 	virtual void Exit(Player& InPlayer) override;
@@ -28,12 +29,11 @@ public:
 	virtual EEquipmentType GetEquipmentType() { return m_EquipmentType; }
 	virtual void FlipEquipment() {};
 
-	SwordItem* GetItem() { return m_Item; };
 
 protected:
 	EEquipmentType m_EquipmentType = EEquipmentType::ET_None;
 
-	SwordItem* m_Item = nullptr;
+	Equippable* m_Item = nullptr;
 
 };
 

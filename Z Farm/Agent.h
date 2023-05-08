@@ -5,6 +5,7 @@
 #include "GameObject.h"
 
 class PhysicsComponent;
+class EquipmentComponent;
 
 namespace ZEngine
 {
@@ -41,7 +42,9 @@ namespace ZEngine
 
 		void MarkForDeath() { isMarked = true; };
 
-		class PhysicsComponent* GetPhysicsComponent() { return m_PhysicsComponent; }
+		PhysicsComponent* GetPhysicsComponent() { return m_PhysicsComponent; }
+		EquipmentComponent* GetEquipmentComponent() { return m_EquipmentComponent; }
+
 
 		AgentType type;
 
@@ -52,7 +55,8 @@ namespace ZEngine
 		int footContacts = 0;
 
 	protected:
-		class PhysicsComponent* m_PhysicsComponent;
+		PhysicsComponent* m_PhysicsComponent;
+		EquipmentComponent* m_EquipmentComponent;
 
 	private:
 	};

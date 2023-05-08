@@ -149,6 +149,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EquipmentComponent.cpp" />
     <ClCompile Include="EquipmentState.cpp" />
     <ClCompile Include="Equippable.cpp" />
     <ClCompile Include="FallingState.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EquipmentComponent.h" />
     <ClInclude Include="EquipmentState.h" />
     <ClInclude Include="Equippable.h" />
     <ClInclude Include="FallingState.h" />
